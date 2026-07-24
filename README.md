@@ -18,12 +18,30 @@ OpenProjectLab（OPL）是以 **Design First、Documentation First、Automation 
 ## 安裝與測試
 
 ```bash
-python -m venv .venv
+python -m venv .venv  // py -3.14 -m venv .venv
 .venv\Scripts\activate
 python -m pip install -e ".[dev,docs]"
 pytest
 ruff check .
 ```
+正確的官方 Windows CPython 應接近：
+
+win-amd64
+cp314-win_amd64
+
+安裝完成後驗證：
+
+python -m ruff --version
+python -m ruff check .
+python -m pytest -v
+opl doctor
+
+python -m ruff check . --fix --show-fixes
+python -m ruff format .
+python -m ruff check .
+python -m ruff format --check .
+python -m pytest -v
+opl doctor
 
 ## CLI
 

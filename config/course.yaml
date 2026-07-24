@@ -1,0 +1,11 @@
+course:
+  weeks: 16
+  language: zh-TW
+  components:
+    - slides
+    - lecture-notes
+    - demo
+    - lab
+    - homework
+    - quiz
+    - solutions

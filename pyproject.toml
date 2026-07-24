@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openprojectlab"
+version = "0.6.0"
+description = "OpenProjectLab education content generator framework"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "Jinja2>=3.1",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.5",
+]
+
+docs = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+]
+
+[project.scripts]
+opl = "generator.cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["generator", "generator.*"]
+exclude = [
+    "tests",
+    "tests.*",
+    "docs",
+    "docs.*",
+    "ai",
+    "ai.*",
+    "config",
+    "config.*",
+    "courses",
+    "courses.*",
+    "plugins",
+    "plugins.*",
+    "website",
+    "website.*",
+    "templates",
+    "templates.*",
+    "examples",
+    "examples.*",
+    "scripts",
+    "scripts.*",
+]
+namespaces = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

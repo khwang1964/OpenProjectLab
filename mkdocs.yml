@@ -1,0 +1,11 @@
+site_name: OpenProjectLab
+site_description: Open-source education generator framework
+theme:
+  name: material
+nav:
+  - 首頁: index.md
+  - 架構: architecture/generator-framework.md
+  - v0.6 設計: design/framework-v0.6.md
+  - v0.5 設計: design/framework-v0.5.md
+  - v0.6 Release Notes: release-v0.6.md
+  - 開發指南: developer/getting-started.md

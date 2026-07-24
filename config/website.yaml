@@ -1,0 +1,6 @@
+site_name: OpenProjectLab
+site_url: https://example.invalid/openprojectlab
+nav:
+  - 首頁: index.md
+  - 架構: architecture/generator-framework.md
+  - 開發指南: developer/getting-started.md

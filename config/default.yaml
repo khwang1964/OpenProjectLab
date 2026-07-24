@@ -1,0 +1,13 @@
+project:
+  name: OpenProjectLab
+  version: 0.6.0
+  locale: zh-TW
+paths:
+  templates: templates
+  courses: courses
+  docs: docs
+generator:
+  overwrite: false
+  dry_run: false
+plugins:
+  enabled: true

@@ -1,0 +1,13 @@
+# Python 程式設計
+
+Course ID: `python`
+
+## 教材組成
+
+- Slides
+- Lecture Notes
+- Demo
+- Lab
+- Homework
+- Quiz
+- Solutions

@@ -39,4 +39,4 @@ jobs:
         run: pre-commit run --all-files
 
       - name: Run tests
-        run: python -m pytest -v
+        run: python -m pytest

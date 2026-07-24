@@ -67,3 +67,24 @@ Desktop.ini
 # ------------------------------------------------------------------
 *.tmp
 *.bak
+
+# Coverage
+.coverage
+coverage.xml
+htmlcov/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Temporary project files
+pyproject-backup.toml
+openprojectlab_pyproject.toml
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Logs
+log/

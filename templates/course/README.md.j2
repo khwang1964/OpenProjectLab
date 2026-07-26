@@ -1,13 +1,27 @@
-# {{ title }}
+# {{ course_name }}
 
-Course ID: `{{ course_id }}`
+{% if textbook | default("", true) %}
+**主要教材：** {{ textbook }}
+{% endif %}
 
-## 教材組成
+## 課程簡介
 
-- Slides
-- Lecture Notes
-- Demo
-- Lab
-- Homework
-- Quiz
-- Solutions
+{{ description | default("本課程以開放教材形式提供課程內容、實作活動、作業與評量。", true) }}
+
+## 學習目標
+
+{% for objective in objectives | default(["理解核心概念", "完成實作練習", "能將知識應用於專題"], true) %}
+- {{ objective }}
+{% endfor %}
+
+## 課程進度
+
+| 週次 | 主題 |
+|---:|---|
+{% for number in range(1, (weeks | default(16, true)) + 1) %}
+| {{ "%02d" | format(number) }} | 待規劃 |
+{% endfor %}
+
+## 使用方式
+
+每週教材位於 `week-NN/` 或 `weeks/week-NN/`。

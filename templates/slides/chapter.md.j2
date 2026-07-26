@@ -1,0 +1,7 @@
+# {{ title }}
+
+{{ summary | default("", true) }}
+
+{% for point in key_points | default([], true) %}
+- {{ point }}
+{% endfor %}

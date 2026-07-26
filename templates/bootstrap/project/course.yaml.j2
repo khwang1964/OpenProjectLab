@@ -1,0 +1,16 @@
+schema_version: "1.0"
+
+course:
+  slug: "{{ project_slug }}"
+  name: "{{ project_name }}"
+  language: "{{ language | default('zh-TW', true) }}"
+  license: "{{ license | default('CC BY 4.0', true) }}"
+  weeks: {{ weeks | default(16, true) }}
+{% if textbook | default("", true) %}
+  textbook: "{{ textbook }}"
+{% endif %}
+
+paths:
+  weeks: weeks
+  assets: assets
+  docs: docs

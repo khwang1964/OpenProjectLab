@@ -1,9 +1,35 @@
-# Week {{ "%02d"|format(week) }}：{{ title }}
+# Week {{ week_padded }}：{{ title }}
 
-## 學習目標
+**課程：** {{ course_name }}
 
-- TODO
+## 本週學習目標
+
+{% for objective in objectives | default(["理解本週核心概念", "完成指定實作", "能解釋與應用本週內容"], true) %}
+- {{ objective }}
+{% endfor %}
 
 ## 課程內容
 
-- TODO
+{{ summary | default("請在此補充本週內容摘要。", true) }}
+
+## 教材
+
+- 投影片：`slides/`
+- 講義：`notes/`
+- Lab：`lab/`
+- Demo：`demo/`
+- 作業：`assignment/`
+- 小考：`quiz/`
+
+## 課前準備
+
+{% for item in prerequisites | default(["閱讀指定章節", "確認開發環境可正常使用"], true) %}
+- {{ item }}
+{% endfor %}
+
+## 完成條件
+
+- [ ] 完成本週閱讀
+- [ ] 完成 Lab
+- [ ] 繳交作業
+- [ ] 完成小考

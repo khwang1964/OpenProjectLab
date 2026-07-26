@@ -88,3 +88,6 @@ __pycache__/
 
 # Logs
 log/
+
+# OpenProjectLab local runtime data
+.opl/backups/

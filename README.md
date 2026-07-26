@@ -1,70 +1,46 @@
-# OpenProjectLab v0.6 Framework
+# OpenProjectLab Template Pack v2.0
 
-OpenProjectLab（OPL）是以 **Design First、Documentation First、Automation First** 為原則的開源教育內容產生框架。
+OpenProjectLab Template Pack 提供 OPL 預設模板、模板契約、驗證測試、範例 context 與 CI 工作流程。
 
-## v0.6 功能
+## 內容
 
-- YAML 組態系統
-- Jinja2 模板引擎
-- Generator SDK 與標準生命週期
-- 外掛發現與註冊機制
-- `opl` CLI
-- `opl doctor` 專案健康檢查
-- Generator Manifest（YAML）
-- Bootstrap、Course、Week Generator
-- MkDocs 文件網站
-- pytest、Ruff、mypy、GitHub Actions
-
-## 安裝與測試
-
-```bash
-python -m venv .venv  // py -3.14 -m venv .venv
-.venv\Scripts\activate
-python -m pip install -e ".[dev,docs]"
-pytest
-ruff check .
-```
-正確的官方 Windows CPython 應接近：
-
-win-amd64
-cp314-win_amd64
-
-安裝完成後驗證：
-
-python -m ruff --version
-python -m ruff check .
-python -m pytest -v
-opl doctor
-
-python -m ruff check . --fix --show-fixes
-python -m ruff format .
-python -m ruff check .
-python -m ruff format --check .
-python -m pytest -v
-opl doctor
-
-## CLI
-
-```bash
-opl list
-opl doctor
-opl bootstrap --output DemoOPL --project-name "Demo OPL"
-opl course --output courses/python --course-id python --title "Python 程式設計"
-opl week --output courses/python/week-01 --week 1 --title "課程介紹"
+```text
+templates/
+tests/template/
+docs/template-system.md
+examples/template-contexts/
+.github/workflows/template-tests.yml
 ```
 
-git clone <repo>
+## 安裝
 
-cd OpenProjectLab
+將 ZIP 內容解壓縮到 OpenProjectLab 專案根目錄：
 
-python -m venv .venv
+```text
+F:\OpenProjectLab
+```
 
-.\.venv\Scripts\Activate.ps1
+建議先建立 Git commit 或完整備份，再選擇覆蓋同名檔案。
 
-python -m pip install --upgrade pip
+## 驗證
 
-python -m pip install -e .
+```powershell
+python -m pytest tests/template -v --no-cov
+```
 
-python -m pytest
+## Bootstrap 驗收
 
-opl list
+```powershell
+opl bootstrap modern-java `
+  --name "Modern Java in Action" `
+  --force
+```
+
+## 設計原則
+
+- Design First
+- Documentation First
+- Automation First
+- Template Contract First
+- Safe Relative Paths
+- StrictUndefined Rendering

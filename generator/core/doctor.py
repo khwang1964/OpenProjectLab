@@ -9,12 +9,15 @@ from generator.core.exceptions import ConfigurationError
 
 @dataclass(frozen=True, slots=True)
 class DoctorCheck:
+    """表示單一環境診斷項目的結果。"""
+
     name: str
     ok: bool
     detail: str
 
 
 def run_doctor(config_path: Path, project_root: Path) -> tuple[DoctorCheck, ...]:
+    """執行 OpenProjectLab 環境診斷。"""
     checks: list[DoctorCheck] = []
 
     try:

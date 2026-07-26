@@ -1,0 +1,11 @@
+{% macro checklist(items) -%}
+{% for item in items %}
+- [ ] {{ item }}
+{% endfor %}
+{%- endmacro %}
+
+{% macro callout(title, body) -%}
+> **{{ title }}**
+>
+> {{ body }}
+{%- endmacro %}

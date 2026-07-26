@@ -20,6 +20,7 @@ class GeneratorManifest:
 
     @classmethod
     def from_mapping(cls, data: dict[str, Any]) -> GeneratorManifest:
+        """From mapping"""
         required = ("name", "version", "description", "entrypoint")
         missing = [key for key in required if not data.get(key)]
         if missing:
@@ -28,6 +29,7 @@ class GeneratorManifest:
 
     @classmethod
     def load(cls, path: Path) -> GeneratorManifest:
+        """Load"""
         if not path.exists():
             raise ConfigurationError(f"找不到 Generator manifest：{path}")
         try:
@@ -39,6 +41,7 @@ class GeneratorManifest:
         return cls.from_mapping(data)
 
     def dump(self, path: Path) -> None:
+        """Dump"""
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(
             yaml.safe_dump(asdict(self), sort_keys=False, allow_unicode=True),

@@ -1,0 +1,14 @@
+schema_version: "1.0"
+
+course:
+  slug: "modern-java"
+  name: "Modern Java in Action"
+  language: "zh-TW"
+  license: "CC BY 4.0"
+  weeks: 16
+
+
+paths:
+  weeks: weeks
+  assets: assets
+  docs: docs

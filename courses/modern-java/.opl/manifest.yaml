@@ -1,0 +1,20 @@
+schema_version: '1.0'
+project:
+  slug: modern-java
+  name: Modern Java in Action
+generated:
+- path: .gitignore
+  generator: bootstrap
+  template: bootstrap/project/gitignore.j2
+- path: CONTRIBUTING.md
+  generator: bootstrap
+  template: bootstrap/project/CONTRIBUTING.md.j2
+- path: LICENSE
+  generator: bootstrap
+  template: bootstrap/project/LICENSE.j2
+- path: README.md
+  generator: bootstrap
+  template: bootstrap/project/README.md.j2
+- path: course.yaml
+  generator: bootstrap
+  template: bootstrap/project/course.yaml.j2

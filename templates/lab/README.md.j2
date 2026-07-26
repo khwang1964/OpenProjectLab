@@ -1,0 +1,28 @@
+# Lab：{{ title }}
+
+**所屬課程：** {{ course_name }}
+**週次：** Week {{ "%02d" | format(week) }}
+
+## 目標
+
+{% for objective in objectives | default(["完成指定實作", "驗證核心概念"], true) %}
+- {{ objective }}
+{% endfor %}
+
+## 環境需求
+
+{% for requirement in requirements | default(["可用的開發環境", "Git", "課程指定工具鏈"], true) %}
+- {{ requirement }}
+{% endfor %}
+
+## 任務
+
+{% for task in tasks | default(["建立專案", "完成核心功能", "執行測試", "整理結果"], true) %}
+{{ loop.index }}. {{ task }}
+{% endfor %}
+
+## 驗收
+
+- [ ] 程式可執行
+- [ ] 測試通過
+- [ ] README 已更新

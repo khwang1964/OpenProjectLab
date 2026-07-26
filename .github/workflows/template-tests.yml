@@ -1,0 +1,44 @@
+name: Template Tests
+
+on:
+  push:
+    paths:
+      - "templates/**"
+      - "tests/template/**"
+      - "docs/template-system.md"
+      - ".github/workflows/template-tests.yml"
+  pull_request:
+    paths:
+      - "templates/**"
+      - "tests/template/**"
+      - "docs/template-system.md"
+      - ".github/workflows/template-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  template-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest PyYAML Jinja2
+
+      - name: Run template tests
+        run: |
+          python -m pytest tests/template -v --no-cov

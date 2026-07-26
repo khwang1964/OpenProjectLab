@@ -1,7 +1,8 @@
 import logging
 
 
-def get_logger(name="opl"):
+def get_logger(name="opl") -> logging.Logger:
+    """建立或取得 OpenProjectLab logger。"""
     logger = logging.getLogger(name)
     if not logger.handlers:
         h = logging.StreamHandler()

@@ -1,0 +1,79 @@
+schema_version: '2.0'
+name: OpenProjectLab Template Pack
+version: 2.0.0
+templates:
+- path: bootstrap/project/README.md.j2
+  generator: bootstrap
+  required:
+  - project_name
+  - project_slug
+- path: bootstrap/project/LICENSE.j2
+  generator: bootstrap
+  required:
+  - project_name
+- path: bootstrap/project/CONTRIBUTING.md.j2
+  generator: bootstrap
+  required:
+  - project_name
+- path: bootstrap/project/gitignore.j2
+  generator: bootstrap
+  required: []
+- path: bootstrap/project/course.yaml.j2
+  generator: bootstrap
+  required:
+  - project_name
+  - project_slug
+- path: course/README.md.j2
+  generator: course
+  required:
+  - course_name
+- path: week/README.md.j2
+  generator: week
+  required:
+  - course_name
+  - week
+  - week_padded
+  - title
+- path: lab/README.md.j2
+  generator: lab
+  required:
+  - course_name
+  - week
+  - title
+- path: assignment/README.md.j2
+  generator: assignment
+  required:
+  - course_name
+  - week
+  - title
+- path: quiz/README.md.j2
+  generator: quiz
+  required:
+  - course_name
+  - week
+  - title
+- path: slides/title.md.j2
+  generator: slides
+  required:
+  - course_name
+  - title
+- path: slides/agenda.md.j2
+  generator: slides
+  required:
+  - agenda
+- path: slides/chapter.md.j2
+  generator: slides
+  required:
+  - title
+- path: website/index.md.j2
+  generator: website
+  required:
+  - course_name
+- path: shared/macros.j2
+  generator: shared
+  required: []
+- path: shared/variables.j2
+  generator: shared
+  required: []
+description: OpenProjectLab 預設教材模板、驗證契約與測試套件。
+encoding: UTF-8

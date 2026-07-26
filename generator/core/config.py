@@ -11,6 +11,8 @@ from generator.core.exceptions import ConfigurationError
 
 @dataclass(slots=True)
 class ProjectConfig:
+    """保存及解析 OpenProjectLab 專案設定。"""
+
     project: dict[str, Any] = field(default_factory=dict)
     paths: dict[str, Any] = field(default_factory=dict)
     generator: dict[str, Any] = field(default_factory=dict)
@@ -18,6 +20,7 @@ class ProjectConfig:
 
     @classmethod
     def load(cls, path: Path) -> ProjectConfig:
+        """從 YAML 檔案載入並驗證專案設定。"""
         if not path.exists():
             raise ConfigurationError(f"找不到設定檔：{path}")
 
@@ -52,6 +55,7 @@ class ProjectConfig:
         )
 
     def template_root(self, project_root: Path) -> Path:
+        """解析並回傳模板根目錄。"""
         configured_path = self.paths.get("templates", "templates")
 
         if configured_path is None:

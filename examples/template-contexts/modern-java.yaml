@@ -1,0 +1,14 @@
+project_slug: modern-java
+project_name: Modern Java in Action
+course_name: Modern Java in Action
+language: zh-TW
+license: CC BY 4.0
+weeks: 16
+textbook: Modern Java in Action, 2nd Edition
+week: 1
+week_padded: '01'
+title: 課程介紹與現代 Java 概覽
+objectives:
+- 了解課程架構與評量方式
+- 認識現代 Java 的主要演進
+- 完成開發環境驗證

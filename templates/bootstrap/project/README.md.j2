@@ -1,0 +1,40 @@
+# {{ project_name }}
+
+> 由 OpenProjectLab 建立的開放教材專案。
+
+## 專案資訊
+
+- 專案代號：`{{ project_slug }}`
+- 教學語言：{{ language | default("zh-TW", true) }}
+- 授權方式：{{ license | default("CC BY 4.0", true) }}
+
+## 專案結構
+
+```text
+.
+├─ README.md
+├─ LICENSE
+├─ CONTRIBUTING.md
+├─ course.yaml
+├─ docs/
+├─ assets/
+├─ templates/
+└─ weeks/
+```
+
+## 開始使用
+
+```powershell
+opl course {{ project_slug }} `
+  --name "{{ project_name }}" `
+  --weeks {{ weeks | default(16, true) }}
+
+opl week {{ project_slug }} `
+  --week 1 `
+  --title "課程介紹" `
+  --course-name "{{ project_name }}"
+```
+
+## 開放教材原則
+
+本專案採用 Design First、Documentation First、Automation First。

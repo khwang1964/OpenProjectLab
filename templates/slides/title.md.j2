@@ -1,0 +1,9 @@
+---
+title: "{{ title }}"
+subtitle: "{{ subtitle | default(course_name, true) }}"
+author: "{{ author | default('', true) }}"
+---
+
+# {{ title }}
+
+## {{ subtitle | default(course_name, true) }}

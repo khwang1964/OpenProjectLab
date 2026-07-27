@@ -12,6 +12,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     name: Quality checks
@@ -19,7 +23,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -35,8 +39,18 @@ jobs:
           python -m pip install -e .
           python -m pip install pre-commit pytest pytest-cov ruff
 
+      - name: Audit repository structure
+        run: python scripts/audit_repository.py
+
       - name: Run pre-commit checks
         run: pre-commit run --all-files
 
-      - name: Run tests
-        run: python -m pytest
+      - name: Run Ruff
+        run: ruff check .
+
+      - name: Run tests with coverage
+        run: |
+          python -m pytest \
+            --cov=generator \
+            --cov-report=term-missing \
+            --cov-report=xml

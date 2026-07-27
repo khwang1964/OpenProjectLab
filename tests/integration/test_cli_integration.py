@@ -65,7 +65,8 @@ def test_bootstrap_command_creates_project(
     capsys: pytest.CaptureFixture[str],
 ) -> None:
     output_root = tmp_path / "courses"
-    argv = roots(template_root, output_root) + [
+    argv = [
+        *roots(template_root, output_root),
         "bootstrap",
         "modern-java",
         "--name",
@@ -87,7 +88,8 @@ def test_bootstrap_dry_run_has_no_side_effect(
     capsys: pytest.CaptureFixture[str],
 ) -> None:
     output_root = tmp_path / "courses"
-    argv = roots(template_root, output_root) + [
+    argv = [
+        *roots(template_root, output_root),
         "bootstrap",
         "modern-java",
         "--name",
@@ -105,7 +107,8 @@ def test_course_command_generates_readme(
     tmp_path: Path,
 ) -> None:
     output_root = tmp_path / "courses"
-    argv = roots(template_root, output_root) + [
+    argv = [
+        *roots(template_root, output_root),
         "course",
         "modern-java",
         "--name",
@@ -126,7 +129,8 @@ def test_week_command_generates_week_readme(
     tmp_path: Path,
 ) -> None:
     output_root = tmp_path / "courses"
-    argv = roots(template_root, output_root) + [
+    argv = [
+        *roots(template_root, output_root),
         "week",
         "modern-java",
         "--week",
@@ -165,7 +169,8 @@ def test_command_returns_two_for_generator_error(
     capsys: pytest.CaptureFixture[str],
 ) -> None:
     output_root = tmp_path / "courses"
-    argv = roots(template_root, output_root) + [
+    argv = [
+        *roots(template_root, output_root),
         "bootstrap",
         "Invalid Slug",
         "--name",
@@ -186,7 +191,8 @@ def test_course_without_force_does_not_overwrite(
     readme.parent.mkdir(parents=True)
     readme.write_text("existing", encoding="utf-8")
 
-    argv = roots(template_root, output_root) + [
+    argv = [
+        *roots(template_root, output_root),
         "course",
         "modern-java",
         "--name",

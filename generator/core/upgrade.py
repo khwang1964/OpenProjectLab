@@ -5,7 +5,7 @@ import tempfile
 import zipfile
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from hashlib import sha256
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -33,7 +33,7 @@ class UpgradeConflictError(UpgradeError):
     """Raised when the current project state conflicts with the patch."""
 
 
-class Operation(str, Enum):
+class Operation(StrEnum):
     ADD = "add"
     MODIFY = "modify"
     DELETE = "delete"

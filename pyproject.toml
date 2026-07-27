@@ -148,7 +148,10 @@ select = [
     "I",
     "B",
     "UP",
+    "SIM",
+    "C4",
     "D",
+    "RUF005"
 ]
 ignore = [
     "D100",
@@ -160,7 +163,13 @@ ignore = [
     "D106",
     "D107",
     "D415",
+    "D203",
+    "D213",
+    "RUF001",  # 允許字串中的繁體中文全形標點
+    "RUF002",  # 允許 docstring 中的繁體中文全形標點
+    "RUF003",  # 允許註解中的繁體中文全形標點
 ]
+
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

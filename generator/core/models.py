@@ -4,13 +4,13 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from types import MappingProxyType
 from typing import Any
 
 
-class WritePolicy(str, Enum):
+class WritePolicy(StrEnum):
     """Define how an existing destination should be handled."""
 
     CREATE_ONLY = "create-only"
@@ -18,7 +18,7 @@ class WritePolicy(str, Enum):
     SKIP_EXISTING = "skip-existing"
 
 
-class WriteStatus(str, Enum):
+class WriteStatus(StrEnum):
     """Describe the outcome of a filesystem write operation."""
 
     CREATED = "created"

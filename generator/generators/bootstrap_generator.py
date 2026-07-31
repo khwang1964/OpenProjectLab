@@ -97,7 +97,9 @@ class BootstrapGenerator:
         resolved_context = dict(context or {})
         resolved_context.update(context_values)
 
-        slug = self._validate_project_slug(project_slug or resolved_context.get("project_slug"))
+        slug = self._validate_project_slug(
+            project_slug or resolved_context.get("project_slug"),
+        )
         resolved_context["project_slug"] = slug
 
         project_root = resolved_output_root / slug

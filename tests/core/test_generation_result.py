@@ -171,3 +171,10 @@ def test_generation_result_preserves_execution_metadata(
     assert generation_result.warnings == ("Example warning",)
     assert generation_result.dry_run is True
     assert generation_result.manifest_updated is True
+
+
+def test_affected_paths_is_immutable(
+    generation_result: GenerationResult,
+) -> None:
+    """Affected paths should be exposed as an immutable tuple."""
+    assert isinstance(generation_result.affected_paths, tuple)

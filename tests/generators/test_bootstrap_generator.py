@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 
 from generator.core.filesystem import FileSystemError
+from generator.core.models import GenerationResult
 from generator.core.template import TemplateRenderError
 from generator.generators.bootstrap_generator import (
     BootstrapGenerator,
@@ -345,3 +346,34 @@ def test_bootstrap_generator_run_alias(
     )
 
     assert isinstance(result, BootstrapResult)
+
+
+def test_bootstrap_generator_returns_generation_result(
+    template_root: Path,
+    tmp_path: Path,
+) -> None:
+    """Bootstrap generation should use the shared result contract."""
+    result = BootstrapGenerator(template_root).generate(
+        tmp_path / "courses",
+        valid_context(),
+    )
+
+    assert isinstance(result, GenerationResult)
+    assert result.generator_name == BootstrapGenerator.name
+    assert result.dry_run is False
+
+
+def test_bootstrap_generator_run_returns_generation_result(
+    template_root: Path,
+    tmp_path: Path,
+) -> None:
+    """The run alias should preserve the shared result contract."""
+    result = BootstrapGenerator(template_root).run(
+        tmp_path / "courses",
+        valid_context(),
+        dry_run=True,
+    )
+
+    assert isinstance(result, GenerationResult)
+    assert result.generator_name == BootstrapGenerator.name
+    assert result.dry_run is True

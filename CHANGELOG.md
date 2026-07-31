@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Began migrating core generators to the shared `GenerationResult` contract.
+- Updated `BootstrapGenerator` to return structured generation results.
+- Updated Bootstrap Generator tests to validate the shared result contract.
+
+### Added
+
+- Added focused tests for `GenerationResult`.
+- Documented the Generator Framework contract and the recommended Milestone 3
+  migration sequence.
+
+### Verification
+
+- Run the focused `GenerationResult` and Bootstrap Generator tests.
+- Run the complete test suite to satisfy the repository coverage threshold.
+- Run all pre-commit hooks before committing the refactor.
+
 ## Step 12 - 2026-07-26
 
 ### Added
@@ -23,6 +43,7 @@
 - Upgrade Manifest schema documentation
 - Example upgrade patch
 - Code Review Checklist
+
 ## Pre-commit repair - 2026-07-26
 
 ### Fixed

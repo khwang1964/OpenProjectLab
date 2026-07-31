@@ -2,6 +2,7 @@
 
 > Status: Active and Evolving
 > Milestone: 3 — Core Framework
+> Last updated: 2026-07-31
 > Audience: Maintainers, contributors, Generator developers, Plugin developers
 > Scope: Generator responsibilities, contracts, lifecycle, registry integration, dependency boundaries, results, errors, testing, extension, and compatibility
 
@@ -26,6 +27,12 @@ Generator 不只是「呼叫 Template 並寫入檔案」。
 本文件同時描述目前已存在的能力與 Milestone 3 預計穩定的核心契約。
 
 凡尚未出現在程式碼與測試中的能力，都應視為提案，而不是已完成的功能。
+
+本文件使用以下標記區分成熟度：
+
+* **Implemented**：已有程式碼與測試支援。
+* **In progress**：已在至少一個核心 Generator 導入，但尚未全面一致。
+* **Proposed**：Milestone 3 的目標設計，尚未成為穩定公開契約。
 
 ---
 
@@ -80,6 +87,10 @@ week
 ### Bootstrap Generator
 
 負責建立完整的 OPL 專案或課程專案骨架。
+
+目前狀態：**In progress**。Bootstrap Generator 是共用
+`GenerationResult` 契約的第一個遷移切片；完成測試與品質檢查後，再將相同模式擴展至
+Course Generator 與 Week Generator。
 
 可能產出：
 
@@ -550,7 +561,7 @@ Template Context 的正式契約應同步記錄於：
 
 ## 15. Generation Lifecycle
 
-建議標準生命週期：
+**Proposed** 的標準生命週期：
 
 ```text
 Receive Request
@@ -589,7 +600,8 @@ Return Generation Result
 
 ## 16. Generation Plan
 
-Milestone 3 建議導入明確的 Generation Plan。
+Milestone 3 建議導入明確的 Generation Plan。此模型目前為
+**Proposed**，不得在尚未落地前視為穩定公開 API。
 
 概念：
 
@@ -772,7 +784,10 @@ overwrite=True
 概念：
 
 ```python
-class FileOwnership(str, Enum):
+from enum import StrEnum
+
+
+class FileOwnership(StrEnum):
     USER = "user"
     FRAMEWORK = "framework"
 ```
@@ -819,6 +834,10 @@ CONFLICT
 
 Generator 應回傳結構化 Result，而不是只回傳 `None`。
 
+目前狀態：**In progress**。Bootstrap Generator 正在遷移至共用
+`GenerationResult`；Course Generator 與 Week Generator 在完成契約驗證前，仍可能保留
+既有回傳方式。
+
 概念：
 
 ```python
@@ -862,12 +881,13 @@ Milestone 3 應避免繼續擴大差異。
 
 建議演進方式：
 
-1. 定義共用 `GenerationResult`。
-2. 保留 Generator-specific Metadata。
-3. 提供相容轉換。
-4. 更新 CLI。
-5. 更新 Unit 與 Integration Tests。
-6. 評估是否需要 Deprecation。
+1. 以 Bootstrap Generator 驗證共用 `GenerationResult`。
+2. 讓 Bootstrap 的單元測試與整合測試覆蓋公開 Result Contract。
+3. 保留 Generator-specific Metadata。
+4. 更新 CLI 的 Result Formatting。
+5. 將相同契約擴展至 Course Generator 與 Week Generator。
+6. 增加跨 Generator Contract Tests。
+7. 評估相容轉換與 Deprecation Policy。
 
 ---
 
@@ -1655,7 +1675,7 @@ Generator Public Contract 可能包括：
 * 部分 Generator 使用 `generate()`。
 * 部分舊介面可能使用 `run(context)`。
 * 部分 Generator 回傳 `Path`。
-* Bootstrap Generator 已使用自訂 Result。
+* Bootstrap Generator 正在遷移至共用 `GenerationResult`。
 * 部分 Generator 可能直接呼叫 `render_to_file()`。
 * Filesystem 注入方式可能尚未一致。
 * Manifest 整合可能只存在於部分 Generator。
@@ -1701,7 +1721,10 @@ Generation Result
 
 ### Phase 2：Shared Result
 
-建立共用 `GenerationResult`。
+狀態：**In progress**。
+
+以 Bootstrap Generator 作為第一個垂直切片，建立並驗證共用
+`GenerationResult`；通過完整測試與 pre-commit 後，再擴展至其他核心 Generator。
 
 ### Phase 3：Typed Requests
 
@@ -1838,6 +1861,8 @@ Generation Result
 
 ### Tests
 
+* [ ] `GenerationResult` 具有獨立的核心模型測試。
+* [ ] Bootstrap Generator 已通過共用 Result Contract 測試。
 * [ ] Request Validation 有測試。
 * [ ] Generator Identity 有測試。
 * [ ] Context 有測試。
@@ -1866,6 +1891,9 @@ Generation Result
 * [ ] Changelog 已更新。
 * [ ] 必要時已新增 ADR。
 * [ ] `git diff --check` 通過。
+* [ ] 精準測試通過：
+      `python -m pytest tests/core/test_generation_result.py
+      tests/generators/test_bootstrap_generator.py -v --no-cov`。
 * [ ] `pre-commit run --all-files` 通過。
 * [ ] `python -m pytest` 通過。
 

@@ -7,8 +7,12 @@
 - Completed the migration of `BootstrapGenerator`, `CourseGenerator`, and
   `WeekGenerator` to the shared `GenerationResult` contract.
 - Standardized `generate()` and `run()` result semantics across all core generators.
+- Decoupled the CLI from generator-specific result types; Bootstrap, Course, and
+  Week output now uses the ordered `GenerationResult.affected_paths` view.
+- Bootstrap project-root display is derived from the command input instead of a
+  generator-specific result field.
 - Preserved `BootstrapResult`, `CourseResult`, and `WeekResult` as temporary
-  compatibility layers for generator-specific metadata.
+  compatibility layers scheduled for removal after downstream migration.
 
 ### Added
 
@@ -17,11 +21,24 @@
   writes, affected-path ordering, dry-run behavior, run aliases, and Manifest state.
 - Documented the Generator Framework contract and the recommended Milestone 3
   migration sequence.
+- Documented the Bootstrap result migration from `generated_files` to
+  `affected_paths` and clarified that `created_directories` is not part of the
+  shared result contract.
+
+### Migration
+
+- Replace reads of `generated_files` or `output_path` with
+  `GenerationResult.affected_paths`.
+- Preserve or derive Bootstrap's project root from the request or CLI input.
+- Do not infer created directories from `affected_paths`; directory creation is
+  an implementation detail rather than a shared result field.
+- Stop importing `BootstrapResult`, `CourseResult`, and `WeekResult` in new code.
 
 ### Verification
 
 - Run the focused `GenerationResult` and all core Generator tests.
 - Run the cross-generator result contract tests.
+- Run the CLI integration tests for Bootstrap, Course, Week, and dry-run output.
 - Run the complete test suite to satisfy the repository coverage threshold.
 - Run all pre-commit hooks before committing the refactor.
 

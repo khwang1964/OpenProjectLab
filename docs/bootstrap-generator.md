@@ -60,7 +60,7 @@ BootstrapGenerator
   ├─ project_slug validator
   ├─ TEMPLATE_MANIFEST
   ├─ DIRECTORY_MANIFEST
-  └─ BootstrapResult
+  └─ GenerationResult
       │
       ├──────────────┐
       ▼              ▼
@@ -114,17 +114,23 @@ generator = BootstrapGenerator(
     template_root=Path("templates"),
 )
 
+output_root = Path("courses")
+project_slug = "modern-java"
+project_root = output_root / project_slug
+
 result = generator.generate(
-    output_root=Path("courses"),
+    output_root=output_root,
     context={
         "project_name": "Modern Java in Action",
-        "project_slug": "modern-java",
+        "project_slug": project_slug,
         "language": "zh-TW",
         "license_name": "CC BY 4.0",
     },
 )
 
-print(result.project_root)
+print(project_root)
+for path in result.affected_paths:
+    print(path)
 ```
 
 預期輸出：
@@ -135,24 +141,39 @@ courses/modern-java/
 
 ---
 
-## 6. BootstrapResult
+## 6. GenerationResult 與相容層
 
 ```python
 @dataclass(frozen=True, slots=True)
-class BootstrapResult:
-    project_root: Path
-    generated_files: tuple[Path, ...]
-    created_directories: tuple[Path, ...]
+class GenerationResult:
+    writes: tuple[WriteResult, ...]
     dry_run: bool
+
+    @property
+    def affected_paths(self) -> tuple[Path, ...]: ...
 ```
 
-用途：
+`GenerationResult` 是所有核心 Generator 的正式共用回傳契約。
+`affected_paths` 依 manifest／寫入順序提供所有受影響檔案的有序檢視，供 CLI、測試、自動化、日誌與稽核使用。
 
-- CLI 顯示結果
-- dry-run 預覽
-- 測試驗證
-- 後續自動化工作
-- 日誌與稽核
+Bootstrap 特有資訊不加入共用結果模型：
+
+- `project_root` 應由 request、`output_root` 與 `project_slug` 保存或推導。
+- 舊 `generated_files` 的使用端應改讀 `affected_paths`。
+- `created_directories` 是 Bootstrap 實作細節，不應新增為 `GenerationResult` 的共用欄位。
+
+### 暫時相容層
+
+`BootstrapResult`、`CourseResult` 與 `WeekResult` 目前僅作為分階段遷移的暫時相容層，預計在所有使用端完成遷移後移除。新程式碼不得再匯入或依賴這些型別。
+
+遷移對照：
+
+| 舊用法 | 新用法 |
+|---|---|
+| `result.generated_files` | `result.affected_paths` |
+| `result.output_path` | 依需求選取 `affected_paths`，不可假設共用單一路徑 |
+| `result.project_root` | 從 request 或 `output_root / project_slug` 推導 |
+| `result.created_directories` | 不屬於共用結果契約 |
 
 ---
 
@@ -347,7 +368,9 @@ python -m pytest -v
 - 明確 project_slug 覆寫 context。
 - 模板不存在時失敗。
 - overwrite=False 保留既有內容。
-- 回傳 BootstrapResult。
+- 回傳 `GenerationResult`。
+- `affected_paths` 保持 manifest 定義的輸出順序。
+- 使用端不依賴 `BootstrapResult`、`generated_files`、`created_directories` 或 `output_path`。
 - 支援建構式 output_root。
 - 支援 template_root 覆寫。
 - 支援關鍵字 context。
@@ -363,7 +386,11 @@ python -m pytest -v
 - [ ] 所有模板經過 `TemplateRenderer`。
 - [ ] 所有寫入經過 `FileSystem`。
 - [ ] 多檔案輸出由 manifest 管理。
-- [ ] 回傳 `BootstrapResult`。
+- [ ] 回傳 `GenerationResult`。
+- [ ] 生成檔案由 `affected_paths` 提供有序檢視。
+- [ ] `project_root` 從 request 或命令輸入保存／推導。
+- [ ] 不把 Bootstrap 特有欄位加入共用結果模型。
+- [ ] 新程式碼不依賴 Generator-specific Result 相容型別。
 
 ### 驗證與安全
 
@@ -387,3 +414,4 @@ python -m pytest -v
 - [ ] 完整測試全部通過。
 - [ ] coverage 達到專案門檻。
 - [ ] 文件與公開 API 一致。
+- [ ] CLI 輸出契約測試涵蓋實際路徑且不洩漏結果物件表示法。

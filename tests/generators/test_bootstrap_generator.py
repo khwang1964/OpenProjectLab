@@ -1,8 +1,11 @@
+"""Test the Bootstrap Generator and its shared GenerationResult contract."""
+
 from pathlib import Path
 
 import pytest
 
 from generator.core.filesystem import FileSystemError
+from generator.core.models import GenerationResult
 from generator.core.template import TemplateRenderError
 from generator.generators.bootstrap_generator import (
     BootstrapGenerator,
@@ -12,6 +15,7 @@ from generator.generators.bootstrap_generator import (
 
 @pytest.fixture
 def template_root(tmp_path: Path) -> Path:
+    """Create a minimal Bootstrap template pack."""
     root = tmp_path / "templates" / "bootstrap" / "project"
     root.mkdir(parents=True)
 
@@ -32,6 +36,7 @@ def template_root(tmp_path: Path) -> Path:
 
 
 def valid_context() -> dict[str, object]:
+    """Return a valid Bootstrap template context."""
     return {
         "project_name": "Modern Java in Action",
         "project_slug": "modern-java",
@@ -253,9 +258,14 @@ def test_bootstrap_generator_returns_structured_result(
     )
 
     assert isinstance(result, BootstrapResult)
+    assert isinstance(result, GenerationResult)
+    assert result.generator_name == BootstrapGenerator.name
     assert isinstance(result.generated_files, tuple)
     assert isinstance(result.created_directories, tuple)
+    assert result.affected_paths == result.generated_files
+    assert len(result.writes) == len(result.generated_files) == 5
     assert result.dry_run is True
+    assert result.manifest_updated is False
 
 
 def test_bootstrap_generator_uses_constructor_output_root(
@@ -318,7 +328,9 @@ def test_bootstrap_generator_accepts_context_keywords(
         license_name="CC BY 4.0",
     )
 
-    assert "# Keyword Project" in (result.project_root / "README.md").read_text(encoding="utf-8")
+    readme = (result.project_root / "README.md").read_text(encoding="utf-8")
+
+    assert "# Keyword Project" in readme
 
 
 def test_bootstrap_generator_keyword_context_overrides_mapping(
@@ -331,7 +343,9 @@ def test_bootstrap_generator_keyword_context_overrides_mapping(
         project_name="Overridden Project",
     )
 
-    assert "# Overridden Project" in (result.project_root / "README.md").read_text(encoding="utf-8")
+    readme = (result.project_root / "README.md").read_text(encoding="utf-8")
+
+    assert "# Overridden Project" in readme
 
 
 def test_bootstrap_generator_run_alias(
@@ -345,3 +359,40 @@ def test_bootstrap_generator_run_alias(
     )
 
     assert isinstance(result, BootstrapResult)
+
+
+def test_bootstrap_generator_returns_generation_result(
+    template_root: Path,
+    tmp_path: Path,
+) -> None:
+    """Bootstrap generation should use the shared result contract."""
+    result = BootstrapGenerator(template_root).generate(
+        tmp_path / "courses",
+        valid_context(),
+    )
+
+    assert isinstance(result, GenerationResult)
+    assert result.generator_name == BootstrapGenerator.name
+    assert result.affected_paths == result.generated_files
+    assert len(result.writes) == 5
+    assert result.dry_run is False
+    assert result.manifest_updated is True
+
+
+def test_bootstrap_generator_run_returns_generation_result(
+    template_root: Path,
+    tmp_path: Path,
+) -> None:
+    """The run alias should preserve the shared result contract."""
+    result = BootstrapGenerator(template_root).run(
+        tmp_path / "courses",
+        valid_context(),
+        dry_run=True,
+    )
+
+    assert isinstance(result, GenerationResult)
+    assert result.generator_name == BootstrapGenerator.name
+    assert result.affected_paths == result.generated_files
+    assert len(result.writes) == 5
+    assert result.dry_run is True
+    assert result.manifest_updated is False

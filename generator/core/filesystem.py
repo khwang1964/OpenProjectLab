@@ -1,7 +1,7 @@
-"""本機檔案系統操作工具。
+"""Provide filesystem operations for OpenProjectLab generators.
 
-此模組集中處理 OpenProjectLab 產生器所需的檔案與目錄操作，
-避免各產生器直接散落使用 ``Path``、``shutil`` 等低階 API。
+This module centralizes directory creation, text-file operations, copying,
+removal, atomic writes, dry-run behavior, and compatibility helpers.
 """
 
 from __future__ import annotations
@@ -11,61 +11,82 @@ import shutil
 import tempfile
 from pathlib import Path
 
+from generator.core.models import (
+    WritePolicy,
+    WriteResult,
+    WriteStatus,
+)
+
 
 class FileSystemError(RuntimeError):
-    """檔案系統操作失敗時拋出的統一例外。"""
+    """Represent a failure while performing a filesystem operation."""
 
 
-def ensure_directory(path: Path, *, dry_run: bool = False) -> Path:
-    """確保目錄存在並回傳該目錄。
+def ensure_directory(
+    path: Path,
+    *,
+    dry_run: bool = False,
+) -> Path:
+    """Ensure that a directory exists and return its normalized path.
 
     Args:
-        path: 要建立或確認存在的目錄。
-        dry_run: 若為 ``True``，只回傳路徑而不建立目錄。
+        path: Directory to create or verify.
+        dry_run: Return the path without creating the directory.
 
     Returns:
-        已存在的目錄路徑。
+        The normalized directory path.
 
     Raises:
-        FileSystemError: 路徑已存在但不是目錄，或目錄建立失敗。
+        FileSystemError: If the path is not a directory or creation fails.
     """
-    path = Path(path)
+    normalized_path = Path(path)
+
+    if normalized_path.exists() and not normalized_path.is_dir():
+        raise FileSystemError(f"路徑已存在但不是目錄: {normalized_path}")
 
     if dry_run:
-        return path
-
-    if path.exists() and not path.is_dir():
-        raise FileSystemError(f"路徑已存在但不是目錄：{path}")
+        return normalized_path
 
     try:
-        path.mkdir(parents=True, exist_ok=True)
+        normalized_path.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
     except OSError as exc:
-        raise FileSystemError(f"無法建立目錄：{path}") from exc
+        raise FileSystemError(f"無法建立目錄: {normalized_path}") from exc
 
-    return path
+    return normalized_path
 
 
-def read_text(path: Path, *, encoding: str = "utf-8") -> str:
-    """讀取文字檔內容。
+def read_text(
+    path: Path,
+    *,
+    encoding: str = "utf-8",
+) -> str:
+    """Read and return text from a file.
 
     Args:
-        path: 要讀取的檔案。
-        encoding: 文字編碼，預設為 UTF-8。
+        path: File to read.
+        encoding: Text encoding used to read the file.
+
+    Returns:
+        The file content.
 
     Raises:
-        FileSystemError: 路徑不存在、不是檔案或讀取失敗。
+        FileSystemError: If the path is missing, invalid, or unreadable.
     """
-    path = Path(path)
+    normalized_path = Path(path)
 
-    if not path.exists():
-        raise FileSystemError(f"找不到檔案：{path}")
-    if not path.is_file():
-        raise FileSystemError(f"路徑不是檔案：{path}")
+    if not normalized_path.exists():
+        raise FileSystemError(f"找不到檔案: {normalized_path}")
+
+    if not normalized_path.is_file():
+        raise FileSystemError(f"路徑不是檔案: {normalized_path}")
 
     try:
-        return path.read_text(encoding=encoding)
-    except OSError as exc:
-        raise FileSystemError(f"無法讀取檔案：{path}") from exc
+        return normalized_path.read_text(encoding=encoding)
+    except (OSError, UnicodeError) as exc:
+        raise FileSystemError(f"無法讀取檔案: {normalized_path}") from exc
 
 
 def write_text(
@@ -73,40 +94,228 @@ def write_text(
     content: str,
     *,
     encoding: str = "utf-8",
+    policy: WritePolicy | None = None,
+    overwrite: bool | None = None,
+    dry_run: bool = False,
+) -> WriteResult:
+    """Write text atomically and return the operation result.
+
+    The ``overwrite`` argument is retained as a compatibility option.
+    New callers should use ``policy``.
+
+    Args:
+        path: Destination file.
+        content: Text content to write.
+        encoding: Text encoding used for the file.
+        policy: Policy used when the destination already exists.
+        overwrite: Legacy overwrite option.
+        dry_run: Calculate the result without modifying the filesystem.
+
+    Returns:
+        The result of the planned or completed write operation.
+
+    Raises:
+        FileSystemError: If arguments conflict or the write fails.
+    """
+    normalized_path = Path(path)
+    effective_policy = _resolve_write_policy(
+        policy=policy,
+        overwrite=overwrite,
+    )
+
+    if normalized_path.exists() and normalized_path.is_dir():
+        raise FileSystemError(f"目標路徑是目錄, 無法寫入檔案: {normalized_path}")
+
+    existing_content = _read_existing_content(
+        normalized_path,
+        encoding=encoding,
+    )
+
+    status = _determine_write_status(
+        path=normalized_path,
+        content=content,
+        existing_content=existing_content,
+        policy=effective_policy,
+    )
+
+    result = WriteResult(
+        path=normalized_path,
+        status=status,
+    )
+
+    if dry_run or status in {
+        WriteStatus.SKIPPED,
+        WriteStatus.UNCHANGED,
+    }:
+        return result
+
+    ensure_directory(normalized_path.parent)
+
+    _atomic_write_text(
+        normalized_path,
+        content,
+        encoding=encoding,
+    )
+
+    return result
+
+
+def copy_file(
+    source: Path,
+    destination: Path,
+    *,
     overwrite: bool = True,
     dry_run: bool = False,
 ) -> Path:
-    """以原子方式寫入文字檔，必要時自動建立父目錄。
-
-    寫入內容會先存入同一目錄中的暫存檔，再透過 ``os.replace`` 取代
-    目標檔案，避免寫入中斷時留下不完整檔案。
+    """Copy one file and preserve basic filesystem metadata.
 
     Args:
-        path: 目標檔案。
-        content: 要寫入的文字內容。
-        encoding: 文字編碼，預設為 UTF-8。
-        overwrite: 是否允許覆寫既有檔案。
-        dry_run: 若為 ``True``，只回傳目標路徑而不寫入檔案。
+        source: Source file.
+        destination: Destination file.
+        overwrite: Whether an existing destination may be replaced.
+        dry_run: Return the destination without copying the file.
 
     Returns:
-        寫入完成的檔案路徑。
+        The normalized destination path.
 
     Raises:
-        FileSystemError: 目標為目錄、禁止覆寫或寫入失敗。
+        FileSystemError: If validation or copying fails.
     """
-    path = Path(path)
+    normalized_source = Path(source)
+    normalized_destination = Path(destination)
 
     if dry_run:
-        return path
+        return normalized_destination
 
-    if path.exists() and path.is_dir():
-        raise FileSystemError(f"目標路徑是目錄，無法寫入檔案：{path}")
-    if path.exists() and not overwrite:
-        raise FileSystemError(f"檔案已存在且不允許覆寫：{path}")
+    if not normalized_source.exists():
+        raise FileSystemError(f"找不到來源檔案: {normalized_source}")
 
-    ensure_directory(path.parent)
+    if not normalized_source.is_file():
+        raise FileSystemError(f"來源路徑不是檔案: {normalized_source}")
 
+    if normalized_destination.exists() and normalized_destination.is_dir():
+        raise FileSystemError(f"目的路徑是目錄: {normalized_destination}")
+
+    if normalized_destination.exists() and not overwrite:
+        raise FileSystemError(f"目的檔案已存在且不允許覆寫: {normalized_destination}")
+
+    ensure_directory(normalized_destination.parent)
+
+    try:
+        shutil.copy2(
+            normalized_source,
+            normalized_destination,
+        )
+    except OSError as exc:
+        raise FileSystemError(
+            f"無法複製檔案: {normalized_source} -> {normalized_destination}"
+        ) from exc
+
+    return normalized_destination
+
+
+def remove_file(
+    path: Path,
+    *,
+    missing_ok: bool = True,
+    dry_run: bool = False,
+) -> None:
+    """Remove one file.
+
+    Args:
+        path: File to remove.
+        missing_ok: Ignore a missing file when true.
+        dry_run: Validate without removing the file.
+
+    Raises:
+        FileSystemError: If validation or removal fails.
+    """
+    normalized_path = Path(path)
+
+    if normalized_path.exists() and normalized_path.is_dir():
+        raise FileSystemError(f"路徑是目錄, 拒絕以 remove_file 刪除: {normalized_path}")
+
+    if dry_run:
+        return
+
+    try:
+        normalized_path.unlink(missing_ok=missing_ok)
+    except FileNotFoundError as exc:
+        raise FileSystemError(f"找不到要刪除的檔案: {normalized_path}") from exc
+    except OSError as exc:
+        raise FileSystemError(f"無法刪除檔案: {normalized_path}") from exc
+
+
+def _resolve_write_policy(
+    *,
+    policy: WritePolicy | None,
+    overwrite: bool | None,
+) -> WritePolicy:
+    """Resolve modern and legacy write-policy arguments."""
+    if policy is not None and overwrite is not None:
+        legacy_policy = WritePolicy.OVERWRITE if overwrite else WritePolicy.CREATE_ONLY
+
+        if policy is not legacy_policy:
+            raise FileSystemError("policy 與 overwrite 參數互相衝突")
+
+        return policy
+
+    if policy is not None:
+        return policy
+
+    if overwrite is None or overwrite:
+        return WritePolicy.OVERWRITE
+
+    return WritePolicy.CREATE_ONLY
+
+
+def _read_existing_content(
+    path: Path,
+    *,
+    encoding: str,
+) -> str | None:
+    """Return existing text or None when the path does not exist."""
+    if not path.exists():
+        return None
+
+    try:
+        return path.read_text(encoding=encoding)
+    except (OSError, UnicodeError) as exc:
+        raise FileSystemError(f"無法讀取既有檔案: {path}") from exc
+
+
+def _determine_write_status(
+    *,
+    path: Path,
+    content: str,
+    existing_content: str | None,
+    policy: WritePolicy,
+) -> WriteStatus:
+    """Determine the result status before writing a file."""
+    if existing_content is None:
+        return WriteStatus.CREATED
+
+    if policy is WritePolicy.SKIP_EXISTING:
+        return WriteStatus.SKIPPED
+
+    if policy is WritePolicy.CREATE_ONLY:
+        raise FileSystemError(f"檔案已存在且不允許覆寫: {path}")
+
+    if existing_content == content:
+        return WriteStatus.UNCHANGED
+
+    return WriteStatus.UPDATED
+
+
+def _atomic_write_text(
+    path: Path,
+    content: str,
+    *,
+    encoding: str,
+) -> None:
+    """Write text through a temporary file and atomic replacement."""
     temporary_path: Path | None = None
+
     try:
         with tempfile.NamedTemporaryFile(
             mode="w",
@@ -125,112 +334,64 @@ def write_text(
         os.replace(temporary_path, path)
     except (OSError, UnicodeError) as exc:
         if temporary_path is not None:
-            temporary_path.unlink(missing_ok=True)
-        raise FileSystemError(f"無法寫入檔案：{path}") from exc
+            try:
+                temporary_path.unlink(missing_ok=True)
+            except OSError:
+                pass
 
-    return path
-
-
-def copy_file(
-    source: Path,
-    destination: Path,
-    *,
-    overwrite: bool = True,
-    dry_run: bool = False,
-) -> Path:
-    """複製單一檔案並保留基本檔案中繼資料。
-
-    Args:
-        source: 來源檔案。
-        destination: 目的檔案。
-        overwrite: 是否允許覆寫既有目的檔案。
-        dry_run: 若為 ``True``，只回傳目的路徑而不複製檔案。
-
-    Returns:
-        複製完成的目的檔案路徑。
-
-    Raises:
-        FileSystemError: 來源無效、目的為目錄、禁止覆寫或複製失敗。
-    """
-    source = Path(source)
-    destination = Path(destination)
-
-    if dry_run:
-        return destination
-
-    if not source.exists():
-        raise FileSystemError(f"找不到來源檔案：{source}")
-    if not source.is_file():
-        raise FileSystemError(f"來源路徑不是檔案：{source}")
-    if destination.exists() and destination.is_dir():
-        raise FileSystemError(f"目的路徑是目錄：{destination}")
-    if destination.exists() and not overwrite:
-        raise FileSystemError(f"目的檔案已存在且不允許覆寫：{destination}")
-
-    ensure_directory(destination.parent)
-
-    try:
-        shutil.copy2(source, destination)
-    except OSError as exc:
-        raise FileSystemError(f"無法複製檔案：{source} -> {destination}") from exc
-
-    return destination
-
-
-def remove_file(
-    path: Path,
-    *,
-    missing_ok: bool = True,
-    dry_run: bool = False,
-) -> None:
-    """刪除單一檔案。
-
-    Args:
-        path: 要刪除的檔案。
-        missing_ok: 檔案不存在時是否忽略。
-        dry_run: 若為 ``True``，不刪除檔案。
-
-    Raises:
-        FileSystemError: 路徑為目錄、檔案不存在且不允許忽略，或刪除失敗。
-    """
-    path = Path(path)
-
-    if dry_run:
-        return
-
-    if path.exists() and path.is_dir():
-        raise FileSystemError(f"路徑是目錄，拒絕以 remove_file 刪除：{path}")
-
-    try:
-        path.unlink(missing_ok=missing_ok)
-    except FileNotFoundError as exc:
-        raise FileSystemError(f"找不到要刪除的檔案：{path}") from exc
-    except OSError as exc:
-        raise FileSystemError(f"無法刪除檔案：{path}") from exc
+        raise FileSystemError(f"無法寫入檔案: {path}") from exc
 
 
 class FileSystem:
-    """向後相容的無狀態檔案系統介面。"""
+    """Provide a stateless compatibility interface for generators."""
 
     @staticmethod
-    def ensure_directory(path: Path, *, dry_run: bool = False) -> Path:
-        """確保目錄存在。"""
-        return ensure_directory(path, dry_run=dry_run)
+    def ensure_directory(
+        path: Path,
+        *,
+        dry_run: bool = False,
+    ) -> Path:
+        """Ensure that a directory exists."""
+        return ensure_directory(
+            path,
+            dry_run=dry_run,
+        )
 
     @staticmethod
-    def ensure_dir(path: Path, *, dry_run: bool = False) -> Path:
-        """``ensure_directory`` 的相容別名。"""
-        return ensure_directory(path, dry_run=dry_run)
+    def ensure_dir(
+        path: Path,
+        *,
+        dry_run: bool = False,
+    ) -> Path:
+        """Provide a compatibility alias for ensure_directory."""
+        return ensure_directory(
+            path,
+            dry_run=dry_run,
+        )
 
     @staticmethod
-    def mkdir(path: Path, *, dry_run: bool = False) -> Path:
-        """``ensure_directory`` 的簡短相容別名。"""
-        return ensure_directory(path, dry_run=dry_run)
+    def mkdir(
+        path: Path,
+        *,
+        dry_run: bool = False,
+    ) -> Path:
+        """Provide a short compatibility alias for ensure_directory."""
+        return ensure_directory(
+            path,
+            dry_run=dry_run,
+        )
 
     @staticmethod
-    def read_text(path: Path, *, encoding: str = "utf-8") -> str:
-        """讀取文字檔。"""
-        return read_text(path, encoding=encoding)
+    def read_text(
+        path: Path,
+        *,
+        encoding: str = "utf-8",
+    ) -> str:
+        """Read text from a file."""
+        return read_text(
+            path,
+            encoding=encoding,
+        )
 
     @staticmethod
     def write_text(
@@ -238,14 +399,16 @@ class FileSystem:
         content: str,
         *,
         encoding: str = "utf-8",
-        overwrite: bool = True,
+        policy: WritePolicy | None = None,
+        overwrite: bool | None = None,
         dry_run: bool = False,
-    ) -> Path:
-        """寫入文字檔。"""
+    ) -> WriteResult:
+        """Write text and return its operation result."""
         return write_text(
             path,
             content,
             encoding=encoding,
+            policy=policy,
             overwrite=overwrite,
             dry_run=dry_run,
         )
@@ -258,7 +421,7 @@ class FileSystem:
         overwrite: bool = True,
         dry_run: bool = False,
     ) -> Path:
-        """複製單一檔案。"""
+        """Copy one file."""
         return copy_file(
             source,
             destination,
@@ -273,5 +436,9 @@ class FileSystem:
         missing_ok: bool = True,
         dry_run: bool = False,
     ) -> None:
-        """刪除單一檔案。"""
-        remove_file(path, missing_ok=missing_ok, dry_run=dry_run)
+        """Remove one file."""
+        remove_file(
+            path,
+            missing_ok=missing_ok,
+            dry_run=dry_run,
+        )

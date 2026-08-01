@@ -3,16 +3,30 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 from generator.core.filesystem import FileSystem
 from generator.core.generation_manifest import GenerationManifest
+from generator.core.models import GenerationResult
 from generator.core.template import TemplateRenderer
 
 
+@dataclass(frozen=True, slots=True)
+class WeekResult(GenerationResult):
+    """Provide transitional week-specific result properties."""
+
+    output_path: Path = Path()
+
+    def __post_init__(self) -> None:
+        """Normalize shared and week-specific result fields."""
+        super(WeekResult, self).__post_init__()
+        object.__setattr__(self, "output_path", Path(self.output_path))
+
+
 class WeekGenerator:
-    """Week Generator"""
+    """Generate an OpenProjectLab weekly lesson scaffold."""
 
     name = "week"
     description = "Generate an OpenProjectLab weekly lesson scaffold"
@@ -23,7 +37,8 @@ class WeekGenerator:
         output_root: Path | None = None,
         *,
         filesystem: FileSystem | None = None,
-    ):
+    ) -> None:
+        """Initialize the generator and its filesystem dependencies."""
         self._template_root = Path(template_root) if template_root else None
         self._output_root = Path(output_root) if output_root else None
         self._filesystem = filesystem or FileSystem()
@@ -41,8 +56,8 @@ class WeekGenerator:
         dry_run: bool = False,
         record_manifest: bool = True,
         **context_values: Any,
-    ) -> Path:
-        """Generator"""
+    ) -> GenerationResult:
+        """Generate weekly lesson content and return the shared result contract."""
         tr = self._resolve_template_root(template_root)
         root = self._resolve_output_root(output_root)
         ctx = dict(context or {})
@@ -64,32 +79,48 @@ class WeekGenerator:
                 template=template_name,
                 metadata={"week": number, "title": ctx.get("title")},
             )
-        self._filesystem.write_text(output, content, overwrite=overwrite, dry_run=dry_run)
+        write_result = self._filesystem.write_text(
+            output,
+            content,
+            overwrite=overwrite,
+            dry_run=dry_run,
+        )
         if manifest is not None:
             manifest.save(dry_run=dry_run)
-        return output
+        return WeekResult(
+            generator_name=self.name,
+            writes=(write_result,),
+            dry_run=dry_run,
+            manifest_updated=manifest is not None and not dry_run,
+            output_path=output,
+        )
 
-    def run(self, output_root=None, context=None, **kwargs):
-        """Run"""
+    def run(
+        self,
+        output_root: Path | None = None,
+        context: Mapping[str, Any] | None = None,
+        **kwargs: Any,
+    ) -> GenerationResult:
+        """Provide the execution interface used by the generator registry."""
         return self.generate(output_root, context, **kwargs)
 
-    def _resolve_template_root(self, override):
-        """Resolve template root"""
+    def _resolve_template_root(self, override: Path | None) -> Path:
+        """Resolve the template root."""
         result = Path(override) if override else self._template_root
         if result is None:
             raise ValueError("未提供 template_root")
         return result
 
-    def _resolve_output_root(self, override):
-        """Resolve output root"""
+    def _resolve_output_root(self, override: Path | None) -> Path:
+        """Resolve the output root."""
         result = Path(override) if override else self._output_root
         if result is None:
             raise ValueError("未提供 output_root")
         return result
 
     @staticmethod
-    def _validate_week(value):
-        """Validate week"""
+    def _validate_week(value: object) -> int:
+        """Validate and return a positive integer week number."""
         if isinstance(value, bool) or not isinstance(value, int):
             raise ValueError("week 必須是整數")
         if value <= 0:
@@ -97,8 +128,8 @@ class WeekGenerator:
         return value
 
     @staticmethod
-    def _format_week_directory(pattern, week):
-        """Format week directory"""
+    def _format_week_directory(pattern: str, week: int) -> Path:
+        """Format and validate the relative week directory."""
         try:
             directory = pattern.format(week=week)
         except (KeyError, IndexError, ValueError) as exc:

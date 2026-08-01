@@ -75,10 +75,14 @@ def test_bootstrap_command_creates_project(
 
     assert cli.main(argv) == 0
     project = output_root / "modern-java"
+    output = capsys.readouterr().out
+
     assert (project / "README.md").exists()
     assert (project / "course.yaml").exists()
     assert (project / "weeks").is_dir()
-    assert "專案根目錄" in capsys.readouterr().out
+    assert f"專案根目錄：{project}" in output
+    assert str(project / "README.md") in output
+    assert "GenerationResult(" not in output
 
 
 def test_bootstrap_dry_run_has_no_side_effect(
@@ -103,6 +107,7 @@ def test_bootstrap_dry_run_has_no_side_effect(
 def test_course_command_generates_readme(
     template_root: Path,
     tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
 ) -> None:
     output_root = tmp_path / "courses"
     argv = roots(template_root, output_root) + [
@@ -117,13 +122,18 @@ def test_course_command_generates_readme(
 
     assert cli.main(argv) == 0
     readme = output_root / "modern-java" / "README.md"
+    output = capsys.readouterr().out
+
     assert readme.exists()
     assert "Weeks: 16" in readme.read_text(encoding="utf-8")
+    assert f"課程檔案：{readme}" in output
+    assert "GenerationResult(" not in output
 
 
 def test_week_command_generates_week_readme(
     template_root: Path,
     tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
 ) -> None:
     output_root = tmp_path / "courses"
     argv = roots(template_root, output_root) + [
@@ -140,8 +150,12 @@ def test_week_command_generates_week_readme(
 
     assert cli.main(argv) == 0
     readme = output_root / "modern-java" / "week-01" / "README.md"
+    output = capsys.readouterr().out
+
     assert readme.exists()
     assert "Week 01" in readme.read_text(encoding="utf-8")
+    assert f"週次檔案：{readme}" in output
+    assert "GenerationResult(" not in output
 
 
 def test_week_command_rejects_zero_week() -> None:

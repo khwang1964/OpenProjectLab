@@ -10,7 +10,8 @@ from typing import Any
 
 from generator.cli.upgrade import add_upgrade_parser
 from generator.core.config import ProjectConfig
-from generator.generators.bootstrap_generator import BootstrapGenerator, BootstrapResult
+from generator.core.models import GenerationResult
+from generator.generators.bootstrap_generator import BootstrapGenerator
 from generator.generators.course_generator import CourseGenerator
 from generator.generators.week_generator import WeekGenerator
 
@@ -198,6 +199,7 @@ def _handle_list(args: argparse.Namespace) -> int:
 
 def _handle_bootstrap(args: argparse.Namespace) -> int:
     template_root, output_root = _resolve_roots(args)
+    project_root = output_root / args.project_slug
     context: dict[str, Any] = {
         "project_name": args.name,
         "project_slug": args.project_slug,
@@ -216,7 +218,7 @@ def _handle_bootstrap(args: argparse.Namespace) -> int:
         dry_run=args.dry_run,
         record_manifest=not args.no_manifest,
     )
-    _print_bootstrap_result(result)
+    _print_bootstrap_result(result, project_root)
     return 0
 
 
@@ -241,7 +243,7 @@ def _handle_course(args: argparse.Namespace) -> int:
         dry_run=args.dry_run,
         record_manifest=not args.no_manifest,
     )
-    _print_file_result("課程檔案", result, args.dry_run)
+    _print_file_result("課程檔案", result)
     return 0
 
 
@@ -265,24 +267,22 @@ def _handle_week(args: argparse.Namespace) -> int:
         dry_run=args.dry_run,
         record_manifest=not args.no_manifest,
     )
-    _print_file_result("週次檔案", result, args.dry_run)
+    _print_file_result("週次檔案", result)
     return 0
 
 
-def _print_bootstrap_result(result: BootstrapResult) -> None:
+def _print_bootstrap_result(result: GenerationResult, project_root: Path) -> None:
     prefix = "[DRY-RUN] " if result.dry_run else ""
-    print(f"{prefix}專案根目錄：{result.project_root}")
+    print(f"{prefix}專案根目錄：{project_root}")
     print(f"{prefix}檔案：")
-    for path in result.generated_files:
-        print(f"  - {path}")
-    print(f"{prefix}目錄：")
-    for path in result.created_directories:
+    for path in result.affected_paths:
         print(f"  - {path}")
 
 
-def _print_file_result(label: str, path: Path, dry_run: bool) -> None:
-    prefix = "[DRY-RUN] " if dry_run else ""
-    print(f"{prefix}{label}：{path}")
+def _print_file_result(label: str, result: GenerationResult) -> None:
+    prefix = "[DRY-RUN] " if result.dry_run else ""
+    for path in result.affected_paths:
+        print(f"{prefix}{label}：{path}")
 
 
 def main(argv: Sequence[str] | None = None) -> int:

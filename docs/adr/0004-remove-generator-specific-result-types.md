@@ -1,6 +1,6 @@
 # ADR 0004：移除 Generator 專屬 Result 相容層
 
-- 狀態：Proposed
+- 狀態：Accepted
 - 日期：2026-08-01
 - 決策者：OpenProjectLab 維護者
 - 相關文件：`docs/architecture/generator.md`、`docs/architecture/generator-framework.md`

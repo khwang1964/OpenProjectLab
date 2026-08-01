@@ -2,7 +2,7 @@
 
 > Status: Active and Evolving
 > Milestone: 3 — Core Framework
-> Last updated: 2026-07-31
+> Last updated: 2026-08-01
 > Audience: Maintainers, contributors, Generator developers, Plugin developers
 > Scope: Generator responsibilities, contracts, lifecycle, registry integration, dependency boundaries, results, errors, testing, extension, and compatibility
 
@@ -88,9 +88,8 @@ week
 
 負責建立完整的 OPL 專案或課程專案骨架。
 
-目前狀態：**In progress**。Bootstrap Generator 是共用
-`GenerationResult` 契約的第一個遷移切片；完成測試與品質檢查後，再將相同模式擴展至
-Course Generator 與 Week Generator。
+目前狀態：**Implemented**。Bootstrap Generator 已採用共用
+`GenerationResult` 契約，並由核心模型測試、Generator 單元測試與跨 Generator 契約測試驗證。
 
 可能產出：
 
@@ -834,9 +833,9 @@ CONFLICT
 
 Generator 應回傳結構化 Result，而不是只回傳 `None`。
 
-目前狀態：**In progress**。Bootstrap Generator 正在遷移至共用
-`GenerationResult`；Course Generator 與 Week Generator 在完成契約驗證前，仍可能保留
-既有回傳方式。
+目前狀態：**Implemented**。Bootstrap、Course 與 Week Generator 的 `generate()` 和
+`run()` 均回傳共用 `GenerationResult` 契約。`BootstrapResult`、`CourseResult` 與
+`WeekResult` 僅保留 Generator 專屬欄位與舊呼叫端相容性，不是平行的結果模型。
 
 概念：
 
@@ -844,14 +843,15 @@ Generator 應回傳結構化 Result，而不是只回傳 `None`。
 @dataclass(frozen=True, slots=True)
 class GenerationResult:
     generator_name: str
-    output_root: Path
-    created_files: tuple[Path, ...]
-    updated_files: tuple[Path, ...]
-    skipped_files: tuple[Path, ...]
-    unchanged_files: tuple[Path, ...]
-    created_directories: tuple[Path, ...]
-    dry_run: bool
+    writes: tuple[WriteResult, ...] = ()
+    dry_run: bool = False
+    manifest_updated: bool = False
+    warnings: tuple[str, ...] = ()
 ```
+
+`created`、`updated`、`skipped`、`unchanged` 與 `affected_paths` 均由 `writes`
+衍生；`affected_paths` 保留寫入順序。即使在 Dry Run 中，結果仍應包含完整的預計寫入資訊，
+但不得建立實體輸出或更新 Manifest。
 
 未來可加入：
 
@@ -869,25 +869,16 @@ Result 應描述事實，不應包含預先格式化的 Console 文字。
 
 ## 24. Result Consistency
 
-所有核心 Generator 應逐步採用一致 Result Model。
+所有核心 Generator 已採用一致的 Result Model：
 
-目前不同 Generator 可能回傳：
+* `generate()` 與 `run()` 回傳 `GenerationResult` 或其相容子類。
+* `writes` 固定為不可變的 `tuple[WriteResult, ...]`。
+* `affected_paths` 由 `writes` 衍生並保留順序。
+* `dry_run=True` 時不建立實體輸出，且 `manifest_updated=False`。
+* Manifest 停用時，正常執行仍回報 `manifest_updated=False`。
+* Generator-specific Result 僅保留專屬 Metadata 與相容性。
 
-* `Path`
-* 自訂 Result Dataclass
-* `None`
-
-Milestone 3 應避免繼續擴大差異。
-
-建議演進方式：
-
-1. 以 Bootstrap Generator 驗證共用 `GenerationResult`。
-2. 讓 Bootstrap 的單元測試與整合測試覆蓋公開 Result Contract。
-3. 保留 Generator-specific Metadata。
-4. 更新 CLI 的 Result Formatting。
-5. 將相同契約擴展至 Course Generator 與 Week Generator。
-6. 增加跨 Generator Contract Tests。
-7. 評估相容轉換與 Deprecation Policy。
+後續演進應更新 CLI Result Formatting，並評估相容層的 Deprecation Policy。
 
 ---
 
@@ -1448,7 +1439,7 @@ def test_generated_files_are_recorded(
 
 ## 45. Generator Contract Tests
 
-可以建立共用測試：
+已在 `tests/generators/test_generation_result_contract.py` 建立參數化共用測試：
 
 ```python
 @pytest.mark.parametrize(
@@ -1464,11 +1455,15 @@ def test_generator_has_identity(generator):
     assert generator.description
 ```
 
-進一步驗證：
+目前驗證：
 
 * Name 合法。
-* Result 結構一致。
-* Dry Run 無副作用。
+* Result 是 `GenerationResult`，且 `generator_name` 正確。
+* `writes` 是不可變 tuple，內容均為 `WriteResult`。
+* `affected_paths` 與 `writes` 的路徑及順序一致。
+* Dry Run 保留執行資訊且無副作用。
+* `run()` 與 `generate()` 使用相同結果契約。
+* Manifest 啟用與停用時的 `manifest_updated` 語意一致。
 * 未授權時不覆寫。
 * 相同輸入具決定性。
 * Exception 不被靜默忽略。
@@ -1664,7 +1659,7 @@ Generator Public Contract 可能包括：
 * `FileSystem`
 * Dry Run 支援
 * Overwrite 或 Force 行為
-* 部分 Structured Result
+* 三個核心 Generator 共用 `GenerationResult`
 * Generation Manifest
 * CLI Integration
 * Generator Tests
@@ -1674,8 +1669,8 @@ Generator Public Contract 可能包括：
 
 * 部分 Generator 使用 `generate()`。
 * 部分舊介面可能使用 `run(context)`。
-* 部分 Generator 回傳 `Path`。
-* Bootstrap Generator 正在遷移至共用 `GenerationResult`。
+* `generate()` 與 `run()` 已統一回傳共用 `GenerationResult` 契約。
+* `BootstrapResult`、`CourseResult` 與 `WeekResult` 是暫時相容層。
 * 部分 Generator 可能直接呼叫 `render_to_file()`。
 * Filesystem 注入方式可能尚未一致。
 * Manifest 整合可能只存在於部分 Generator。
@@ -1721,10 +1716,10 @@ Generation Result
 
 ### Phase 2：Shared Result
 
-狀態：**In progress**。
+狀態：**Implemented**。
 
-以 Bootstrap Generator 作為第一個垂直切片，建立並驗證共用
-`GenerationResult`；通過完整測試與 pre-commit 後，再擴展至其他核心 Generator。
+Bootstrap、Course 與 Week Generator 已完成共用 `GenerationResult` 垂直切片，並由各自的
+單元測試及跨 Generator 參數化契約測試驗證。
 
 ### Phase 3：Typed Requests
 
@@ -1740,7 +1735,9 @@ Generation Result
 
 ### Phase 6：Contract Tests
 
-建立所有 Core 與 Plugin Generator 必須通過的測試。
+狀態：**Implemented for core generators**。
+
+核心 Generator 已有共用參數化契約測試；Plugin Generator 納入同一測試套件的方式仍待評估。
 
 ### Phase 7：Public API
 
@@ -1835,16 +1832,16 @@ Generation Result
 
 ### Result
 
-* [ ] 回傳結構化 Result。
-* [ ] Result 包含 Generator Name。
-* [ ] Created、Updated、Skipped 與 Unchanged 已區分。
-* [ ] Dry Run 狀態清楚。
+* [x] 回傳結構化 Result。
+* [x] Result 包含 Generator Name。
+* [x] Created、Updated、Skipped 與 Unchanged 已區分。
+* [x] Dry Run 狀態清楚。
 * [ ] Result 不包含 Console Formatting。
-* [ ] Result 不依賴全域狀態。
-* [ ] Result 可供 CLI 與 SDK 使用。
+* [x] Result 不依賴全域狀態。
+* [x] Result 可供 CLI 與 SDK 使用。
 * [ ] Result 欄位相容性已評估。
-* [ ] Result 順序具決定性。
-* [ ] Result 有測試。
+* [x] Result 順序具決定性。
+* [x] Result 有測試。
 
 ### Errors
 
@@ -1861,8 +1858,8 @@ Generation Result
 
 ### Tests
 
-* [ ] `GenerationResult` 具有獨立的核心模型測試。
-* [ ] Bootstrap Generator 已通過共用 Result Contract 測試。
+* [x] `GenerationResult` 具有獨立的核心模型測試。
+* [x] Bootstrap、Course 與 Week Generator 已通過共用 Result Contract 測試。
 * [ ] Request Validation 有測試。
 * [ ] Generator Identity 有測試。
 * [ ] Context 有測試。

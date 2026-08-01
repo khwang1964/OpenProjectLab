@@ -4,19 +4,24 @@
 
 ### Changed
 
-- Began migrating core generators to the shared `GenerationResult` contract.
-- Updated `BootstrapGenerator` to return structured generation results.
-- Updated Bootstrap Generator tests to validate the shared result contract.
+- Completed the migration of `BootstrapGenerator`, `CourseGenerator`, and
+  `WeekGenerator` to the shared `GenerationResult` contract.
+- Standardized `generate()` and `run()` result semantics across all core generators.
+- Preserved `BootstrapResult`, `CourseResult`, and `WeekResult` as temporary
+  compatibility layers for generator-specific metadata.
 
 ### Added
 
 - Added focused tests for `GenerationResult`.
+- Added parameterized cross-generator contract tests for result type, immutable
+  writes, affected-path ordering, dry-run behavior, run aliases, and Manifest state.
 - Documented the Generator Framework contract and the recommended Milestone 3
   migration sequence.
 
 ### Verification
 
-- Run the focused `GenerationResult` and Bootstrap Generator tests.
+- Run the focused `GenerationResult` and all core Generator tests.
+- Run the cross-generator result contract tests.
 - Run the complete test suite to satisfy the repository coverage threshold.
 - Run all pre-commit hooks before committing the refactor.
 

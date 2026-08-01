@@ -1,6 +1,7 @@
 # OpenProjectLab Generator Framework
 
 > Status: Active
+> Last updated: 2026-08-01
 > Scope: Generator contracts, lifecycle, execution, outputs, errors, and registry integration
 > Audience: Maintainers, contributors, generator developers
 
@@ -354,18 +355,21 @@ class WeekGenerationRequest:
 
 Generator 應回傳結構化結果，而不是只輸出文字。
 
-概念設計：
+目前實作契約：
 
 ```python
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GenerationResult:
-    generator: str
-    target: Path
-    created_files: list[Path]
-    updated_files: list[Path]
-    skipped_files: list[Path]
-    warnings: list[str]
+    generator_name: str
+    writes: tuple[WriteResult, ...] = ()
+    dry_run: bool = False
+    manifest_updated: bool = False
+    warnings: tuple[str, ...] = ()
 ```
+
+`created`、`updated`、`skipped`、`unchanged` 與 `affected_paths` 由 `writes`
+衍生；`affected_paths` 保留寫入順序。Bootstrap、Course 與 Week Generator 的
+`generate()`／`run()` 均使用此契約。各 Generator 的專屬 Result 子類僅作相容層。
 
 CLI 可以將結果轉成使用者訊息：
 
@@ -1110,14 +1114,20 @@ python -m pytest tests\integration\test_cli_integration.py -v
 
 ## 35. Contract Tests
 
-所有 Generator 可以共享一組基本契約測試。
+核心 Generator 已透過 `tests/generators/test_generation_result_contract.py` 共享一組
+參數化契約測試。
 
 例如：
 
 * Name 不為空
 * Name 唯一
 * 可以被 Registry 解析
-* 成功時回傳結果
+* 成功時回傳 `GenerationResult`
+* `writes` 為不可變 tuple，且元素皆為 `WriteResult`
+* `affected_paths` 與 `writes` 的路徑順序一致
+* Dry Run 保留完整結果資訊但不建立輸出
+* `run()` 與 `generate()` 使用相同結果契約
+* Manifest 啟用與停用時的狀態一致
 * 失敗時使用 Framework 例外
 * 不修改傳入設定
 * 不依賴目前工作目錄

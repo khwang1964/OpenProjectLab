@@ -7,10 +7,7 @@ import pytest
 from generator.core.filesystem import FileSystemError
 from generator.core.models import GenerationResult
 from generator.core.template import TemplateRenderError
-from generator.generators.bootstrap_generator import (
-    BootstrapGenerator,
-    BootstrapResult,
-)
+from generator.generators.bootstrap_generator import BootstrapGenerator
 
 
 @pytest.fixture
@@ -51,34 +48,36 @@ def test_bootstrap_generator_creates_project_structure(
 ) -> None:
     output_root = tmp_path / "courses"
 
-    result = BootstrapGenerator(template_root).generate(
+    BootstrapGenerator(template_root).generate(
         output_root,
         valid_context(),
     )
 
-    assert result.project_root == output_root / "modern-java"
+    project_root = output_root / "modern-java"
     for directory in ("docs", "assets", "templates", "weeks"):
-        assert (result.project_root / directory).is_dir()
+        assert (project_root / directory).is_dir()
 
 
 def test_bootstrap_generator_generates_all_files(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
+    output_root = tmp_path / "courses"
     result = BootstrapGenerator(template_root).generate(
-        tmp_path / "courses",
+        output_root,
         valid_context(),
     )
+    project_root = output_root / "modern-java"
 
     expected = {
-        result.project_root / "README.md",
-        result.project_root / "LICENSE",
-        result.project_root / "CONTRIBUTING.md",
-        result.project_root / ".gitignore",
-        result.project_root / "course.yaml",
+        project_root / "README.md",
+        project_root / "LICENSE",
+        project_root / "CONTRIBUTING.md",
+        project_root / ".gitignore",
+        project_root / "course.yaml",
     }
 
-    assert set(result.generated_files) == expected
+    assert set(result.affected_paths) == expected
     assert all(path.exists() for path in expected)
 
 
@@ -89,12 +88,14 @@ def test_bootstrap_generator_supports_unicode(
     context = valid_context()
     context["project_name"] = "現代 Java 實戰"
 
-    result = BootstrapGenerator(template_root).generate(
-        tmp_path / "courses",
+    output_root = tmp_path / "courses"
+    BootstrapGenerator(template_root).generate(
+        output_root,
         context,
     )
 
-    assert "現代 Java 實戰" in (result.project_root / "README.md").read_text(encoding="utf-8")
+    readme = (output_root / "modern-java" / "README.md").read_text(encoding="utf-8")
+    assert "現代 Java 實戰" in readme
 
 
 def test_bootstrap_generator_dry_run_has_no_side_effect(
@@ -110,10 +111,8 @@ def test_bootstrap_generator_dry_run_has_no_side_effect(
     )
 
     assert result.dry_run is True
-    assert result.project_root == output_root / "modern-java"
     assert not output_root.exists()
-    assert len(result.generated_files) == 5
-    assert len(result.created_directories) == 4
+    assert len(result.affected_paths) == 5
 
 
 def test_bootstrap_generator_dry_run_still_validates_all_templates(
@@ -197,7 +196,7 @@ def test_bootstrap_generator_accepts_valid_slug(
         dry_run=True,
     )
 
-    assert result.project_root.name == slug
+    assert all(path.is_relative_to(tmp_path / "courses" / slug) for path in result.affected_paths)
 
 
 def test_bootstrap_generator_explicit_slug_overrides_context(
@@ -211,7 +210,8 @@ def test_bootstrap_generator_explicit_slug_overrides_context(
         dry_run=True,
     )
 
-    assert result.project_root.name == "override-course"
+    project_root = tmp_path / "courses" / "override-course"
+    assert all(path.is_relative_to(project_root) for path in result.affected_paths)
 
 
 def test_bootstrap_generator_missing_template(
@@ -257,13 +257,10 @@ def test_bootstrap_generator_returns_structured_result(
         dry_run=True,
     )
 
-    assert isinstance(result, BootstrapResult)
-    assert isinstance(result, GenerationResult)
+    assert type(result) is GenerationResult
     assert result.generator_name == BootstrapGenerator.name
-    assert isinstance(result.generated_files, tuple)
-    assert isinstance(result.created_directories, tuple)
-    assert result.affected_paths == result.generated_files
-    assert len(result.writes) == len(result.generated_files) == 5
+    assert isinstance(result.affected_paths, tuple)
+    assert len(result.writes) == len(result.affected_paths) == 5
     assert result.dry_run is True
     assert result.manifest_updated is False
 
@@ -280,7 +277,8 @@ def test_bootstrap_generator_uses_constructor_output_root(
 
     result = generator.generate(context=valid_context(), dry_run=True)
 
-    assert result.project_root == output_root / "modern-java"
+    project_root = output_root / "modern-java"
+    assert all(path.is_relative_to(project_root) for path in result.affected_paths)
 
 
 def test_bootstrap_generator_supports_template_root_override(
@@ -294,7 +292,8 @@ def test_bootstrap_generator_supports_template_root_override(
         dry_run=True,
     )
 
-    assert result.project_root.name == "modern-java"
+    project_root = tmp_path / "courses" / "modern-java"
+    assert all(path.is_relative_to(project_root) for path in result.affected_paths)
 
 
 def test_bootstrap_generator_requires_template_root(
@@ -320,15 +319,16 @@ def test_bootstrap_generator_accepts_context_keywords(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = BootstrapGenerator(template_root).generate(
-        tmp_path / "courses",
+    output_root = tmp_path / "courses"
+    BootstrapGenerator(template_root).generate(
+        output_root,
         project_name="Keyword Project",
         project_slug="keyword-project",
         language="zh-TW",
         license_name="CC BY 4.0",
     )
 
-    readme = (result.project_root / "README.md").read_text(encoding="utf-8")
+    readme = (output_root / "keyword-project" / "README.md").read_text(encoding="utf-8")
 
     assert "# Keyword Project" in readme
 
@@ -337,13 +337,14 @@ def test_bootstrap_generator_keyword_context_overrides_mapping(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = BootstrapGenerator(template_root).generate(
-        tmp_path / "courses",
+    output_root = tmp_path / "courses"
+    BootstrapGenerator(template_root).generate(
+        output_root,
         valid_context(),
         project_name="Overridden Project",
     )
 
-    readme = (result.project_root / "README.md").read_text(encoding="utf-8")
+    readme = (output_root / "modern-java" / "README.md").read_text(encoding="utf-8")
 
     assert "# Overridden Project" in readme
 
@@ -358,7 +359,7 @@ def test_bootstrap_generator_run_alias(
         dry_run=True,
     )
 
-    assert isinstance(result, BootstrapResult)
+    assert type(result) is GenerationResult
 
 
 def test_bootstrap_generator_returns_generation_result(
@@ -371,9 +372,8 @@ def test_bootstrap_generator_returns_generation_result(
         valid_context(),
     )
 
-    assert isinstance(result, GenerationResult)
+    assert type(result) is GenerationResult
     assert result.generator_name == BootstrapGenerator.name
-    assert result.affected_paths == result.generated_files
     assert len(result.writes) == 5
     assert result.dry_run is False
     assert result.manifest_updated is True
@@ -390,9 +390,8 @@ def test_bootstrap_generator_run_returns_generation_result(
         dry_run=True,
     )
 
-    assert isinstance(result, GenerationResult)
+    assert type(result) is GenerationResult
     assert result.generator_name == BootstrapGenerator.name
-    assert result.affected_paths == result.generated_files
     assert len(result.writes) == 5
     assert result.dry_run is True
     assert result.manifest_updated is False

@@ -87,12 +87,11 @@ class WeekGenerator:
         )
         if manifest is not None:
             manifest.save(dry_run=dry_run)
-        return WeekResult(
+        return GenerationResult(
             generator_name=self.name,
             writes=(write_result,),
             dry_run=dry_run,
             manifest_updated=manifest is not None and not dry_run,
-            output_path=output,
         )
 
     def run(

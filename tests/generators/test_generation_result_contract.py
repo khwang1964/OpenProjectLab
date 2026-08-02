@@ -110,7 +110,7 @@ def test_generate_returns_shared_result_contract(
 
     result = generator.generate(context=generator_case.context)
 
-    assert isinstance(result, GenerationResult)
+    assert type(result) is GenerationResult
     assert result.generator_name == generator.name == generator_case.name
     assert isinstance(result.writes, tuple)
     assert all(isinstance(write, WriteResult) for write in result.writes)
@@ -129,7 +129,7 @@ def test_dry_run_preserves_contract_without_writing(
 
     result = generator.generate(context=generator_case.context, dry_run=True)
 
-    assert isinstance(result, GenerationResult)
+    assert type(result) is GenerationResult
     assert result.generator_name == generator_case.name
     assert result.affected_paths == generator_case.expected_paths(output_root)
     assert result.dry_run is True
@@ -146,7 +146,7 @@ def test_run_returns_shared_result_contract(
 
     result = generator.run(context=generator_case.context, dry_run=True)
 
-    assert isinstance(result, GenerationResult)
+    assert type(result) is GenerationResult
     assert result.generator_name == generator_case.name
     assert isinstance(result.writes, tuple)
     assert all(isinstance(write, WriteResult) for write in result.writes)

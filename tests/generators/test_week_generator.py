@@ -7,7 +7,7 @@ import pytest
 from generator.core.filesystem import FileSystemError
 from generator.core.models import GenerationResult
 from generator.core.template import TemplateRenderError
-from generator.generators.week_generator import WeekGenerator, WeekResult
+from generator.generators.week_generator import WeekGenerator
 
 
 @pytest.fixture
@@ -46,8 +46,8 @@ def test_week_generator_creates_week_readme(
         valid_context(),
     )
 
-    assert result.output_path == output_root / "week-01" / "README.md"
-    assert result.output_path.read_text(encoding="utf-8") == (
+    assert result.affected_paths[0] == output_root / "week-01" / "README.md"
+    assert result.affected_paths[0].read_text(encoding="utf-8") == (
         "# Week 01：課程介紹與現代 Java 概覽\n\n- 課程：Modern Java in Action\n- 語言：zh-TW\n"
     )
 
@@ -64,8 +64,8 @@ def test_week_generator_formats_week_number(
         context,
     )
 
-    assert result.output_path.parent.name == "week-07"
-    assert "# Week 07" in result.output_path.read_text(encoding="utf-8")
+    assert result.affected_paths[0].parent.name == "week-07"
+    assert "# Week 07" in result.affected_paths[0].read_text(encoding="utf-8")
 
 
 def test_week_generator_supports_unicode(
@@ -80,7 +80,7 @@ def test_week_generator_supports_unicode(
         context,
     )
 
-    assert "Lambda 與資料流" in result.output_path.read_text(encoding="utf-8")
+    assert "Lambda 與資料流" in result.affected_paths[0].read_text(encoding="utf-8")
 
 
 def test_week_generator_creates_output_directory(
@@ -106,7 +106,7 @@ def test_week_generator_dry_run(
         dry_run=True,
     )
 
-    assert result.output_path == output_root / "week-01" / "README.md"
+    assert result.affected_paths[0] == output_root / "week-01" / "README.md"
     assert result.dry_run is True
     assert result.manifest_updated is False
     assert not output_root.exists()
@@ -215,7 +215,7 @@ def test_week_generator_returns_output_path(
         output_root=output_root,
     ).generate(context=valid_context())
 
-    assert result.output_path == output_root / "week-01" / "README.md"
+    assert result.affected_paths[0] == output_root / "week-01" / "README.md"
 
 
 def test_week_generator_supports_template_root_override(
@@ -228,7 +228,7 @@ def test_week_generator_supports_template_root_override(
         template_root=template_root,
     )
 
-    assert result.output_path.exists()
+    assert result.affected_paths[0].exists()
 
 
 def test_week_generator_requires_template_root(tmp_path: Path) -> None:
@@ -255,8 +255,8 @@ def test_week_generator_accepts_context_keyword_values(
         language="zh-TW",
     )
 
-    assert result.output_path.parent.name == "week-02"
-    assert "Lambda" in result.output_path.read_text(encoding="utf-8")
+    assert result.affected_paths[0].parent.name == "week-02"
+    assert "Lambda" in result.affected_paths[0].read_text(encoding="utf-8")
 
 
 def test_week_generator_context_keywords_override_mapping(
@@ -270,8 +270,8 @@ def test_week_generator_context_keywords_override_mapping(
         title="Streams",
     )
 
-    assert result.output_path.parent.name == "week-03"
-    assert "Streams" in result.output_path.read_text(encoding="utf-8")
+    assert result.affected_paths[0].parent.name == "week-03"
+    assert "Streams" in result.affected_paths[0].read_text(encoding="utf-8")
 
 
 def test_week_generator_custom_directory_name(
@@ -284,7 +284,7 @@ def test_week_generator_custom_directory_name(
         directory_pattern="lesson-{week:03d}",
     )
 
-    assert result.output_path.parent.name == "lesson-001"
+    assert result.affected_paths[0].parent.name == "lesson-001"
 
 
 def test_week_generator_custom_output_name(
@@ -297,9 +297,9 @@ def test_week_generator_custom_output_name(
         output_name="docs/week.md",
     )
 
-    assert result.output_path.name == "week.md"
-    assert result.output_path.parent.name == "docs"
-    assert result.output_path.exists()
+    assert result.affected_paths[0].name == "week.md"
+    assert result.affected_paths[0].parent.name == "docs"
+    assert result.affected_paths[0].exists()
 
 
 @pytest.mark.parametrize(
@@ -358,9 +358,8 @@ def test_week_generator_run_alias(
         valid_context(),
     )
 
-    assert isinstance(result, GenerationResult)
-    assert result.output_path.exists()
-    assert result.affected_paths == (result.output_path,)
+    assert type(result) is GenerationResult
+    assert result.affected_paths[0].exists()
 
 
 def test_week_generator_returns_structured_result(
@@ -375,11 +374,9 @@ def test_week_generator_returns_structured_result(
         valid_context(),
     )
 
-    assert isinstance(result, WeekResult)
-    assert isinstance(result, GenerationResult)
+    assert type(result) is GenerationResult
     assert result.generator_name == WeekGenerator.name
-    assert result.output_path == output_root / "week-01" / "README.md"
-    assert result.affected_paths == (result.output_path,)
+    assert result.affected_paths == (output_root / "week-01" / "README.md",)
     assert len(result.writes) == 1
     assert result.dry_run is False
     assert result.manifest_updated is True

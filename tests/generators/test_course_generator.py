@@ -7,7 +7,7 @@ import pytest
 from generator.core.filesystem import FileSystemError
 from generator.core.models import GenerationResult
 from generator.core.template import TemplateRenderError
-from generator.generators.course_generator import CourseGenerator, CourseResult
+from generator.generators.course_generator import CourseGenerator
 
 
 @pytest.fixture
@@ -41,8 +41,8 @@ def test_course_generator_creates_readme(
 
     result = generator.generate(output_root, valid_context())
 
-    assert result.output_path == output_root / "README.md"
-    assert result.output_path.read_text(encoding="utf-8") == (
+    assert result.affected_paths[0] == output_root / "README.md"
+    assert result.affected_paths[0].read_text(encoding="utf-8") == (
         "# Modern Java in Action\n\n- 語言：zh-TW\n- 週數：16\n"
     )
 
@@ -57,7 +57,7 @@ def test_course_generator_supports_unicode(
 
     result = CourseGenerator(template_root).generate(output_root, context)
 
-    assert "現代 Java 實戰" in result.output_path.read_text(encoding="utf-8")
+    assert "現代 Java 實戰" in result.affected_paths[0].read_text(encoding="utf-8")
 
 
 def test_course_generator_creates_output_directory(
@@ -83,7 +83,7 @@ def test_course_generator_dry_run(
         dry_run=True,
     )
 
-    assert result.output_path == output_root / "README.md"
+    assert result.affected_paths[0] == output_root / "README.md"
     assert result.dry_run is True
     assert result.manifest_updated is False
     assert not output_root.exists()
@@ -154,7 +154,7 @@ def test_course_generator_returns_output_path(
         output_root=output_root,
     ).generate(context=valid_context())
 
-    assert result.output_path == output_root / "README.md"
+    assert result.affected_paths[0] == output_root / "README.md"
 
 
 def test_course_generator_supports_template_root_override(
@@ -169,7 +169,7 @@ def test_course_generator_supports_template_root_override(
         template_root=template_root,
     )
 
-    assert result.output_path.exists()
+    assert result.affected_paths[0].exists()
 
 
 def test_course_generator_requires_template_root(tmp_path: Path) -> None:
@@ -195,7 +195,7 @@ def test_course_generator_accepts_context_keyword_values(
         weeks=8,
     )
 
-    assert "# Keyword Course" in result.output_path.read_text(encoding="utf-8")
+    assert "# Keyword Course" in result.affected_paths[0].read_text(encoding="utf-8")
 
 
 def test_course_generator_context_keywords_override_mapping(
@@ -210,7 +210,7 @@ def test_course_generator_context_keywords_override_mapping(
         course_name="Overridden",
     )
 
-    assert "# Overridden" in result.output_path.read_text(encoding="utf-8")
+    assert "# Overridden" in result.affected_paths[0].read_text(encoding="utf-8")
 
 
 def test_course_generator_custom_output_name(
@@ -225,8 +225,8 @@ def test_course_generator_custom_output_name(
         output_name="docs/course.md",
     )
 
-    assert result.output_path == output_root / "docs" / "course.md"
-    assert result.output_path.exists()
+    assert result.affected_paths[0] == output_root / "docs" / "course.md"
+    assert result.affected_paths[0].exists()
 
 
 def test_course_generator_returns_structured_result(
@@ -241,11 +241,9 @@ def test_course_generator_returns_structured_result(
         valid_context(),
     )
 
-    assert isinstance(result, CourseResult)
-    assert isinstance(result, GenerationResult)
+    assert type(result) is GenerationResult
     assert result.generator_name == CourseGenerator.name
-    assert result.output_path == output_root / "README.md"
-    assert result.affected_paths == (result.output_path,)
+    assert result.affected_paths == (output_root / "README.md",)
     assert len(result.writes) == 1
     assert result.dry_run is False
     assert result.manifest_updated is True
@@ -274,6 +272,5 @@ def test_course_generator_run_alias(
         valid_context(),
     )
 
-    assert isinstance(result, GenerationResult)
-    assert result.output_path.exists()
-    assert result.affected_paths == (result.output_path,)
+    assert type(result) is GenerationResult
+    assert result.affected_paths[0].exists()

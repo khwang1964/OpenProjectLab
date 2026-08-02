@@ -146,16 +146,11 @@ class BootstrapGenerator:
         if manifest is not None:
             manifest.save(dry_run=dry_run)
 
-        generated_files = tuple(path for path, _, _ in rendered_files)
-
-        return BootstrapResult(
+        return GenerationResult(
             generator_name=self.name,
             writes=tuple(writes),
             dry_run=dry_run,
             manifest_updated=manifest is not None and not dry_run,
-            project_root=project_root,
-            generated_files=generated_files,
-            created_directories=directories,
         )
 
     def run(

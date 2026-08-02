@@ -162,9 +162,11 @@ Bootstrap 特有資訊不加入共用結果模型：
 - 舊 `generated_files` 的使用端應改讀 `affected_paths`。
 - `created_directories` 是 Bootstrap 實作細節，不應新增為 `GenerationResult` 的共用欄位。
 
-### 暫時相容層
+### 相容層移除
 
-`BootstrapResult`、`CourseResult` 與 `WeekResult` 目前僅作為分階段遷移的暫時相容層，預計在所有使用端完成遷移後移除。新程式碼不得再匯入或依賴這些型別。
+分階段遷移已完成。`BootstrapResult`、`CourseResult` 與 `WeekResult` 已移除；
+所有內建 Generator 現在直接回傳 `GenerationResult`。使用端不得匯入舊型別，
+並應依下列對照方式遷移舊欄位。
 
 遷移對照：
 

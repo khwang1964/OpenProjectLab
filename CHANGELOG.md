@@ -11,8 +11,8 @@
   Week output now uses the ordered `GenerationResult.affected_paths` view.
 - Bootstrap project-root display is derived from the command input instead of a
   generator-specific result field.
-- Preserved `BootstrapResult`, `CourseResult`, and `WeekResult` as temporary
-  compatibility layers scheduled for removal after downstream migration.
+- Removed the temporary `BootstrapResult`, `CourseResult`, and `WeekResult`
+  compatibility layers after completing downstream migration.
 
 ### Added
 

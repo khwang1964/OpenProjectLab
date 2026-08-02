@@ -834,8 +834,8 @@ CONFLICT
 Generator 應回傳結構化 Result，而不是只回傳 `None`。
 
 目前狀態：**Implemented**。Bootstrap、Course 與 Week Generator 的 `generate()` 和
-`run()` 均回傳共用 `GenerationResult` 契約。`BootstrapResult`、`CourseResult` 與
-`WeekResult` 僅保留 Generator 專屬欄位與舊呼叫端相容性，不是平行的結果模型。
+`run()` 均直接回傳共用的 `GenerationResult`。先前的 `BootstrapResult`、
+`CourseResult` 與 `WeekResult` 相容層已移除。
 
 概念：
 
@@ -1670,7 +1670,7 @@ Generator Public Contract 可能包括：
 * 部分 Generator 使用 `generate()`。
 * 部分舊介面可能使用 `run(context)`。
 * `generate()` 與 `run()` 已統一回傳共用 `GenerationResult` 契約。
-* `BootstrapResult`、`CourseResult` 與 `WeekResult` 是暫時相容層。
+* 舊有的 `BootstrapResult`、`CourseResult` 與 `WeekResult` 相容層已移除。。
 * 部分 Generator 可能直接呼叫 `render_to_file()`。
 * Filesystem 注入方式可能尚未一致。
 * Manifest 整合可能只存在於部分 Generator。

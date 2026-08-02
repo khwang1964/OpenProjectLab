@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -11,18 +10,6 @@ from generator.core.filesystem import FileSystem
 from generator.core.generation_manifest import GenerationManifest
 from generator.core.models import GenerationResult
 from generator.core.template import TemplateRenderer
-
-
-@dataclass(frozen=True, slots=True)
-class CourseResult(GenerationResult):
-    """Provide transitional course-specific result properties."""
-
-    output_path: Path = Path()
-
-    def __post_init__(self) -> None:
-        """Normalize shared and course-specific result fields."""
-        super(CourseResult, self).__post_init__()
-        object.__setattr__(self, "output_path", Path(self.output_path))
 
 
 class CourseGenerator:

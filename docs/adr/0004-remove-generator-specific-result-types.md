@@ -6,15 +6,14 @@
 - 相關文件：`docs/architecture/generator.md`、`docs/architecture/generator-framework.md`
 - 前置變更：PR #2（統一 Generator Result 契約）
 
+- 實作狀態：Implemented
+- 完成日期：2026-08-02
+- 完成變更：PR #4、PR #5，以及 Phase 2 相容層移除
+
 ## Context
 
 Bootstrap、Course 與 Week Generator 已統一由 `generate()` 與 `run()` 回傳
 `GenerationResult` 相容值，並以不可變的 `tuple[WriteResult, ...]` 記錄寫入結果。
-目前仍保留下列 Generator 專屬子類別：
-
-- `BootstrapResult`
-- `CourseResult`
-- `WeekResult`
 
 這些類別是遷移期間的相容層。它們讓舊呼叫端繼續使用專屬欄位，但也使公開 API、
 CLI、測試與文件同時依賴共同契約及具體結果型別，增加兩套契約長期並存的風險。
@@ -145,6 +144,16 @@ pre-commit run --all-files
 Phase 1 主要解除內部耦合，若 CLI 顯示或相容性出現回歸，可恢復舊的列印轉接器，而不必
 撤回 `GenerationResult`。Phase 2 若在發布前發現外部依賴尚未完成遷移，可延後刪除並
 延長棄用期；不得重新建立第二套正式結果契約。
+
+## Implementation outcome
+
+Phase 1 與 Phase 2 已完成：
+
+- CLI 已解除對 Generator 專屬 Result 型別的依賴。
+- 三個內建 Generator 已直接回傳 `GenerationResult`。
+- `BootstrapResult`、`CourseResult` 與 `WeekResult` 已從程式碼移除。
+- Generator 與 CLI 測試已改為驗證共同結果契約。
+- 舊欄位的替代方式保留於本 ADR，作為 breaking-change 遷移紀錄。
 
 ## Consequences
 

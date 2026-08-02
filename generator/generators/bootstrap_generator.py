@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import re
 from collections.abc import Mapping
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -14,35 +13,6 @@ from generator.core.models import GenerationResult, WriteResult
 from generator.core.template import TemplateRenderer
 
 _SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-
-
-@dataclass(frozen=True, slots=True)
-class BootstrapResult(GenerationResult):
-    """Provide transitional bootstrap-specific result properties.
-
-    BootstrapGenerator now follows the shared GenerationResult contract.
-    These additional properties are retained temporarily for compatibility
-    with existing callers and will be removed after migration.
-    """
-
-    project_root: Path = Path()
-    generated_files: tuple[Path, ...] = ()
-    created_directories: tuple[Path, ...] = ()
-
-    def __post_init__(self) -> None:
-        """Normalize shared and bootstrap-specific result fields."""
-        super(BootstrapResult, self).__post_init__()
-        object.__setattr__(self, "project_root", Path(self.project_root))
-        object.__setattr__(
-            self,
-            "generated_files",
-            tuple(Path(path) for path in self.generated_files),
-        )
-        object.__setattr__(
-            self,
-            "created_directories",
-            tuple(Path(path) for path in self.created_directories),
-        )
 
 
 class BootstrapGenerator:

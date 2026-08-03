@@ -18,6 +18,7 @@
 | [0002](0002-generator-lifecycle.md) | Generator lifecycle | Accepted |
 | [0003](0003-configuration-and-plugin-framework.md) | Configuration and plugin framework | Accepted |
 | [0004](0004-remove-generator-specific-result-types.md) | Remove generator-specific result types | Accepted |
+| [0005](0005-generator-input-contract.md) | Unify the Generator Input Contract | Proposed |
 
 ## 新增 ADR
 

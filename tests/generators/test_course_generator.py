@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from generator.core.filesystem import FileSystemError
-from generator.core.models import GenerationResult
+from generator.core.models import GenerateRequest, GenerationResult, RuntimeOptions
 from generator.core.template import TemplateRenderError
 from generator.generators.course_generator import CourseGenerator
 
@@ -32,6 +32,40 @@ def valid_context() -> dict[str, object]:
     }
 
 
+def _request(
+    target: Path,
+    values: dict[str, object] | None = None,
+    *,
+    dry_run: bool = False,
+    overwrite: bool = True,
+    **value_overrides: object,
+) -> GenerateRequest:
+    """Build an immutable Course generation request for a test case."""
+    request_values = dict(values or {})
+    request_values.update(value_overrides)
+    return GenerateRequest(
+        generator_name=CourseGenerator.name,
+        target=target,
+        values=request_values,
+        options=RuntimeOptions(dry_run=dry_run, overwrite=overwrite),
+    )
+
+
+def _generate(
+    generator: CourseGenerator,
+    target: Path,
+    values: dict[str, object] | None = None,
+    *,
+    dry_run: bool = False,
+    overwrite: bool = True,
+    **value_overrides: object,
+) -> GenerationResult:
+    """Generate through the shared request contract."""
+    return generator.generate(
+        _request(target, values, dry_run=dry_run, overwrite=overwrite, **value_overrides)
+    )
+
+
 def test_course_generator_creates_readme(
     template_root: Path,
     tmp_path: Path,
@@ -39,7 +73,7 @@ def test_course_generator_creates_readme(
     output_root = tmp_path / "courses" / "modern-java"
     generator = CourseGenerator(template_root)
 
-    result = generator.generate(output_root, valid_context())
+    result = _generate(generator, output_root, valid_context())
 
     assert result.affected_paths[0] == output_root / "README.md"
     assert result.affected_paths[0].read_text(encoding="utf-8") == (
@@ -55,7 +89,7 @@ def test_course_generator_supports_unicode(
     context["course_name"] = "現代 Java 實戰"
     output_root = tmp_path / "中文課程"
 
-    result = CourseGenerator(template_root).generate(output_root, context)
+    result = _generate(CourseGenerator(template_root), output_root, context)
 
     assert "現代 Java 實戰" in result.affected_paths[0].read_text(encoding="utf-8")
 
@@ -66,7 +100,7 @@ def test_course_generator_creates_output_directory(
 ) -> None:
     output_root = tmp_path / "nested" / "course"
 
-    CourseGenerator(template_root).generate(output_root, valid_context())
+    _generate(CourseGenerator(template_root), output_root, valid_context())
 
     assert output_root.is_dir()
 
@@ -77,7 +111,8 @@ def test_course_generator_dry_run(
 ) -> None:
     output_root = tmp_path / "not-created"
 
-    result = CourseGenerator(template_root).generate(
+    result = _generate(
+        CourseGenerator(template_root),
         output_root,
         valid_context(),
         dry_run=True,
@@ -94,7 +129,8 @@ def test_course_generator_dry_run_still_validates_context(
     tmp_path: Path,
 ) -> None:
     with pytest.raises(TemplateRenderError, match="缺少必要變數"):
-        CourseGenerator(template_root).generate(
+        _generate(
+            CourseGenerator(template_root),
             tmp_path / "course",
             {"course_name": "Incomplete"},
             dry_run=True,
@@ -106,7 +142,8 @@ def test_course_generator_rejects_missing_context(
     tmp_path: Path,
 ) -> None:
     with pytest.raises(TemplateRenderError, match="缺少必要變數"):
-        CourseGenerator(template_root).generate(
+        _generate(
+            CourseGenerator(template_root),
             tmp_path / "course",
             {"course_name": "Incomplete"},
         )
@@ -117,7 +154,8 @@ def test_course_generator_rejects_missing_template(
     tmp_path: Path,
 ) -> None:
     with pytest.raises(TemplateRenderError, match="找不到模板"):
-        CourseGenerator(template_root).generate(
+        _generate(
+            CourseGenerator(template_root),
             tmp_path / "course",
             valid_context(),
             template_name="course/missing.md.j2",
@@ -134,7 +172,8 @@ def test_course_generator_does_not_overwrite_when_disabled(
     readme.write_text("existing", encoding="utf-8")
 
     with pytest.raises(FileSystemError, match="不允許覆寫"):
-        CourseGenerator(template_root).generate(
+        _generate(
+            CourseGenerator(template_root),
             output_root,
             valid_context(),
             overwrite=False,
@@ -143,16 +182,17 @@ def test_course_generator_does_not_overwrite_when_disabled(
     assert readme.read_text(encoding="utf-8") == "existing"
 
 
-def test_course_generator_returns_output_path(
+def test_course_generator_uses_request_target(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
     output_root = tmp_path / "course"
 
-    result = CourseGenerator(
+    generator = CourseGenerator(
         template_root=template_root,
         output_root=output_root,
-    ).generate(context=valid_context())
+    )
+    result = _generate(generator, output_root, valid_context())
 
     assert result.affected_paths[0] == output_root / "README.md"
 
@@ -161,12 +201,12 @@ def test_course_generator_supports_template_root_override(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    generator = CourseGenerator()
+    generator = CourseGenerator(template_root=template_root)
 
-    result = generator.generate(
+    result = _generate(
+        generator,
         tmp_path / "course",
         valid_context(),
-        template_root=template_root,
     )
 
     assert result.affected_paths[0].exists()
@@ -174,21 +214,15 @@ def test_course_generator_supports_template_root_override(
 
 def test_course_generator_requires_template_root(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="template_root"):
-        CourseGenerator().generate(tmp_path / "course", valid_context())
-
-
-def test_course_generator_requires_output_root(
-    template_root: Path,
-) -> None:
-    with pytest.raises(ValueError, match="output_root"):
-        CourseGenerator(template_root).generate(context=valid_context())
+        _generate(CourseGenerator(), tmp_path / "course", valid_context())
 
 
 def test_course_generator_accepts_context_keyword_values(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = CourseGenerator(template_root).generate(
+    result = _generate(
+        CourseGenerator(template_root),
         tmp_path / "course",
         course_name="Keyword Course",
         language="zh-TW",
@@ -204,7 +238,8 @@ def test_course_generator_context_keywords_override_mapping(
 ) -> None:
     context = valid_context()
 
-    result = CourseGenerator(template_root).generate(
+    result = _generate(
+        CourseGenerator(template_root),
         tmp_path / "course",
         context,
         course_name="Overridden",
@@ -219,7 +254,8 @@ def test_course_generator_custom_output_name(
 ) -> None:
     output_root = tmp_path / "course"
 
-    result = CourseGenerator(template_root).generate(
+    result = _generate(
+        CourseGenerator(template_root),
         output_root,
         valid_context(),
         output_name="docs/course.md",
@@ -236,7 +272,8 @@ def test_course_generator_returns_structured_result(
     """Course generation should follow the shared result contract."""
     output_root = tmp_path / "course"
 
-    result = CourseGenerator(template_root).generate(
+    result = _generate(
+        CourseGenerator(template_root),
         output_root,
         valid_context(),
     )
@@ -254,7 +291,8 @@ def test_course_generator_can_disable_manifest_recording(
     tmp_path: Path,
 ) -> None:
     """Disabling manifest recording should be reflected in the result."""
-    result = CourseGenerator(template_root).generate(
+    result = _generate(
+        CourseGenerator(template_root),
         tmp_path / "course",
         valid_context(),
         record_manifest=False,
@@ -267,10 +305,7 @@ def test_course_generator_run_alias(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = CourseGenerator(template_root).run(
-        tmp_path / "course",
-        valid_context(),
-    )
+    result = CourseGenerator(template_root).run(_request(tmp_path / "course", valid_context()))
 
     assert type(result) is GenerationResult
     assert result.affected_paths[0].exists()

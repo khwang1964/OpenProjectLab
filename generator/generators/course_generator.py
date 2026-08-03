@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
 
 from generator.core.filesystem import FileSystem
 from generator.core.generation_manifest import GenerationManifest
-from generator.core.models import GenerationResult
+from generator.core.models import GenerateRequest, GenerationResult
 from generator.core.template import TemplateRenderer
 
 
@@ -30,27 +28,21 @@ class CourseGenerator:
         self._output_root = Path(output_root) if output_root else None
         self._filesystem = filesystem or FileSystem()
 
-    def generate(
-        self,
-        output_root: Path | None = None,
-        context: Mapping[str, Any] | None = None,
-        *,
-        template_root: Path | None = None,
-        template_name: str | Path = "course/README.md.j2",
-        output_name: str | Path = "README.md",
-        overwrite: bool = True,
-        dry_run: bool = False,
-        record_manifest: bool = True,
-        **context_values: Any,
-    ) -> GenerationResult:
-        """Generate course content and return the shared result contract."""
-        resolved_template_root = self._resolve_template_root(template_root)
-        resolved_output_root = self._resolve_output_root(output_root)
-        resolved_context = dict(context or {})
-        resolved_context.update(context_values)
+    def generate(self, request: GenerateRequest) -> GenerationResult:
+        """Generate course content from the shared request contract."""
+        self._validate_generator_name(request.generator_name)
+
+        resolved_template_root = self._resolve_template_root()
+        resolved_output_root = request.target
+        resolved_context = dict(request.values)
+        template_name = str(
+            resolved_context.get("template_name", "course/README.md.j2"),
+        )
+        output_name = Path(resolved_context.get("output_name", "README.md"))
         renderer = TemplateRenderer(resolved_template_root)
-        output = resolved_output_root / Path(output_name)
+        output = resolved_output_root / output_name
         content = renderer.render(template_name, resolved_context)
+        record_manifest = bool(resolved_context.get("record_manifest", True))
         manifest = None
         if record_manifest:
             manifest = GenerationManifest.load(
@@ -71,37 +63,31 @@ class CourseGenerator:
         write_result = self._filesystem.write_text(
             output,
             content,
-            overwrite=overwrite,
-            dry_run=dry_run,
+            overwrite=request.options.overwrite,
+            dry_run=request.options.dry_run,
         )
         if manifest is not None:
-            manifest.save(dry_run=dry_run)
+            manifest.save(dry_run=request.options.dry_run)
         return GenerationResult(
             generator_name=self.name,
             writes=(write_result,),
-            dry_run=dry_run,
-            manifest_updated=manifest is not None and not dry_run,
+            dry_run=request.options.dry_run,
+            manifest_updated=manifest is not None and not request.options.dry_run,
         )
 
-    def run(
-        self,
-        output_root: Path | None = None,
-        context: Mapping[str, Any] | None = None,
-        **kwargs: Any,
-    ) -> GenerationResult:
-        """提供與 Generator registry 相容的執行介面。"""
-        return self.generate(output_root, context, **kwargs)
+    def run(self, request: GenerateRequest) -> GenerationResult:
+        """Run the canonical generation lifecycle for one request."""
+        return self.generate(request)
 
-    def _resolve_template_root(self, override: Path | None) -> Path:
+    def _resolve_template_root(self) -> Path:
         """解析 template_root。"""
-        result = Path(override) if override else self._template_root
-        if result is None:
+        if self._template_root is None:
             raise ValueError("未提供 template_root")
-        return result
+        return self._template_root
 
-    def _resolve_output_root(self, override: Path | None) -> Path:
-        """解析 output_root。"""
-        result = Path(override) if override else self._output_root
-        if result is None:
-            raise ValueError("未提供 output_root")
-        return result
+    def _validate_generator_name(self, generator_name: str) -> None:
+        """Reject requests addressed to a different generator."""
+        if generator_name != self.name:
+            raise ValueError(
+                f"generator_name 必須是 {self.name!r}，收到 {generator_name!r}",
+            )

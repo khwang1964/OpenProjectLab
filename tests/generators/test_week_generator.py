@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from generator.core.filesystem import FileSystemError
-from generator.core.models import GenerationResult
+from generator.core.models import GenerateRequest, GenerationResult, RuntimeOptions
 from generator.core.template import TemplateRenderError
 from generator.generators.week_generator import WeekGenerator
 
@@ -35,13 +35,48 @@ def valid_context() -> dict[str, object]:
     }
 
 
+def _request(
+    target: Path,
+    values: dict[str, object] | None = None,
+    *,
+    dry_run: bool = False,
+    overwrite: bool = True,
+    **value_overrides: object,
+) -> GenerateRequest:
+    """Build an immutable Week generation request for a test case."""
+    request_values = dict(values or {})
+    request_values.update(value_overrides)
+    return GenerateRequest(
+        generator_name=WeekGenerator.name,
+        target=target,
+        values=request_values,
+        options=RuntimeOptions(dry_run=dry_run, overwrite=overwrite),
+    )
+
+
+def _generate(
+    generator: WeekGenerator,
+    target: Path,
+    values: dict[str, object] | None = None,
+    *,
+    dry_run: bool = False,
+    overwrite: bool = True,
+    **value_overrides: object,
+) -> GenerationResult:
+    """Generate through the shared request contract."""
+    return generator.generate(
+        _request(target, values, dry_run=dry_run, overwrite=overwrite, **value_overrides)
+    )
+
+
 def test_week_generator_creates_week_readme(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
     output_root = tmp_path / "courses" / "modern-java"
 
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         output_root,
         valid_context(),
     )
@@ -59,7 +94,8 @@ def test_week_generator_formats_week_number(
     context = valid_context()
     context["week"] = 7
 
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         tmp_path / "course",
         context,
     )
@@ -75,7 +111,8 @@ def test_week_generator_supports_unicode(
     context = valid_context()
     context["title"] = "Lambda 與資料流"
 
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         tmp_path / "中文課程",
         context,
     )
@@ -89,7 +126,7 @@ def test_week_generator_creates_output_directory(
 ) -> None:
     output_root = tmp_path / "nested" / "course"
 
-    WeekGenerator(template_root).generate(output_root, valid_context())
+    _generate(WeekGenerator(template_root), output_root, valid_context())
 
     assert (output_root / "week-01").is_dir()
 
@@ -100,7 +137,8 @@ def test_week_generator_dry_run(
 ) -> None:
     output_root = tmp_path / "not-created"
 
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         output_root,
         valid_context(),
         dry_run=True,
@@ -117,7 +155,8 @@ def test_week_generator_dry_run_still_validates_context(
     tmp_path: Path,
 ) -> None:
     with pytest.raises(TemplateRenderError, match="缺少必要變數"):
-        WeekGenerator(template_root).generate(
+        _generate(
+            WeekGenerator(template_root),
             tmp_path / "course",
             {"week": 1},
             dry_run=True,
@@ -134,7 +173,7 @@ def test_week_generator_rejects_non_positive_week(
     context["week"] = week
 
     with pytest.raises(ValueError, match="大於 0"):
-        WeekGenerator(template_root).generate(tmp_path / "course", context)
+        _generate(WeekGenerator(template_root), tmp_path / "course", context)
 
 
 @pytest.mark.parametrize("week", [1.5, "1", None, True])
@@ -147,7 +186,7 @@ def test_week_generator_rejects_non_integer_week(
     context["week"] = week
 
     with pytest.raises(ValueError, match="必須是整數"):
-        WeekGenerator(template_root).generate(tmp_path / "course", context)
+        _generate(WeekGenerator(template_root), tmp_path / "course", context)
 
 
 def test_week_generator_rejects_missing_week(
@@ -158,7 +197,7 @@ def test_week_generator_rejects_missing_week(
     del context["week"]
 
     with pytest.raises(ValueError, match="必須是整數"):
-        WeekGenerator(template_root).generate(tmp_path / "course", context)
+        _generate(WeekGenerator(template_root), tmp_path / "course", context)
 
 
 def test_week_generator_rejects_missing_template_variable(
@@ -166,7 +205,8 @@ def test_week_generator_rejects_missing_template_variable(
     tmp_path: Path,
 ) -> None:
     with pytest.raises(TemplateRenderError, match="缺少必要變數"):
-        WeekGenerator(template_root).generate(
+        _generate(
+            WeekGenerator(template_root),
             tmp_path / "course",
             {"week": 1, "title": "Incomplete"},
         )
@@ -177,7 +217,8 @@ def test_week_generator_rejects_missing_template(
     tmp_path: Path,
 ) -> None:
     with pytest.raises(TemplateRenderError, match="找不到模板"):
-        WeekGenerator(template_root).generate(
+        _generate(
+            WeekGenerator(template_root),
             tmp_path / "course",
             valid_context(),
             template_name="week/missing.md.j2",
@@ -195,7 +236,8 @@ def test_week_generator_does_not_overwrite_when_disabled(
     readme.write_text("existing", encoding="utf-8")
 
     with pytest.raises(FileSystemError, match="不允許覆寫"):
-        WeekGenerator(template_root).generate(
+        _generate(
+            WeekGenerator(template_root),
             output_root,
             valid_context(),
             overwrite=False,
@@ -204,16 +246,17 @@ def test_week_generator_does_not_overwrite_when_disabled(
     assert readme.read_text(encoding="utf-8") == "existing"
 
 
-def test_week_generator_returns_output_path(
+def test_week_generator_uses_request_target(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
     output_root = tmp_path / "course"
 
-    result = WeekGenerator(
+    generator = WeekGenerator(
         template_root=template_root,
         output_root=output_root,
-    ).generate(context=valid_context())
+    )
+    result = _generate(generator, output_root, valid_context())
 
     assert result.affected_paths[0] == output_root / "week-01" / "README.md"
 
@@ -222,10 +265,10 @@ def test_week_generator_supports_template_root_override(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = WeekGenerator().generate(
+    result = _generate(
+        WeekGenerator(template_root=template_root),
         tmp_path / "course",
         valid_context(),
-        template_root=template_root,
     )
 
     assert result.affected_paths[0].exists()
@@ -233,21 +276,15 @@ def test_week_generator_supports_template_root_override(
 
 def test_week_generator_requires_template_root(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="template_root"):
-        WeekGenerator().generate(tmp_path / "course", valid_context())
-
-
-def test_week_generator_requires_output_root(
-    template_root: Path,
-) -> None:
-    with pytest.raises(ValueError, match="output_root"):
-        WeekGenerator(template_root).generate(context=valid_context())
+        _generate(WeekGenerator(), tmp_path / "course", valid_context())
 
 
 def test_week_generator_accepts_context_keyword_values(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         tmp_path / "course",
         week=2,
         title="Lambda",
@@ -263,7 +300,8 @@ def test_week_generator_context_keywords_override_mapping(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         tmp_path / "course",
         valid_context(),
         week=3,
@@ -278,7 +316,8 @@ def test_week_generator_custom_directory_name(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         tmp_path / "course",
         valid_context(),
         directory_pattern="lesson-{week:03d}",
@@ -291,7 +330,8 @@ def test_week_generator_custom_output_name(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         tmp_path / "course",
         valid_context(),
         output_name="docs/week.md",
@@ -316,7 +356,8 @@ def test_week_generator_rejects_invalid_directory_pattern(
     pattern: str,
 ) -> None:
     with pytest.raises(ValueError):
-        WeekGenerator(template_root).generate(
+        _generate(
+            WeekGenerator(template_root),
             tmp_path / "course",
             valid_context(),
             directory_pattern=pattern,
@@ -330,7 +371,8 @@ def test_week_generator_rejects_absolute_directory_pattern(
     absolute = str((tmp_path / "week-{week:02d}").resolve())
 
     with pytest.raises(ValueError, match="絕對路徑"):
-        WeekGenerator(template_root).generate(
+        _generate(
+            WeekGenerator(template_root),
             tmp_path / "course",
             valid_context(),
             directory_pattern=absolute,
@@ -342,7 +384,8 @@ def test_week_generator_rejects_invalid_format_pattern(
     tmp_path: Path,
 ) -> None:
     with pytest.raises(ValueError, match="directory_pattern"):
-        WeekGenerator(template_root).generate(
+        _generate(
+            WeekGenerator(template_root),
             tmp_path / "course",
             valid_context(),
             directory_pattern="week-{missing}",
@@ -353,10 +396,7 @@ def test_week_generator_run_alias(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = WeekGenerator(template_root).run(
-        tmp_path / "course",
-        valid_context(),
-    )
+    result = WeekGenerator(template_root).run(_request(tmp_path / "course", valid_context()))
 
     assert type(result) is GenerationResult
     assert result.affected_paths[0].exists()
@@ -369,7 +409,8 @@ def test_week_generator_returns_structured_result(
     """Week generation should follow the shared result contract."""
     output_root = tmp_path / "course"
 
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         output_root,
         valid_context(),
     )
@@ -387,7 +428,8 @@ def test_week_generator_can_disable_manifest_recording(
     tmp_path: Path,
 ) -> None:
     """Disabling manifest recording should be reflected in the result."""
-    result = WeekGenerator(template_root).generate(
+    result = _generate(
+        WeekGenerator(template_root),
         tmp_path / "course",
         valid_context(),
         record_manifest=False,

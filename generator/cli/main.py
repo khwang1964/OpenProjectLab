@@ -10,7 +10,11 @@ from typing import Any
 
 from generator.cli.upgrade import add_upgrade_parser
 from generator.core.config import ProjectConfig
-from generator.core.models import GenerationResult
+from generator.core.models import (
+    GenerateRequest,
+    GenerationResult,
+    RuntimeOptions,
+)
 from generator.generators.bootstrap_generator import BootstrapGenerator
 from generator.generators.course_generator import CourseGenerator
 from generator.generators.week_generator import WeekGenerator
@@ -211,12 +215,17 @@ def _handle_bootstrap(args: argparse.Namespace) -> int:
     if args.copyright_holder:
         context["copyright_holder"] = args.copyright_holder
 
+    context["record_manifest"] = not args.no_manifest
     result = BootstrapGenerator(template_root).generate(
-        output_root,
-        context,
-        overwrite=args.force,
-        dry_run=args.dry_run,
-        record_manifest=not args.no_manifest,
+        GenerateRequest(
+            generator_name=BootstrapGenerator.name,
+            target=output_root,
+            values=context,
+            options=RuntimeOptions(
+                overwrite=args.force,
+                dry_run=args.dry_run,
+            ),
+        ),
     )
     _print_bootstrap_result(result, project_root)
     return 0
@@ -236,12 +245,17 @@ def _handle_course(args: argparse.Namespace) -> int:
         if value:
             context[key] = value
 
+    context["record_manifest"] = not args.no_manifest
     result = CourseGenerator(template_root).generate(
-        project_root,
-        context,
-        overwrite=args.force,
-        dry_run=args.dry_run,
-        record_manifest=not args.no_manifest,
+        GenerateRequest(
+            generator_name=CourseGenerator.name,
+            target=project_root,
+            values=context,
+            options=RuntimeOptions(
+                overwrite=args.force,
+                dry_run=args.dry_run,
+            ),
+        ),
     )
     _print_file_result("課程檔案", result)
     return 0
@@ -258,14 +272,19 @@ def _handle_week(args: argparse.Namespace) -> int:
     }
     if args.textbook_chapter:
         context["textbook_chapter"] = args.textbook_chapter
+    context["directory_pattern"] = args.directory_pattern
+    context["record_manifest"] = not args.no_manifest
 
     result = WeekGenerator(template_root).generate(
-        project_root,
-        context,
-        directory_pattern=args.directory_pattern,
-        overwrite=args.force,
-        dry_run=args.dry_run,
-        record_manifest=not args.no_manifest,
+        GenerateRequest(
+            generator_name=WeekGenerator.name,
+            target=project_root,
+            values=context,
+            options=RuntimeOptions(
+                overwrite=args.force,
+                dry_run=args.dry_run,
+            ),
+        ),
     )
     _print_file_result("週次檔案", result)
     return 0

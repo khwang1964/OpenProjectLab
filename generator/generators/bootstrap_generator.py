@@ -5,11 +5,10 @@ from __future__ import annotations
 import re
 from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
 
 from generator.core.filesystem import FileSystem
 from generator.core.generation_manifest import GenerationManifest
-from generator.core.models import GenerationResult, WriteResult
+from generator.core.models import GenerateRequest, GenerationResult, WriteResult
 from generator.core.template import TemplateRenderer
 
 _SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -50,29 +49,20 @@ class BootstrapGenerator:
 
     def generate(
         self,
-        output_root: Path | None = None,
-        context: Mapping[str, Any] | None = None,
-        *,
-        template_root: Path | None = None,
-        project_slug: str | None = None,
-        overwrite: bool = True,
-        dry_run: bool = False,
-        record_manifest: bool = True,
-        **context_values: Any,
+        request: GenerateRequest,
     ) -> GenerationResult:
-        """Generate a project scaffold and return the shared result contract."""
-        resolved_template_root = self._resolve_template_root(template_root)
-        resolved_output_root = self._resolve_output_root(output_root)
+        """Generate a project scaffold from the shared request contract."""
+        self._validate_generator_name(request.generator_name)
 
-        resolved_context = dict(context or {})
-        resolved_context.update(context_values)
+        resolved_template_root = self._resolve_template_root()
+        resolved_context = dict(request.values)
 
         slug = self._validate_project_slug(
-            project_slug or resolved_context.get("project_slug"),
+            resolved_context.get("project_slug"),
         )
         resolved_context["project_slug"] = slug
 
-        project_root = resolved_output_root / slug
+        project_root = request.target / slug
         renderer = TemplateRenderer(resolved_template_root)
 
         directories = tuple(
@@ -93,13 +83,13 @@ class BootstrapGenerator:
             project_slug=slug,
             project_name=resolved_context.get("project_name"),
             rendered_files=rendered_files,
-            record_manifest=record_manifest,
+            record_manifest=bool(resolved_context.get("record_manifest", True)),
         )
 
         for directory in directories:
             self._filesystem.ensure_directory(
                 directory,
-                dry_run=dry_run,
+                dry_run=request.options.dry_run,
             )
 
         writes: list[WriteResult] = []
@@ -108,33 +98,24 @@ class BootstrapGenerator:
             write_result = self._filesystem.write_text(
                 path,
                 content,
-                overwrite=overwrite,
-                dry_run=dry_run,
+                overwrite=request.options.overwrite,
+                dry_run=request.options.dry_run,
             )
             writes.append(write_result)
 
         if manifest is not None:
-            manifest.save(dry_run=dry_run)
+            manifest.save(dry_run=request.options.dry_run)
 
         return GenerationResult(
             generator_name=self.name,
             writes=tuple(writes),
-            dry_run=dry_run,
-            manifest_updated=manifest is not None and not dry_run,
+            dry_run=request.options.dry_run,
+            manifest_updated=manifest is not None and not request.options.dry_run,
         )
 
-    def run(
-        self,
-        output_root: Path | None = None,
-        context: Mapping[str, Any] | None = None,
-        **kwargs: Any,
-    ) -> GenerationResult:
-        """Provide a compatibility alias for generate."""
-        return self.generate(
-            output_root,
-            context,
-            **kwargs,
-        )
+    def run(self, request: GenerateRequest) -> GenerationResult:
+        """Run the canonical generation lifecycle for one request."""
+        return self.generate(request)
 
     def _prepare_manifest(
         self,
@@ -169,27 +150,19 @@ class BootstrapGenerator:
 
     def _resolve_template_root(
         self,
-        override: Path | None,
     ) -> Path:
         """Resolve the effective template root."""
-        result = Path(override) if override else self._template_root
-
-        if result is None:
+        if self._template_root is None:
             raise ValueError("未提供 template_root")
 
-        return result
+        return self._template_root
 
-    def _resolve_output_root(
-        self,
-        override: Path | None,
-    ) -> Path:
-        """Resolve the effective output root."""
-        result = Path(override) if override else self._output_root
-
-        if result is None:
-            raise ValueError("未提供 output_root")
-
-        return result
+    def _validate_generator_name(self, generator_name: str) -> None:
+        """Reject requests addressed to a different generator."""
+        if generator_name != self.name:
+            raise ValueError(
+                f"generator_name 必須是 {self.name!r}，收到 {generator_name!r}",
+            )
 
     @staticmethod
     def _validate_project_slug(value: object) -> str:

@@ -9,7 +9,12 @@ from typing import Protocol, cast
 
 import pytest
 
-from generator.core.models import GenerationResult, WriteResult
+from generator.core.models import (
+    GenerateRequest,
+    GenerationResult,
+    RuntimeOptions,
+    WriteResult,
+)
 from generator.generators.bootstrap_generator import BootstrapGenerator
 from generator.generators.course_generator import CourseGenerator
 from generator.generators.week_generator import WeekGenerator
@@ -20,21 +25,11 @@ class Generator(Protocol):
 
     name: str
 
-    def generate(
-        self,
-        output_root: Path | None = None,
-        context: Mapping[str, object] | None = None,
-        **kwargs: object,
-    ) -> GenerationResult:
+    def generate(self, request: GenerateRequest) -> GenerationResult:
         """Generate content and return the shared result contract."""
         ...
 
-    def run(
-        self,
-        output_root: Path | None = None,
-        context: Mapping[str, object] | None = None,
-        **kwargs: object,
-    ) -> GenerationResult:
+    def run(self, request: GenerateRequest) -> GenerationResult:
         """Run the generator through its registry-compatible alias."""
         ...
 
@@ -101,14 +96,33 @@ def _prepare_generator(
     return case.factory(template_root, output_root), output_root
 
 
+def _make_request(
+    case: GeneratorCase,
+    target: Path,
+    *,
+    dry_run: bool = False,
+    record_manifest: bool = True,
+) -> GenerateRequest:
+    """Build a canonical request without mutating the case context."""
+    values = dict(case.context)
+    values["record_manifest"] = record_manifest
+    return GenerateRequest(
+        generator_name=case.name,
+        target=target,
+        values=values,
+        options=RuntimeOptions(dry_run=dry_run),
+    )
+
+
 def test_generate_returns_shared_result_contract(
     tmp_path: Path,
     generator_case: GeneratorCase,
 ) -> None:
     """Require every generator to expose ordered immutable write results."""
     generator, output_root = _prepare_generator(tmp_path, generator_case)
+    request = _make_request(generator_case, output_root)
 
-    result = generator.generate(context=generator_case.context)
+    result = generator.generate(request)
 
     assert type(result) is GenerationResult
     assert result.generator_name == generator.name == generator_case.name
@@ -126,8 +140,9 @@ def test_dry_run_preserves_contract_without_writing(
 ) -> None:
     """Require dry-run results to retain metadata without filesystem writes."""
     generator, output_root = _prepare_generator(tmp_path, generator_case)
+    request = _make_request(generator_case, output_root, dry_run=True)
 
-    result = generator.generate(context=generator_case.context, dry_run=True)
+    result = generator.generate(request)
 
     assert type(result) is GenerationResult
     assert result.generator_name == generator_case.name
@@ -142,9 +157,10 @@ def test_run_returns_shared_result_contract(
     generator_case: GeneratorCase,
 ) -> None:
     """Require the registry-compatible run alias to use the same contract."""
-    generator, _ = _prepare_generator(tmp_path, generator_case)
+    generator, output_root = _prepare_generator(tmp_path, generator_case)
+    request = _make_request(generator_case, output_root, dry_run=True)
 
-    result = generator.run(context=generator_case.context, dry_run=True)
+    result = generator.run(request)
 
     assert type(result) is GenerationResult
     assert result.generator_name == generator_case.name
@@ -157,22 +173,25 @@ def test_manifest_recording_flag_is_reported_consistently(
     generator_case: GeneratorCase,
 ) -> None:
     """Require all generators to report whether they updated a manifest."""
-    enabled_generator, _ = _prepare_generator(
+    enabled_generator, enabled_output = _prepare_generator(
         tmp_path,
         generator_case,
         output_name="manifest-enabled",
     )
-    disabled_generator, _ = _prepare_generator(
+    disabled_generator, disabled_output = _prepare_generator(
         tmp_path,
         generator_case,
         output_name="manifest-disabled",
     )
 
-    enabled = enabled_generator.generate(context=generator_case.context)
-    disabled = disabled_generator.generate(
-        context=generator_case.context,
+    enabled_request = _make_request(generator_case, enabled_output)
+    disabled_request = _make_request(
+        generator_case,
+        disabled_output,
         record_manifest=False,
     )
+    enabled = enabled_generator.generate(enabled_request)
+    disabled = disabled_generator.generate(disabled_request)
 
     assert enabled.manifest_updated is True
     assert disabled.manifest_updated is False

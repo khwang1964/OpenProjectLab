@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from generator.core.filesystem import FileSystemError
-from generator.core.models import GenerationResult
+from generator.core.models import GenerateRequest, GenerationResult, RuntimeOptions
 from generator.core.template import TemplateRenderError
 from generator.generators.bootstrap_generator import BootstrapGenerator
 
@@ -42,13 +42,48 @@ def valid_context() -> dict[str, object]:
     }
 
 
+def _request(
+    target: Path,
+    values: dict[str, object] | None = None,
+    *,
+    dry_run: bool = False,
+    overwrite: bool = True,
+    **value_overrides: object,
+) -> GenerateRequest:
+    """Build an immutable Bootstrap generation request for a test case."""
+    request_values = dict(values or {})
+    request_values.update(value_overrides)
+    return GenerateRequest(
+        generator_name=BootstrapGenerator.name,
+        target=target,
+        values=request_values,
+        options=RuntimeOptions(dry_run=dry_run, overwrite=overwrite),
+    )
+
+
+def _generate(
+    generator: BootstrapGenerator,
+    target: Path,
+    values: dict[str, object] | None = None,
+    *,
+    dry_run: bool = False,
+    overwrite: bool = True,
+    **value_overrides: object,
+) -> GenerationResult:
+    """Generate through the shared request contract."""
+    return generator.generate(
+        _request(target, values, dry_run=dry_run, overwrite=overwrite, **value_overrides)
+    )
+
+
 def test_bootstrap_generator_creates_project_structure(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
     output_root = tmp_path / "courses"
 
-    BootstrapGenerator(template_root).generate(
+    _generate(
+        BootstrapGenerator(template_root),
         output_root,
         valid_context(),
     )
@@ -63,7 +98,8 @@ def test_bootstrap_generator_generates_all_files(
     tmp_path: Path,
 ) -> None:
     output_root = tmp_path / "courses"
-    result = BootstrapGenerator(template_root).generate(
+    result = _generate(
+        BootstrapGenerator(template_root),
         output_root,
         valid_context(),
     )
@@ -89,7 +125,8 @@ def test_bootstrap_generator_supports_unicode(
     context["project_name"] = "現代 Java 實戰"
 
     output_root = tmp_path / "courses"
-    BootstrapGenerator(template_root).generate(
+    _generate(
+        BootstrapGenerator(template_root),
         output_root,
         context,
     )
@@ -104,7 +141,8 @@ def test_bootstrap_generator_dry_run_has_no_side_effect(
 ) -> None:
     output_root = tmp_path / "courses"
 
-    result = BootstrapGenerator(template_root).generate(
+    result = _generate(
+        BootstrapGenerator(template_root),
         output_root,
         valid_context(),
         dry_run=True,
@@ -123,7 +161,8 @@ def test_bootstrap_generator_dry_run_still_validates_all_templates(
     missing.unlink()
 
     with pytest.raises(TemplateRenderError, match="找不到模板"):
-        BootstrapGenerator(template_root).generate(
+        _generate(
+            BootstrapGenerator(template_root),
             tmp_path / "courses",
             valid_context(),
             dry_run=True,
@@ -138,7 +177,8 @@ def test_bootstrap_generator_rejects_missing_context(
     del context["project_name"]
 
     with pytest.raises(TemplateRenderError, match="缺少必要變數"):
-        BootstrapGenerator(template_root).generate(
+        _generate(
+            BootstrapGenerator(template_root),
             tmp_path / "courses",
             context,
         )
@@ -167,7 +207,8 @@ def test_bootstrap_generator_rejects_invalid_slug(
     context["project_slug"] = slug
 
     with pytest.raises(ValueError, match="project_slug"):
-        BootstrapGenerator(template_root).generate(
+        _generate(
+            BootstrapGenerator(template_root),
             tmp_path / "courses",
             context,
         )
@@ -190,7 +231,8 @@ def test_bootstrap_generator_accepts_valid_slug(
     context = valid_context()
     context["project_slug"] = slug
 
-    result = BootstrapGenerator(template_root).generate(
+    result = _generate(
+        BootstrapGenerator(template_root),
         tmp_path / "courses",
         context,
         dry_run=True,
@@ -203,7 +245,8 @@ def test_bootstrap_generator_explicit_slug_overrides_context(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = BootstrapGenerator(template_root).generate(
+    result = _generate(
+        BootstrapGenerator(template_root),
         tmp_path / "courses",
         valid_context(),
         project_slug="override-course",
@@ -221,7 +264,8 @@ def test_bootstrap_generator_missing_template(
     (template_root / "bootstrap" / "project" / "README.md.j2").unlink()
 
     with pytest.raises(TemplateRenderError, match="找不到模板"):
-        BootstrapGenerator(template_root).generate(
+        _generate(
+            BootstrapGenerator(template_root),
             tmp_path / "courses",
             valid_context(),
         )
@@ -238,7 +282,8 @@ def test_bootstrap_generator_overwrite_false(
     readme.write_text("existing", encoding="utf-8")
 
     with pytest.raises(FileSystemError, match="不允許覆寫"):
-        BootstrapGenerator(template_root).generate(
+        _generate(
+            BootstrapGenerator(template_root),
             output_root,
             valid_context(),
             overwrite=False,
@@ -251,7 +296,8 @@ def test_bootstrap_generator_returns_structured_result(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = BootstrapGenerator(template_root).generate(
+    result = _generate(
+        BootstrapGenerator(template_root),
         tmp_path / "courses",
         valid_context(),
         dry_run=True,
@@ -265,7 +311,7 @@ def test_bootstrap_generator_returns_structured_result(
     assert result.manifest_updated is False
 
 
-def test_bootstrap_generator_uses_constructor_output_root(
+def test_bootstrap_generator_uses_request_target(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
@@ -275,7 +321,7 @@ def test_bootstrap_generator_uses_constructor_output_root(
         output_root=output_root,
     )
 
-    result = generator.generate(context=valid_context(), dry_run=True)
+    result = _generate(generator, output_root, valid_context(), dry_run=True)
 
     project_root = output_root / "modern-java"
     assert all(path.is_relative_to(project_root) for path in result.affected_paths)
@@ -285,10 +331,10 @@ def test_bootstrap_generator_supports_template_root_override(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    result = BootstrapGenerator().generate(
+    result = _generate(
+        BootstrapGenerator(template_root=template_root),
         tmp_path / "courses",
         valid_context(),
-        template_root=template_root,
         dry_run=True,
     )
 
@@ -300,18 +346,10 @@ def test_bootstrap_generator_requires_template_root(
     tmp_path: Path,
 ) -> None:
     with pytest.raises(ValueError, match="template_root"):
-        BootstrapGenerator().generate(
+        _generate(
+            BootstrapGenerator(),
             tmp_path / "courses",
             valid_context(),
-        )
-
-
-def test_bootstrap_generator_requires_output_root(
-    template_root: Path,
-) -> None:
-    with pytest.raises(ValueError, match="output_root"):
-        BootstrapGenerator(template_root).generate(
-            context=valid_context(),
         )
 
 
@@ -320,7 +358,8 @@ def test_bootstrap_generator_accepts_context_keywords(
     tmp_path: Path,
 ) -> None:
     output_root = tmp_path / "courses"
-    BootstrapGenerator(template_root).generate(
+    _generate(
+        BootstrapGenerator(template_root),
         output_root,
         project_name="Keyword Project",
         project_slug="keyword-project",
@@ -338,7 +377,8 @@ def test_bootstrap_generator_keyword_context_overrides_mapping(
     tmp_path: Path,
 ) -> None:
     output_root = tmp_path / "courses"
-    BootstrapGenerator(template_root).generate(
+    _generate(
+        BootstrapGenerator(template_root),
         output_root,
         valid_context(),
         project_name="Overridden Project",
@@ -354,9 +394,7 @@ def test_bootstrap_generator_run_alias(
     tmp_path: Path,
 ) -> None:
     result = BootstrapGenerator(template_root).run(
-        tmp_path / "courses",
-        valid_context(),
-        dry_run=True,
+        _request(tmp_path / "courses", valid_context(), dry_run=True)
     )
 
     assert type(result) is GenerationResult
@@ -367,7 +405,8 @@ def test_bootstrap_generator_returns_generation_result(
     tmp_path: Path,
 ) -> None:
     """Bootstrap generation should use the shared result contract."""
-    result = BootstrapGenerator(template_root).generate(
+    result = _generate(
+        BootstrapGenerator(template_root),
         tmp_path / "courses",
         valid_context(),
     )
@@ -385,9 +424,7 @@ def test_bootstrap_generator_run_returns_generation_result(
 ) -> None:
     """The run alias should preserve the shared result contract."""
     result = BootstrapGenerator(template_root).run(
-        tmp_path / "courses",
-        valid_context(),
-        dry_run=True,
+        _request(tmp_path / "courses", valid_context(), dry_run=True)
     )
 
     assert type(result) is GenerationResult

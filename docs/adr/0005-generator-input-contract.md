@@ -1,6 +1,6 @@
 # ADR 0005: Unify the Generator Input Contract
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-08-03
 - Decision owners: OpenProjectLab maintainers
 - Related: ADR 0002, ADR 0004

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from generator.core.exceptions import GeneratorValidationError
 from generator.core.filesystem import FileSystem
 from generator.core.generation_manifest import GenerationManifest
 from generator.core.models import GenerateRequest, GenerationResult
@@ -82,12 +83,18 @@ class CourseGenerator:
     def _resolve_template_root(self) -> Path:
         """解析 template_root。"""
         if self._template_root is None:
-            raise ValueError("未提供 template_root")
+            raise GeneratorValidationError(
+                generator=self.name,
+                field="template_root",
+                message="未提供 template_root",
+            )
         return self._template_root
 
     def _validate_generator_name(self, generator_name: str) -> None:
         """Reject requests addressed to a different generator."""
         if generator_name != self.name:
-            raise ValueError(
-                f"generator_name 必須是 {self.name!r}，收到 {generator_name!r}",
+            raise GeneratorValidationError(
+                generator=self.name,
+                field="generator_name",
+                message=(f"generator_name 必須是 {self.name!r}，收到 {generator_name!r}"),
             )

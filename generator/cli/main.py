@@ -10,6 +10,7 @@ from typing import Any
 
 from generator.cli.upgrade import add_upgrade_parser
 from generator.core.config import ProjectConfig
+from generator.core.exceptions import GeneratorValidationError
 from generator.core.models import (
     GenerateRequest,
     GenerationResult,
@@ -324,7 +325,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     try:
         return int(args.handler(args))
-    except (ValueError, RuntimeError, OSError) as exc:
+    except (GeneratorValidationError, ValueError, RuntimeError, OSError) as exc:
         print(f"錯誤：{exc}", file=sys.stderr)
         return 2
 

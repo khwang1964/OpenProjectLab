@@ -8,6 +8,17 @@ class ValidationError(OPLGeneratorError):
     pass
 
 
+class GeneratorValidationError(ValidationError):
+    """Generator 請求或執行條件驗證失敗。"""
+
+    def __init__(self, generator: str, field: str, message: str) -> None:
+        """建立包含穩定結構化欄位的驗證錯誤。"""
+        self.generator = generator
+        self.field = field
+        self.message = message
+        super().__init__(message)
+
+
 class GeneratorNotFoundError(OPLGeneratorError):
     """找不到指定的 Generator。"""
 

@@ -2,7 +2,7 @@
 
 > Status: Active and Evolving
 > Milestone: 3 — Core Framework
-> Last updated: 2026-08-01
+> Last updated: 2026-08-04
 > Audience: Maintainers, contributors, Generator developers, Plugin developers
 > Scope: Generator responsibilities, contracts, lifecycle, registry integration, dependency boundaries, results, errors, testing, extension, and compatibility
 
@@ -460,18 +460,32 @@ Request Model 的優點：
 
 ## 12. Request Validation
 
-Generator-specific 驗證應發生在產生任何輸出之前。
+**Implemented**。Generator-specific 驗證會在 planning、filesystem write 與
+manifest mutation 之前完成。正常執行與 dry run 使用相同的 pre-write validation。
 
 例如：
 
 ```python
-if request.week_number < 1:
+if request.values["week"] < 1:
     raise GeneratorValidationError(
-        "week_number 必須大於或等於 1"
+        generator=self.name,
+        field="week",
+        message="week 必須是正整數",
     )
 ```
 
-常見驗證：
+`GeneratorValidationError` 的穩定 attributes 為 `generator`、`field` 與
+`message`。目前內建 Generator 的 validation fields 如下：
+
+| Scope | Field | Rule |
+| --- | --- | --- |
+| Shared | `generator_name` | 必須符合所選 Generator 的 canonical name |
+| Shared | `template_root` | 必須符合 Generator 的 template root 契約 |
+| Bootstrap | `project_slug` | 必須是非空且符合 slug 規則的字串 |
+| Week | `week` | 必須是正整數，且拒絕 `bool` |
+| Week | `directory_pattern` | 必須可格式化為安全的相對輸出目錄 |
+
+驗證規則：
 
 * 必要欄位不可為空。
 * Week Number 必須為正整數。
@@ -483,7 +497,7 @@ if request.week_number < 1:
 * 不支援的模式必須拒絕。
 * Dry Run 與 Write Policy 不得產生矛盾。
 
-路徑安全與 Output Root Containment 應由 Filesystem Layer再次驗證。
+路徑安全與 Output Root Containment 應由 Filesystem Layer 再次驗證。
 
 ---
 
@@ -560,7 +574,8 @@ Template Context 的正式契約應同步記錄於：
 
 ## 15. Generation Lifecycle
 
-**Proposed** 的標準生命週期：
+標準生命週期已實作 validation、generation 與 result 邊界；獨立的共用
+Generation Plan 模型仍為 **Proposed**：
 
 ```text
 Receive Request
@@ -1058,18 +1073,17 @@ SKIPPED README.md
 
 ## 31. Error Handling
 
-Generator 相關預期錯誤可包括：
+Generator business validation 使用已實作的 `GeneratorValidationError`，其餘
+例外類別只有在程式碼與測試中存在時才視為公開契約：
 
 ```text
-GeneratorError
-├── GeneratorValidationError
-├── GenerationPlanError
-├── OutputConflictError
-├── GenerationAbortedError
-└── OutputValidationError
+OPLGeneratorError
+└── GeneratorValidationError
 ```
 
-Generator 應保留底層 Exception Chain：
+Generator 不應把 template、filesystem、manifest、configuration 或 upgrade
+failures 重新分類為 `GeneratorValidationError`。需要增加語意時仍應保留底層
+Exception Chain：
 
 ```python
 try:
@@ -1082,13 +1096,16 @@ except FileSystemError as exc:
 
 但不應將所有錯誤都包裝成一般 `GeneratorError`。
 
-具體的：
+具體的 domain errors：
 
 * ConfigurationError
 * TemplateError
 * FilesystemError
 
 很多情況可以直接向上傳遞，以保留分類與 Exit Code Mapping。
+
+CLI 位於 application boundary，捕捉 `GeneratorValidationError`、將訊息寫入
+stderr，並回傳 exit code `2`。Generator 本身不決定 process exit code。
 
 ---
 
@@ -1664,6 +1681,9 @@ Generator Public Contract 可能包括：
 * CLI Integration
 * Generator Tests
 * Integration Tests
+* `GeneratorValidationError` 結構化驗證契約
+* Bootstrap、Course 與 Week 的共用 validation contract tests
+* CLI validation failure 的 stderr 與 exit code `2` mapping
 
 但目前不同時間點的實作可能存在以下差異：
 
@@ -1674,8 +1694,16 @@ Generator Public Contract 可能包括：
 * 部分 Generator 可能直接呼叫 `render_to_file()`。
 * Filesystem 注入方式可能尚未一致。
 * Manifest 整合可能只存在於部分 Generator。
-* Request Dataclass 尚未全面建立。
+* `GenerateRequest` 與 `RuntimeOptions` 已成為內建 Generator 的共用輸入契約。
 * Generation Plan 尚未成為共用模型。
+
+2026-08-04 validation contract checkpoint：
+
+```text
+32 generator validation contract tests passed
+332 full-suite tests passed
+Coverage: 80.79% (required: 67%)
+```
 
 Milestone 3 應先盤點目前實作，再選擇單一正式方向。
 
@@ -1845,8 +1873,10 @@ Bootstrap、Course 與 Week Generator 已完成共用 `GenerationResult` 垂直�
 
 ### Errors
 
-* [ ] 使用明確 Generator Exception。
-* [ ] Validation Error 與 Internal Error 已區分。
+* [x] Generator business validation 使用 `GeneratorValidationError`。
+* [x] Validation Error 與 Internal Error 已區分。
+* [x] `generator`、`field` 與 `message` metadata 穩定且正確。
+* [x] Domain errors 未被錯誤包裝成 validation failure。
 * [ ] 原始例外透過 Chaining 保留。
 * [ ] 沒有 Broad Exception 隱藏 Bug。
 * [ ] Generator 未呼叫 `sys.exit()`。
@@ -1860,39 +1890,38 @@ Bootstrap、Course 與 Week Generator 已完成共用 `GenerationResult` 垂直�
 
 * [x] `GenerationResult` 具有獨立的核心模型測試。
 * [x] Bootstrap、Course 與 Week Generator 已通過共用 Result Contract 測試。
-* [ ] Request Validation 有測試。
-* [ ] Generator Identity 有測試。
+* [x] Request Validation 有測試。
+* [x] Generator Identity 有測試。
 * [ ] Context 有測試。
 * [ ] Plan 有測試。
 * [ ] Template Rendering 有測試。
 * [ ] Filesystem Interaction 有測試。
 * [ ] Existing File Policy 有測試。
-* [ ] Dry Run 有測試。
+* [x] Dry Run validation 有測試。
 * [ ] Result 有測試。
 * [ ] Exception Chaining 有測試。
 * [ ] Manifest Integration 有測試。
 * [ ] Determinism 有測試。
 * [ ] Idempotency 有測試。
 * [ ] Golden Output 有測試。
-* [ ] CLI Integration 有測試。
+* [x] CLI validation integration 有測試。
 * [ ] Plugin Contract Test 已評估。
 
 ### Documentation and Automation
 
-* [ ] Generator Architecture 已更新。
+* [x] Generator Architecture 已更新。
+* [x] Generator Reference 已新增。
 * [ ] Configuration Architecture 已同步。
 * [ ] Template Architecture 已同步。
 * [ ] Filesystem Architecture 已同步。
 * [ ] CLI Reference 已更新。
 * [ ] Template Reference 已更新。
 * [ ] Changelog 已更新。
-* [ ] 必要時已新增 ADR。
-* [ ] `git diff --check` 通過。
-* [ ] 精準測試通過：
-      `python -m pytest tests/core/test_generation_result.py
-      tests/generators/test_bootstrap_generator.py -v --no-cov`。
-* [ ] `pre-commit run --all-files` 通過。
-* [ ] `python -m pytest` 通過。
+* [x] ADR 0006 已接受並同步實作狀態。
+* [x] `git diff --check` 通過。
+* [x] Generator validation contract tests：32 passed。
+* [x] `pre-commit run --all-files` 通過。
+* [x] `python -m pytest`：332 passed，coverage 80.79%。
 
 ---
 
@@ -1906,12 +1935,14 @@ Bootstrap、Course 與 Week Generator 已完成共用 `GenerationResult` 垂直�
 * [Error Handling Architecture](error-handling.md)
 * [Plugin Architecture](plugin.md)
 * [CLI Reference](../reference/cli.md)
+* [Generator Reference](../reference/generator.md)
 * [Configuration Reference](../reference/configuration.md)
 * [Template Reference](../reference/template.md)
 * [Filesystem Reference](../reference/filesystem.md)
 * [Errors Reference](../reference/errors.md)
 * [Testing Guide](../development/testing.md)
 * [Code Review Checklist](../development/code-review-checklist.md)
+* [ADR 0006: Generator Validation Contract](../adr/0006-generator-validation-contract.md)
 
 ---
 

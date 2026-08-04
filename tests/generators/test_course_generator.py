@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from generator.core.exceptions import GeneratorValidationError
 from generator.core.filesystem import FileSystemError
 from generator.core.models import GenerateRequest, GenerationResult, RuntimeOptions
 from generator.core.template import TemplateRenderError
@@ -213,7 +214,7 @@ def test_course_generator_supports_template_root_override(
 
 
 def test_course_generator_requires_template_root(tmp_path: Path) -> None:
-    with pytest.raises(ValueError, match="template_root"):
+    with pytest.raises(GeneratorValidationError, match="template_root"):
         _generate(CourseGenerator(), tmp_path / "course", valid_context())
 
 

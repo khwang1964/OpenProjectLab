@@ -574,8 +574,9 @@ Template Context 的正式契約應同步記錄於：
 
 ## 15. Generation Lifecycle
 
-標準生命週期已實作 validation、generation 與 result 邊界；獨立的共用
-Generation Plan 模型仍為 **Proposed**：
+標準生命週期已實作 validation、generation 與 result 邊界。ADR 0007 已提出
+共用 Generation Plan 契約；既有模型骨架已存在，但 lifecycle 整合仍為
+**Proposed**：
 
 ```text
 Receive Request
@@ -614,40 +615,42 @@ Return Generation Result
 
 ## 16. Generation Plan
 
-Milestone 3 建議導入明確的 Generation Plan。此模型目前為
-**Proposed**，不得在尚未落地前視為穩定公開 API。
+ADR 0007 將既有 `GenerationOperation` 與 `GenerationPlan` 定為唯一的
+Generation Plan 模型。模型骨架已存在，但內建 Generator、SDK、CLI preview
+與 dry-run lifecycle 的整合仍為 **Proposed**，在 ADR 接受且實作完成前不得
+視為穩定公開 API。
 
-概念：
+最小概念契約：
 
 ```python
 @dataclass(frozen=True, slots=True)
-class PlannedFile:
+class GenerationOperation:
     template_name: str
     destination: Path
     context: Mapping[str, object]
-    overwrite: bool = False
-```
+    write_policy: WritePolicy
 
-或將 Rendering 與 Filesystem 分離：
 
-```python
 @dataclass(frozen=True, slots=True)
-class PlannedOutput:
-    destination: Path
-    content: str
-    policy: WritePolicy
+class GenerationPlan:
+    generator_name: str
+    operations: tuple[GenerationOperation, ...]
 ```
 
-Generation Plan 應包含：
+核心規則：
 
-* Planned Directories
-* Planned Files
-* Template Source
-* Destination
-* Write Policy
-* Ownership
-* Validation Rules
-* Manifest Metadata
+* Plan 必須不可變、具決定性且無副作用。
+* Operation 順序具有語意，必須保留至 `GenerationResult.writes`。
+* Normal run 與 dry-run 必須執行或模擬同一份 Plan。
+* `template_name` 指定 Template Source。
+* `destination` 指定預期輸出路徑。
+* `context` 保存該操作所需的不可變 rendering values。
+* `write_policy` 明確宣告既有目標的處理方式。
+* Plan 表示寫入意圖；`WriteResult` 表示執行結果，兩者不得混用。
+* 目錄準備與 Manifest 更新可保留為 lifecycle 副作用，不強制建立對應的
+  `WriteResult`。
+
+不得再為相同責任新增 `PlannedFile`、`PlannedOutput` 或其他平行公開模型。
 
 ---
 
@@ -772,7 +775,8 @@ overwrite=True
 
 ## 21. File Ownership
 
-建議 Generation Plan 區分：
+未來若 Generation Plan 需要表達 Ownership，應擴充 canonical plan contract，
+不得建立平行模型。Ownership 概念可區分：
 
 ### User-owned
 
@@ -1695,7 +1699,8 @@ Generator Public Contract 可能包括：
 * Filesystem 注入方式可能尚未一致。
 * Manifest 整合可能只存在於部分 Generator。
 * `GenerateRequest` 與 `RuntimeOptions` 已成為內建 Generator 的共用輸入契約。
-* Generation Plan 尚未成為共用模型。
+* `GenerationOperation` 與 `GenerationPlan` 的核心模型骨架已存在。
+* 內建 Generator、SDK、CLI preview 與 dry-run lifecycle 尚未整合共用 Plan。
 
 2026-08-04 validation contract checkpoint：
 
@@ -1705,7 +1710,8 @@ Generator Public Contract 可能包括：
 Coverage: 80.79% (required: 67%)
 ```
 
-Milestone 3 應先盤點目前實作，再選擇單一正式方向。
+ADR 0007 已選定正式方向：收斂並整合既有 canonical plan models，不建立第二套
+Generation Plan 表示法。
 
 ---
 
@@ -1751,11 +1757,17 @@ Bootstrap、Course 與 Week Generator 已完成共用 `GenerationResult` 垂直�
 
 ### Phase 3：Typed Requests
 
-為 Bootstrap、Course、Week 建立 Request Dataclass。
+狀態：**Implemented**。
+
+Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOptions`
+輸入契約。
 
 ### Phase 4：Generation Plan
 
-將實際寫入前的所有輸出整理成 Plan。
+狀態：**Design proposed in ADR 0007**。
+
+沿用既有 `GenerationOperation` 與 `GenerationPlan` 模型，依序完成 Bootstrap
+垂直切片、跨 Generator 遷移、SDK 公開邊界、CLI preview 與 dry-run lifecycle。
 
 ### Phase 5：Dependency Injection
 
@@ -1918,6 +1930,7 @@ Bootstrap、Course 與 Week Generator 已完成共用 `GenerationResult` 垂直�
 * [ ] Template Reference 已更新。
 * [ ] Changelog 已更新。
 * [x] ADR 0006 已接受並同步實作狀態。
+* [x] ADR 0007 已提出並同步 Generation Plan 架構方向。
 * [x] `git diff --check` 通過。
 * [x] Generator validation contract tests：32 passed。
 * [x] `pre-commit run --all-files` 通過。
@@ -1943,6 +1956,7 @@ Bootstrap、Course 與 Week Generator 已完成共用 `GenerationResult` 垂直�
 * [Testing Guide](../development/testing.md)
 * [Code Review Checklist](../development/code-review-checklist.md)
 * [ADR 0006: Generator Validation Contract](../adr/0006-generator-validation-contract.md)
+* [ADR 0007: Generation Plan Contract](../adr/0007-generation-plan-contract.md)
 
 ---
 

@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from generator.core.exceptions import GeneratorValidationError
 from generator.core.filesystem import FileSystemError
 from generator.core.models import GenerateRequest, GenerationResult, RuntimeOptions
 from generator.core.template import TemplateRenderError
@@ -206,7 +207,7 @@ def test_bootstrap_generator_rejects_invalid_slug(
     context = valid_context()
     context["project_slug"] = slug
 
-    with pytest.raises(ValueError, match="project_slug"):
+    with pytest.raises(GeneratorValidationError, match="project_slug"):
         _generate(
             BootstrapGenerator(template_root),
             tmp_path / "courses",
@@ -345,7 +346,7 @@ def test_bootstrap_generator_supports_template_root_override(
 def test_bootstrap_generator_requires_template_root(
     tmp_path: Path,
 ) -> None:
-    with pytest.raises(ValueError, match="template_root"):
+    with pytest.raises(GeneratorValidationError, match="template_root"):
         _generate(
             BootstrapGenerator(),
             tmp_path / "courses",

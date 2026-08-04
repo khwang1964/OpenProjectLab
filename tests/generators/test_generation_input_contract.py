@@ -9,6 +9,7 @@ from typing import Protocol, cast
 
 import pytest
 
+from generator.core.exceptions import GeneratorValidationError
 from generator.core.models import GenerateRequest, GenerationResult, RuntimeOptions
 from generator.generators.bootstrap_generator import BootstrapGenerator
 from generator.generators.course_generator import CourseGenerator
@@ -184,5 +185,5 @@ def test_generator_name_mismatch_is_rejected(
         options=RuntimeOptions(dry_run=True),
     )
 
-    with pytest.raises(ValueError, match="generator"):
+    with pytest.raises(GeneratorValidationError, match="generator"):
         generator.generate(request)

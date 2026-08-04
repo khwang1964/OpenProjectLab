@@ -6,6 +6,7 @@ import re
 from collections.abc import Mapping
 from pathlib import Path
 
+from generator.core.exceptions import GeneratorValidationError
 from generator.core.filesystem import FileSystem
 from generator.core.generation_manifest import GenerationManifest
 from generator.core.models import GenerateRequest, GenerationResult, WriteResult
@@ -153,24 +154,38 @@ class BootstrapGenerator:
     ) -> Path:
         """Resolve the effective template root."""
         if self._template_root is None:
-            raise ValueError("未提供 template_root")
+            raise GeneratorValidationError(
+                generator=self.name,
+                field="template_root",
+                message="未提供 template_root",
+            )
 
         return self._template_root
 
     def _validate_generator_name(self, generator_name: str) -> None:
         """Reject requests addressed to a different generator."""
         if generator_name != self.name:
-            raise ValueError(
-                f"generator_name 必須是 {self.name!r}，收到 {generator_name!r}",
+            raise GeneratorValidationError(
+                generator=self.name,
+                field="generator_name",
+                message=(f"generator_name 必須是 {self.name!r}，收到 {generator_name!r}"),
             )
 
-    @staticmethod
-    def _validate_project_slug(value: object) -> str:
+    @classmethod
+    def _validate_project_slug(cls, value: object) -> str:
         """Validate and return a normalized project slug."""
         if not isinstance(value, str) or not value:
-            raise ValueError("project_slug 必須是非空字串")
+            raise GeneratorValidationError(
+                generator=cls.name,
+                field="project_slug",
+                message="project_slug 必須是非空字串",
+            )
 
         if not _SLUG_PATTERN.fullmatch(value):
-            raise ValueError("project_slug 必須符合 ^[a-z0-9]+(?:-[a-z0-9]+)*$")
+            raise GeneratorValidationError(
+                generator=cls.name,
+                field="project_slug",
+                message="project_slug 必須符合 ^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            )
 
         return value

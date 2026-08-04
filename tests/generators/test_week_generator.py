@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from generator.core.exceptions import GeneratorValidationError
 from generator.core.filesystem import FileSystemError
 from generator.core.models import GenerateRequest, GenerationResult, RuntimeOptions
 from generator.core.template import TemplateRenderError
@@ -172,7 +173,7 @@ def test_week_generator_rejects_non_positive_week(
     context = valid_context()
     context["week"] = week
 
-    with pytest.raises(ValueError, match="大於 0"):
+    with pytest.raises(GeneratorValidationError, match="大於 0"):
         _generate(WeekGenerator(template_root), tmp_path / "course", context)
 
 
@@ -185,7 +186,7 @@ def test_week_generator_rejects_non_integer_week(
     context = valid_context()
     context["week"] = week
 
-    with pytest.raises(ValueError, match="必須是整數"):
+    with pytest.raises(GeneratorValidationError, match="必須是整數"):
         _generate(WeekGenerator(template_root), tmp_path / "course", context)
 
 
@@ -196,7 +197,7 @@ def test_week_generator_rejects_missing_week(
     context = valid_context()
     del context["week"]
 
-    with pytest.raises(ValueError, match="必須是整數"):
+    with pytest.raises(GeneratorValidationError, match="必須是整數"):
         _generate(WeekGenerator(template_root), tmp_path / "course", context)
 
 
@@ -275,7 +276,7 @@ def test_week_generator_supports_template_root_override(
 
 
 def test_week_generator_requires_template_root(tmp_path: Path) -> None:
-    with pytest.raises(ValueError, match="template_root"):
+    with pytest.raises(GeneratorValidationError, match="template_root"):
         _generate(WeekGenerator(), tmp_path / "course", valid_context())
 
 
@@ -355,7 +356,7 @@ def test_week_generator_rejects_invalid_directory_pattern(
     tmp_path: Path,
     pattern: str,
 ) -> None:
-    with pytest.raises(ValueError):
+    with pytest.raises(GeneratorValidationError):
         _generate(
             WeekGenerator(template_root),
             tmp_path / "course",
@@ -370,7 +371,7 @@ def test_week_generator_rejects_absolute_directory_pattern(
 ) -> None:
     absolute = str((tmp_path / "week-{week:02d}").resolve())
 
-    with pytest.raises(ValueError, match="絕對路徑"):
+    with pytest.raises(GeneratorValidationError, match="絕對路徑"):
         _generate(
             WeekGenerator(template_root),
             tmp_path / "course",
@@ -383,7 +384,7 @@ def test_week_generator_rejects_invalid_format_pattern(
     template_root: Path,
     tmp_path: Path,
 ) -> None:
-    with pytest.raises(ValueError, match="directory_pattern"):
+    with pytest.raises(GeneratorValidationError, match="directory_pattern"):
         _generate(
             WeekGenerator(template_root),
             tmp_path / "course",

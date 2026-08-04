@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from generator.core.exceptions import GeneratorValidationError
 from generator.core.filesystem import FileSystem
 from generator.core.generation_manifest import GenerationManifest
 from generator.core.models import GenerateRequest, GenerationResult
@@ -83,37 +84,67 @@ class WeekGenerator:
     def _resolve_template_root(self) -> Path:
         """Resolve the template root."""
         if self._template_root is None:
-            raise ValueError("未提供 template_root")
+            raise GeneratorValidationError(
+                generator=self.name,
+                field="template_root",
+                message="未提供 template_root",
+            )
         return self._template_root
 
     def _validate_generator_name(self, generator_name: str) -> None:
         """Reject requests addressed to a different generator."""
         if generator_name != self.name:
-            raise ValueError(
-                f"generator_name 必須是 {self.name!r}，收到 {generator_name!r}",
+            raise GeneratorValidationError(
+                generator=self.name,
+                field="generator_name",
+                message=(f"generator_name 必須是 {self.name!r}，收到 {generator_name!r}"),
             )
 
-    @staticmethod
-    def _validate_week(value: object) -> int:
+    @classmethod
+    def _validate_week(cls, value: object) -> int:
         """Validate and return a positive integer week number."""
         if isinstance(value, bool) or not isinstance(value, int):
-            raise ValueError("week 必須是整數")
+            raise GeneratorValidationError(
+                generator=cls.name,
+                field="week",
+                message="week 必須是整數",
+            )
         if value <= 0:
-            raise ValueError("week 必須大於 0")
+            raise GeneratorValidationError(
+                generator=cls.name,
+                field="week",
+                message="week 必須大於 0",
+            )
         return value
 
-    @staticmethod
-    def _format_week_directory(pattern: str, week: int) -> Path:
+    @classmethod
+    def _format_week_directory(cls, pattern: str, week: int) -> Path:
         """Format and validate the relative week directory."""
         try:
             directory = pattern.format(week=week)
         except (KeyError, IndexError, ValueError) as exc:
-            raise ValueError(f"無效的 directory_pattern：{pattern}") from exc
+            raise GeneratorValidationError(
+                generator=cls.name,
+                field="directory_pattern",
+                message=f"無效的 directory_pattern：{pattern}",
+            ) from exc
         path = Path(directory)
         if path.is_absolute():
-            raise ValueError("week 目錄不可為絕對路徑")
+            raise GeneratorValidationError(
+                generator=cls.name,
+                field="directory_pattern",
+                message="week 目錄不可為絕對路徑",
+            )
         if not path.parts or str(path) in {"", "."}:
-            raise ValueError("week 目錄不可為空")
+            raise GeneratorValidationError(
+                generator=cls.name,
+                field="directory_pattern",
+                message="week 目錄不可為空",
+            )
         if ".." in path.parts:
-            raise ValueError("week 目錄不可包含父目錄跳脫")
+            raise GeneratorValidationError(
+                generator=cls.name,
+                field="directory_pattern",
+                message="week 目錄不可包含父目錄跳脫",
+            )
         return path

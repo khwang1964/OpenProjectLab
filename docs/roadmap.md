@@ -1,7 +1,7 @@
 # OpenProjectLab Roadmap
 
 > Status: Active
-> Last Updated: 2026-07-28
+> Last Updated: 2026-08-04
 
 ---
 
@@ -49,10 +49,13 @@ OpenProjectLab（OPL）的目標不是建立一個單純的 Project Generator，
 * Unit Tests
 * Integration Tests
 * Documentation Foundation
+* Shared `GenerationResult` Contract
+* Shared `GenerateRequest` and `RuntimeOptions` Contract
+* Structured Generator Validation Contract
 
 目前正處於：
 
-> **Milestone 2.5 — Documentation Standardization**
+> **Milestone 3 — Core Framework / Generation Plan Contract（Design First）**
 
 ---
 
@@ -89,7 +92,7 @@ OpenProjectLab（OPL）的目標不是建立一個單純的 Project Generator，
 
 ---
 
-# Milestone 2.5 — Documentation Standardization 🚧
+# Milestone 2.5 — Documentation Standardization ✅
 
 建立完整 Documentation Architecture。
 
@@ -139,9 +142,11 @@ OpenProjectLab（OPL）的目標不是建立一個單純的 Project Generator，
 
 Documentation 成為 Framework 的正式組成，而非附屬產物。
 
+**Status:** Completed
+
 ---
 
-# Milestone 3 — Core Framework
+# Milestone 3 — Core Framework 🚧
 
 建立真正可重用的 Framework Core。
 
@@ -174,6 +179,25 @@ Documentation 成為 Framework 的正式組成，而非附屬產物。
 * Generation Plan
 * Validation
 * Pipeline Execution
+
+## Current Progress
+
+* `GenerationResult` 共用輸出契約：Completed
+* `GenerateRequest`／`RuntimeOptions` 共用輸入契約：Completed
+* `GeneratorValidationError` 結構化驗證契約：Completed
+* Generation Plan provenance 與 usage audit：Completed
+* ADR 0007 Generation Plan Contract：Proposed
+* Generator Architecture 與 ADR 索引同步：In Progress
+* Bootstrap Generation Plan 垂直切片：Planned（ADR 接受後開始）
+* Course／Week Generation Plan 遷移：Planned
+* SDK plan API、CLI preview 與 dry-run lifecycle：Planned
+
+## Design Gate
+
+在 ADR 0007 完成審查並標示為 `Accepted` 前，不進行 Generation Plan 的
+production code、Generator、SDK 或 CLI 整合。
+
+**Status:** In Progress
 
 ---
 

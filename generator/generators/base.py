@@ -4,6 +4,11 @@ from abc import ABC, abstractmethod
 from enum import Enum, auto
 
 from generator.core.context import GeneratorContext
+from generator.core.models import (
+    GenerateRequest,
+    GenerationPlan,
+    GenerationResult,
+)
 
 
 class GeneratorState(Enum):
@@ -26,22 +31,11 @@ class BaseGenerator(ABC):
         """建立尚未執行的 Generator。"""
         self.state = GeneratorState.CREATED
 
-    def run(self, context: GeneratorContext) -> None:
-        """依序執行驗證、準備、產生、後處理與清理。"""
-        try:
-            self.validate(context)
-            self.state = GeneratorState.VALIDATED
-            self.prepare(context)
-            self.state = GeneratorState.PREPARED
-            self.generate(context)
-            self.state = GeneratorState.GENERATED
-            self.post_generate(context)
-            self.state = GeneratorState.COMPLETED
-        except Exception:
-            self.state = GeneratorState.FAILED
-            raise
-        finally:
-            self.cleanup(context)
+    def run(self, request: GenerateRequest) -> GenerationResult:
+        """Run the canonical validation, planning, and execution lifecycle."""
+        self.validate_request(request)
+        plan = self.plan(request)
+        return self.execute(request, plan)
 
     def validate(self, context: GeneratorContext) -> None:
         """驗證輸出目錄是否可安全寫入。"""
@@ -64,3 +58,19 @@ class BaseGenerator(ABC):
     def cleanup(self, context: GeneratorContext) -> None:
         """執行可選的資源清理工作。"""
         return None
+
+    def validate_request(self, request: GenerateRequest) -> None:
+        """Validate a generation request before planning."""
+        del request
+
+    @abstractmethod
+    def plan(self, request: GenerateRequest) -> GenerationPlan:
+        """Build an immutable generation plan without filesystem mutation."""
+
+    @abstractmethod
+    def execute(
+        self,
+        request: GenerateRequest,
+        plan: GenerationPlan,
+    ) -> GenerationResult:
+        """Execute or simulate a previously validated generation plan."""

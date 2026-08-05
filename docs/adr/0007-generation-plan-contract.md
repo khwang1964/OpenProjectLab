@@ -1,6 +1,6 @@
 # ADR 0007: Define the Generation Plan Contract
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-08-04
 - Decision owners: OpenProjectLab maintainers
 - Related: ADR 0002, ADR 0004, ADR 0005, ADR 0006

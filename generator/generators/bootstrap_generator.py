@@ -9,13 +9,20 @@ from pathlib import Path
 from generator.core.exceptions import GeneratorValidationError
 from generator.core.filesystem import FileSystem
 from generator.core.generation_manifest import GenerationManifest
-from generator.core.models import GenerateRequest, GenerationResult, WriteResult
+from generator.core.models import (
+    GenerateRequest,
+    GenerationOperation,
+    GenerationPlan,
+    GenerationResult,
+    WriteResult,
+)
 from generator.core.template import TemplateRenderer
+from generator.generators.base import BaseGenerator
 
 _SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
-class BootstrapGenerator:
+class BootstrapGenerator(BaseGenerator):
     """Generate a complete OpenProjectLab course scaffold."""
 
     name = "bootstrap"
@@ -44,9 +51,49 @@ class BootstrapGenerator:
         filesystem: FileSystem | None = None,
     ) -> None:
         """Initialize the generator dependencies and default roots."""
+        super().__init__()
         self._template_root = Path(template_root) if template_root else None
         self._output_root = Path(output_root) if output_root else None
         self._filesystem = filesystem or FileSystem()
+
+    def validate_request(self, request: GenerateRequest) -> None:
+        """Validate a Bootstrap request before planning."""
+        self._validate_generator_name(request.generator_name)
+        self._resolve_template_root()
+        self._validate_project_slug(request.values.get("project_slug"))
+
+    def plan(self, request: GenerateRequest) -> GenerationPlan:
+        """Build an immutable plan for Bootstrap template outputs."""
+        resolved_context = dict(request.values)
+        slug = self._validate_project_slug(
+            resolved_context.get("project_slug"),
+        )
+        resolved_context["project_slug"] = slug
+
+        project_root = request.target / slug
+        operations = tuple(
+            GenerationOperation(
+                template_name=template_name,
+                destination=project_root / output_name,
+                context=resolved_context,
+                write_policy=request.options.write_policy,
+            )
+            for output_name, template_name in self.TEMPLATE_MANIFEST.items()
+        )
+
+        return GenerationPlan(
+            generator_name=self.name,
+            operations=operations,
+        )
+
+    def execute(
+        self,
+        request: GenerateRequest,
+        plan: GenerationPlan,
+    ) -> GenerationResult:
+        """Execute through the legacy implementation during migration."""
+        del plan
+        return self.generate(request)
 
     def generate(
         self,

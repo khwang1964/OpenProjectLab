@@ -1,13 +1,21 @@
 """Test the Bootstrap Generator and its shared GenerationResult contract."""
 
 from pathlib import Path
+from types import MappingProxyType
 
 import pytest
 
 from generator.core.exceptions import GeneratorValidationError
 from generator.core.filesystem import FileSystemError
-from generator.core.models import GenerateRequest, GenerationResult, RuntimeOptions
+from generator.core.models import (
+    GenerateRequest,
+    GenerationPlan,
+    GenerationResult,
+    RuntimeOptions,
+    WritePolicy,
+)
 from generator.core.template import TemplateRenderError
+from generator.generators.base import BaseGenerator
 from generator.generators.bootstrap_generator import BootstrapGenerator
 
 
@@ -433,3 +441,88 @@ def test_bootstrap_generator_run_returns_generation_result(
     assert len(result.writes) == 5
     assert result.dry_run is True
     assert result.manifest_updated is False
+
+
+@pytest.mark.parametrize(
+    ("overwrite", "expected_policy"),
+    [
+        (False, WritePolicy.CREATE_ONLY),
+        (True, WritePolicy.OVERWRITE),
+    ],
+)
+def test_bootstrap_plan_builds_ordered_template_operations(
+    template_root: Path,
+    tmp_path: Path,
+    *,
+    overwrite: bool,
+    expected_policy: WritePolicy,
+) -> None:
+    """Plan one ordered operation for every Bootstrap template."""
+    output_root = tmp_path / "courses"
+    request = _request(
+        output_root,
+        valid_context(),
+        overwrite=overwrite,
+    )
+    generator = BootstrapGenerator(template_root)
+
+    plan = generator.plan(request)
+
+    project_root = output_root / "modern-java"
+    expected_manifest = tuple(generator.TEMPLATE_MANIFEST.items())
+
+    assert type(plan) is GenerationPlan
+    assert plan.generator_name == generator.name
+    assert (
+        tuple(
+            (operation.destination.name, operation.template_name) for operation in plan.operations
+        )
+        == expected_manifest
+    )
+    assert tuple(operation.destination for operation in plan.operations) == tuple(
+        project_root / output_name for output_name in generator.TEMPLATE_MANIFEST
+    )
+    assert all(operation.write_policy is expected_policy for operation in plan.operations)
+    assert all(isinstance(operation.context, MappingProxyType) for operation in plan.operations)
+    assert all(operation.context["project_slug"] == "modern-java" for operation in plan.operations)
+
+
+@pytest.mark.parametrize("dry_run", [False, True])
+def test_bootstrap_plan_has_no_filesystem_side_effect(
+    template_root: Path,
+    tmp_path: Path,
+    *,
+    dry_run: bool,
+) -> None:
+    """Planning must not create project files, directories, or manifests."""
+    output_root = tmp_path / "courses"
+    generator = BootstrapGenerator(template_root)
+
+    generator.plan(
+        _request(
+            output_root,
+            valid_context(),
+            dry_run=dry_run,
+        )
+    )
+
+    assert not output_root.exists()
+
+
+def test_bootstrap_dry_run_does_not_change_plan(
+    template_root: Path,
+    tmp_path: Path,
+) -> None:
+    """Runtime simulation mode must not alter the immutable plan."""
+    generator = BootstrapGenerator(template_root)
+    output_root = tmp_path / "courses"
+
+    normal_plan = generator.plan(_request(output_root, valid_context(), dry_run=False))
+    dry_run_plan = generator.plan(_request(output_root, valid_context(), dry_run=True))
+
+    assert normal_plan == dry_run_plan
+
+
+def test_bootstrap_generator_uses_shared_base_lifecycle() -> None:
+    """Bootstrap must participate in the canonical generator lifecycle."""
+    assert issubclass(BootstrapGenerator, BaseGenerator)

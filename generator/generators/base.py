@@ -32,24 +32,48 @@ class BaseGenerator(ABC):
         self.state = GeneratorState.CREATED
 
     def run(self, request: GenerateRequest) -> GenerationResult:
-        """Run the canonical validation, planning, and execution lifecycle."""
+        """Run the framework-controlled generator execution lifecycle.
+
+        The lifecycle order is fixed:
+
+        1. validate the request
+        2. build an immutable generation plan
+        3. execute or simulate the plan
+        4. return a shared GenerationResult
+
+        Concrete generators should customize the lifecycle through
+        validate_request(), plan(), and execute() rather than overriding
+        this method.
+        """
         self.validate_request(request)
         plan = self.plan(request)
         return self.execute(request, plan)
 
     def validate(self, context: GeneratorContext) -> None:
-        """驗證輸出目錄是否可安全寫入。"""
+        """Validate a legacy GeneratorContext execution.
+
+        This hook is retained temporarily for compatibility and is not part
+        of the canonical GenerateRequest execution contract.
+        """
         output_dir = context.output_dir
         if output_dir.exists() and any(output_dir.iterdir()) and not context.force:
             raise FileExistsError(f"輸出目錄非空：{output_dir}")
 
     def prepare(self, context: GeneratorContext) -> None:
-        """執行可選的產生前準備工作。"""
+        """Prepare a legacy GeneratorContext execution.
+
+        This compatibility hook is not used by run(GenerateRequest).
+        """
         return None
 
     @abstractmethod
     def generate(self, context: GeneratorContext) -> None:
-        """執行主要內容產生流程。"""
+        """Execute the legacy GeneratorContext generation hook.
+
+        This abstract method is retained temporarily for compatibility.
+        New generator execution should use run(GenerateRequest), plan(),
+        and execute().
+        """
 
     def post_generate(self, context: GeneratorContext) -> None:
         """執行可選的產生後處理工作。"""

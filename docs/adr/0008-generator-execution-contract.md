@@ -1,13 +1,14 @@
 # ADR 0008: Generator Execution Contract
 
-* **Status:** Proposed
+* **Status:** Accepted
 * **Date:** 2026-08-06
 * **Decision Makers:** OpenProjectLab Maintainers
 * **Related ADRs:**
 
   * ADR 0002 – Generator Lifecycle
   * ADR 0004 – Remove Generator-specific Result Types
-  * ADR 0006 – Generator Planning Lifecycle
+  * ADR 0006 – Generator Validation Contract
+  * ADR 0007 – Generation Plan Contract
 * **Related Documents:**
 
   * `docs/architecture/generator.md`
@@ -25,7 +26,7 @@ OpenProjectLab（OPL）已完成數個重要演進：
 * 建立 Generator Validation Contract。
 * 將 Bootstrap、Course 與 Week Generator 統一至相同的 Result Model。
 
-然而，目前仍缺少一份正式文件，定義 **Generator 的完整執行生命週期（Execution Lifecycle）**。
+目前 OPL 已具備共用 `GenerateRequest`、`GenerationPlan` 與 `GenerationResult`，並已在 `BaseGenerator.run()` 中建立實際執行骨架。本 ADR 正式定義並接受 **Generator 的完整執行生命週期（Execution Lifecycle）**，以避免既有與未來 Generator 產生不一致的執行順序。
 
 如果沒有明確的 Execution Contract，未來新增 Generator 或 Plugin 時可能會：
 
@@ -35,7 +36,7 @@ OpenProjectLab（OPL）已完成數個重要演進：
 * 更新 Manifest 的時機不一致。
 * 造成不同 Generator 擁有不同執行流程。
 
-因此需要建立一份正式的 Execution Contract。
+因此需要將現有行為收斂為正式且可測試的 Execution Contract。
 
 ---
 
@@ -65,29 +66,30 @@ Framework 必須負責控制整個生命週期。
 
 ---
 
-# Proposed Lifecycle
+# Canonical Lifecycle
 
 ```text
-generate()
-
+run(request)
     │
-
-    ├── validate(request)
-
+    ├── validate_request(request)
     │
-
-    ├── create_generation_plan(request)
-
+    ├── plan(request)
     │
-
-    ├── execute(plan)
-
+    ├── execute(request, plan)
     │
-
     └── return GenerationResult
 ```
 
-`generate()` 應為唯一公開入口（Public Entry Point）。
+`BaseGenerator.run()` 是 Framework 控制的 canonical execution entry point。
+
+Concrete Generator 應透過以下 hooks 提供專屬行為：
+
+* `validate_request(request)`
+* `plan(request)`
+* `execute(request, plan)`
+
+Concrete Generator 不應覆寫 `run()`，因為這可能繞過 validation、planning、
+dry-run 語意與 result contract。
 
 ---
 
@@ -110,7 +112,7 @@ generate()
 
 * 驗證參數
 * 驗證 Metadata
-* 驗證 Template 是否存在
+* 驗證 Template Root 與必要 Template
 * 驗證設定是否合法
 
 Validation Failure 必須保證 **Zero Side Effects**。
@@ -205,8 +207,9 @@ Planning Failure
 
 Execution Failure
 
-* 回傳 Framework Exception
-* 保留 Exception Chaining
+* 向上傳遞具語意的 Framework Exception
+* 保留原始 Exception Chaining
+* 不重新啟動 lifecycle
 * Partial Failure 行為由 Filesystem Contract 定義
 
 ---
@@ -218,8 +221,9 @@ Framework（Base Generator）負責：
 * 控制 Lifecycle
 * 呼叫順序
 * Exception Propagation
-* Dry Run 行為
-* Result Aggregation
+* Lifecycle ordering
+* Exception Propagation
+* Canonical entry-point semantics
 
 Framework 不負責：
 
@@ -235,7 +239,7 @@ Concrete Generator 應只負責：
 
 * Validation Rules
 * Generation Planning
-* Domain-specific Rendering
+* Domain-specific Rendering 與寫入協調
 * Generator Metadata
 
 Concrete Generator 不應：
@@ -247,25 +251,25 @@ Concrete Generator 不應：
 
 ---
 
-# Expected Public Contract
+# Public Contract
 
-未來建議 Base Generator 提供固定骨架：
+目前 `BaseGenerator` 提供以下固定骨架：
 
 ```text
-generate()
-    ├── validate()
-    ├── create_generation_plan()
-    ├── execute()
+run(request)
+    ├── validate_request(request)
+    ├── plan(request)
+    ├── execute(request, plan)
     └── return GenerationResult
 ```
 
-Hook 名稱可調整，但生命週期不得改變。
+此順序由 Framework 擁有，Concrete Generator 只能實作各階段 hooks，不得改變生命週期。
 
 ---
 
 # Testing Requirements
 
-所有 Generator 必須通過共同 Execution Contract 測試。
+所有 Generator 必須通過共同 Execution Contract 測試。目前已建立 `tests/generators/test_generator_execution_contract.py`，驗證 canonical lifecycle ordering 與 failure boundaries。
 
 至少涵蓋：
 
@@ -275,7 +279,31 @@ Hook 名稱可調整，但生命週期不得改變。
 * Planning Failure 不產生副作用。
 * Dry Run 不寫入檔案。
 * Execution 回傳 GenerationResult。
+* `run()` 將 `plan()` 建立的同一份 `GenerationPlan` 傳入 `execute()`。
+* Dry Run 走過完整 lifecycle，但不修改 filesystem 或 manifest。
+* Execution Failure 不會重新啟動 lifecycle。
 * Bootstrap、Course、Week 使用相同 Lifecycle。
+
+---
+
+
+# Compatibility Decision
+
+`BaseGenerator` 目前暫時保留以下 legacy `GeneratorContext` hooks：
+
+* `validate(context)`
+* `prepare(context)`
+* `generate(context)`
+* `post_generate(context)`
+* `cleanup(context)`
+
+這些 hooks **不屬於** canonical `GenerateRequest` execution contract，也不會由
+`run(GenerateRequest)` 呼叫。
+
+保留這些方法的目的，是避免在本 ADR 中同時引入破壞性 API 移除。移除或正式標示
+deprecated 必須由後續獨立 ADR、migration tests 與 implementation PR 處理。
+
+本決策不新增 runtime warning，也不改變既有 CLI 或內建 Generator 行為。
 
 ---
 
@@ -287,7 +315,7 @@ Hook 名稱可調整，但生命週期不得改變。
 * Course Generator
 * Week Generator
 
-應逐步收斂至共同 Execution Skeleton。
+已透過 `BaseGenerator.run()` 收斂至共同 Execution Skeleton。後續工作聚焦於移除或隔離 legacy lifecycle，而不是重新設計 canonical lifecycle。
 
 未來 Plugin Generator 必須遵循相同 Contract。
 
@@ -307,6 +335,7 @@ Hook 名稱可調整，但生命週期不得改變。
 ## Trade-offs
 
 * Framework 控制力增加。
+* Legacy lifecycle 暫時形成相容性負擔。
 * Generator 可自由發揮的空間降低。
 * 新增 Hook 時需維護向後相容。
 
@@ -314,18 +343,22 @@ Hook 名稱可調整，但生命週期不得改變。
 
 # Code Review Checklist
 
-* [ ] `generate()` 為唯一 Public Entry Point。
-* [ ] Validation 發生於任何副作用之前。
-* [ ] Planning 不直接操作 Filesystem。
-* [ ] Execution 為唯一副作用階段。
-* [ ] Dry Run 不修改 Persistent State。
-* [ ] 回傳 `GenerationResult`。
-* [ ] Bootstrap、Course、Week 遵循相同生命週期。
-* [ ] Exception Propagation 一致。
-* [ ] Architecture、Tests、Implementation 保持同步。
+* [x] `run(GenerateRequest)` 為 canonical execution entry point。
+* [x] Lifecycle 順序固定為 `validate_request → plan → execute`。
+* [x] Validation 發生於任何副作用之前。
+* [x] Planning 不直接操作 Filesystem。
+* [x] Execution 為唯一允許執行或模擬副作用的階段。
+* [x] Dry Run 走過完整 lifecycle 且不修改 Persistent State。
+* [x] `execute()` 接收 `plan()` 建立的同一份 `GenerationPlan`。
+* [x] 回傳共用 `GenerationResult`。
+* [x] Execution Contract tests 已覆蓋 lifecycle ordering 與 failure boundaries。
+* [x] Legacy `GeneratorContext` lifecycle 被標示為 compatibility-only。
+* [x] Architecture、Tests、Implementation 保持同步。
 
 ---
 
 # Status
 
-本 ADR 定義 Generator Execution Contract，作為後續 Base Generator Skeleton、Filesystem Integration、Plugin Generator API 與 Execution Framework 的設計依據。
+本 ADR 已接受 `BaseGenerator.run()` 作為 canonical execution entry point，並由 `tests/generators/test_generator_execution_contract.py` 驗證 lifecycle ordering、failure boundaries 與 dry-run zero-side-effect semantics。
+
+Legacy `GeneratorContext` lifecycle 仍暫時保留，後續移除需由獨立 ADR 與 migration work 處理。

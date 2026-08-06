@@ -6,7 +6,6 @@ from pathlib import Path
 
 import pytest
 
-from generator.core.context import GeneratorContext
 from generator.core.models import (
     GenerateRequest,
     GenerationOperation,
@@ -50,10 +49,6 @@ class RecordingGenerator(BaseGenerator):
         self.fail_execution = fail_execution
         self.received_request: GenerateRequest | None = None
         self.received_plan: GenerationPlan | None = None
-
-    def generate(self, context: GeneratorContext) -> None:
-        """Satisfy the legacy abstract generation hook."""
-        del context
 
     def validate_request(self, request: GenerateRequest) -> None:
         """Record and optionally reject the request."""

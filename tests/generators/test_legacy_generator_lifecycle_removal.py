@@ -36,15 +36,6 @@ class RecordingGenerator(BaseGenerator):
         self.events = []
         self.executed_plan: GenerationPlan | None = None
 
-    def generate(self, context: object) -> None:
-        """Satisfy the temporary legacy abstract hook.
-
-        This method must be removed with the compatibility implementation
-        after BaseGenerator no longer declares legacy lifecycle hooks.
-        """
-        del context
-        raise AssertionError("Legacy generate() must not be called")
-
     def validate_request(self, request: GenerateRequest) -> None:
         """Record canonical request validation."""
         self.events.append("validate_request")
@@ -88,13 +79,6 @@ def generation_request(tmp_path: Path) -> GenerateRequest:
     )
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "ADR 0009 is accepted, but the legacy BaseGenerator lifecycle "
-        "has not been removed yet. Remove this marker with the legacy APIs."
-    ),
-)
 @pytest.mark.parametrize("method_name", LEGACY_LIFECYCLE_METHODS)
 def test_base_generator_does_not_expose_legacy_lifecycle_methods(
     method_name: str,

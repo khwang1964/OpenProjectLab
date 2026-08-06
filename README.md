@@ -70,7 +70,7 @@ OpenProjectLab 將工程最佳實務內建於框架之中，讓每一個新專�
 
 | 能力 | 說明 |
 | --------------------------- | --------------------------------------------------- |
-| **Generator Framework** | 以一致的生命週期建立不同類型的專案與內容 |
+| **Generator Framework** | 以 `GenerateRequest → validate_request → plan → execute → GenerationResult` 的一致生命週期建立不同類型的專案與內容 |
 | **Configuration Framework** | 集中管理 YAML 設定、路徑與 Generator 行為 |
 | **Template Framework** | 將程式邏輯、文件內容與專案範本分離 |
 | **Upgrade Framework** | 提供預覽、雜湊驗證、備份、回復與升級報告 |
@@ -85,7 +85,7 @@ OpenProjectLab 將工程最佳實務內建於框架之中，讓每一個新專�
 * `course`
 * `week`
 
-下一階段將聚焦於 **Plugin Framework**，讓功能能以外掛方式擴充，而不需要修改核心架構。
+Milestone 3 Generator Core Framework 已完成。下一階段聚焦於 **Plugin SDK 與 Plugin Framework**，讓功能能透過穩定公開 API 擴充，而不需要修改核心架構。
 
 ---
 
@@ -111,11 +111,39 @@ flowchart TB
     TEST --> CI["GitHub Actions"]
 ```
 
+### Generator Core Framework（Milestone 3 已完成）
+
+Generator Framework 已完成下列共用契約：
+
+* `GenerateRequest` 與 `RuntimeOptions`
+* `GeneratorValidationError`
+* `GenerationOperation` 與 `GenerationPlan`
+* `GenerationResult`
+* `BaseGenerator.run()` canonical execution lifecycle
+
+正式生命週期為：
+
+```text
+GenerateRequest
+    ↓
+validate_request()
+    ↓
+plan()
+    ↓
+execute()
+    ↓
+GenerationResult
+```
+
+Legacy `GeneratorContext` lifecycle 已自 `BaseGenerator` 移除，Generator SDK 也不再公開
+`GeneratorContext`。Bootstrap、Course、Week Generator 均由共享契約與跨 Generator
+Contract Tests 保護。
+
 ### 架構角色
 
 * **CLI**：解析命令與參數，並將工作委派給對應元件。
 * **Generator Registry**：註冊、查詢與管理可用的 Generator。
-* **Generator Framework**：提供一致的執行生命週期。
+* **Generator Framework**：提供由 Framework 控制、可驗證且可測試的 canonical execution lifecycle。
 * **Configuration Framework**：統一載入與驗證設定。
 * **Template Framework**：負責專案、文件與教材內容的產生。
 * **Upgrade Framework**：管理既有專案的安全演進。
@@ -136,11 +164,9 @@ flowchart TB
 ### 1. 取得原始碼
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/OpenProjectLab.git
+git clone https://github.com/khwang1964/OpenProjectLab.git
 cd OpenProjectLab
 ```
-
-請將 `YOUR_GITHUB_USERNAME` 替換為正式 Repository 所屬帳號。
 
 ### 2. 建立虛擬環境
 
@@ -290,7 +316,8 @@ README 提供專案概覽；完整設計、規格與維護資訊集中於 `docs/
 
 | 文件 | 內容 |
 | ---------------------------------------------------------- | ---------------------- |
-| [Architecture](docs/architecture.md) | 系統架構、核心元件與責任邊界 |
+| [Architecture Overview](docs/architecture/overview.md) | 系統架構、核心元件與責任邊界 |
+| [Generator Architecture](docs/architecture/generator.md) | Generator 契約、生命週期、結果與擴充邊界 |
 | [Configuration](docs/configuration.md) | YAML 設定、路徑與載入規則 |
 | [Template System](docs/template-system.md) | 範本結構、渲染與輸出行為 |
 | [Upgrade System](docs/upgrade-system.md) | 升級規劃、預覽、備份與回復 |

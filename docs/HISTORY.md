@@ -105,23 +105,73 @@ OPL 的核心理念逐步確立為：
 
 ---
 
+
+## Generator Core Framework（Milestone 3）
+
+Milestone 3 將 Generator Framework 從多個歷史介面，收斂為一套由共享模型、
+架構文件與契約測試共同保護的核心生命週期。
+
+完成項目包括：
+
+* `GenerateRequest` 與 `RuntimeOptions` 共用輸入契約
+* `GeneratorValidationError` 結構化驗證契約
+* `GenerationOperation` 與 `GenerationPlan` 共用規劃契約
+* `GenerationResult` 共用結果契約
+* `BaseGenerator.run()` canonical execution lifecycle
+* `validate_request → plan → execute → GenerationResult`
+* Legacy `GeneratorContext` lifecycle removal
+* Generator SDK public export cleanup
+* Bootstrap、Course、Week cross-generator contract tests
+
+此階段依序完成 ADR 0005～0009、契約測試、production refactor 與文件同步，
+並以 Ruff、pytest、Coverage、pre-commit 與 GitHub Actions 作為合併品質閘門。
+
+---
+
+## Legacy Generator Lifecycle Removal
+
+早期 `BaseGenerator` 同時保留：
+
+* `validate(context)`
+* `prepare(context)`
+* `generate(context)`
+* `post_generate(context)`
+* `cleanup(context)`
+
+隨著 `GenerateRequest`、`GenerationPlan` 與 `GenerationResult` 契約成熟，
+上述 Legacy Lifecycle 已不再參與正式執行流程。
+
+OPL 最終移除這些 hooks，並將 Generator 的正式擴充點收斂為：
+
+* `validate_request()`
+* `plan()`
+* `execute()`
+
+`BaseGenerator.run()` 成為唯一由 Framework 控制的執行入口。
+
+---
+
 # 下一階段
 
-Milestone 2：
+Milestone 2.5：
 
-* Documentation Reconstruction
+* Documentation Standardization（Completed）
 
 Milestone 3：
 
-* Plugin Framework
+* Generator Core Framework（Completed）
 
 Milestone 4：
 
-* AI Integration
+* Plugin SDK and Plugin Ecosystem（In Progress）
 
 Milestone 5：
 
-* Open Courseware
+* Open Courseware Platform
+
+Milestone 6：
+
+* AI Integration
 
 ---
 

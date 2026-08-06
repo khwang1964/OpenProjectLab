@@ -49,6 +49,40 @@
   an implementation detail rather than a shared result field.
 - Stop importing `BootstrapResult`, `CourseResult`, and `WeekResult` in new code.
 
+### Changed
+
+- Finalized the canonical Generator execution lifecycle around `BaseGenerator.run()`.
+- Clarified the framework-owned execution sequence:
+  `validate_request() → plan() → execute() → GenerationResult`.
+- Documented validation, planning, execution, and dry-run side-effect boundaries.
+- Classified the legacy `GeneratorContext` lifecycle as compatibility-only; no
+  production behavior changed in this release.
+
+### Added
+
+- Added ADR 0008: Generator Execution Contract.
+- Added execution contract architecture documentation describing lifecycle
+  ownership, immutable planning, and dry-run semantics.
+- Added shared execution contract tests covering lifecycle ordering, validation
+  and planning failure boundaries, execution exception propagation, immutable
+  `GenerationPlan` handoff, and dry-run behavior.
+
+### Migration
+
+- Use `BaseGenerator.run(GenerateRequest)` as the canonical execution entry
+  point.
+- Implement generator customization through `validate_request()`, `plan()`, and
+  `execute()` rather than overriding lifecycle orchestration.
+- Treat legacy `GeneratorContext` hooks as compatibility APIs pending a future
+  migration decision.
+
+### Verification
+
+- Verified execution contract tests.
+- Verified all Generator tests (155 passed).
+- Verified repository test suite, Ruff, pre-commit, and `git diff --check`.
+
+
 ### Verification
 
 - Verified all 32 cross-generator validation contract cases.

@@ -2,7 +2,7 @@
 
 > Status: Active and Evolving
 > Milestone: 3 — Core Framework
-> Last updated: 2026-08-04
+> Last updated: 2026-08-06
 > Audience: Maintainers, contributors, Generator developers, Plugin developers
 > Scope: Generator responsibilities, contracts, lifecycle, registry integration, dependency boundaries, results, errors, testing, extension, and compatibility
 
@@ -572,11 +572,77 @@ Template Context 的正式契約應同步記錄於：
 
 ---
 
-## 15. Generation Lifecycle
+## 15. Canonical Execution Contract
 
-標準生命週期已實作 validation、generation 與 result 邊界。ADR 0007 已提出
-共用 Generation Plan 契約；既有模型骨架已存在，但 lifecycle 整合仍為
-**Proposed**：
+目前狀態：**Implemented and documented**。`BaseGenerator.run()` 是 Framework 控制的
+canonical execution entry point，固定執行以下生命週期：
+
+```text
+GenerateRequest
+    ↓
+validate_request()
+    ↓
+plan()
+    ↓
+execute()
+    ↓
+GenerationResult
+```
+
+### Lifecycle ownership
+
+`BaseGenerator` 擁有執行順序。Concrete Generator 只能透過以下 hook 提供
+Generator-specific 行為：
+
+* `validate_request()`
+* `plan()`
+* `execute()`
+
+Concrete Generator 不應覆寫 `run()`，否則可能繞過 validation、planning、dry-run
+語意與共用 Result Contract。
+
+### Side-effect boundary
+
+* `validate_request()` 不得修改 Persistent State。
+* `plan()` 必須建立不可變的 `GenerationPlan`，不得進行 Filesystem Mutation。
+* `execute()` 是唯一允許執行或模擬外部副作用的階段。
+
+Validation Failure 必須停止於 planning 前；Planning Failure 必須停止於 execution 前。
+這兩種失敗都必須維持 Zero Side Effects。
+
+### Dry-run
+
+Dry-run 與一般執行使用相同的 validation 與 planning lifecycle。`execute()` 必須模擬
+同一份 Plan，但不得：
+
+* 建立目錄
+* 寫入檔案
+* 更新 Manifest
+* 修改 Persistent State
+
+Dry-run 仍應回傳 `GenerationResult`，並以 `dry_run=True`、`manifest_updated=False`
+描述模擬結果。
+
+### Legacy compatibility lifecycle
+
+`BaseGenerator` 暫時保留以下 `GeneratorContext` hooks：
+
+* `validate()`
+* `prepare()`
+* `generate()`
+* `post_generate()`
+* `cleanup()`
+
+這些 hooks 不屬於 canonical `GenerateRequest` execution contract，只為現有 subclass
+與 downstream integration 的短期相容性而保留。正式 deprecation 或 removal 必須透過
+獨立 ADR、migration tests 與 implementation PR 處理。
+
+---
+
+## 16. Generation Lifecycle
+
+標準生命週期已實作 validation、planning、execution 與 result 邊界。ADR 0007 定義
+共用 Generation Plan 契約，ADR 0008 定義 canonical execution contract。
 
 ```text
 Receive Request
@@ -613,12 +679,12 @@ Return Generation Result
 
 ---
 
-## 16. Generation Plan
+## 17. Generation Plan
 
 ADR 0007 將既有 `GenerationOperation` 與 `GenerationPlan` 定為唯一的
-Generation Plan 模型。模型骨架已存在，但內建 Generator、SDK、CLI preview
-與 dry-run lifecycle 的整合仍為 **Proposed**，在 ADR 接受且實作完成前不得
-視為穩定公開 API。
+Generation Plan 模型。核心 Generator 已透過 `BaseGenerator.run()` 整合 planning
+與 execution lifecycle；SDK、CLI preview 與 Plugin Generator 的公開整合仍屬
+後續演進範圍。
 
 最小概念契約：
 
@@ -654,7 +720,7 @@ class GenerationPlan:
 
 ---
 
-## 17. Plan Validation
+## 18. Plan Validation
 
 實際寫入前至少驗證：
 
@@ -673,7 +739,7 @@ Plan Validation 失敗時，不應建立任何正式輸出。
 
 ---
 
-## 18. Template Rendering Boundary
+## 19. Template Rendering Boundary
 
 Template Renderer 應負責：
 
@@ -701,7 +767,7 @@ Generator 應負責：
 
 ---
 
-## 19. Filesystem Boundary
+## 20. Filesystem Boundary
 
 Generator 應透過 Filesystem Service 或 Protocol 寫入檔案。
 
@@ -742,7 +808,7 @@ Filesystem Layer 應統一負責：
 
 ---
 
-## 20. Write Policy
+## 21. Write Policy
 
 Generator 應明確指定每個輸出的 Write Policy。
 
@@ -773,7 +839,7 @@ overwrite=True
 
 ---
 
-## 21. File Ownership
+## 22. File Ownership
 
 未來若 Generation Plan 需要表達 Ownership，應擴充 canonical plan contract，
 不得建立平行模型。Ownership 概念可區分：
@@ -814,7 +880,7 @@ class FileOwnership(StrEnum):
 
 ---
 
-## 22. Dry Run
+## 23. Dry Run
 
 Dry Run 必須執行：
 
@@ -848,7 +914,7 @@ CONFLICT
 
 ---
 
-## 23. Generation Result
+## 24. Generation Result
 
 Generator 應回傳結構化 Result，而不是只回傳 `None`。
 
@@ -886,7 +952,7 @@ Result 應描述事實，不應包含預先格式化的 Console 文字。
 
 ---
 
-## 24. Result Consistency
+## 25. Result Consistency
 
 所有核心 Generator 已採用一致的 Result Model：
 
@@ -901,7 +967,7 @@ Result 應描述事實，不應包含預先格式化的 Console 文字。
 
 ---
 
-## 25. Manifest Integration
+## 26. Manifest Integration
 
 Generation Manifest 應記錄：
 
@@ -933,7 +999,7 @@ Manifest Updated
 
 ---
 
-## 26. Registry Integration
+## 27. Registry Integration
 
 Generator Registry 負責：
 
@@ -966,7 +1032,7 @@ Registry 不應：
 
 ---
 
-## 27. Generator Construction
+## 28. Generator Construction
 
 Generator 建構子應保持輕量。
 
@@ -993,7 +1059,7 @@ Generator 建構子應保持輕量。
 
 ---
 
-## 28. Statelessness
+## 29. Statelessness
 
 Generator 應盡量保持 Stateless。
 
@@ -1017,7 +1083,7 @@ Stateless Design 可提升：
 
 ---
 
-## 29. Determinism
+## 30. Determinism
 
 相同輸入、相同 Template 與相同設定，應產生相同結果。
 
@@ -1035,7 +1101,7 @@ Generator 不應默認加入：
 
 ---
 
-## 30. Idempotency
+## 31. Idempotency
 
 相同 Request 重複執行時，理想行為：
 
@@ -1075,7 +1141,7 @@ SKIPPED README.md
 
 ---
 
-## 31. Error Handling
+## 32. Error Handling
 
 Generator business validation 使用已實作的 `GeneratorValidationError`，其餘
 例外類別只有在程式碼與測試中存在時才視為公開契約：
@@ -1113,7 +1179,7 @@ stderr，並回傳 exit code `2`。Generator 本身不決定 process exit code�
 
 ---
 
-## 32. Unexpected Errors
+## 33. Unexpected Errors
 
 不應：
 
@@ -1138,7 +1204,7 @@ except Exception as exc:
 
 ---
 
-## 33. Partial Failure
+## 34. Partial Failure
 
 Generator 需要定義部分失敗行為。
 
@@ -1171,7 +1237,7 @@ Milestone 3 可先採用：
 
 ---
 
-## 34. Cancellation
+## 35. Cancellation
 
 使用者以 `Ctrl+C` 中止時，Generator 不應捕捉後視為成功。
 
@@ -1189,7 +1255,7 @@ KeyboardInterrupt
 
 ---
 
-## 35. Logging
+## 36. Logging
 
 Generator Library Code 應使用：
 
@@ -1226,7 +1292,7 @@ logger = logging.getLogger(__name__)
 
 ---
 
-## 36. Testing Strategy
+## 37. Testing Strategy
 
 Generator 測試應分成：
 
@@ -1264,7 +1330,7 @@ CLI Tests
 
 ---
 
-## 37. Request Validation Test
+## 38. Request Validation Test
 
 ```python
 def test_week_number_must_be_positive(
@@ -1286,7 +1352,7 @@ def test_week_number_must_be_positive(
 
 ---
 
-## 38. Dry Run Test
+## 39. Dry Run Test
 
 ```python
 def test_dry_run_does_not_write_files(
@@ -1316,7 +1382,7 @@ Dry Run 仍應確認：
 
 ---
 
-## 39. Deterministic Output Test
+## 40. Deterministic Output Test
 
 ```python
 def test_same_request_produces_same_plan(
@@ -1333,7 +1399,7 @@ def test_same_request_produces_same_plan(
 
 ---
 
-## 40. Filesystem Interaction Test
+## 41. Filesystem Interaction Test
 
 使用 Fake Filesystem：
 
@@ -1373,7 +1439,7 @@ def test_course_generator_writes_expected_file(
 
 ---
 
-## 41. Template Context Test
+## 42. Template Context Test
 
 ```python
 def test_week_generator_builds_context(
@@ -1396,7 +1462,7 @@ def test_week_generator_builds_context(
 
 ---
 
-## 42. Result Test
+## 43. Result Test
 
 ```python
 def test_generator_returns_structured_result(
@@ -1415,7 +1481,7 @@ def test_generator_returns_structured_result(
 
 ---
 
-## 43. Existing File Test
+## 44. Existing File Test
 
 ```python
 def test_generator_does_not_overwrite_by_default(
@@ -1437,7 +1503,7 @@ def test_generator_does_not_overwrite_by_default(
 
 ---
 
-## 44. Manifest Integration Test
+## 45. Manifest Integration Test
 
 ```python
 def test_generated_files_are_recorded(
@@ -1458,7 +1524,7 @@ def test_generated_files_are_recorded(
 
 ---
 
-## 45. Generator Contract Tests
+## 46. Generator Contract Tests
 
 已在 `tests/generators/test_generation_result_contract.py` 建立參數化共用測試：
 
@@ -1493,7 +1559,7 @@ Plugin Generator 也應通過相同 Contract Test Suite。
 
 ---
 
-## 46. Golden Output Tests
+## 47. Golden Output Tests
 
 Golden Fixture：
 
@@ -1526,7 +1592,7 @@ Golden Fixture 修改必須人工 Review。
 
 ---
 
-## 47. Adding a Core Generator
+## 48. Adding a Core Generator
 
 新增 Generator 時應依照以下流程。
 
@@ -1612,7 +1678,7 @@ python -m pytest
 
 ---
 
-## 48. Adding a Plugin Generator
+## 49. Adding a Plugin Generator
 
 Plugin Generator 應：
 
@@ -1631,7 +1697,7 @@ Plugin Loader 與 Version Compatibility 將由後續 Plugin Architecture 定義�
 
 ---
 
-## 49. Backward Compatibility
+## 50. Backward Compatibility
 
 Generator Public Contract 可能包括：
 
@@ -1668,7 +1734,7 @@ Generator Public Contract 可能包括：
 
 ---
 
-## 50. Current Implementation Notes
+## 51. Current Implementation Notes
 
 目前 Repository 已具有：
 
@@ -1700,7 +1766,10 @@ Generator Public Contract 可能包括：
 * Manifest 整合可能只存在於部分 Generator。
 * `GenerateRequest` 與 `RuntimeOptions` 已成為內建 Generator 的共用輸入契約。
 * `GenerationOperation` 與 `GenerationPlan` 的核心模型骨架已存在。
-* 內建 Generator、SDK、CLI preview 與 dry-run lifecycle 尚未整合共用 Plan。
+* `BaseGenerator.run()` 已固定執行 `validate_request → plan → execute`。
+* Generator execution contract tests 已驗證 lifecycle ordering、failure boundaries 與 dry-run zero-side-effect 行為。
+* Legacy `GeneratorContext` hooks 暫時保留為 compatibility-only，尚未正式 deprecate 或移除。
+* SDK、CLI preview 與 Plugin Generator 的公開 execution boundary 尚待後續整合。
 
 2026-08-04 validation contract checkpoint：
 
@@ -1715,7 +1784,7 @@ Generation Plan 表示法。
 
 ---
 
-## 51. Recommended Milestone 3 Direction
+## 52. Recommended Milestone 3 Direction
 
 建議採用以下核心契約：
 
@@ -1762,12 +1831,13 @@ Bootstrap、Course 與 Week Generator 已完成共用 `GenerationResult` 垂直�
 Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOptions`
 輸入契約。
 
-### Phase 4：Generation Plan
+### Phase 4：Generation Plan and Execution Contract
 
-狀態：**Design proposed in ADR 0007**。
+狀態：**Implemented for the core lifecycle**。
 
-沿用既有 `GenerationOperation` 與 `GenerationPlan` 模型，依序完成 Bootstrap
-垂直切片、跨 Generator 遷移、SDK 公開邊界、CLI preview 與 dry-run lifecycle。
+沿用既有 `GenerationOperation` 與 `GenerationPlan` 模型；`BaseGenerator.run()` 已固定
+執行 `validate_request → plan → execute → GenerationResult`。後續工作聚焦於 SDK 公開
+邊界、CLI preview、Plugin Generator integration，以及 legacy lifecycle removal decision。
 
 ### Phase 5：Dependency Injection
 
@@ -1785,7 +1855,7 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 
 ---
 
-## 52. Documentation Requirements
+## 53. Documentation Requirements
 
 任何 Generator 變更必須同步更新：
 
@@ -1803,7 +1873,7 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 
 ---
 
-## 53. Generator Code Review Checklist
+## 54. Generator Code Review Checklist
 
 ### Architecture
 
@@ -1843,6 +1913,19 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 * [ ] Conflict 在寫入前偵測。
 * [ ] Dry Run 使用相同 Plan。
 * [ ] Plan 可獨立測試。
+
+### Execution Contract
+
+* [x] `run()` 是 canonical execution entry point。
+* [x] Lifecycle 順序固定為 `validate_request → plan → execute`。
+* [x] Validation Failure 不進入 planning。
+* [x] Planning Failure 不進入 execution。
+* [x] Execution Error 會向上傳遞，不重新啟動 lifecycle。
+* [x] Dry Run 使用完整 lifecycle 且無 Filesystem Mutation。
+* [x] `GenerationResult` 為共同結果契約。
+* [x] Execution Contract 具有獨立 contract tests。
+* [x] Legacy `GeneratorContext` hooks 已標示為 compatibility-only。
+* [ ] Legacy lifecycle removal 已由獨立 ADR 決定。
 
 ### Templates
 
@@ -1905,15 +1988,15 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 * [x] Request Validation 有測試。
 * [x] Generator Identity 有測試。
 * [ ] Context 有測試。
-* [ ] Plan 有測試。
+* [x] Plan 與 execution lifecycle 有 contract tests。
 * [ ] Template Rendering 有測試。
 * [ ] Filesystem Interaction 有測試。
 * [ ] Existing File Policy 有測試。
 * [x] Dry Run validation 有測試。
-* [ ] Result 有測試。
+* [x] Result 有測試。
 * [ ] Exception Chaining 有測試。
 * [ ] Manifest Integration 有測試。
-* [ ] Determinism 有測試。
+* [x] Lifecycle ordering 與 plan handoff 有決定性測試。
 * [ ] Idempotency 有測試。
 * [ ] Golden Output 有測試。
 * [x] CLI validation integration 有測試。
@@ -1928,17 +2011,19 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 * [ ] Filesystem Architecture 已同步。
 * [ ] CLI Reference 已更新。
 * [ ] Template Reference 已更新。
-* [ ] Changelog 已更新。
+* [x] Changelog 已更新。
 * [x] ADR 0006 已接受並同步實作狀態。
-* [x] ADR 0007 已提出並同步 Generation Plan 架構方向。
+* [x] ADR 0007 已接受並同步 Generation Plan 架構方向。
+* [x] ADR 0008 已定義並測試 Generator Execution Contract。
 * [x] `git diff --check` 通過。
-* [x] Generator validation contract tests：32 passed。
+* [x] Generator execution contract tests：6 passed。
+* [x] Generator tests：155 passed。
 * [x] `pre-commit run --all-files` 通過。
-* [x] `python -m pytest`：332 passed，coverage 80.79%。
+* [x] `python -m pytest` 與 coverage gate 通過。
 
 ---
 
-## 54. Related Documents
+## 55. Related Documents
 
 * [Architecture Overview](overview.md)
 * [Configuration Architecture](configuration.md)
@@ -1957,6 +2042,7 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 * [Code Review Checklist](../development/code-review-checklist.md)
 * [ADR 0006: Generator Validation Contract](../adr/0006-generator-validation-contract.md)
 * [ADR 0007: Generation Plan Contract](../adr/0007-generation-plan-contract.md)
+* [ADR 0008: Generator Execution Contract](../adr/0008-generator-execution-contract.md)
 
 ---
 

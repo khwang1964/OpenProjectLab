@@ -623,21 +623,38 @@ Dry-run 與一般執行使用相同的 validation 與 planning lifecycle。`exec
 Dry-run 仍應回傳 `GenerationResult`，並以 `dry_run=True`、`manifest_updated=False`
 描述模擬結果。
 
-### Legacy compatibility lifecycle
+### Legacy lifecycle removal
 
-`BaseGenerator` 暫時保留以下 `GeneratorContext` hooks：
+目前狀態：**Implemented**。
 
-* `validate()`
-* `prepare()`
-* `generate()`
-* `post_generate()`
-* `cleanup()`
+Legacy `GeneratorContext` lifecycle 已自 `BaseGenerator` 移除。
 
-這些 hooks 不屬於 canonical `GenerateRequest` execution contract，只為現有 subclass
-與 downstream integration 的短期相容性而保留。正式 deprecation 或 removal 必須透過
-獨立 ADR、migration tests 與 implementation PR 處理。
+下列 Legacy Hooks 已不再屬於正式 Generator API：
 
----
+* `validate(context)`
+* `prepare(context)`
+* `generate(context)`
+* `post_generate(context)`
+* `cleanup(context)`
+
+Generator Framework 現在只保留以下正式 Extension Points：
+
+* `validate_request(request)`
+* `plan(request)`
+* `execute(request, plan)`
+
+`BaseGenerator.run()` 仍是 Framework 控制的唯一 canonical execution entry point：
+
+```text
+run(request)
+    ↓
+validate_request(request)
+    ↓
+plan(request)
+    ↓
+execute(request, plan)
+    ↓
+GenerationResult
 
 ## 16. Generation Lifecycle
 
@@ -918,8 +935,10 @@ CONFLICT
 
 Generator 應回傳結構化 Result，而不是只回傳 `None`。
 
-目前狀態：**Implemented**。Bootstrap、Course 與 Week Generator 的 `generate()` 和
-`run()` 均直接回傳共用的 `GenerationResult`。先前的 `BootstrapResult`、
+目前狀態：**Implemented**。
+Bootstrap、Course 與 Week Generator 的 `generate()` 和
+`run()` 均直接回傳共用的 `GenerationResult`。
+先前的 `BootstrapResult`、
 `CourseResult` 與 `WeekResult` 相容層已移除。
 
 概念：
@@ -948,22 +967,19 @@ class GenerationResult:
 * Planned Operations
 * Conflict Information
 
-Result 應描述事實，不應包含預先格式化的 Console 文字。
-
----
-
 ## 25. Result Consistency
 
 所有核心 Generator 已採用一致的 Result Model：
 
-* `generate()` 與 `run()` 回傳 `GenerationResult` 或其相容子類。
+* `generate()` 與 `run()` 均回傳共用 `GenerationResult`。
 * `writes` 固定為不可變的 `tuple[WriteResult, ...]`。
 * `affected_paths` 由 `writes` 衍生並保留順序。
 * `dry_run=True` 時不建立實體輸出，且 `manifest_updated=False`。
 * Manifest 停用時，正常執行仍回報 `manifest_updated=False`。
-* Generator-specific Result 僅保留專屬 Metadata 與相容性。
+目前不再存在 Generator-specific Result compatibility layer。
+所有核心 Generator 均直接使用共用 `GenerationResult`。
 
-後續演進應更新 CLI Result Formatting，並評估相容層的 Deprecation Policy。
+後續演進應持續統一 CLI Result Formatting 與 SDK Public API。
 
 ---
 
@@ -1063,7 +1079,7 @@ Generator 建構子應保持輕量。
 
 Generator 應盡量保持 Stateless。
 
-一次 `generate()` 執行所產生的可變狀態應保存在區域變數或 Result 中。
+一次 Generator execution 所產生的可變狀態應保存在區域變數或 Result 中。
 
 不應：
 
@@ -1542,6 +1558,14 @@ def test_generator_has_identity(generator):
     assert generator.description
 ```
 
+另有 `tests/generators/test_legacy_generator_lifecycle_removal.py`
+驗證：
+
+* `BaseGenerator` 不再提供 Legacy Lifecycle Hooks。
+* `run()` 不會呼叫任何 Legacy Hooks。
+* `GenerationPlan` 會以同一物件傳入 `execute()`。
+* Canonical Lifecycle 移除 `xfail` 後全部正式通過。
+
 目前驗證：
 
 * Name 合法。
@@ -1758,7 +1782,6 @@ Generator Public Contract 可能包括：
 但目前不同時間點的實作可能存在以下差異：
 
 * 部分 Generator 使用 `generate()`。
-* 部分舊介面可能使用 `run(context)`。
 * `generate()` 與 `run()` 已統一回傳共用 `GenerationResult` 契約。
 * 舊有的 `BootstrapResult`、`CourseResult` 與 `WeekResult` 相容層已移除。。
 * 部分 Generator 可能直接呼叫 `render_to_file()`。
@@ -1768,8 +1791,13 @@ Generator Public Contract 可能包括：
 * `GenerationOperation` 與 `GenerationPlan` 的核心模型骨架已存在。
 * `BaseGenerator.run()` 已固定執行 `validate_request → plan → execute`。
 * Generator execution contract tests 已驗證 lifecycle ordering、failure boundaries 與 dry-run zero-side-effect 行為。
-* Legacy `GeneratorContext` hooks 暫時保留為 compatibility-only，尚未正式 deprecate 或移除。
-* SDK、CLI preview 與 Plugin Generator 的公開 execution boundary 尚待後續整合。
+* Legacy `GeneratorContext` lifecycle 已自 `BaseGenerator` 移除。
+* `BaseGenerator` 僅保留 `validate_request()`、`plan()` 與 `execute()` 作為正式擴充點。
+* Generator SDK 已停止公開 `GeneratorContext`。
+* `generator/main.py` 與 `generator/core/context.py` 暫時保留，後續另案處理。
+* Legacy Lifecycle Removal Contract Tests 已完成並通過。
+* CLI preview、legacy `generator/main.py` 與 Plugin Generator 的公開 execution boundary
+  尚待後續整合。
 
 2026-08-04 validation contract checkpoint：
 
@@ -1831,13 +1859,22 @@ Bootstrap、Course 與 Week Generator 已完成共用 `GenerationResult` 垂直�
 Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOptions`
 輸入契約。
 
-### Phase 4：Generation Plan and Execution Contract
+### Phase 4：Generation Plan、Execution Contract 與 Legacy Lifecycle Removal
 
 狀態：**Implemented for the core lifecycle**。
 
-沿用既有 `GenerationOperation` 與 `GenerationPlan` 模型；`BaseGenerator.run()` 已固定
-執行 `validate_request → plan → execute → GenerationResult`。後續工作聚焦於 SDK 公開
-邊界、CLI preview、Plugin Generator integration，以及 legacy lifecycle removal decision。
+目前已完成：
+
+* 共用 `GenerationOperation` 與 `GenerationPlan`
+* `BaseGenerator.run()` canonical lifecycle
+* `validate_request → plan → execute → GenerationResult`
+* Legacy `GeneratorContext` lifecycle removal
+* Generator SDK public export cleanup
+* Execution Contract Tests
+* Legacy Lifecycle Removal Contract Tests
+
+後續工作聚焦於 CLI preview、legacy `generator/main.py`、Plugin Generator
+integration 與 SDK Public API 的進一步穩定。
 
 ### Phase 5：Dependency Injection
 
@@ -1924,8 +1961,10 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 * [x] Dry Run 使用完整 lifecycle 且無 Filesystem Mutation。
 * [x] `GenerationResult` 為共同結果契約。
 * [x] Execution Contract 具有獨立 contract tests。
-* [x] Legacy `GeneratorContext` hooks 已標示為 compatibility-only。
-* [ ] Legacy lifecycle removal 已由獨立 ADR 決定。
+* [x] Legacy `GeneratorContext` lifecycle 已移除。
+* [x] Generator SDK 已停止公開 `GeneratorContext`。
+* [x] ADR 0009 已完成設計、測試與實作。
+* [x] Canonical Execution Lifecycle 已成為唯一正式 Framework 契約。
 
 ### Templates
 
@@ -2001,6 +2040,10 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 * [ ] Golden Output 有測試。
 * [x] CLI validation integration 有測試。
 * [ ] Plugin Contract Test 已評估。
+* [x] Legacy `GeneratorContext` lifecycle 已移除。
+* [x] Generator SDK 已停止公開 `GeneratorContext`。
+* [x] ADR 0009 已完成設計、測試與實作。
+* [x] Canonical Execution Lifecycle 已成為唯一正式 Framework 契約。
 
 ### Documentation and Automation
 
@@ -2015,9 +2058,12 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 * [x] ADR 0006 已接受並同步實作狀態。
 * [x] ADR 0007 已接受並同步 Generation Plan 架構方向。
 * [x] ADR 0008 已定義並測試 Generator Execution Contract。
+* [x] ADR 0009 已接受並完成 Legacy Generator Lifecycle Removal。
+* [x] Generator SDK 已停止公開 `GeneratorContext`。
+* [x] Legacy Lifecycle Removal Contract Tests 已完成。
 * [x] `git diff --check` 通過。
 * [x] Generator execution contract tests：6 passed。
-* [x] Generator tests：155 passed。
+* [x] Generator tests：165 passed。
 * [x] `pre-commit run --all-files` 通過。
 * [x] `python -m pytest` 與 coverage gate 通過。
 
@@ -2043,6 +2089,8 @@ Bootstrap、Course 與 Week 已採用共用 `GenerateRequest` 與 `RuntimeOption
 * [ADR 0006: Generator Validation Contract](../adr/0006-generator-validation-contract.md)
 * [ADR 0007: Generation Plan Contract](../adr/0007-generation-plan-contract.md)
 * [ADR 0008: Generator Execution Contract](../adr/0008-generator-execution-contract.md)
+* [ADR 0009: Remove Legacy Generator Lifecycle](../adr/0009-remove-legacy-generator-lifecycle.md)
+* `tests/generators/test_legacy_generator_lifecycle_removal.py`
 
 ---
 

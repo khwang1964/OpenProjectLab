@@ -4,7 +4,6 @@ from pathlib import Path
 
 import pytest
 
-from generator.core.context import GeneratorContext
 from generator.core.models import (
     GenerateRequest,
     GenerationOperation,
@@ -77,10 +76,6 @@ class LifecycleGenerator(BaseGenerator):
             ),
             dry_run=request.options.dry_run,
         )
-
-    def generate(self, context: GeneratorContext) -> None:
-        """Satisfy the legacy abstract hook during lifecycle migration."""
-        raise AssertionError("Legacy generate() must not be called")
 
 
 def make_request(tmp_path: Path, *, dry_run: bool = False) -> GenerateRequest:

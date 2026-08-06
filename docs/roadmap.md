@@ -1,7 +1,7 @@
 # OpenProjectLab Roadmap
 
 > Status: Active
-> Last Updated: 2026-08-04
+> Last Updated: 2026-08-06
 
 ---
 
@@ -52,10 +52,15 @@ OpenProjectLab（OPL）的目標不是建立一個單純的 Project Generator，
 * Shared `GenerationResult` Contract
 * Shared `GenerateRequest` and `RuntimeOptions` Contract
 * Structured Generator Validation Contract
+* Shared `GenerationOperation` and `GenerationPlan` Contract
+* Canonical `BaseGenerator.run()` Execution Lifecycle
+* Legacy `GeneratorContext` Lifecycle Removal
+* Generator SDK Public Export Cleanup
+* Cross-generator Contract Tests
 
 目前正處於：
 
-> **Milestone 3 — Core Framework / Generation Plan Contract（Design First）**
+> **Milestone 4 — Plugin Ecosystem / Plugin SDK（Design First）**
 
 ---
 
@@ -146,64 +151,78 @@ Documentation 成為 Framework 的正式組成，而非附屬產物。
 
 ---
 
-# Milestone 3 — Core Framework 🚧
+# Milestone 3 — Core Framework ✅
 
-建立真正可重用的 Framework Core。
+建立真正可重用且由契約保護的 Framework Core。
 
-## Planned Features
+## Completed Features
 
-### Template Engine
+### Shared Generator Contracts
 
-* Template Resolver
-* Template Renderer
-* Template Validation
-* Include
-* Filters
+* `GenerateRequest` 與 `RuntimeOptions` 共用輸入契約
+* `GeneratorValidationError` 結構化驗證契約
+* `GenerationOperation` 與 `GenerationPlan` 共用規劃契約
+* `GenerationResult` 共用輸出契約
 
-### Filesystem Framework
+### Canonical Execution Lifecycle
 
-* Path Validation
-* Write Policy
-* Atomic Write
-* Dry Run
-* File Ownership
+* `BaseGenerator.run()` 作為 Framework 控制的唯一執行入口
+* 固定生命週期：`validate_request → plan → execute → GenerationResult`
+* Validation 與 Planning 維持 Zero Side Effects
+* Dry Run 使用相同 Plan 且不修改 Persistent State
+* Execution Failure 保留一致的 Exception Propagation
 
-### Error Framework
+### Legacy Lifecycle Removal
 
-* Exception Hierarchy
-* Exit Codes
-* Structured Errors
+* 移除 `BaseGenerator` 的 Legacy `GeneratorContext` hooks：
+  * `validate(context)`
+  * `prepare(context)`
+  * `generate(context)`
+  * `post_generate(context)`
+  * `cleanup(context)`
+* Generator SDK 停止公開 `GeneratorContext`
+* Legacy Lifecycle Removal Contract Tests 完成
+* Bootstrap、Course、Week Generator 行為維持一致
 
-### Generator Pipeline
+### Quality and Documentation
 
-* Generation Plan
-* Validation
-* Pipeline Execution
+* ADR 0005～0009 完成 Generator Contract 演進紀錄
+* Generator Architecture 與 CHANGELOG 同步
+* Cross-generator Contract Tests 完成
+* Ruff、pytest、Coverage、pre-commit 與 GitHub Actions 通過
 
-## Current Progress
+## Completion Result
 
-* `GenerationResult` 共用輸出契約：Completed
-* `GenerateRequest`／`RuntimeOptions` 共用輸入契約：Completed
-* `GeneratorValidationError` 結構化驗證契約：Completed
-* Generation Plan provenance 與 usage audit：Completed
-* ADR 0007 Generation Plan Contract：Proposed
-* Generator Architecture 與 ADR 索引同步：In Progress
-* Bootstrap Generation Plan 垂直切片：Planned（ADR 接受後開始）
-* Course／Week Generation Plan 遷移：Planned
-* SDK plan API、CLI preview 與 dry-run lifecycle：Planned
+Milestone 3 已完成以下完整閉環：
 
-## Design Gate
+```text
+Design
+  ↓
+Documentation
+  ↓
+Contract Tests
+  ↓
+Implementation
+  ↓
+Code Review
+  ↓
+CI and Merge
+```
 
-在 ADR 0007 完成審查並標示為 `Accepted` 前，不進行 Generation Plan 的
-production code、Generator、SDK 或 CLI 整合。
-
-**Status:** In Progress
+**Status:** Completed
 
 ---
 
-# Milestone 4 — Plugin Ecosystem
+# Milestone 4 — Plugin Ecosystem 🚧
 
-建立 Plugin Architecture。
+建立穩定、可版本化且不依賴核心私有模組的 Plugin Architecture。
+
+## Current Focus
+
+* Plugin SDK Architecture ADR
+* Public Generator SDK Boundary
+* Plugin Compatibility Contract
+* Plugin Discovery and Registration
 
 ## Planned Features
 
@@ -216,7 +235,9 @@ production code、Generator、SDK 或 CLI 整合。
 
 目標：
 
-任何人都能開發自己的 OPL Plugin。
+任何人都能透過穩定 SDK 開發自己的 OPL Plugin，而不需要修改核心 Framework。
+
+**Status:** In Progress
 
 ---
 

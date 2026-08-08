@@ -7,11 +7,18 @@ from pathlib import Path
 from generator.core.exceptions import GeneratorValidationError
 from generator.core.filesystem import FileSystem
 from generator.core.generation_manifest import GenerationManifest
-from generator.core.models import GenerateRequest, GenerationResult
+from generator.core.models import (
+    GenerateRequest,
+    GenerationOperation,
+    GenerationPlan,
+    GenerationResult,
+    WriteResult,
+)
 from generator.core.template import TemplateRenderer
+from generator.generators.base import BaseGenerator
 
 
-class WeekGenerator:
+class WeekGenerator(BaseGenerator):
     """Generate an OpenProjectLab weekly lesson scaffold."""
 
     name = "week"
@@ -25,61 +32,102 @@ class WeekGenerator:
         filesystem: FileSystem | None = None,
     ) -> None:
         """Initialize the generator and its filesystem dependencies."""
+        super().__init__()
         self._template_root = Path(template_root) if template_root else None
         self._output_root = Path(output_root) if output_root else None
         self._filesystem = filesystem or FileSystem()
 
-    def generate(self, request: GenerateRequest) -> GenerationResult:
-        """Generate weekly lesson content from the shared request contract."""
+    def validate_request(self, request: GenerateRequest) -> None:
+        """Validate a Week request before planning."""
         self._validate_generator_name(request.generator_name)
+        self._resolve_template_root()
+        self._validate_week(request.values.get("week"))
 
-        template_root = self._resolve_template_root()
-        output_root = request.target
+    def plan(self, request: GenerateRequest) -> GenerationPlan:
+        """Build an immutable plan for Week template output."""
         ctx = dict(request.values)
         template_name = str(ctx.get("template_name", "week/README.md.j2"))
         output_name = Path(ctx.get("output_name", "README.md"))
         directory_pattern = str(
             ctx.get("directory_pattern", "week-{week:02d}"),
         )
+
         number = self._validate_week(ctx.get("week"))
         ctx["week"] = number
         ctx.setdefault("week_padded", f"{number:02d}")
+
         directory = self._format_week_directory(directory_pattern, number)
-        output = output_root / directory / output_name
-        renderer = TemplateRenderer(template_root)
-        content = renderer.render(template_name, ctx)
-        record_manifest = bool(ctx.get("record_manifest", True))
-        manifest = None
-        if record_manifest:
-            manifest = GenerationManifest.load(
-                output_root,
-                filesystem=self._filesystem,
-            )
-            manifest.set_project(name=ctx.get("course_name"))
-            manifest.record(
-                output,
-                generator=self.name,
-                template=template_name,
-                metadata={"week": number, "title": ctx.get("title")},
-            )
-        write_result = self._filesystem.write_text(
-            output,
-            content,
-            overwrite=request.options.overwrite,
-            dry_run=request.options.dry_run,
-        )
-        if manifest is not None:
-            manifest.save(dry_run=request.options.dry_run)
-        return GenerationResult(
-            generator_name=self.name,
-            writes=(write_result,),
-            dry_run=request.options.dry_run,
-            manifest_updated=manifest is not None and not request.options.dry_run,
+        output = request.target / directory / output_name
+
+        operation = GenerationOperation(
+            template_name=template_name,
+            destination=output,
+            context=ctx,
+            write_policy=request.options.write_policy,
         )
 
-    def run(self, request: GenerateRequest) -> GenerationResult:
-        """Run the canonical generation lifecycle for one request."""
-        return self.generate(request)
+        return GenerationPlan(
+            generator_name=self.name,
+            operations=(operation,),
+        )
+
+    def execute(
+        self,
+        request: GenerateRequest,
+        plan: GenerationPlan,
+    ) -> GenerationResult:
+        """Execute a previously validated Week generation plan."""
+        template_root = self._resolve_template_root()
+        renderer = TemplateRenderer(template_root)
+
+        writes: list[WriteResult] = []
+        manifest = None
+
+        if bool(request.values.get("record_manifest", True)):
+            manifest = GenerationManifest.load(
+                request.target,
+                filesystem=self._filesystem,
+            )
+            manifest.set_project(name=request.values.get("course_name"))
+
+        for operation in plan.operations:
+            content = renderer.render(
+                operation.template_name,
+                operation.context,
+            )
+
+            if manifest is not None:
+                manifest.record(
+                    operation.destination,
+                    generator=self.name,
+                    template=operation.template_name,
+                    metadata={
+                        "week": operation.context.get("week"),
+                        "title": operation.context.get("title"),
+                    },
+                )
+
+            write_result = self._filesystem.write_text(
+                operation.destination,
+                content,
+                overwrite=request.options.overwrite,
+                dry_run=request.options.dry_run,
+            )
+            writes.append(write_result)
+
+        if manifest is not None:
+            manifest.save(dry_run=request.options.dry_run)
+
+        return GenerationResult(
+            generator_name=self.name,
+            writes=tuple(writes),
+            dry_run=request.options.dry_run,
+            manifest_updated=(manifest is not None and not request.options.dry_run),
+        )
+
+    def generate(self, request: GenerateRequest) -> GenerationResult:
+        """Generate through the canonical framework lifecycle."""
+        return self.run(request)
 
     def _resolve_template_root(self) -> Path:
         """Resolve the template root."""
@@ -128,6 +176,7 @@ class WeekGenerator:
                 field="directory_pattern",
                 message=f"無效的 directory_pattern：{pattern}",
             ) from exc
+
         path = Path(directory)
         if path.is_absolute():
             raise GeneratorValidationError(

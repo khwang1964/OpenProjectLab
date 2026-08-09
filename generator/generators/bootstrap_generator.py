@@ -91,47 +91,39 @@ class BootstrapGenerator(BaseGenerator):
         request: GenerateRequest,
         plan: GenerationPlan,
     ) -> GenerationResult:
-        """Execute through the legacy implementation during migration."""
-        del plan
-        return self.generate(request)
-
-    def generate(
-        self,
-        request: GenerateRequest,
-    ) -> GenerationResult:
-        """Generate a project scaffold from the shared request contract."""
-        self._validate_generator_name(request.generator_name)
-
+        """Execute a previously validated Bootstrap generation plan."""
         resolved_template_root = self._resolve_template_root()
-        resolved_context = dict(request.values)
-
-        slug = self._validate_project_slug(
-            resolved_context.get("project_slug"),
-        )
-        resolved_context["project_slug"] = slug
-
-        project_root = request.target / slug
         renderer = TemplateRenderer(resolved_template_root)
+
+        rendered_files = tuple(
+            (
+                operation.destination,
+                operation.template_name,
+                renderer.render(
+                    operation.template_name,
+                    operation.context,
+                ),
+            )
+            for operation in plan.operations
+        )
+
+        project_slug = self._validate_project_slug(
+            request.values.get("project_slug"),
+        )
+        project_root = request.target / project_slug
 
         directories = tuple(
             project_root / relative_path for relative_path in self.DIRECTORY_MANIFEST
         )
 
-        rendered_files = tuple(
-            (
-                project_root / output_name,
-                template_name,
-                renderer.render(template_name, resolved_context),
-            )
-            for output_name, template_name in self.TEMPLATE_MANIFEST.items()
-        )
-
         manifest = self._prepare_manifest(
             project_root=project_root,
-            project_slug=slug,
-            project_name=resolved_context.get("project_name"),
+            project_slug=project_slug,
+            project_name=request.values.get("project_name"),
             rendered_files=rendered_files,
-            record_manifest=bool(resolved_context.get("record_manifest", True)),
+            record_manifest=bool(
+                request.values.get("record_manifest", True),
+            ),
         )
 
         for directory in directories:
@@ -142,9 +134,13 @@ class BootstrapGenerator(BaseGenerator):
 
         writes: list[WriteResult] = []
 
-        for path, _, content in rendered_files:
+        for operation, (_, _, content) in zip(
+            plan.operations,
+            rendered_files,
+            strict=True,
+        ):
             write_result = self._filesystem.write_text(
-                path,
+                operation.destination,
                 content,
                 overwrite=request.options.overwrite,
                 dry_run=request.options.dry_run,
@@ -152,18 +148,23 @@ class BootstrapGenerator(BaseGenerator):
             writes.append(write_result)
 
         if manifest is not None:
-            manifest.save(dry_run=request.options.dry_run)
+            manifest.save(
+                dry_run=request.options.dry_run,
+            )
 
         return GenerationResult(
             generator_name=self.name,
             writes=tuple(writes),
             dry_run=request.options.dry_run,
-            manifest_updated=manifest is not None and not request.options.dry_run,
+            manifest_updated=(manifest is not None and not request.options.dry_run),
         )
 
-    def run(self, request: GenerateRequest) -> GenerationResult:
-        """Run the canonical generation lifecycle for one request."""
-        return self.generate(request)
+    def generate(
+        self,
+        request: GenerateRequest,
+    ) -> GenerationResult:
+        """Generate through the canonical framework lifecycle."""
+        return self.run(request)
 
     def _prepare_manifest(
         self,

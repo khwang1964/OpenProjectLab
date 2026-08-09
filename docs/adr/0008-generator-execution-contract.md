@@ -289,6 +289,13 @@ run(request)
 
 # Compatibility Decision
 
+> **Historical note**
+>
+> 本節記錄 ADR 0008 接受時的相容性決策。
+> Legacy `GeneratorContext` lifecycle 後續已由 ADR 0009 正式移除。
+> 因此本節不再描述目前 Framework runtime contract。
+
+
 `BaseGenerator` 目前暫時保留以下 legacy `GeneratorContext` hooks：
 
 * `validate(context)`
@@ -359,6 +366,9 @@ deprecated 必須由後續獨立 ADR、migration tests 與 implementation PR 處
 
 # Status
 
-本 ADR 已接受 `BaseGenerator.run()` 作為 canonical execution entry point，並由 `tests/generators/test_generator_execution_contract.py` 驗證 lifecycle ordering、failure boundaries 與 dry-run zero-side-effect semantics。
+本 ADR 已接受 `BaseGenerator.run()` 作為 canonical execution entry point，
+並由 Generator Execution Contract Tests 與 built-in lifecycle contract tests
+保護 lifecycle ordering、failure boundaries、plan handoff 與 dry-run semantics。
 
-Legacy `GeneratorContext` lifecycle 仍暫時保留，後續移除需由獨立 ADR 與 migration work 處理。
+本 ADR 原先保留的 Legacy `GeneratorContext` compatibility lifecycle，
+已由 ADR 0009 正式移除。

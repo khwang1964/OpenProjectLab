@@ -189,6 +189,8 @@ Documentation 成為 Framework 的正式組成，而非附屬產物。
 * ADR 0005～0009 完成 Generator Contract 演進紀錄
 * Generator Architecture 與 CHANGELOG 同步
 * Cross-generator Contract Tests 完成
+* Built-in Generator Lifecycle Contract Tests 完成
+* Bootstrap、Course、Week 均由 `BaseGenerator.run()` 控制 canonical lifecycle
 * Ruff、pytest、Coverage、pre-commit 與 GitHub Actions 通過
 
 ## Completion Result

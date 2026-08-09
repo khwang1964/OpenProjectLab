@@ -349,6 +349,9 @@ Implementation PR 已完成驗證：
 - ✔ Legacy Removal Contract Tests
 - ✔ Generator Execution Contract Tests
 - ✔ BaseGenerator Lifecycle Tests
+- ✔ Built-in Generator Lifecycle Contract Tests
+  - Bootstrap、Course、Week 均繼承 `BaseGenerator`
+  - Built-in Generator 均不覆寫 `run()`
 - ✔ Bootstrap Generator Tests
 - ✔ Course Generator Tests
 - ✔ Week Generator Tests
@@ -419,4 +422,5 @@ GenerationResult
 - `tests/generators/test_base_generator_lifecycle.py`
 - `tests/generators/test_generator_execution_contract.py`
 - `tests/generators/test_legacy_generator_lifecycle_removal.py`
+- `tests/generators/test_builtin_generator_lifecycle_contract.py`
 - `docs/architecture/generator.md`

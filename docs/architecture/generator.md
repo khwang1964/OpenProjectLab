@@ -265,11 +265,7 @@ registry = build_registry()
 
 generator = registry.create(generator_name)
 
-result = generator.generate(
-    request,
-    renderer=renderer,
-    filesystem=filesystem,
-)
+result = generator.run(request)
 ```
 
 Composition Root 負責：
@@ -283,6 +279,9 @@ Composition Root 負責：
 * 執行 Generator。
 * 格式化最終結果。
 * 將 Exception 映射為 Exit Code。
+
+Renderer、Filesystem 與 Manifest 等依賴應在 Generator 建構或正式 dependency-injection
+boundary 中完成，不應透過 `generate()` invocation 動態注入。
 
 Generator 不應重新完成上述全域組裝流程。
 
@@ -301,43 +300,18 @@ class GeneratorProtocol(Protocol):
     name: str
     description: str
 
-    def generate(
+    def run(
         self,
-        request: GeneratorRequest,
+        request: GenerateRequest,
     ) -> GenerationResult:
         ...
 ```
 
-若需要泛型 Request 與 Result：
+目前內建 Generator 仍保留 `generate(request)` 作為 compatibility wrapper；
+新的 Framework integration 應使用 `run(request)`。
 
-```python
-from typing import Protocol, TypeVar
-
-RequestT = TypeVar("RequestT")
-ResultT = TypeVar("ResultT")
-
-class GeneratorProtocol(
-    Protocol[RequestT, ResultT],
-):
-    name: str
-    description: str
-
-    def generate(
-        self,
-        request: RequestT,
-    ) -> ResultT:
-        ...
-```
-
-實際採用泛型前，應評估：
-
-* API 複雜度
-* Registry 建立方式
-* Plugin 相容性
-* Static Type Checking
-* CLI Integration
-* 測試可讀性
-
+若未來需要泛型 Request 與 Result，應先評估 API 複雜度、Registry 建立方式、
+Plugin 相容性、Static Type Checking、CLI Integration 與測試可讀性。
 現階段不應只為抽象化而增加不必要複雜度。
 
 ---
@@ -655,6 +629,7 @@ plan(request)
 execute(request, plan)
     ↓
 GenerationResult
+```
 
 ## 16. Generation Lifecycle
 
@@ -1558,6 +1533,12 @@ def test_generator_has_identity(generator):
     assert generator.description
 ```
 
+另有 `tests/generators/test_builtin_generator_lifecycle_contract.py`
+驗證：
+
+* Bootstrap、Course、Week 均繼承 `BaseGenerator`。
+* built-in Generator 均不覆寫 Framework-owned `run()`。
+
 另有 `tests/generators/test_legacy_generator_lifecycle_removal.py`
 驗證：
 
@@ -1779,11 +1760,17 @@ Generator Public Contract 可能包括：
 * Bootstrap、Course 與 Week 的共用 validation contract tests
 * CLI validation failure 的 stderr 與 exit code `2` mapping
 
-但目前不同時間點的實作可能存在以下差異：
+目前 built-in Generator lifecycle 已完成收斂：
 
-* 部分 Generator 使用 `generate()`。
-* `generate()` 與 `run()` 已統一回傳共用 `GenerationResult` 契約。
-* 舊有的 `BootstrapResult`、`CourseResult` 與 `WeekResult` 相容層已移除。。
+* Bootstrap、Course 與 Week 均繼承 `BaseGenerator`。
+* 三個 built-in Generator 均使用
+  `validate_request → plan → execute` canonical lifecycle。
+* 三個 built-in Generator 均不覆寫 `run()`。
+* `generate(request)` 暫時保留為 compatibility wrapper，
+  並委派至 canonical `run(request)`。
+* `GenerationPlan` 是 execution 的正式輸入。
+* `generate()` 與 `run()` 均回傳共用 `GenerationResult` 契約。
+* 舊有的 `BootstrapResult`、`CourseResult` 與 `WeekResult` 相容層已移除。
 * 部分 Generator 可能直接呼叫 `render_to_file()`。
 * Filesystem 注入方式可能尚未一致。
 * Manifest 整合可能只存在於部分 Generator。

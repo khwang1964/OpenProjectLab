@@ -10,6 +10,8 @@
   `GeneratorValidationError`, `GenerationPlan`, `GenerationResult`, dry-run,
   Manifest state, lifecycle ordering, and failure boundaries.
 - Added Legacy Generator Lifecycle Removal Contract Tests.
+- Added built-in Generator lifecycle contract tests enforcing `BaseGenerator`
+  inheritance and framework ownership of `run()`.
 - Added Generator architecture, reference, migration, and Code Review Checklist
   documentation for the completed Milestone 3 framework contracts.
 
@@ -20,6 +22,14 @@
 - Migrated `BootstrapGenerator`, `CourseGenerator`, and `WeekGenerator` to the
   shared `GenerateRequest`, `RuntimeOptions`, `GenerationPlan`, and
   `GenerationResult` contracts.
+- Migrated `BootstrapGenerator`, `CourseGenerator`, and `WeekGenerator` to
+  inherit the shared `BaseGenerator` canonical lifecycle.
+- Removed built-in `run()` overrides so lifecycle ownership remains with
+  `BaseGenerator.run()`.
+- Changed built-in `generate(request)` methods to compatibility wrappers
+  delegating to the canonical `run(request)` entry point.
+- Made built-in execution consume the `GenerationPlan` produced by
+  `plan(request)` instead of bypassing the planning lifecycle.
 - Established `BaseGenerator.run(GenerateRequest)` as the framework-controlled
   canonical execution entry point.
 - Fixed the canonical execution order as:
@@ -57,7 +67,7 @@
 
 ### Verification
 
-- Verified all Generator tests: 165 passed.
+- Verified the complete Generator test suite.
 - Verified Legacy Lifecycle Removal Contract Tests without `xfail`.
 - Verified Generator Validation, Planning, Execution, and Result Contract Tests.
 - Verified CLI integration tests for Bootstrap, Course, Week, validation

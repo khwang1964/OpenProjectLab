@@ -21,10 +21,11 @@
 | [0005](0005-generator-input-contract.md) | Generator Input Contract | Accepted |
 | [0006](0006-generator-validation-contract.md) | Generator Validation Contract | Accepted |
 | [0007](0007-generation-plan-contract.md) | Generation Plan Contract | Accepted |
-| [0008](0008-generator-execution-contract.md) | Generator Execution Contract | Proposed |
-| [0009](0009-remove-legacy-generator-lifecycle.md) | Remove Legacy Generator Lifecycle | Proposed |
-| [0010](0010-plugin-sdk-public-contract.md) | Plugin SDK Public Contract | Proposed |
-| [0011](0011-plugin-validation-contract.md) | Plugin Validation Contract | Proposed |
+| [0008](0008-generator-execution-contract.md) | Generator Execution Contract | Accepted |
+| [0009](0009-remove-legacy-generator-lifecycle.md) | Remove Legacy Generator Lifecycle | Accepted |
+| [0010](0010-plugin-sdk-public-contract.md) | Plugin SDK Public Contract | Accepted |
+| [0011](0011-plugin-validation-contract.md) | Plugin Validation Contract | Accepted |
+| [0012](0012-plugin-entry-point-contract.md) | Plugin Entry-Point Contract | Proposed |
 
 ## 新增 ADR
 

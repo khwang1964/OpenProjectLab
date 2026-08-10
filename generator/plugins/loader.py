@@ -53,9 +53,5 @@ def _preflight_registration(
 
         seen_names.add(name)
 
-        try:
-            registry.get(name)
-        except PluginError:
-            continue
-
-        raise PluginError(f"Generator already registered: {name}")
+        if registry.contains(name):
+            raise PluginError(f"Generator already registered: {name}")

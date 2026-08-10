@@ -22,6 +22,10 @@ class GeneratorRegistry:
 
         self._generators[name] = generator_class
 
+    def contains(self, name: str) -> bool:
+        """Return whether a generator name is already registered."""
+        return name in self._generators
+
     def get(self, name: str) -> type[BaseGenerator]:
         """Return the generator class registered under the given name."""
         try:

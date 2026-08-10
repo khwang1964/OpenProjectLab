@@ -1,6 +1,6 @@
 # ADR 0010: Plugin SDK Public Contract
 
-* **Status:** Proposed
+* **Status:** Accepted
 * **Date:** 2026-08-09
 * **Decision owners:** OpenProjectLab maintainers
 * **Milestone:** 4 — Plugin Ecosystem / Plugin SDK

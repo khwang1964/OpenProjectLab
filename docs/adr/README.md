@@ -24,6 +24,7 @@
 | [0008](0008-generator-execution-contract.md) | Generator Execution Contract | Proposed |
 | [0009](0009-remove-legacy-generator-lifecycle.md) | Remove Legacy Generator Lifecycle | Proposed |
 | [0010](0010-plugin-sdk-public-contract.md) | Plugin SDK Public Contract | Proposed |
+| [0011](0011-plugin-validation-contract.md) | Plugin Validation Contract | Proposed |
 
 ## 新增 ADR
 

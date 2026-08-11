@@ -4,150 +4,81 @@
 
 ### Added
 
--   Added ADR 0010 through ADR 0012 to define the Plugin SDK public
-    contract, Plugin validation contract, and Python Entry Point
-    contract.
--   Added the `generator.sdk` public façade required by
-    third-party-style Generator implementations.
--   Added dedicated `tests/sdk/` public export and Plugin Generator
-    contract tests.
--   Added `generator.plugins` discovery, validation, registry, loader,
-    and Entry Point runtime boundaries.
--   Added `openprojectlab.generators` as the canonical third-party
-    Generator Entry Point group.
--   Added Plugin validation for concrete `BaseGenerator` subclasses,
-    public naming, and zero-argument construction.
--   Added transactional Entry Point loading with validate-all /
-    preflight-all / register-all semantics.
--   Added Plugin Registry membership query coverage and Entry Point
-    integration contract tests.
--   Added architecture tests protecting the removal of the legacy
-    PluginManager runtime path.
--   Added `docs/plugin-authoring.md` as the third-party Plugin
-    development and packaging guide.
--   Added `examples/plugins/hello-generator/` as a complete SDK-only
-    third-party Plugin distribution example.
--   Added standalone tests for the example Plugin and host-side contract
-    tests that protect its SDK-only dependency boundary.
--   Added real installed-distribution E2E validation using
-    `pip install --target`, `importlib.metadata`, the
-    `openprojectlab.generators` Entry Point, canonical Plugin
-    validation, and transactional Registry registration.
--   Added `docs/milestones/milestone-4-acceptance.md` as the formal
-    Milestone 4 Exit Criteria and acceptance record.
+#### Milestone 5 — Open Courseware Platform
+
+- Added the Open Courseware Platform architecture and responsibility boundaries.
+- Added ADR 0014 and minimum production `Course` / `Week` domain models.
+- Added Course/Week domain contract tests for identity, validation,
+  immutability, duplicate rejection, and deterministic ordering.
+- Added ADR 0015 — Lab Generator Contract.
+- Added `LabGenerator` as the first concrete material Generator.
+- Added the canonical `lab` built-in Generator identity.
+- Added deterministic Lab output at
+  `week-{week:02d}/lab/{lab_id}/README.md`.
+- Added the default Lab README template.
+- Added Lab contract tests, generator integration tests, and CLI integration tests.
+- Added the `lab` CLI command and Lab exposure through built-in generator listing.
+- Added Lab manifest integration using the existing manifest schema.
+
+#### Milestone 4 — Plugin Ecosystem
+
+- Added ADR 0010 through ADR 0012 for the Plugin SDK, validation, and Entry Point contracts.
+- Added the stable `generator.sdk` public façade.
+- Added canonical `openprojectlab.generators` Entry Point discovery/loading.
+- Added Plugin validation, registry preflight, and transactional registration.
+- Added the SDK-only example third-party Plugin distribution.
+- Added real installed-distribution E2E validation.
+- Added `docs/milestones/milestone-4-acceptance.md`.
 
 ### Changed
 
--   Standardized third-party Plugin dependencies on `generator.sdk`
-    rather than internal `generator.core`, `generator.generators`, or
-    `generator.plugins` namespaces.
--   Standardized Plugin public names on `^[a-z][a-z0-9-]*$`.
--   Required Python Entry Point metadata names to match the loaded
-    Generator's public `name`.
--   Changed Plugin loading to complete
-    discovery/loading/validation/identity checks and registration
-    preflight before mutating the Registry.
--   Clarified Registry membership checks through an explicit
-    `contains()` query rather than exception-driven `get()` control
-    flow.
--   Aligned Plugin SDK architecture, contract inventory, roadmap,
-    history, and authoring documentation with the canonical Entry Point
-    runtime.
--   Marked Milestone 4 --- Plugin Ecosystem as Completed after the real
-    installed distribution acceptance path passed.
--   Moved the active roadmap focus to Milestone 5 --- Open Courseware
-    Platform.
+- Marked ADR 0015 — Lab Generator Contract as Accepted after contract,
+  implementation, integration, and CI gates completed.
+- Updated Open Courseware architecture to mark Lab as Implemented while
+  Quiz, Assignment, PPT/Slides, Website, shared LearningMaterial abstractions,
+  composition orchestration, and courseware-specific SDK exposure remain Proposed.
+- Updated the Milestone 5 roadmap from planning to active implementation.
+- Preserved `GenerateRequest`, `GenerationPlan`, `GenerationResult`,
+  dry-run, overwrite, manifest, filesystem, and renderer boundaries for Lab.
+- Preserved `generator.sdk` without adding Course/Week/Lab-specific public symbols.
+- Marked Milestone 4 — Plugin Ecosystem as Completed and moved active development
+  focus to Milestone 5.
 
 ### Removed
 
--   Removed the legacy `generator.core.plugin.PluginManager`.
--   Removed the legacy internal `PluginDescriptor` path together with
-    the superseded PluginManager implementation.
--   Removed the duplicate legacy Plugin runtime path after canonical
-    Entry Point integration and architecture tests were established.
+- Removed the legacy `generator.core.plugin.PluginManager`.
+- Removed the legacy internal `PluginDescriptor` runtime path.
 
 ### Migration
 
--   Third-party Plugin implementations should import lifecycle contracts
-    only from `generator.sdk`.
--   Declare Generator plugins under:
-    `[project.entry-points."openprojectlab.generators"]`.
--   Map one Entry Point to one concrete `BaseGenerator` subclass.
--   Keep Entry Point metadata names identical to `generator.name`.
--   Ensure Plugin Generator classes support zero-argument construction.
--   Do not depend on the removed `generator.core.plugin.PluginManager`.
+- Existing Course/Week Generator contracts remain unchanged.
+- Lab callers should use canonical generator name `lab`.
+- Lab identity is Week-scoped and explicitly uses `lab_id`; title is display metadata.
+- Lab artifacts are rooted at `week-{week:02d}/lab/{lab_id}/`.
+- Third-party Plugin implementations continue to depend on `generator.sdk`;
+  ADR 0015 does not expand the public Plugin SDK.
 
 ### Verification
 
--   Verified Public SDK export and SDK-only Generator contract tests.
--   Verified Plugin validation, Registry, loading, and Entry Point
-    contract tests.
--   Verified transactional Entry Point integration and
-    no-partial-registration behavior.
--   Verified legacy PluginManager removal architecture tests.
--   Verified the complete example third-party Plugin distribution.
--   Verified real package installation into an isolated temporary
-    target.
--   Verified real `importlib.metadata` Entry Point discovery and
-    `EntryPoint.load()`.
--   Verified canonical validation and transactional registration of the
-    installed `hello-plugin`.
--   Verified Plugin loading does not execute Generator lifecycle hooks.
--   Verified final Milestone 4 acceptance baseline: 452 tests passed
-    with 85.90% total coverage against the 67.0% required coverage
-    threshold.
--   Verified Ruff, pre-commit, GitHub Actions, and `git diff --check`.
+- Verified Lab request validation for Week, `lab_id`, and title.
+- Verified deterministic Lab `GenerationPlan` destinations.
+- Verified validation-before-planning behavior.
+- Verified dry-run creates no persistent Lab artifacts or manifest changes.
+- Verified overwrite protection and existing filesystem semantics.
+- Verified Lab manifest records use the existing schema.
+- Verified built-in list and CLI Lab integration.
+- Verified existing Course/Week/domain contracts remain green.
+- Verified no accidental `generator.sdk` expansion.
+- Verified Ruff, pre-commit, pytest, coverage, and GitHub Actions through the
+  Lab design/test/implementation/integration PR sequence.
 
 ------------------------------------------------------------------------
 
 ### Milestone 3 Generator Framework
 
--   Added ADR 0005 through ADR 0009 to define the shared Generator
-    input, validation, planning, execution, and legacy lifecycle removal
-    contracts.
--   Added parameterized cross-generator contract tests for
-    `GenerateRequest`, `GeneratorValidationError`, `GenerationPlan`,
-    `GenerationResult`, dry-run, Manifest state, lifecycle ordering, and
-    failure boundaries.
--   Standardized Generator input validation on
-    `GeneratorValidationError`.
--   Established `BaseGenerator.run(GenerateRequest)` as the
-    framework-controlled canonical execution entry point.
--   Removed legacy `GeneratorContext` lifecycle hooks and
-    Generator-specific result compatibility types.
-
-## Step 12 - 2026-07-26
-
-### Added
-
--   `UpgradeManifest`
--   `PatchEntry`
--   `UpgradePlan`
--   `UpgradeResult`
--   `UpgradeManager`
--   `opl upgrade` subcommand
--   Preview-only default mode
--   Add/modify/delete operations
--   SHA256 payload validation
--   Optional source SHA256 conflict protection
--   Safe relative path validation
--   Automatic backup
--   Automatic rollback on failure
--   Upgrade report
--   Core and CLI integration tests
--   Upgrade system documentation
--   Upgrade Manifest schema documentation
--   Example upgrade patch
--   Code Review Checklist
-
-## Pre-commit repair - 2026-07-26
-
-### Fixed
-
--   Corrected mixed tab/space indentation in `GeneratorContext`.
--   Reworked optional `BaseGenerator` lifecycle hooks to satisfy Ruff
-    `B027`.
--   Added explicit lifecycle type annotations and documentation.
--   Normalized UTF-8/LF text files and removed trailing whitespace.
--   Added a transitional Ruff docstring policy for legacy public APIs.
--   Verified 210 tests with 78.79% coverage.
+- Added ADR 0005 through ADR 0009 to define shared Generator input,
+  validation, planning, execution, and legacy lifecycle removal contracts.
+- Established `BaseGenerator.run(GenerateRequest)` as the framework-controlled
+  canonical execution entry point.
+- Removed legacy `GeneratorContext` lifecycle hooks and Generator-specific
+  result compatibility types.

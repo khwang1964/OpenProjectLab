@@ -1,9 +1,9 @@
 # ADR 0015: Lab Generator Contract
 
-> Status: Proposed
+> Status: Accepted
 > Date: 2026-08-11
 > Milestone: 5 — Open Courseware Platform
-> Step: 5.3A — Lab Generator Contract Design
+> Step: 5.3E — Lab Generator Documentation Acceptance
 > Decision scope: canonical Lab Generator identity, request values, validation, artifact layout, template boundary, planning/execution semantics, dry-run/overwrite behavior, manifest integration, and compatibility with existing Course/Week/domain contracts
 
 ## Context
@@ -649,7 +649,7 @@ Would violate stable Milestone 3 contracts。
 
 Mitigation：
 
-- keep ADR status Proposed until contract tests + implementation
+- treat the accepted contract as the compatibility baseline; use a follow-up ADR for breaking changes
 - treat only tested/documented optional fields as implemented
 - use follow-up ADR for breaking artifact/layout changes
 
@@ -657,7 +657,7 @@ Mitigation：
 
 ## Implementation Plan
 
-### Step 5.3A — Design
+### Step 5.3A — Design ✅
 
 ```text
 docs/adr/0015-lab-generator-contract.md
@@ -665,7 +665,7 @@ docs/adr/README.md
 docs/architecture/open-courseware-platform.md
 ```
 
-### Step 5.3B — Contract Tests
+### Step 5.3B — Contract Tests ✅
 
 Proposed tests：
 
@@ -686,7 +686,7 @@ Cover：
 - dry-run safety
 - overwrite behavior
 
-### Step 5.3C — Minimum Implementation
+### Step 5.3C — Minimum Implementation ✅
 
 Proposed：
 
@@ -697,7 +697,7 @@ templates/lab/README.md.j2
 
 Only fields proven by contract tests。
 
-### Step 5.3D — Integration
+### Step 5.3D — Integration ✅
 
 Potential：
 
@@ -707,7 +707,7 @@ Potential：
 - template rendering
 - full filesystem integration tests
 
-### Step 5.3E — Acceptance
+### Step 5.3E — Acceptance ✅
 
 - ADR 0015 → Accepted
 - architecture Lab status → Implemented
@@ -876,6 +876,26 @@ ADR 0015 may move from **Proposed** to **Accepted** only when：
 
 ## Status
 
-**Proposed**
+**Accepted**
+
+ADR 0015 is accepted after completion of the Lab contract-test,
+minimum-implementation, and integration sequence.
+
+Acceptance evidence:
+
+```text
+PR #44 — Lab Generator contract design
+PR #45 — Lab Generator contract tests
+PR #46 — minimum LabGenerator implementation
+PR #47 — built-in/CLI/template/manifest integration
+```
+
+The accepted implementation preserves the canonical Generator lifecycle,
+uses the deterministic `week-{week:02d}/lab/{lab_id}/README.md` artifact
+layout, reuses existing dry-run/overwrite/manifest semantics, and does not
+expand `generator.sdk`.
+
+Quiz, Assignment, PPT/Slides, Website, shared LearningMaterial abstractions,
+composition orchestration, and a public courseware SDK remain future work.
 
 The Lab Generator contract is designed but not yet implemented. Lab is the first concrete Learning Material Generator; Quiz, Assignment, PPT/Slides, Website, shared LearningMaterial abstractions, orchestration, and public courseware SDK remain future work.

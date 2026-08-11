@@ -1,6 +1,6 @@
 # ADR 0012: Plugin Entry Point Contract
 
-* **Status:** Proposed
+* **Status:** Accepted
 * **Date:** 2026-08-10
 * **Decision owners:** OpenProjectLab maintainers
 * **Milestone:** 4 — Plugin Ecosystem / Plugin SDK

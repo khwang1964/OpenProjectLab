@@ -3,265 +3,160 @@
 ## 專案起源
 
 OpenProjectLab（OPL）最初的目標，是建立一套能快速產生專案骨架的工具。
-
-隨著專案逐步發展，我們發現真正需要解決的，不只是「建立專案」，而是「如何讓專案能長期維護」。
-
-因此，OPL 的定位逐漸由 Project Generator 演進為 **Project Engineering
-Platform**。
+隨著專案逐步發展，OPL 的定位逐漸由 Project Generator 演進為
+**Project Engineering Platform**。
 
 ------------------------------------------------------------------------
 
 # 發展理念
 
-OPL 的核心理念逐步確立為：
+OPL 的核心理念：
 
--   Design First
--   Documentation First
--   Automation First
--   Testing First
-
-這四項原則成為所有功能設計與開發流程的基礎。
+- Design First
+- Documentation First
+- Automation First
+- Testing First
 
 ------------------------------------------------------------------------
 
 # 發展歷程
 
-## Bootstrap Framework
+## Bootstrap / Generator / Configuration / Template / Upgrade Framework
 
-建立第一個可自動產生專案骨架的 Generator。
-
-------------------------------------------------------------------------
-
-## Generator Framework
-
-將不同 Generator 統一納入 Registry 管理，提供一致的擴充架構。
-
-目前包含：
-
--   Bootstrap Generator
--   Course Generator
--   Week Generator
-
-------------------------------------------------------------------------
-
-## Configuration Framework
-
-建立 YAML 設定管理機制，支援：
-
--   專案設定
--   路徑設定
--   Generator 設定
--   Plugin 預留設定
-
-------------------------------------------------------------------------
-
-## Template Framework
-
-導入 Jinja2 Template，將模板與程式邏輯分離，提升維護性與重用性。
-
-------------------------------------------------------------------------
-
-## Upgrade Framework
-
-建立專案升級能力，包括：
-
--   Manifest
--   Preview
--   Backup
--   Rollback
--   SHA-256 驗證
--   Upgrade Report
-
-讓既有專案也能安全演進。
-
-------------------------------------------------------------------------
-
-## 品質工程
-
-逐步導入：
-
--   Ruff
--   pre-commit
--   pytest
--   Coverage
--   GitHub Actions
--   Repository Audit
-
-形成完整的品質管理流程。
-
-------------------------------------------------------------------------
-
-## Repository Governance
-
-建立：
-
--   README
--   LICENSE
--   CHANGELOG
--   CONTRIBUTING
--   CODE_OF_CONDUCT
--   SECURITY
-
-讓 Repository 符合專業開源專案的治理要求。
+OPL 逐步建立 project generation、configuration、Jinja2 templates、
+upgrade/manifest/backup/rollback 與 repository quality/governance foundations。
 
 ------------------------------------------------------------------------
 
 ## Generator Core Framework（Milestone 3）
 
-Milestone 3 將 Generator Framework
-從多個歷史介面，收斂為一套由共享模型、
-架構文件與契約測試共同保護的核心生命週期。
+Milestone 3 將 Generator Framework 收斂為共享 canonical lifecycle：
 
-完成項目包括：
+```text
+GenerateRequest
+    ↓
+validate_request
+    ↓
+plan
+    ↓
+execute
+    ↓
+GenerationResult
+```
 
--   `GenerateRequest` 與 `RuntimeOptions` 共用輸入契約
--   `GeneratorValidationError` 結構化驗證契約
--   `GenerationOperation` 與 `GenerationPlan` 共用規劃契約
--   `GenerationResult` 共用結果契約
--   `BaseGenerator.run()` canonical execution lifecycle
--   `validate_request → plan → execute → GenerationResult`
--   Legacy `GeneratorContext` lifecycle removal
--   Generator SDK public export cleanup
--   Bootstrap、Course、Week cross-generator contract tests
-
-此階段依序完成 ADR 0005～0009、契約測試、production refactor
-與文件同步， 並以 Ruff、pytest、Coverage、pre-commit 與 GitHub Actions
-作為合併品質閘門。
-
-------------------------------------------------------------------------
-
-## Legacy Generator Lifecycle Removal
-
-早期 `BaseGenerator` 同時保留：
-
--   `validate(context)`
--   `prepare(context)`
--   `generate(context)`
--   `post_generate(context)`
--   `cleanup(context)`
-
-隨著 `GenerateRequest`、`GenerationPlan` 與 `GenerationResult`
-契約成熟， 上述 Legacy Lifecycle 已不再參與正式執行流程。
-
-OPL 最終移除這些 hooks，並將 Generator 的正式擴充點收斂為：
-
--   `validate_request()`
--   `plan()`
--   `execute()`
-
-`BaseGenerator.run()` 成為唯一由 Framework 控制的執行入口。
+完成 `GenerateRequest`、`RuntimeOptions`、`GeneratorValidationError`、
+`GenerationPlan`、`GenerationResult`、legacy lifecycle removal，以及
+Bootstrap/Course/Week cross-generator contract tests。
 
 ------------------------------------------------------------------------
 
 ## Plugin SDK and Plugin Ecosystem（Milestone 4）
 
-Milestone 4 將第三方 Generator 擴充能力從既有 internal / transitional
-implementation， 收斂為正式 Public Plugin SDK 與 Python Entry Point
-architecture。
+Milestone 4 建立 stable `generator.sdk`、Plugin validation、
+`openprojectlab.generators` canonical Entry Point runtime、transactional
+registration、legacy PluginManager removal、third-party example distribution，
+並以真實 installed-distribution E2E 完成 acceptance。
 
-核心設計由：
+Formal acceptance：
 
--   ADR 0010 --- Plugin SDK Public Contract
--   ADR 0011 --- Plugin Validation Contract
--   ADR 0012 --- Plugin Entry Point Contract
-
-共同定義。
-
-正式第三方 Plugin dependency boundary：
-
-``` text
-generator.sdk
-```
-
-正式 installed Plugin flow：
-
-``` text
-Installed Python Distribution
-        ↓
-openprojectlab.generators
-        ↓
-EntryPoint.load()
-        ↓
-validate_plugin_generator()
-        ↓
-metadata/runtime identity check
-        ↓
-preflight all
-        ↓
-register all
-```
-
-Milestone 4 完成項目包括：
-
--   `generator.sdk` Public Plugin SDK contract
--   Public SDK export / third-party-style contract tests
--   Plugin discovery、validation、loader 與 Registry boundaries
--   `PluginError` Plugin-facing error contract
--   concrete `BaseGenerator` subclass validation
--   Plugin naming contract
--   zero-argument construction contract
--   `openprojectlab.generators` canonical Entry Point group
--   one Entry Point → one `BaseGenerator` subclass
--   `entry_point.name == generator.name`
--   validate-all-before-register transaction semantics
--   no-partial-registration guarantee
--   Registry collision preflight
--   legacy `PluginManager` / `PluginDescriptor` removal
--   `docs/plugin-authoring.md`
--   `examples/plugins/hello-generator/`
--   standalone example Plugin tests
--   host-side example architecture tests
--   real installed-distribution Entry Point E2E validation
-
-Step 4E-3 最終使用 temporary target 執行真實 package
-installation，並透過 `importlib.metadata` 發現 `hello-plugin`，再交給
-canonical Plugin runtime 驗證與註冊。
-
-Milestone 4 acceptance baseline：
-
-``` text
+```text
+docs/milestones/milestone-4-acceptance.md
 452 passed
 Coverage: 85.90%
-Required coverage: 67.0%
 ```
 
-最終 E2E acceptance 已 merge 至 `main`：
+------------------------------------------------------------------------
 
-``` text
-13eac54 test: validate installed example plugin entry point (#37)
+## Open Courseware Platform（Milestone 5）
+
+Milestone 5 開始把 OPL 從一般 project engineering framework 擴充為
+structured courseware generation platform。
+
+### Step 5.1 — Architecture
+
+建立：
+
+```text
+docs/architecture/open-courseware-platform.md
 ```
 
-Milestone 4 的正式 Acceptance / Exit Criteria 記錄於：
+固定 Domain / Generator / Template / Artifact / Filesystem responsibility
+boundaries，並保留 Milestone 3 Generator lifecycle 與 Milestone 4 Plugin
+runtime。
 
-``` text
-docs/milestones/milestone-4-acceptance.md
+### Step 5.2 — Course / Week Domain Contract
+
+ADR 0014 定義並接受 minimum Course / Week domain contract。
+
+Production：
+
+```text
+generator/courseware/models.py
 ```
 
-Milestone 4 因此正式完成。
+完成 immutable `Course` / `Week` models、positive Week validation、bool
+rejection、duplicate Week rejection 與 deterministic Week ordering。
+
+### Step 5.3 — Lab Generator
+
+Lab 是第一個 concrete Learning Material Generator vertical slice。
+
+完整演進：
+
+```text
+PR #44 — docs: design lab generator contract
+PR #45 — test: define lab generator contract
+PR #46 — feat: implement lab generator contract
+PR #47 — feat: integrate lab generator
+```
+
+ADR 0015 接受的核心 contract：
+
+- canonical generator identity `lab`
+- Lab 屬於單一 Week
+- explicit `lab_id`
+- minimum request values: `week`, `lab_id`, `title`
+- deterministic `week-{week:02d}/lab/{lab_id}/README.md`
+- canonical `GenerationPlan`
+- canonical `GenerationResult`
+- existing dry-run / overwrite / manifest semantics
+- no Lab-specific result/plan types
+- no `LearningMaterial` hierarchy
+- no accidental `generator.sdk` expansion
+
+Production / integration：
+
+```text
+generator/generators/lab_generator.py
+templates/lab/README.md
+generator/cli/main.py
+```
+
+Tests：
+
+```text
+tests/generators/test_lab_generator_contract.py
+tests/generators/test_lab_generator_integration.py
+tests/integration/test_lab_cli.py
+```
+
+Lab 已完成 design → contract tests → implementation → integration →
+documentation acceptance 閉環。
 
 ------------------------------------------------------------------------
 
 # 下一階段
 
-Milestone 2.5：
+Milestone 5 持續進行。
 
--   Documentation Standardization（Completed）
+下一個 material-generator vertical slice：
 
-Milestone 3：
+```text
+Quiz Generator
+```
 
--   Generator Core Framework（Completed）
-
-Milestone 4：
-
--   Plugin SDK and Plugin Ecosystem（Completed）
-
-Milestone 5：
-
--   Open Courseware Platform（Next / Planning）
-
-Milestone 6：
-
--   AI Integration
+之後再進入 Assignment、PPT/Slides、Website、composition integration 與
+Milestone 5 acceptance。
 
 ------------------------------------------------------------------------
 
@@ -270,7 +165,5 @@ Milestone 6：
 OpenProjectLab 的目標不是建立更多程式，而是建立：
 
 > **更容易維護、更容易理解、更容易演進的軟體工程文化。**
-
-------------------------------------------------------------------------
 
 > Build projects, not just code.

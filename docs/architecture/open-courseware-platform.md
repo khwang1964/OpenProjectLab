@@ -437,15 +437,70 @@ PR #42 — production Course / Week domain models
 ADR 0014 — Accepted
 ```
 
-### Step 5.3 — Material Generators
+## Step 5.3 — Material Generators
 
-Next proposed sequence：
+Current status：
 
 ```text
-Lab
-Quiz
-Assignment
+Lab          Contract Proposed (ADR 0015)
+Quiz         Proposed
+Assignment   Proposed
 ```
+
+### Lab Generator — Contract Proposed
+
+ADR 0015 defines the first concrete material-generator contract.
+
+Current proposed boundaries：
+
+```text
+canonical generator name = lab
+Week-scoped
+explicit lab_id
+required minimum values:
+  week
+  lab_id
+  title
+```
+
+Proposed deterministic primary artifact：
+
+```text
+<target>/week-{week:02d}/lab/{lab_id}/README.md
+```
+
+Lab must reuse：
+
+- `GenerateRequest`
+- `RuntimeOptions`
+- `GenerationPlan`
+- `GenerationResult`
+- existing dry-run / overwrite semantics
+- existing manifest / filesystem boundaries
+
+ADR 0015 deliberately does **not** introduce：
+
+- `LearningMaterial` base class
+- Material enum/protocol
+- Lab-specific result/plan type
+- courseware SDK exports
+- new plugin runtime
+- Course/Week identity changes
+
+Lab remains **not implemented** until contract tests and production implementation land.
+
+Recommended Step 5.3 sequence：
+
+```text
+5.3A Lab contract design       ← current
+5.3B Lab contract tests
+5.3C Lab minimum implementation
+5.3D Lab template/integration
+5.3E Lab documentation acceptance
+then Quiz
+then Assignment
+```
+
 
 ### Step 5.4 — Presentation Projection
 

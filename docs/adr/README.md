@@ -25,7 +25,8 @@
 | [0009](0009-remove-legacy-generator-lifecycle.md) | Remove Legacy Generator Lifecycle | Accepted |
 | [0010](0010-plugin-sdk-public-contract.md) | Plugin SDK Public Contract | Accepted |
 | [0011](0011-plugin-validation-contract.md) | Plugin Validation Contract | Accepted |
-| [0012](0012-plugin-entry-point-contract.md) | Plugin Entry-Point Contract | Proposed |
+| [0012](0012-plugin-entry-point-contract.md) | Plugin Entry-Point Contract | Accepted |
+| [0013](0013-plugin-distribution-contract.md) | Plugin Distribution Contract | Proposed |
 
 ## 新增 ADR
 

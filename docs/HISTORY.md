@@ -203,9 +203,7 @@ PluginDescriptor
 generator.plugins.entry_points
 ```
 
-canonical runtime 取代，現階段進入 removal-candidate 狀態。
-
-下一步將先以 architecture tests 保護 canonical Entry Point path 與 Public SDK boundary，再於獨立 PR 移除 legacy implementation。
+canonical runtime 取代。Step 4D-3 已完成 architecture tests、caller audit 與獨立 removal PR，legacy `generator/core/plugin.py`、`PluginManager` 與 `PluginDescriptor` 已移除。
 
 ---
 

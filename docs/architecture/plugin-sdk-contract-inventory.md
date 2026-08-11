@@ -107,10 +107,10 @@ generator.plugins.entry_points
 ```text
 LEGACY INTERNAL IMPLEMENTATION
 SUPERSEDED BY CANONICAL ENTRY POINT RUNTIME
-REMOVAL CANDIDATE
+REMOVED IN STEP 4D-3
 ```
 
-正式移除仍必須先有 architecture/removal tests，並於獨立 PR 完成。
+Step 4D-3 已完成 architecture/removal tests 與獨立 removal PR；legacy `generator/core/plugin.py` 已從 canonical repository runtime 移除。
 
 ---
 

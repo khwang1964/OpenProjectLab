@@ -151,6 +151,64 @@ OPL 最終移除這些 hooks，並將 Generator 的正式擴充點收斂為：
 
 ---
 
+
+## Plugin SDK and Entry Point Architecture（Milestone 4）
+
+Milestone 4 將第三方 Generator 擴充能力收斂為正式 Plugin SDK 與 Python Entry Point architecture。
+
+目前完成項目包括：
+
+* `generator.sdk` Public Plugin SDK contract
+* Plugin discovery、validation 與 registration boundaries
+* `PluginError` Plugin-facing error contract
+* `openprojectlab.generators` canonical Entry Point group
+* one Entry Point → one `BaseGenerator` subclass contract
+* Entry Point metadata name 與 `generator.name` identity contract
+* validate-all-before-register transaction semantics
+* Entry Point batch preflight 與 no-partial-registration guarantee
+* explicit `GeneratorRegistry.contains()` membership query
+* deterministic Entry Point contract / integration tests
+
+正式 Plugin loading flow 已收斂為：
+
+```text
+Installed Python Distribution
+        ↓
+openprojectlab.generators
+        ↓
+EntryPoint.load()
+        ↓
+validate_plugin_generator()
+        ↓
+metadata/runtime identity check
+        ↓
+preflight all
+        ↓
+register all
+```
+
+Step 4D-3 inventory 進一步確認 legacy：
+
+```text
+generator/core/plugin.py
+PluginManager
+PluginDescriptor
+```
+
+目前未發現 OPL production code 或 tests 的外部 caller，且未納入 `generator.sdk` Public API。
+
+因此 legacy PluginManager 已被：
+
+```text
+generator.plugins.entry_points
+```
+
+canonical runtime 取代，現階段進入 removal-candidate 狀態。
+
+下一步將先以 architecture tests 保護 canonical Entry Point path 與 Public SDK boundary，再於獨立 PR 移除 legacy implementation。
+
+---
+
 # 下一階段
 
 Milestone 2.5：

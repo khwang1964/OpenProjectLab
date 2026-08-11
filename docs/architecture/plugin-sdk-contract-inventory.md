@@ -1,11 +1,12 @@
 # Plugin SDK Contract Inventory
 
-> Status: Draft
+> Status: Historical Baseline — Milestone 4 Step 1 completed
 > Milestone: 4 — Plugin Ecosystem / Plugin SDK
 > Step: 1 — Plugin SDK Contract Inventory
 > Scope: Existing SDK, generator, plugin, registry, model, exception, packaging, and test contracts
 > Audience: Maintainers, Plugin SDK designers, Generator developers, contributors
 > Baseline: Repository snapshot after Milestone 3 completion
+> Current note: Later Milestone 4 work supersedes several "current" observations below; see the status update section.
 
 OpenProjectLab（OPL）Milestone 4 的第一個工作，是在新增或穩定 Plugin API 之前，盤點目前 Repository 中已經存在的 Generator、SDK 與 Plugin 相關契約。
 
@@ -22,6 +23,94 @@ OpenProjectLab（OPL）Milestone 4 的第一個工作，是在新增或穩定 Pl
 7. 哪些問題需要由下一份 ADR 正式決定？
 
 本 Inventory 將作為後續 Plugin SDK ADR、contract tests、SDK façade、Plugin validation 與 Plugin author documentation 的設計基礎。
+
+---
+
+
+## Milestone 4 Status Update — Entry Point Runtime and Legacy PluginManager
+
+本 Inventory 保留 Milestone 4 Step 1 當時的 repository baseline，因此後續章節中的：
+
+```text
+Current
+Missing
+Gap
+Candidate
+Deferred
+```
+
+描述應理解為歷史盤點，而不是 2026-08-11 的最新 runtime 狀態。
+
+後續 Milestone 4 已完成：
+
+```text
+ADR 0010 — Plugin SDK Public Contract
+ADR 0011 — Plugin Validation Contract
+ADR 0012 — Plugin Entry Point Contract
+```
+
+以及 production implementation：
+
+```text
+generator/sdk/
+generator/plugins/discovery.py
+generator/plugins/validation.py
+generator/plugins/registry.py
+generator/plugins/loader.py
+generator/plugins/entry_points.py
+```
+
+目前 canonical installed-plugin flow 已是：
+
+```text
+Python distribution
+    ↓
+openprojectlab.generators
+    ↓
+EntryPoint.load()
+    ↓
+validate_plugin_generator()
+    ↓
+entry-point / generator identity check
+    ↓
+transactional preflight
+    ↓
+GeneratorRegistry
+```
+
+Public SDK contract tests 與 Plugin contract/integration tests 也已建立，因此原 Inventory 中「SDK façade incomplete」、「沒有 tests/sdk」、「沒有 explicit validation boundary」等項目均已由後續工作關閉。
+
+### Legacy PluginManager Inventory Result
+
+Step 4D-3 針對：
+
+```text
+generator/core/plugin.py
+PluginManager
+PluginDescriptor
+```
+
+進行 caller inventory。
+
+目前在 OPL production code 與 tests 中，未發現 `generator/core/plugin.py` 之外的 caller。
+
+Canonical replacement 已存在於：
+
+```text
+generator.plugins.entry_points
+```
+
+且 `PluginManager` / `PluginDescriptor` 不屬於 `generator.sdk` Public API。
+
+因此它們目前分類更新為：
+
+```text
+LEGACY INTERNAL IMPLEMENTATION
+SUPERSEDED BY CANONICAL ENTRY POINT RUNTIME
+REMOVAL CANDIDATE
+```
+
+正式移除仍必須先有 architecture/removal tests，並於獨立 PR 完成。
 
 ---
 
@@ -929,10 +1018,10 @@ PUBLIC VALUE REQUIRES REVIEW
 
 Milestone 4 不應把整個 `generator.core` 轉成 SDK。
 
-目前以下 implementation 應預設保持 internal：
+目前以下 implementation 應預設保持 internal；其中 `PluginManager` 已在後續 Step 4D-3 確認為 legacy removal candidate：
 
 ```text
-PluginManager
+PluginManager  # legacy removal candidate
 GeneratorRegistry
 filesystem implementation
 template implementation

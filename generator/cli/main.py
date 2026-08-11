@@ -18,6 +18,7 @@ from generator.core.models import (
 )
 from generator.generators.bootstrap_generator import BootstrapGenerator
 from generator.generators.course_generator import CourseGenerator
+from generator.generators.lab_generator import LabGenerator
 from generator.generators.week_generator import WeekGenerator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -122,6 +123,22 @@ def build_parser() -> argparse.ArgumentParser:
     _add_write_options(week)
     week.set_defaults(handler=_handle_week)
 
+    lab = subparsers.add_parser(
+        "lab",
+        help="產生每週 Lab README",
+    )
+    lab.add_argument("project_slug", help="專案代號，例如 modern-java")
+    lab.add_argument("--week", type=_positive_int, required=True, help="週次")
+    lab.add_argument(
+        "--lab-id",
+        required=True,
+        help="Lab 識別碼，例如 streams-practice",
+    )
+    lab.add_argument("--title", required=True, help="Lab 標題")
+    lab.add_argument("--course-name", help="課程名稱；預設使用專案代號")
+    _add_write_options(lab)
+    lab.set_defaults(handler=_handle_lab)
+
     return parser
 
 
@@ -195,6 +212,7 @@ def _handle_list(args: argparse.Namespace) -> int:
     rows = (
         (BootstrapGenerator.name, BootstrapGenerator.description),
         (CourseGenerator.name, CourseGenerator.description),
+        (LabGenerator.name, LabGenerator.description),
         (WeekGenerator.name, WeekGenerator.description),
     )
     for name, description in rows:
@@ -288,6 +306,32 @@ def _handle_week(args: argparse.Namespace) -> int:
         ),
     )
     _print_file_result("週次檔案", result)
+    return 0
+
+
+def _handle_lab(args: argparse.Namespace) -> int:
+    template_root, output_root = _resolve_roots(args)
+    project_root = output_root / args.project_slug
+    context: dict[str, Any] = {
+        "week": args.week,
+        "lab_id": args.lab_id,
+        "title": args.title,
+        "course_name": args.course_name or args.project_slug,
+        "record_manifest": not args.no_manifest,
+    }
+
+    result = LabGenerator(template_root).generate(
+        GenerateRequest(
+            generator_name=LabGenerator.name,
+            target=project_root,
+            values=context,
+            options=RuntimeOptions(
+                overwrite=args.force,
+                dry_run=args.dry_run,
+            ),
+        ),
+    )
+    _print_file_result("Lab 檔案", result)
     return 0
 
 

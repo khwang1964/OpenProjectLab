@@ -28,6 +28,7 @@
 | [0012](0012-plugin-entry-point-contract.md) | Plugin Entry-Point Contract | Accepted |
 | [0013](0013-plugin-distribution-contract.md) | Plugin Distribution Contract | Proposed |
 | [0014](0014-open-courseware-domain-contract.md) | Open Courseware Domain Contract | Accepted |
+| [0015](0015-lab-generator-contract.md) | Lab Generator Contract | Proposed |
 
 ## 新增 ADR
 

@@ -862,13 +862,62 @@ Plugin author documentation 應以：
 
 ## 19. Legacy `generator.core.plugin.PluginManager`
 
-Repository 目前仍存在：
+Repository 仍保留較早期：
 
 ```text
 generator/core/plugin.py
 ```
 
-其 `PluginManager` 已使用正確的 Entry Point group，但其 Registry interaction 與新的 Plugin architecture 不一致。
+其中包含：
+
+```text
+PluginManager
+PluginDescriptor
+```
+
+其 `PluginManager` 雖使用正確的 Entry Point group，但 Registry interaction、validation behavior 與 transaction semantics 已被新的 Plugin architecture 取代。
+
+目前 canonical runtime 已建立於：
+
+```text
+generator.plugins.entry_points
+generator.plugins.validation
+generator.plugins.registry
+```
+
+並提供：
+
+```text
+discover_plugin_entry_points()
+load_entry_point_generator()
+load_entry_points_into_registry()
+```
+
+Step 4D-3 inventory 已搜尋：
+
+```text
+PluginManager
+PluginDescriptor
+generator.core.plugin
+core.plugin
+load_into(
+```
+
+在 OPL production code 與 tests 中，未發現 `generator/core/plugin.py` 之外的 runtime/test caller。
+
+因此目前 evidence 支持：
+
+```text
+legacy PluginManager
+    ↓
+no discovered production callers
+no discovered test callers
+not exported by generator.sdk
+    ↓
+superseded by generator.plugins.entry_points
+    ↓
+candidate for removal
+```
 
 本 ADR 決定：
 
@@ -876,32 +925,35 @@ generator/core/plugin.py
 legacy PluginManager must not become the canonical Milestone 4 path
 ```
 
-新的 Entry Point implementation 應建立在：
+且在 removal contract tests 通過後，可於獨立 PR 移除：
 
 ```text
-generator.plugins
+generator/core/plugin.py
+PluginManager
+PluginDescriptor
 ```
 
-runtime boundary 上，並重用：
+不需要建立新的 compatibility adapter，除非 removal 前的最終 repository audit 發現實際 compatibility requirement。
+
+Removal 必須保留：
 
 ```text
-validate_plugin_generator()
-GeneratorRegistry
-registry preflight semantics
+generator.sdk public contract
+canonical Entry Point discovery
+shared Plugin validation
+transactional Entry Point registration
+GeneratorRegistry semantics
 ```
 
-不得修改舊 `PluginManager` 使兩套 architecture 繼續平行演進。
+正式 removal 前仍需：
 
-Migration strategy：
+1. 建立 legacy-removal architecture tests；
+2. 再次搜尋 production/test imports；
+3. 確認 `generator.sdk` 未 export legacy symbols；
+4. 執行完整 plugin regression tests；
+5. 執行 Ruff、pre-commit 與 full pytest。
 
-1. 新增 canonical Entry Point discovery/loading path 至 `generator.plugins`；
-2. 將 runtime callers 遷移到 canonical path；
-3. 以 tests 證明新 path 完整涵蓋必要 behavior；
-4. 搜尋 legacy `PluginManager` callers；
-5. 若無 public compatibility requirement，後續獨立 PR deprecate/remove legacy path；
-6. 若存在 compatibility requirement，建立明確 adapter，而不是維護兩套 independent semantics。
-
-Legacy removal 不包含在本 ADR 的第一個 implementation commit。
+直到 removal PR merge 前，`generator/core/plugin.py` 仍只是 legacy implementation；不得把「candidate for removal」誤寫為「已移除」。
 
 ---
 
@@ -1468,26 +1520,35 @@ tests/plugins/test_plugin_entry_point_integration.py
 
 ---
 
-### Phase 4 — Legacy Migration
+### Phase 4 — Legacy Migration / Removal
 
-搜尋：
+Step 4D-3 inventory 已完成：
 
 ```text
 PluginManager
+PluginDescriptor
 generator.core.plugin
 ```
 
-所有 runtime callers。
+caller 搜尋。
 
-將正式 runtime 遷移至：
+目前未發現 OPL production/test caller，canonical runtime 已由：
 
 ```text
-generator.plugins
+generator.plugins.entry_points
 ```
 
-canonical path。
+取代。
 
-Legacy removal/deprecation 使用獨立 PR。
+下一步：
+
+1. 建立 `tests/plugins/test_legacy_plugin_manager_removal.py`；
+2. 確認 canonical Entry Point APIs 持續可用；
+3. 確認 `generator.sdk` 不公開 legacy symbols；
+4. 以獨立 PR 移除 `generator/core/plugin.py`；
+5. removal 後重新執行完整 Plugin regression 與 full suite。
+
+若最終 audit 發現未記錄的 compatibility requirement，才改採明確 adapter/deprecation strategy。
 
 ---
 
@@ -1632,6 +1693,9 @@ legacy PluginManager does not become the canonical runtime
 - [ ] Entry Point-specific metadata validation 不污染 generic Generator validator。
 - [ ] 不建立第二套 Registry。
 - [ ] 不讓 legacy `PluginManager` 成為新 canonical path。
+- [ ] legacy `PluginManager` / `PluginDescriptor` 沒有 production/test caller。
+- [ ] `generator.sdk` 不 export legacy PluginManager symbols。
+- [ ] removal 前已有 architecture contract tests。
 - [ ] module-based loading 明確保持 transitional/internal。
 
 ### Identity

@@ -1,25 +1,25 @@
-# 小考：{{ title }}
+﻿# 小考：{{ title }}
 
+{% set display_week = week_padded if week_padded is defined else "%02d" | format(week) %}
+> Week {{ display_week }}{% if quiz_id is defined %} · Quiz ID: `{{ quiz_id }}`{% endif %}
+
+{% if course_name is defined %}
 **課程：** {{ course_name }}
-**週次：** Week {{ "%02d" | format(week) }}
 
+{% endif %}
+{% if instructions is defined and instructions %}
 ## 作答說明
 
-- 題數：{{ question_count | default(5, true) }}
-- 建議時間：{{ duration_minutes | default(15, true) }} 分鐘
+{{ instructions }}
 
+{% endif %}
 ## 題目
 
-{% for question in questions | default(["請說明本週最重要的核心概念。"], true) %}
-### 第 {{ loop.index }} 題
+{% for question in questions | default([], true) %}
+### 第 {{ loop.index }} 題：{{ question.prompt }}
 
-{{ question }}
+{% for choice in question.choices %}
+- {{ choice }}
 {% endfor %}
 
-## 教師用答案
-
-> 發布學生版本前，請移除此區或改放教師專用目錄。
-
-{% for answer in answers | default(["依課程內容評分。"], true) %}
-{{ loop.index }}. {{ answer }}
 {% endfor %}

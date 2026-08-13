@@ -31,6 +31,18 @@
 - Added the `quiz` CLI command and built-in `list` / legacy `--list` exposure.
 - Added structured Quiz CLI input through `--questions-file` JSON.
 - Added Quiz manifest integration using the existing manifest schema.
+- Added ADR 0017 — Assignment Generator Contract.
+- Added `AssignmentGenerator` as the third concrete Week-scoped material Generator.
+- Added canonical `assignment` built-in identity and explicit Week-scoped `assignment_id`.
+- Added ordered Assignment objectives, deliverables, and resources plus authored
+  instructions and submission guidance.
+- Added deterministic Assignment output at
+  `week-{week:02d}/assignment/{assignment_id}/README.md`.
+- Added the Assignment README template.
+- Added Assignment contract tests, generator integration tests, and CLI integration tests.
+- Added the `assignment` CLI command and built-in `list` / legacy `--list` exposure.
+- Added structured Assignment CLI input through `--content-file` JSON.
+- Added Assignment manifest integration using the existing manifest schema.
 
 #### Milestone 4 — Plugin Ecosystem
 
@@ -46,6 +58,12 @@
 
 - Marked ADR 0016 — Quiz Generator Contract as Accepted after design, contract,
   implementation, integration, regression, and CI gates completed.
+- Marked ADR 0017 — Assignment Generator Contract as Accepted after design,
+  contract, implementation, integration, regression, documentation, and CI gates completed.
+- Updated Open Courseware architecture to mark Assignment as Implemented while
+  PPT/Slides, Website, shared LearningMaterial abstractions, composition orchestration,
+  grading/scoring/rubric runtime, submission backend, starter-code packaging, and
+  courseware-specific SDK expansion remain Proposed.
 - Updated Open Courseware architecture to mark Quiz as Implemented while Assignment,
   PPT/Slides, Website, shared LearningMaterial abstractions, composition orchestration,
   answer-key generation, assessment runtime, and courseware-specific SDK exposure

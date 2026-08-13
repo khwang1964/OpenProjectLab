@@ -35,6 +35,9 @@ def _questions() -> tuple[dict[str, object], ...]:
     )
 
 
+_DEFAULT_QUESTIONS = object()
+
+
 def _request(
     tmp_path: Path,
     *,
@@ -42,7 +45,7 @@ def _request(
     week: object = 3,
     quiz_id: object = "streams-basics",
     title: object = "Streams Basics Quiz",
-    questions: object | None = None,
+    questions: object = _DEFAULT_QUESTIONS,
     dry_run: bool = True,
     overwrite: bool = False,
 ) -> GenerateRequest:
@@ -53,7 +56,7 @@ def _request(
             "week": week,
             "quiz_id": quiz_id,
             "title": title,
-            "questions": _questions() if questions is None else questions,
+            "questions": (_questions() if questions is _DEFAULT_QUESTIONS else questions),
             "record_manifest": False,
         },
         options=RuntimeOptions(
@@ -236,11 +239,10 @@ def test_quiz_generator_rejects_invalid_questions_collection(
 ) -> None:
     generator = _generator(tmp_path)
 
-    request = _request(tmp_path)
-    request.values["questions"] = questions
-
     with pytest.raises(GeneratorValidationError) as exc_info:
-        generator.validate_request(request)
+        generator.validate_request(
+            _request(tmp_path, questions=questions),
+        )
 
     assert exc_info.value.field == "questions"
 

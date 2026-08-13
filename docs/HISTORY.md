@@ -143,6 +143,49 @@ tests/integration/test_lab_cli.py
 Lab 已完成 design → contract tests → implementation → integration →
 documentation acceptance 閉環。
 
+### Step 5.4 — Quiz Generator
+
+Quiz 是第二個 concrete Learning Material Generator vertical slice。
+
+完整演進：
+
+```text
+PR #49 — docs: design quiz generator contract
+PR #50 — test: define quiz generator contract
+PR #51 — feat: implement quiz generator contract
+PR #52 — feat: integrate quiz generator
+```
+
+ADR 0016 接受的核心 contract：
+
+- canonical generator identity `quiz`
+- Quiz 屬於單一 Week
+- explicit Week-scoped `quiz_id`
+- minimum request values: `week`, `quiz_id`, `title`, `questions`
+- explicit/unique Question IDs
+- ordered choices and deterministic rendering
+- correct answer must resolve to one choice
+- deterministic `week-{week:02d}/quiz/{quiz_id}/README.md`
+- learner-facing artifact does not expose answer-key data
+- canonical `GenerationPlan` / `GenerationResult`
+- existing dry-run / overwrite / manifest semantics
+- CLI structured input through `--questions-file` JSON
+- no scoring/grading runtime, QuestionBank, randomization, or SDK expansion
+
+Production / integration：
+
+```text
+generator/generators/quiz_generator.py
+templates/quiz/README.md.j2
+generator/cli/main.py
+tests/generators/test_quiz_generator_contract.py
+tests/generators/test_quiz_generator_integration.py
+tests/integration/test_quiz_cli.py
+```
+
+Quiz 已完成 design → contract tests → implementation → integration →
+documentation acceptance 閉環。
+
 ------------------------------------------------------------------------
 
 # 下一階段
@@ -152,10 +195,10 @@ Milestone 5 持續進行。
 下一個 material-generator vertical slice：
 
 ```text
-Quiz Generator
+Assignment Generator
 ```
 
-之後再進入 Assignment、PPT/Slides、Website、composition integration 與
+之後再進入 PPT/Slides、Website、composition integration 與
 Milestone 5 acceptance。
 
 ------------------------------------------------------------------------

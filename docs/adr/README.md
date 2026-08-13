@@ -29,7 +29,7 @@
 | [0013](0013-plugin-distribution-contract.md) | Plugin Distribution Contract | Proposed |
 | [0014](0014-open-courseware-domain-contract.md) | Open Courseware Domain Contract | Accepted |
 | [0015](0015-lab-generator-contract.md) | Lab Generator Contract | Accepted |
-| [0016](0016-quiz-generator-contract.md) | Quiz Generator Contract | Proposed |
+| [0016](0016-quiz-generator-contract.md) | Quiz Generator Contract | Accepted |
 
 ## 新增 ADR
 

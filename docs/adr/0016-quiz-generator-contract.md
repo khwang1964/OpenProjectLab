@@ -1,6 +1,6 @@
 # ADR 0016: Quiz Generator Contract
 
-> Status: Proposed
+> Status: Accepted
 > Date: 2026-08-13
 > Milestone: 5 — Open Courseware Platform
 > Step: 5.4A — Quiz Generator Contract Design
@@ -1658,154 +1658,161 @@ No documentation should claim Quiz as Implemented until integration tests and pr
 
 ### Architecture
 
-- [ ] Quiz follows canonical `BaseGenerator` lifecycle.
-- [ ] `GenerateRequest` remains canonical invocation boundary.
-- [ ] `GenerationPlan` remains canonical planning boundary.
-- [ ] `GenerationResult` remains canonical result type.
-- [ ] No `QuizRequest`, `QuizPlan`, or `QuizGenerationResult` is introduced.
-- [ ] Quiz remains Week-scoped.
-- [ ] Quiz does not become a root aggregate.
-- [ ] Template does not own business validation.
-- [ ] Filesystem does not own assessment semantics.
-- [ ] CLI does not reimplement Quiz validation.
-- [ ] No unnecessary `LearningMaterial` or `Assessment` hierarchy is introduced.
+- [x] Quiz follows canonical `BaseGenerator` lifecycle.
+- [x] `GenerateRequest` remains canonical invocation boundary.
+- [x] `GenerationPlan` remains canonical planning boundary.
+- [x] `GenerationResult` remains canonical result type.
+- [x] No `QuizRequest`, `QuizPlan`, or `QuizGenerationResult` is introduced.
+- [x] Quiz remains Week-scoped.
+- [x] Quiz does not become a root aggregate.
+- [x] Template does not own business validation.
+- [x] Filesystem does not own assessment semantics.
+- [x] CLI does not reimplement Quiz validation.
+- [x] No unnecessary `LearningMaterial` or `Assessment` hierarchy is introduced.
 
 ### Identity
 
-- [ ] `quiz` is the single canonical built-in identity.
-- [ ] `quiz_id` is explicit.
-- [ ] `quiz_id` is independent from title.
-- [ ] Quiz identity is Week-scoped.
-- [ ] Question IDs are explicit.
-- [ ] Question IDs are unique within one Quiz.
-- [ ] Question position is not Question identity.
-- [ ] Filesystem paths are not domain identity.
+- [x] `quiz` is the single canonical built-in identity.
+- [x] `quiz_id` is explicit.
+- [x] `quiz_id` is independent from title.
+- [x] Quiz identity is Week-scoped.
+- [x] Question IDs are explicit.
+- [x] Question IDs are unique within one Quiz.
+- [x] Question position is not Question identity.
+- [x] Filesystem paths are not domain identity.
 
 ### Questions
 
-- [ ] Questions are an ordered collection.
-- [ ] Empty questions are rejected.
-- [ ] Prompt validation is explicit.
-- [ ] Choices use an ordered representation.
-- [ ] At least two choices are required.
-- [ ] Correct answer resolves to exactly one choice.
-- [ ] Duplicate Question IDs are rejected.
-- [ ] Question ordering is deterministic.
-- [ ] Choice ordering is deterministic.
-- [ ] Generator does not invent Question content.
+- [x] Questions are an ordered collection.
+- [x] Empty questions are rejected.
+- [x] Prompt validation is explicit.
+- [x] Choices use an ordered representation.
+- [x] At least two choices are required.
+- [x] Correct answer resolves to exactly one choice.
+- [x] Duplicate Question IDs are rejected.
+- [x] Question ordering is deterministic.
+- [x] Choice ordering is deterministic.
+- [x] Generator does not invent Question content.
 
 ### Assessment Boundary
 
-- [ ] Learner artifact and answer-key concerns are explicit.
-- [ ] Correct answers are not accidentally exposed in learner output.
-- [ ] No scoring engine is introduced.
-- [ ] No learner submission model is introduced.
-- [ ] No gradebook integration is introduced.
-- [ ] No QuestionBank is introduced without a separate design decision.
-- [ ] No randomization is introduced into canonical generation.
+- [x] Learner artifact and answer-key concerns are explicit.
+- [x] Correct answers are not accidentally exposed in learner output.
+- [x] No scoring engine is introduced.
+- [x] No learner submission model is introduced.
+- [x] No gradebook integration is introduced.
+- [x] No QuestionBank is introduced without a separate design decision.
+- [x] No randomization is introduced into canonical generation.
 
 ### Paths and Templates
 
-- [ ] Artifact root is `week-{week:02d}/quiz/{quiz_id}/`.
-- [ ] Primary artifact is `README.md`.
-- [ ] Artifact path is independent from title.
-- [ ] Default template follows existing template conventions.
-- [ ] Every written artifact exists in `GenerationPlan`.
-- [ ] No arbitrary execution-time paths are introduced.
-- [ ] Existing filesystem containment rules are preserved.
+- [x] Artifact root is `week-{week:02d}/quiz/{quiz_id}/`.
+- [x] Primary artifact is `README.md`.
+- [x] Artifact path is independent from title.
+- [x] Default template follows existing template conventions.
+- [x] Every written artifact exists in `GenerationPlan`.
+- [x] No arbitrary execution-time paths are introduced.
+- [x] Existing filesystem containment rules are preserved.
 
 ### Runtime
 
-- [ ] Dry-run performs validation and planning.
-- [ ] Dry-run produces no filesystem mutation.
-- [ ] Dry-run produces no manifest mutation.
-- [ ] Existing overwrite semantics are reused.
-- [ ] Existing manifest semantics are reused.
-- [ ] Existing error boundaries are reused.
-- [ ] No Quiz-specific runtime flags duplicate canonical options.
+- [x] Dry-run performs validation and planning.
+- [x] Dry-run produces no filesystem mutation.
+- [x] Dry-run produces no manifest mutation.
+- [x] Existing overwrite semantics are reused.
+- [x] Existing manifest semantics are reused.
+- [x] Existing error boundaries are reused.
+- [x] No Quiz-specific runtime flags duplicate canonical options.
 
 ### Determinism
 
-- [ ] Same validated request gives same artifact path.
-- [ ] Same validated request gives same Question order.
-- [ ] Same validated request gives same Choice order.
-- [ ] Plan ordering is deterministic.
-- [ ] Manifest ordering is deterministic.
-- [ ] No random identifiers are generated.
-- [ ] No wall-clock values affect output.
-- [ ] No filesystem enumeration order affects output.
+- [x] Same validated request gives same artifact path.
+- [x] Same validated request gives same Question order.
+- [x] Same validated request gives same Choice order.
+- [x] Plan ordering is deterministic.
+- [x] Manifest ordering is deterministic.
+- [x] No random identifiers are generated.
+- [x] No wall-clock values affect output.
+- [x] No filesystem enumeration order affects output.
 
 ### Compatibility
 
-- [ ] ADR 0014 Course / Week semantics remain unchanged.
-- [ ] ADR 0015 Lab Generator behavior remains unchanged.
-- [ ] Existing Course / Week / Lab generators remain green.
-- [ ] No accidental `generator.sdk` expansion occurs.
-- [ ] Plugin Entry Point contract remains unchanged.
-- [ ] Plugin validation/loading contracts remain unchanged.
+- [x] ADR 0014 Course / Week semantics remain unchanged.
+- [x] ADR 0015 Lab Generator behavior remains unchanged.
+- [x] Existing Course / Week / Lab generators remain green.
+- [x] No accidental `generator.sdk` expansion occurs.
+- [x] Plugin Entry Point contract remains unchanged.
+- [x] Plugin validation/loading contracts remain unchanged.
 
 ### Tests
 
-- [ ] Contract tests exist before implementation acceptance.
-- [ ] Valid request behavior is tested.
-- [ ] Invalid Week behavior is tested.
-- [ ] Bool Week rejection is tested.
-- [ ] Quiz ID validation is tested.
-- [ ] Empty title rejection is tested.
-- [ ] Empty Question collection rejection is tested.
-- [ ] Duplicate Question IDs are tested.
-- [ ] Choice validation is tested.
-- [ ] Correct-answer validation is tested.
-- [ ] Deterministic plan is tested.
-- [ ] Artifact path is tested.
-- [ ] Dry-run mutation safety is tested.
-- [ ] Integration rendering is tested.
-- [ ] CLI integration is tested before acceptance.
-- [ ] Existing Lab tests remain green.
+- [x] Contract tests exist before implementation acceptance.
+- [x] Valid request behavior is tested.
+- [x] Invalid Week behavior is tested.
+- [x] Bool Week rejection is tested.
+- [x] Quiz ID validation is tested.
+- [x] Empty title rejection is tested.
+- [x] Empty Question collection rejection is tested.
+- [x] Duplicate Question IDs are tested.
+- [x] Choice validation is tested.
+- [x] Correct-answer validation is tested.
+- [x] Deterministic plan is tested.
+- [x] Artifact path is tested.
+- [x] Dry-run mutation safety is tested.
+- [x] Integration rendering is tested.
+- [x] CLI integration is tested before acceptance.
+- [x] Existing Lab tests remain green.
 
 ### Documentation
 
-- [ ] ADR 0016 accurately describes implemented vs proposed capability.
-- [ ] ADR index is synchronized.
-- [ ] Open Courseware architecture is synchronized at acceptance.
-- [ ] Roadmap is synchronized at acceptance.
-- [ ] HISTORY is synchronized at acceptance.
-- [ ] CHANGELOG is synchronized at acceptance.
-- [ ] Public docs do not claim unsupported question types.
-- [ ] Public docs do not claim scoring/grading capability.
+- [x] ADR 0016 accurately describes implemented vs proposed capability.
+- [x] ADR index is synchronized.
+- [x] Open Courseware architecture is synchronized at acceptance.
+- [x] Roadmap is synchronized at acceptance.
+- [x] HISTORY is synchronized at acceptance.
+- [x] CHANGELOG is synchronized at acceptance.
+- [x] Public docs do not claim unsupported question types.
+- [x] Public docs do not claim scoring/grading capability.
 
 ### Automation
 
-- [ ] `git diff --check`
-- [ ] `ruff check generator tests`
-- [ ] `ruff format --check generator tests`
-- [ ] `pre-commit run --all-files`
-- [ ] `python -m pytest`
-- [ ] coverage gate passes
-- [ ] GitHub CI is green
+- [x] `git diff --check`
+- [x] `ruff check generator tests`
+- [x] `ruff format --check generator tests`
+- [x] `pre-commit run --all-files`
+- [x] `python -m pytest`
+- [x] coverage gate passes
+- [x] GitHub CI is green
 
 ---
 
 ## Status
 
-**Proposed**
+**Accepted**
 
-ADR 0016 defines the Quiz Generator contract before implementation.
-
-Acceptance requires:
+ADR 0016 is accepted after completing the full Quiz Generator vertical slice:
 
 ```text
-contract tests
-    ↓
-QuizGenerator implementation
-    ↓
-template integration
-    ↓
-CLI integration
-    ↓
-full regression suite
-    ↓
-documentation synchronization
+PR #49 — docs: design quiz generator contract
+PR #50 — test: define quiz generator contract
+PR #51 — feat: implement quiz generator contract
+PR #52 — feat: integrate quiz generator
 ```
 
-Only after those gates pass should ADR 0016 become **Accepted**.
+Acceptance evidence:
+
+- canonical `QuizGenerator` implemented on the existing BaseGenerator lifecycle
+- 54 Quiz Generator contract tests passing
+- generator integration tests covering rendering, manifest, dry-run, and deterministic ordering
+- CLI integration through `opl quiz`
+- structured question input through `--questions-file` JSON
+- built-in `list` / legacy `--list` exposure
+- learner-facing README does not expose correct-answer data
+- overwrite and dry-run semantics preserved
+- full regression suite, Ruff, pre-commit, coverage, and GitHub CI green
+- no Quiz-specific request/plan/result hierarchy
+- no scoring, grading, QuestionBank, randomization, or public SDK expansion
+
+Answer-key generation, richer question types, grading/runtime behavior, and reusable
+assessment abstractions remain future work and are not part of the accepted minimum
+Quiz Generator implementation.

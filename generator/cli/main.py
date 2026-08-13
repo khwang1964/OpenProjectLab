@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from collections.abc import Sequence
 from pathlib import Path
@@ -19,6 +20,7 @@ from generator.core.models import (
 from generator.generators.bootstrap_generator import BootstrapGenerator
 from generator.generators.course_generator import CourseGenerator
 from generator.generators.lab_generator import LabGenerator
+from generator.generators.quiz_generator import QuizGenerator
 from generator.generators.week_generator import WeekGenerator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -139,6 +141,29 @@ def build_parser() -> argparse.ArgumentParser:
     _add_write_options(lab)
     lab.set_defaults(handler=_handle_lab)
 
+    quiz = subparsers.add_parser(
+        "quiz",
+        help="產生每週 Quiz README",
+    )
+    quiz.add_argument("project_slug", help="專案代號，例如 modern-java")
+    quiz.add_argument("--week", type=_positive_int, required=True, help="週次")
+    quiz.add_argument(
+        "--quiz-id",
+        required=True,
+        help="Quiz 識別碼，例如 streams-basics",
+    )
+    quiz.add_argument("--title", required=True, help="Quiz 標題")
+    quiz.add_argument("--course-name", help="課程名稱；預設使用專案代號")
+    quiz.add_argument(
+        "--questions-file",
+        type=Path,
+        required=True,
+        metavar="FILE",
+        help="Quiz 題目 JSON 檔案",
+    )
+    _add_write_options(quiz)
+    quiz.set_defaults(handler=_handle_quiz)
+
     return parser
 
 
@@ -174,6 +199,12 @@ def _load_config(path: Path) -> ProjectConfig | None:
     if path == DEFAULT_CONFIG and not path.exists():
         return None
     return ProjectConfig.load(path)
+
+
+def _load_questions_file(path: Path) -> object:
+    """Load structured Quiz questions from a UTF-8 JSON file."""
+    with path.open(encoding="utf-8") as file:
+        return json.load(file)
 
 
 def _resolve_roots(args: argparse.Namespace) -> tuple[Path, Path]:
@@ -213,6 +244,7 @@ def _handle_list(args: argparse.Namespace) -> int:
         (BootstrapGenerator.name, BootstrapGenerator.description),
         (CourseGenerator.name, CourseGenerator.description),
         (LabGenerator.name, LabGenerator.description),
+        (QuizGenerator.name, QuizGenerator.description),
         (WeekGenerator.name, WeekGenerator.description),
     )
     for name, description in rows:
@@ -332,6 +364,33 @@ def _handle_lab(args: argparse.Namespace) -> int:
         ),
     )
     _print_file_result("Lab 檔案", result)
+    return 0
+
+
+def _handle_quiz(args: argparse.Namespace) -> int:
+    template_root, output_root = _resolve_roots(args)
+    project_root = output_root / args.project_slug
+    context: dict[str, Any] = {
+        "week": args.week,
+        "quiz_id": args.quiz_id,
+        "title": args.title,
+        "course_name": args.course_name or args.project_slug,
+        "questions": _load_questions_file(args.questions_file),
+        "record_manifest": not args.no_manifest,
+    }
+
+    result = QuizGenerator(template_root).generate(
+        GenerateRequest(
+            generator_name=QuizGenerator.name,
+            target=project_root,
+            values=context,
+            options=RuntimeOptions(
+                overwrite=args.force,
+                dry_run=args.dry_run,
+            ),
+        ),
+    )
+    _print_file_result("Quiz 檔案", result)
     return 0
 
 

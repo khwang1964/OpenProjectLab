@@ -17,6 +17,7 @@ from generator.core.models import (
     GenerationResult,
     RuntimeOptions,
 )
+from generator.generators.assignment_generator import AssignmentGenerator
 from generator.generators.bootstrap_generator import BootstrapGenerator
 from generator.generators.course_generator import CourseGenerator
 from generator.generators.lab_generator import LabGenerator
@@ -141,6 +142,44 @@ def build_parser() -> argparse.ArgumentParser:
     _add_write_options(lab)
     lab.set_defaults(handler=_handle_lab)
 
+    assignment = subparsers.add_parser(
+        "assignment",
+        help="產生每週 Assignment README",
+    )
+    assignment.add_argument(
+        "project_slug",
+        help="專案代號，例如 modern-java",
+    )
+    assignment.add_argument(
+        "--week",
+        type=_positive_int,
+        required=True,
+        help="週次",
+    )
+    assignment.add_argument(
+        "--assignment-id",
+        required=True,
+        help="Assignment 識別碼，例如 streams-homework",
+    )
+    assignment.add_argument(
+        "--title",
+        required=True,
+        help="Assignment 標題",
+    )
+    assignment.add_argument(
+        "--course-name",
+        help="課程名稱；預設使用專案代號",
+    )
+    assignment.add_argument(
+        "--content-file",
+        type=Path,
+        required=True,
+        metavar="FILE",
+        help="Assignment structured content JSON 檔案",
+    )
+    _add_write_options(assignment)
+    assignment.set_defaults(handler=_handle_assignment)
+
     quiz = subparsers.add_parser(
         "quiz",
         help="產生每週 Quiz README",
@@ -207,6 +246,17 @@ def _load_questions_file(path: Path) -> object:
         return json.load(file)
 
 
+def _load_assignment_content(path: Path) -> dict[str, object]:
+    """Load structured Assignment content from a UTF-8 JSON file."""
+    with path.open(encoding="utf-8") as file:
+        value = json.load(file)
+
+    if not isinstance(value, dict):
+        raise ValueError("Assignment content JSON 必須是 object")
+
+    return value
+
+
 def _resolve_roots(args: argparse.Namespace) -> tuple[Path, Path]:
     config = _load_config(args.config)
     config_paths: dict[str, Any] = config.paths if config is not None else {}
@@ -241,6 +291,7 @@ def _resolve_project_path(path: Path) -> Path:
 def _handle_list(args: argparse.Namespace) -> int:
     del args
     rows = (
+        (AssignmentGenerator.name, AssignmentGenerator.description),
         (BootstrapGenerator.name, BootstrapGenerator.description),
         (CourseGenerator.name, CourseGenerator.description),
         (LabGenerator.name, LabGenerator.description),
@@ -364,6 +415,35 @@ def _handle_lab(args: argparse.Namespace) -> int:
         ),
     )
     _print_file_result("Lab 檔案", result)
+    return 0
+
+
+def _handle_assignment(args: argparse.Namespace) -> int:
+    template_root, output_root = _resolve_roots(args)
+    project_root = output_root / args.project_slug
+
+    content = _load_assignment_content(args.content_file)
+    context: dict[str, Any] = {
+        "week": args.week,
+        "assignment_id": args.assignment_id,
+        "title": args.title,
+        "course_name": args.course_name or args.project_slug,
+        "record_manifest": not args.no_manifest,
+    }
+    context.update(content)
+
+    result = AssignmentGenerator(template_root).generate(
+        GenerateRequest(
+            generator_name=AssignmentGenerator.name,
+            target=project_root,
+            values=context,
+            options=RuntimeOptions(
+                overwrite=args.force,
+                dry_run=args.dry_run,
+            ),
+        ),
+    )
+    _print_file_result("作業檔案", result)
     return 0
 
 

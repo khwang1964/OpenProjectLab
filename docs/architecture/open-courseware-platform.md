@@ -77,6 +77,7 @@ bootstrap
 course
 lab
 quiz
+assignment
 week
 ```
 
@@ -337,7 +338,7 @@ course       Existing
 week         Existing
 lab          Implemented
 quiz         Implemented
-assignment   Proposed
+assignment   Implemented
 ppt          Proposed
 website      Proposed
 ```
@@ -355,8 +356,7 @@ files、expected outputs 與 validation steps。
 
 **Quiz**：已實作的 Week-scoped assessment artifact；使用 explicit `quiz_id` 與 structured single-answer multiple-choice questions，透過 `opl quiz` / `--questions-file` JSON 接入；learner-facing README 不暴露 correct-answer data，且不負責學生作答、scoring 或 grading backend。
 
-**Assignment**：較完整學習任務，可包含 constraints、deliverables、rubric
-與 starter resources；submission/LMS 不屬於 core scope。
+**Assignment**：已實作的 Week-scoped authored learning-task artifact；使用 explicit `assignment_id`，支援 ordered objectives、deliverables、resources 以及 authored instructions / submission guidance，透過 `opl assignment` / `--content-file` JSON 接入。artifact deterministic 產生於 `week-{week:02d}/assignment/{assignment_id}/README.md`；grading、scoring、rubric engine、starter-code packaging 與 submission/LMS backend 仍不屬於 目前 core scope。
 
 ## 16. PPT / Slides Projection
 

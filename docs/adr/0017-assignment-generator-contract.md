@@ -1,6 +1,6 @@
 # ADR 0017: Assignment Generator Contract
 
-> Status: Proposed
+> Status: Accepted
 > Date: 2026-08-13
 > Milestone: 5 — Open Courseware Platform
 > Step: 5.5A — Assignment Generator Contract Design
@@ -1283,78 +1283,91 @@ CHANGELOG.md
 
 ### Architecture
 
-- [ ] `assignment` 是唯一 canonical Assignment Generator identity。
-- [ ] Assignment 明確屬於一個 Week。
-- [ ] Assignment identity 使用 explicit `assignment_id`。
-- [ ] 未建立 `LearningMaterial` / `AssignmentMaterial` hierarchy。
-- [ ] 未建立 Assignment-specific request / plan / result hierarchy。
-- [ ] 未把 submission/grading runtime 放進 Generator。
+- [x] `assignment` 是唯一 canonical Assignment Generator identity。
+- [x] Assignment 明確屬於一個 Week。
+- [x] Assignment identity 使用 explicit `assignment_id`。
+- [x] 未建立 `LearningMaterial` / `AssignmentMaterial` hierarchy。
+- [x] 未建立 Assignment-specific request / plan / result hierarchy。
+- [x] 未把 submission/grading runtime 放進 Generator。
 
 ### Validation
 
-- [ ] `week` 驗證符合 ADR 0014。
-- [ ] `bool` Week rejected。
-- [ ] `assignment_id` 為 non-empty safe string。
-- [ ] path traversal / nested path rejected。
-- [ ] `title` 為 non-empty string。
-- [ ] optional structured collections 若支援則有明確 validation。
-- [ ] invalid request 在 filesystem mutation 前失敗。
+- [x] `week` 驗證符合 ADR 0014。
+- [x] `bool` Week rejected。
+- [x] `assignment_id` 為 non-empty safe string。
+- [x] path traversal / nested path rejected。
+- [x] `title` 為 non-empty string。
+- [x] optional structured collections 若支援則有明確 validation。
+- [x] invalid request 在 filesystem mutation 前失敗。
 
 ### Planning / Execution
 
-- [ ] 使用 canonical `GenerationPlan`。
-- [ ] 使用 canonical `GenerationResult`。
-- [ ] artifact path deterministic。
-- [ ] dry-run 無 side effects。
-- [ ] overwrite semantics reuse existing infrastructure。
-- [ ] manifest reuse existing schema。
-- [ ] structured ordering deterministic。
+- [x] 使用 canonical `GenerationPlan`。
+- [x] 使用 canonical `GenerationResult`。
+- [x] artifact path deterministic。
+- [x] dry-run 無 side effects。
+- [x] overwrite semantics reuse existing infrastructure。
+- [x] manifest reuse existing schema。
+- [x] structured ordering deterministic。
 
 ### Template
 
-- [ ] default template 為 `assignment/README.md.j2`。
-- [ ] Template 只負責 presentation。
-- [ ] Template 不負責 validation / path / filesystem policy。
-- [ ] template context 有 tests 固定。
+- [x] default template 為 `assignment/README.md.j2`。
+- [x] Template 只負責 presentation。
+- [x] Template 不負責 validation / path / filesystem policy。
+- [x] template context 有 tests 固定。
 
 ### Compatibility
 
-- [ ] Bootstrap / Course / Week / Lab / Quiz regression green。
-- [ ] Plugin tests green。
-- [ ] SDK tests green。
-- [ ] CLI tests green。
-- [ ] 無 accidental `generator.sdk` expansion。
+- [x] Bootstrap / Course / Week / Lab / Quiz regression green。
+- [x] Plugin tests green。
+- [x] SDK tests green。
+- [x] CLI tests green。
+- [x] 無 accidental `generator.sdk` expansion。
 
 ### Documentation / Automation
 
-- [ ] ADR index 已加入 0017。
-- [ ] contract tests 在 implementation 前建立。
-- [ ] integration tests 覆蓋 real template/filesystem/manifest。
-- [ ] architecture / roadmap / HISTORY / CHANGELOG 在 acceptance 時同步。
-- [ ] pre-commit 與 CI 全綠後才接受 ADR。
+- [x] ADR index 已加入 0017。
+- [x] contract tests 在 implementation 前建立。
+- [x] integration tests 覆蓋 real template/filesystem/manifest。
+- [x] architecture / roadmap / HISTORY / CHANGELOG 在 acceptance 時同步。
+- [x] pre-commit 與 CI 全綠後才接受 ADR。
 
 ---
 
 ## Status
 
-**Proposed**
+**Accepted**
 
-ADR 0017 defines the Assignment Generator contract before implementation.
+ADR 0017 is accepted after the complete Assignment Generator vertical slice
+passed its architecture, contract, implementation, integration, regression,
+documentation, and CI gates.
 
-Acceptance requires:
+Acceptance evidence:
 
 ```text
-contract tests
-    ↓
-AssignmentGenerator implementation
-    ↓
-template integration
-    ↓
-CLI integration
-    ↓
-full regression suite
-    ↓
-documentation synchronization
+PR #54 — docs: design assignment generator contract
+PR #55 — test: define assignment generator contract
+PR #56 — feat: implement assignment generator contract
+PR #57 — feat: integrate assignment generator
 ```
 
-Only after those gates pass should ADR 0017 become **Accepted**.
+The accepted production contract includes:
+
+- canonical built-in identity `assignment`
+- explicit Week-scoped `assignment_id`
+- required `week`, `assignment_id`, and `title`
+- optional ordered `objectives`, `deliverables`, and `resources`
+- optional authored `instructions` and `submission` guidance
+- deterministic `week-{week:02d}/assignment/{assignment_id}/README.md`
+- canonical `GenerationPlan` / `GenerationResult`
+- existing dry-run / overwrite / filesystem / manifest semantics
+- CLI structured content input through `--content-file` JSON
+- built-in `list` and legacy `--list` exposure
+- contract, template, generator integration, and CLI integration coverage
+- no Assignment-specific request / plan / result hierarchy
+- no grading, scoring, rubric engine, or submission backend
+- no accidental `generator.sdk` expansion
+
+Future richer Assignment semantics require a follow-up ADR rather than
+silently expanding this accepted contract.

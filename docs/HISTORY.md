@@ -186,19 +186,62 @@ tests/integration/test_quiz_cli.py
 Quiz 已完成 design → contract tests → implementation → integration →
 documentation acceptance 閉環。
 
+
+### Step 5.5 — Assignment Generator
+
+Assignment 是第三個 concrete Week-scoped material Generator vertical slice。
+
+完整演進：
+
+```text
+PR #54 — docs: design assignment generator contract
+PR #55 — test: define assignment generator contract
+PR #56 — feat: implement assignment generator contract
+PR #57 — feat: integrate assignment generator
+```
+
+ADR 0017 接受的核心 contract：
+
+- canonical generator identity `assignment`
+- Assignment 屬於單一 Week
+- explicit Week-scoped `assignment_id`
+- minimum request values: `week`, `assignment_id`, `title`
+- ordered objectives / deliverables / resources
+- authored instructions / submission guidance
+- deterministic `week-{week:02d}/assignment/{assignment_id}/README.md`
+- canonical `GenerationPlan` / `GenerationResult`
+- existing dry-run / overwrite / filesystem / manifest semantics
+- CLI structured input through `--content-file` JSON
+- no grading/scoring/rubric runtime or submission backend
+- no Assignment-specific request/result hierarchy or SDK expansion
+
+Production / integration：
+
+```text
+generator/generators/assignment_generator.py
+templates/assignment/README.md.j2
+generator/cli/main.py
+tests/generators/test_assignment_generator_contract.py
+tests/generators/test_assignment_generator_integration.py
+tests/integration/test_assignment_cli.py
+```
+
+Assignment 已完成 design → contract tests → implementation → integration →
+documentation acceptance 閉環。
+
 ------------------------------------------------------------------------
 
 # 下一階段
 
 Milestone 5 持續進行。
 
-下一個 material-generator vertical slice：
+下一個 Milestone 5 vertical slice：
 
 ```text
-Assignment Generator
+PPT / Slides Generator
 ```
 
-之後再進入 PPT/Slides、Website、composition integration 與
+之後再進入 Website、composition integration 與
 Milestone 5 acceptance。
 
 ------------------------------------------------------------------------

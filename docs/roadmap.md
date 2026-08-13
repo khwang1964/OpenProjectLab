@@ -29,7 +29,7 @@ Required coverage: 67.0%
 
 > **Milestone 5 — Open Courseware Platform**
 
-Milestone 5 已完成 Course/Week foundation，以及 Lab 與 Quiz 兩個 material-generator vertical slices：
+Milestone 5 已完成 Course/Week foundation，以及 Lab、Quiz、Assignment 三個 material-generator vertical slices：
 
 ```text
 Open Courseware Architecture
@@ -197,13 +197,38 @@ Merged implementation sequence:
 #52 integration
 ```
 
-#### Next
 
-- Assignment Generator contract
+#### Assignment Generator ✅
+
+- ADR 0017 Accepted
+- canonical generator name: `assignment`
+- explicit Week-scoped `assignment_id`
+- required `week`, `assignment_id`, `title`
+- optional ordered `objectives`, `deliverables`, and `resources`
+- optional authored `instructions` and `submission` guidance
+- deterministic `week-{week:02d}/assignment/{assignment_id}/README.md`
+- canonical `GenerationPlan` / `GenerationResult`
+- dry-run / overwrite / manifest integration
+- CLI `assignment` command and `list` / legacy `--list` exposure
+- structured CLI input through `--content-file` JSON
+- contract, template, generator integration, and CLI integration tests
+- no grading / scoring / rubric runtime
+- no submission backend
+- no accidental `generator.sdk` expansion
+
+Merged implementation sequence:
+
+```text
+#54 design
+#55 contract tests
+#56 minimum implementation
+#57 integration
+```
+
+#### Next
 
 ## Remaining Planned Features
 
-- Assignment Generator
 - PPT / Slides Generator
 - Website Generator
 - composition integration

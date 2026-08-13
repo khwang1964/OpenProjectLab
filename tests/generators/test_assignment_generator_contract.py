@@ -417,7 +417,7 @@ def test_assignment_plan_uses_default_template(tmp_path: Path) -> None:
     plan = generator.plan(request)
 
     assert len(plan.operations) == 1
-    assert plan.operations[0].template == "assignment/README.md.j2"
+    assert plan.operations[0].template_name == "assignment/README.md.j2"
 
 
 def test_assignment_plan_destination_does_not_depend_on_title(

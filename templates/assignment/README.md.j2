@@ -1,32 +1,45 @@
 # 作業：{{ title }}
 
+{% set display_week = week_padded if week_padded is defined else "%02d" | format(week) %}
+> Week {{ display_week }}{% if assignment_id is defined %} · Assignment ID: `{{ assignment_id }}`{% endif %}
+
+{% if course_name is defined %}
 **課程：** {{ course_name }}
-**週次：** Week {{ "%02d" | format(week) }}
 
-## 作業目的
+{% endif %}
+{% if objectives is defined and objectives %}
+## 學習目標
 
-{{ purpose | default("評量學生對本週內容的理解與應用能力。", true) }}
-
-## 題目
-
-{% for item in questions | default(["說明核心概念", "完成程式實作", "分析執行結果"], true) %}
-### 第 {{ loop.index }} 題
-
-{{ item }}
+{% for objective in objectives %}
+- {{ objective }}
 {% endfor %}
 
+{% endif %}
+{% if instructions is defined and instructions %}
+## 作業說明
+
+{{ instructions }}
+
+{% endif %}
+{% if deliverables is defined and deliverables %}
 ## 繳交內容
 
-- 原始碼
-- 測試
-- README
-- 必要的執行結果
+{% for deliverable in deliverables %}
+- {{ deliverable }}
+{% endfor %}
 
-## 評分標準
+{% endif %}
+{% if resources is defined and resources %}
+## 參考資源
 
-| 項目 | 比例 |
-|---|---:|
-| 正確性 | 40% |
-| 程式品質 | 25% |
-| 測試 | 20% |
-| 文件 | 15% |
+{% for resource in resources %}
+- {{ resource }}
+{% endfor %}
+
+{% endif %}
+{% if submission is defined and submission %}
+## 繳交方式
+
+{{ submission }}
+
+{% endif %}

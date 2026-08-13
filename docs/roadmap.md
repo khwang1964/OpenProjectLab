@@ -1,7 +1,7 @@
 # OpenProjectLab Roadmap
 
 > Status: Active
-> Last Updated: 2026-08-11
+> Last Updated: 2026-08-13
 
 ------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ Required coverage: 67.0%
 
 > **Milestone 5 — Open Courseware Platform**
 
-Milestone 5 已完成第一個 vertical slice：
+Milestone 5 已完成 Course/Week foundation，以及 Lab 與 Quiz 兩個 material-generator vertical slices：
 
 ```text
 Open Courseware Architecture
@@ -47,6 +47,16 @@ LabGenerator
 Lab CLI / template / manifest integration
     ↓
 Lab documentation acceptance
+    ↓
+ADR 0016 Quiz Generator Contract
+    ↓
+Quiz contract tests
+    ↓
+QuizGenerator
+    ↓
+Quiz CLI / template / manifest integration
+    ↓
+Quiz documentation acceptance
 ```
 
 ------------------------------------------------------------------------
@@ -158,14 +168,41 @@ Merged implementation sequence:
 #47 integration
 ```
 
+#### Quiz Generator ✅
+
+- ADR 0016 Accepted
+- canonical generator name: `quiz`
+- explicit Week-scoped `quiz_id`
+- required `week`, `quiz_id`, `title`, `questions`
+- structured single-answer multiple-choice question contract
+- explicit and unique Question IDs
+- deterministic question / choice ordering
+- deterministic `week-{week:02d}/quiz/{quiz_id}/README.md`
+- learner-facing README does not expose correct-answer data
+- canonical `GenerationPlan` / `GenerationResult`
+- dry-run / overwrite / manifest integration
+- CLI `quiz` command and `list` / legacy `--list` exposure
+- structured CLI input through `--questions-file` JSON
+- contract, generator integration, template, and CLI integration tests
+- no scoring / grading runtime
+- no QuestionBank or randomization
+- no accidental `generator.sdk` expansion
+
+Merged implementation sequence:
+
+```text
+#49 design
+#50 contract tests
+#51 minimum implementation
+#52 integration
+```
+
 #### Next
 
-- Quiz Generator contract
 - Assignment Generator contract
 
 ## Remaining Planned Features
 
-- Quiz Generator
 - Assignment Generator
 - PPT / Slides Generator
 - Website Generator

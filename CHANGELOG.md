@@ -19,6 +19,18 @@
 - Added Lab contract tests, generator integration tests, and CLI integration tests.
 - Added the `lab` CLI command and Lab exposure through built-in generator listing.
 - Added Lab manifest integration using the existing manifest schema.
+- Added ADR 0016 — Quiz Generator Contract.
+- Added `QuizGenerator` as the second concrete material Generator.
+- Added canonical `quiz` built-in Generator identity and Week-scoped `quiz_id`.
+- Added structured single-answer multiple-choice question validation with explicit
+  Question IDs, ordered choices, and correct-answer membership validation.
+- Added deterministic Quiz output at
+  `week-{week:02d}/quiz/{quiz_id}/README.md`.
+- Added the learner-facing Quiz README template without answer-key exposure.
+- Added Quiz contract tests, generator integration tests, and CLI integration tests.
+- Added the `quiz` CLI command and built-in `list` / legacy `--list` exposure.
+- Added structured Quiz CLI input through `--questions-file` JSON.
+- Added Quiz manifest integration using the existing manifest schema.
 
 #### Milestone 4 — Plugin Ecosystem
 
@@ -31,6 +43,16 @@
 - Added `docs/milestones/milestone-4-acceptance.md`.
 
 ### Changed
+
+- Marked ADR 0016 — Quiz Generator Contract as Accepted after design, contract,
+  implementation, integration, regression, and CI gates completed.
+- Updated Open Courseware architecture to mark Quiz as Implemented while Assignment,
+  PPT/Slides, Website, shared LearningMaterial abstractions, composition orchestration,
+  answer-key generation, assessment runtime, and courseware-specific SDK exposure
+  remain Proposed.
+- Preserved `GenerateRequest`, `GenerationPlan`, `GenerationResult`, dry-run,
+  overwrite, manifest, filesystem, and renderer boundaries for Quiz.
+- Preserved `generator.sdk` without adding Quiz-specific public symbols.
 
 - Marked ADR 0015 — Lab Generator Contract as Accepted after contract,
   implementation, integration, and CI gates completed.
@@ -59,6 +81,14 @@
   ADR 0015 does not expand the public Plugin SDK.
 
 ### Verification
+
+- Verified Quiz request validation for Week, `quiz_id`, title, Questions, choices,
+  and correct-answer membership.
+- Verified explicit/unique Question IDs and deterministic Question/choice ordering.
+- Verified deterministic Quiz `GenerationPlan` destinations.
+- Verified learner-facing Quiz artifacts do not expose correct-answer data.
+- Verified Quiz dry-run, overwrite, manifest, built-in list, JSON input, and CLI integration.
+- Verified PR #49 through PR #52 complete the Quiz design/test/implementation/integration sequence.
 
 - Verified Lab request validation for Week, `lab_id`, and title.
 - Verified deterministic Lab `GenerationPlan` destinations.

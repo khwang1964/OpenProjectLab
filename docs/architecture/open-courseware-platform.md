@@ -2,7 +2,7 @@
 
 > Status: Proposed\
 > Milestone: 5 --- Open Courseware Platform\
-> Last updated: 2026-08-11\
+> Last updated: 2026-08-13\
 > Scope: Courseware domain model, composition, generators, templates,
 > artifacts, extension points, testing, documentation, and acceptance\
 > Audience: Maintainers, contributors, courseware authors, Generator
@@ -76,6 +76,7 @@ Milestone 5 保留：
 bootstrap
 course
 lab
+quiz
 week
 ```
 
@@ -335,7 +336,7 @@ discovery 或自行建立 filesystem safety rules。
 course       Existing
 week         Existing
 lab          Implemented
-quiz         Proposed
+quiz         Implemented
 assignment   Proposed
 ppt          Proposed
 website      Proposed
@@ -352,7 +353,7 @@ presentation format 分離。
 **Lab**：實作活動，可包含 objectives、instructions、starter
 files、expected outputs 與 validation steps。
 
-**Quiz**：評量 artifact；不負責學生作答或 grading backend。
+**Quiz**：已實作的 Week-scoped assessment artifact；使用 explicit `quiz_id` 與 structured single-answer multiple-choice questions，透過 `opl quiz` / `--questions-file` JSON 接入；learner-facing README 不暴露 correct-answer data，且不負責學生作答、scoring 或 grading backend。
 
 **Assignment**：較完整學習任務，可包含 constraints、deliverables、rubric
 與 starter resources；submission/LMS 不屬於 core scope。

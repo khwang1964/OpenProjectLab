@@ -1,7 +1,7 @@
 # OpenProjectLab Roadmap
 
 > Status: Active
-> Last Updated: 2026-08-14
+> Last Updated: 2026-08-15
 
 ------------------------------------------------------------------------
 
@@ -278,12 +278,34 @@ Merged implementation sequence:
 #67 integration
 ```
 
+### Step 5.4 — Courseware Composition Integration ✅
+
+- ADR 0020 Accepted
+- production `generator/courseware/composition.py`
+- deterministic ordered `GenerateRequest` composition
+- existing `GeneratorRegistry` preflight / resolution boundary
+- canonical `BaseGenerator.run(request)` execution
+- ordered `GenerationResult` aggregation
+- fail-fast semantics without cross-generator rollback
+- dry-run / overwrite propagation
+- representative Course / Week / Lab / Quiz / Assignment / Slides / Website integration
+- no public SDK expansion
+- no composition CLI, parallel execution, or second manifest/plugin infrastructure
+
+Merged implementation sequence:
+
+```text
+#69 design
+#70 contract tests
+#71 minimum implementation
+#72 representative integration
+```
+
 #### Next
 
 ## Remaining Planned Features
 
-- composition integration
-- Milestone 5 representative E2E and acceptance document
+- Milestone 5 representative E2E and formal acceptance document
 
 **Status:** In Progress
 

@@ -1,6 +1,6 @@
 # ADR 0020: Courseware Composition Contract
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-14
 - **Milestone:** Milestone 5 — Composition Integration
 
@@ -319,7 +319,7 @@ Course / Week
 
 ### Phase 5 — Acceptance
 
-同步 architecture、roadmap、HISTORY、CHANGELOG、regression baseline、coverage gate 與 CI，最後將 ADR `Proposed → Accepted`。
+同步 architecture、roadmap、HISTORY、CHANGELOG、regression baseline、coverage gate 與 CI，並以 Accepted status 固定已驗證的 composition contract。
 
 ## Test strategy
 
@@ -391,7 +391,7 @@ Architecture 文件必須清楚區分 composition responsibilities、generator r
 
 ## Rollback plan
 
-ADR 0020 在 `Proposed` 階段可移除未接受的 composition implementation/tests 而不影響既有 generators。
+ADR 0020 已 Accepted。若未來需要撤回此 contract，應以新的 superseding ADR 或明確 revert 處理；不得僅把已接受的 production composition implementation/tests 視為 provisional code 移除。
 
 若 implementation 已 merge 但尚未 acceptance：
 
@@ -446,7 +446,35 @@ Composition rollback 不應要求回退 Course、Week、Lab、Quiz、Assignment�
 
 - [ ] ADR index 已同步。
 - [ ] Open Courseware architecture、Roadmap、HISTORY、CHANGELOG 已同步。
-- [ ] Acceptance 後 ADR status 已由 `Proposed` 改為 `Accepted`。
+- [x] ADR status 已由 `Proposed` 改為 `Accepted`。
+
+## Acceptance evidence
+
+ADR 0020 已完成 Design → Contract Tests → Minimum Implementation → Representative Integration：
+
+```text
+PR #69 — docs: design courseware composition contract
+PR #70 — test: define courseware composition contract
+PR #71 — feat: implement courseware composition contract
+PR #72 — test: integrate courseware composition
+```
+
+Production / tests：
+
+```text
+generator/courseware/composition.py
+tests/courseware/test_composition_contract.py
+tests/courseware/test_composition_integration.py
+```
+
+已驗證的第一版 contract 包含 deterministic ordered requests、registry preflight、
+canonical `BaseGenerator.run(request)` execution、ordered `GenerationResult`
+aggregation、fail-fast / no cross-generator rollback、dry-run、overwrite propagation、
+manifest compatibility、caller-input immutability，以及 Course / Week / Lab / Quiz /
+Assignment / Slides / Website representative integration。
+
+Acceptance 不擴張 `generator.sdk`，也不加入 composition CLI、parallel execution、
+cross-generator transaction/rollback 或第二套 manifest/plugin infrastructure。
 
 ## Decision summary
 

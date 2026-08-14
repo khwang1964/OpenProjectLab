@@ -317,19 +317,46 @@ documentation acceptance 閉環。
 
 ------------------------------------------------------------------------
 
+### Step 5.8 — Courseware Composition Integration
+
+ADR 0020 已完成 design → contract tests → implementation → representative integration：
+
+```text
+PR #69 — docs: design courseware composition contract
+PR #70 — test: define courseware composition contract
+PR #71 — feat: implement courseware composition contract
+PR #72 — test: integrate courseware composition
+```
+
+Production / tests：
+
+```text
+generator/courseware/composition.py
+tests/courseware/test_composition_contract.py
+tests/courseware/test_composition_integration.py
+```
+
+第一版 Composition 固定 deterministic sequential ordering、GeneratorRegistry
+preflight、canonical `BaseGenerator.run(request)`、ordered `GenerationResult`
+aggregation、fail-fast / no cross-generator rollback，以及 shared dry-run /
+overwrite / manifest semantics。Representative integration 已涵蓋 Course、Week、
+Lab、Quiz、Assignment、Slides 與 Website，且未擴張 `generator.sdk`。
+
+------------------------------------------------------------------------
+
 # 下一階段
 
 Milestone 5 持續進行。
 
-Website Generator 已完成；下一階段進入：
+Courseware Composition Integration 已完成；下一階段進入：
 
 ```text
-Composition Integration
+Milestone 5 Representative E2E
+→ Formal Acceptance
 ```
 
 Slides 的 PPTX / PDF / HTML rendering，以及 Website hosting / deployment，
-仍保留為未來獨立 capability。完成 composition integration 後，再進入
-Milestone 5 representative E2E 與 formal acceptance。
+仍保留為未來獨立 capability，不納入目前 Composition contract。
 
 ------------------------------------------------------------------------
 

@@ -51,6 +51,15 @@
 - Added the `slides` CLI command and built-in `list` / legacy `--list` exposure.
 - Added structured Slides CLI input through `--slides-file` JSON.
 - Added Slides manifest integration using the existing manifest schema.
+- Added ADR 0019 — Website Generator Contract.
+- Added `WebsiteGenerator` as the deterministic static Website publishing projection.
+- Added canonical `website` built-in identity and ordered multi-page HTML generation.
+- Added the canonical `templates/website/page.html.j2` template and manifest registration.
+- Added deterministic Website output under `<target>/site/`, including required `index.html`.
+- Added Website contract tests, generator integration tests, template tests, and CLI integration tests.
+- Added the `website` CLI command and built-in `list` / legacy `--list` exposure.
+- Added structured Website CLI input through `--pages-file` JSON.
+- Added Website manifest integration using the existing manifest schema.
 
 #### Milestone 4 — Plugin Ecosystem
 
@@ -63,6 +72,14 @@
 - Added `docs/milestones/milestone-4-acceptance.md`.
 
 ### Changed
+
+- Marked ADR 0019 — Website Generator Contract as Accepted after design, contract,
+  implementation, integration, regression, documentation, and CI gates completed.
+- Updated Open Courseware architecture to mark Website and deterministic static-site
+  publishing as Implemented while composition orchestration remains Proposed.
+- Preserved `GenerateRequest`, `GenerationPlan`, `GenerationResult`, dry-run,
+  overwrite, manifest, filesystem, and renderer boundaries for Website.
+- Preserved `generator.sdk` without adding Website-specific public symbols.
 
 - Marked ADR 0018 — Slides Generator Contract as Accepted after design, contract,
   implementation, integration, regression, documentation, and CI gates completed.
@@ -116,13 +133,22 @@
 
 ### Verification
 
+- Verified Website request validation for site title, ordered pages, safe relative
+  `.html` paths, unique normalized paths, required `index.html`, page titles, and content.
+- Verified deterministic multi-page Website planning, navigation ordering, and static HTML output.
+- Verified Website dry-run, overwrite, manifest, built-in list, JSON input, and CLI integration.
+- Verified Website remains a publishing projection without hosting, CMS, asset-pipeline,
+  Markdown-conversion, or public-SDK responsibilities.
+- Verified PR #64 through PR #67 complete the Website design/test/implementation/integration sequence.
+
 - Verified Slides request validation for deck title, ordered slides, slide titles,
   ordered content, immutability, and deterministic planning.
 - Verified deterministic Slides `slides.md` generation and slide/content ordering.
 - Verified Slides dry-run, overwrite, manifest, built-in list, JSON input, and CLI integration.
 - Verified PPTX / PDF / HTML rendering remains outside the core Slides Generator boundary.
 - Verified PR #59 through PR #62 complete the Slides design/test/implementation/integration sequence.
-- Verified the full regression suite at the integration baseline: 738 passed.
+- Verified the full regression suite at the integration baseline: 828 passed with 88.05% total coverage.
+- Verified the required 67.0% coverage gate was satisfied.
 
 - Verified Quiz request validation for Week, `quiz_id`, title, Questions, choices,
   and correct-answer membership.

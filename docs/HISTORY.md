@@ -271,20 +271,65 @@ Slides 已完成 design → contract tests → implementation → integration �
 documentation acceptance 閉環。
 
 
+### Step 5.7 — Website Generator
+
+Website 是 Milestone 5 的 deterministic static-publishing projection vertical slice。
+
+完整演進：
+
+```text
+PR #64 — docs: design website generator contract
+PR #65 — test: define website generator contract
+PR #66 — feat: implement website generator contract
+PR #67 — feat: integrate website generator
+```
+
+ADR 0019 接受的核心 contract：
+
+- canonical generator identity `website`
+- required site `title` and ordered `pages`
+- each page uses an explicit safe relative `.html` path
+- normalized page paths must be unique
+- canonical `index.html` entry page is required
+- deterministic multi-page output under `<target>/site/`
+- deterministic navigation follows authored page ordering
+- canonical `GenerationPlan` / `GenerationResult`
+- existing dry-run / overwrite / filesystem / manifest semantics
+- CLI structured input through `--pages-file` JSON
+- built-in `list` / legacy `--list` exposure
+- no Website-specific request/result hierarchy or SDK expansion
+- hosting, deployment, CMS, analytics, asset pipelines, and Markdown conversion remain outside core scope
+
+Production / integration：
+
+```text
+generator/generators/website_generator.py
+templates/website/page.html.j2
+generator/cli/main.py
+tests/generators/test_website_generator_contract.py
+tests/generators/test_website_generator_integration.py
+tests/integration/test_website_cli.py
+```
+
+Website 已完成 design → contract tests → implementation → integration →
+documentation acceptance 閉環。
+
+
 ------------------------------------------------------------------------
 
 # 下一階段
 
 Milestone 5 持續進行。
 
-下一個 Milestone 5 vertical slice：
+Website Generator 已完成；下一階段進入：
 
 ```text
-Website Generator
+Composition Integration
 ```
 
-Slides Generator 已完成；PPTX / PDF / HTML 保留為未來 renderer capability。
-之後再進入 composition integration 與 Milestone 5 acceptance。
+Slides 的 PPTX / PDF / HTML rendering，以及 Website hosting / deployment，
+仍保留為未來獨立 capability。完成 composition integration 後，再進入
+Milestone 5 representative E2E 與 formal acceptance。
 
 ------------------------------------------------------------------------
 

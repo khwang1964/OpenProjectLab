@@ -340,7 +340,7 @@ lab          Implemented
 quiz         Implemented
 assignment   Implemented
 slides       Implemented
-website      Proposed
+website      Implemented
 ```
 
 `course` 與 `week` 應演進而非重寫。新 canonical names 必須由 ADR/tests
@@ -824,12 +824,11 @@ Architecture 階段以下均視為 Proposed，除非現有 code/tests 已證明�
 -   formal Course domain model
 -   formal Week domain model beyond current request contract
 -   LearningMaterial model
--   Website Generator
 -   Courseware Orchestrator
 -   composition result
 -   capability metadata
 -   courseware-specific public SDK
--   static-site publishing
+-   Website hosting / deployment
 -   LMS integration
 -   AI generation
 
@@ -944,7 +943,7 @@ Step 5.1 完成時：
 -   Course / Week / Learning Material terminology 已定義。
 -   Domain、Generator、Template、Artifact、Filesystem ownership 已分離。
 -   Existing Course/Week migration direction 已記錄。
--   Website 明確標示 Proposed；Lab / Quiz / Assignment / Slides 已由 production code、tests 與 accepted ADR 支援。
+-   Lab / Quiz / Assignment / Slides / Website 已由 production code、tests 與 accepted ADR 支援。
 -   Composition boundary 已定義，但未過早承諾 implementation class。
 -   Test strategy、documentation strategy 與 Code Review Checklist
     已建立。

@@ -301,13 +301,29 @@ Merged implementation sequence:
 #72 representative integration
 ```
 
-#### Next
+### Step 5.5 — Representative E2E ✅
+
+- `tests/integration/test_courseware_composition_e2e.py`
+- production `CoursewareComposer` and production built-in generators
+- representative Course / Week / Lab / Quiz / Assignment / Slides / Website flow
+- exact artifact membership verification
+- manifest generator provenance verification
+- reproducible user-facing artifact verification
+- composition-wide dry-run non-persistence
+- PR #74
+
+### Step 5.6 — Formal Milestone Acceptance 🚧
+
+- `docs/milestones/milestone-5-acceptance.md`
+- roadmap / HISTORY / CHANGELOG alignment
+- final full-regression and coverage baseline
+- pre-commit / CI acceptance gates
 
 ## Remaining Planned Features
 
-- Milestone 5 representative E2E and formal acceptance document
+- complete Milestone 5 formal acceptance and closure
 
-**Status:** In Progress
+**Status:** Acceptance In Progress
 
 ------------------------------------------------------------------------
 

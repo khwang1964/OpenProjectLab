@@ -1,6 +1,6 @@
 # ADR 0019: Website Generator Contract
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-14
 - **Decision owners:** OpenProjectLab maintainers
 - **Scope:** Open Courseware Platform / Generator Framework

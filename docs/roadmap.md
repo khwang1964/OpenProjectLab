@@ -29,7 +29,7 @@ Required coverage: 67.0%
 
 > **Milestone 5 — Open Courseware Platform**
 
-Milestone 5 已完成 Course/Week foundation、Lab/Quiz/Assignment material-generator vertical slices，以及 Slides presentation-source vertical slice：
+Milestone 5 已完成 Course/Week foundation、Lab/Quiz/Assignment material-generator vertical slices、Slides presentation-source vertical slice，以及 Website static-publishing vertical slice：
 
 ```text
 Open Courseware Architecture
@@ -251,11 +251,37 @@ Merged implementation sequence:
 ```
 
 
+#### Website Generator ✅
+
+- ADR 0019 Accepted
+- canonical generator name: `website`
+- required site `title` and ordered `pages`
+- each page requires a safe relative `.html` path, non-empty title, and authored content
+- required canonical entry page `index.html`
+- deterministic multi-page output under `<target>/site/`
+- deterministic navigation ordering derived from page ordering
+- canonical `GenerationPlan` / `GenerationResult`
+- dry-run / overwrite / manifest integration
+- canonical template `templates/website/page.html.j2`
+- CLI `website` command and `list` / legacy `--list` exposure
+- structured CLI input through `--pages-file` JSON
+- contract, template, generator integration, and CLI integration tests
+- no hosting / deployment / CMS / asset pipeline in the core generator
+- no accidental `generator.sdk` expansion
+
+Merged implementation sequence:
+
+```text
+#64 design
+#65 contract tests
+#66 minimum implementation
+#67 integration
+```
+
 #### Next
 
 ## Remaining Planned Features
 
-- Website Generator
 - composition integration
 - Milestone 5 representative E2E and acceptance document
 

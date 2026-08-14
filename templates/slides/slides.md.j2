@@ -1,0 +1,9 @@
+# {{ title }}
+{% for slide in slides %}
+---
+
+## {{ slide.title }}
+{% for item in slide.content %}
+- {{ item }}
+{% endfor %}
+{% endfor %}

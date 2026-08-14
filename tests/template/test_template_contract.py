@@ -45,6 +45,7 @@ def test_slide_template_contract(
         "slides/title.md.j2",
         "slides/agenda.md.j2",
         "slides/chapter.md.j2",
+        "slides/slides.md.j2",
     }
     actual = {
         item["path"] for item in template_manifest["templates"] if item["generator"] == "slides"

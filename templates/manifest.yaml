@@ -65,6 +65,11 @@ templates:
   generator: slides
   required:
   - title
+- path: slides/slides.md.j2
+  generator: slides
+  required:
+  - title
+  - slides
 - path: website/index.md.j2
   generator: website
   required:

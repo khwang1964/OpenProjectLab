@@ -103,6 +103,30 @@ import yaml
             "# Lambda Expressions",
         ),
         (
+            "slides/slides.md.j2",
+            {
+                "title": "Week 01: Reactive Programming",
+                "slides": (
+                    {
+                        "title": "Learning Objectives",
+                        "content": (
+                            "Understand reactive systems.",
+                            "Explain asynchronous data flows.",
+                        ),
+                    },
+                    {
+                        "title": "Core Concepts",
+                        "content": (
+                            "Streams",
+                            "Backpressure",
+                            "Non-blocking execution",
+                        ),
+                    },
+                ),
+            },
+            "# Week 01: Reactive Programming",
+        ),
+        (
             "website/index.md.j2",
             {"course_name": "Modern Java in Action"},
             "# Modern Java in Action",

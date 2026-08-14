@@ -229,6 +229,48 @@ tests/integration/test_assignment_cli.py
 Assignment 已完成 design → contract tests → implementation → integration →
 documentation acceptance 閉環。
 
+
+### Step 5.6 — Slides Generator
+
+Slides 是第一個 presentation-source Generator vertical slice。
+
+完整演進：
+
+```text
+PR #59 — docs: design slides generator contract
+PR #60 — test: define slides generator contract
+PR #61 — feat: implement slides generator contract
+PR #62 — feat: integrate slides generator
+```
+
+ADR 0018 接受的核心 contract：
+
+- canonical generator identity `slides`
+- required deck `title` and ordered `slides`
+- each slide requires a non-empty `title` and ordered `content`
+- deterministic canonical artifact `<target>/slides.md`
+- canonical `GenerationPlan` / `GenerationResult`
+- existing dry-run / overwrite / filesystem / manifest semantics
+- CLI structured input through `--slides-file` JSON
+- built-in `list` / legacy `--list` exposure
+- no Slides-specific request/result hierarchy or SDK expansion
+- PPTX / PDF / HTML rendering remains a future renderer capability
+
+Production / integration：
+
+```text
+generator/generators/slides_generator.py
+templates/slides/slides.md.j2
+generator/cli/main.py
+tests/generators/test_slides_generator_contract.py
+tests/generators/test_slides_generator_integration.py
+tests/integration/test_slides_cli.py
+```
+
+Slides 已完成 design → contract tests → implementation → integration →
+documentation acceptance 閉環。
+
+
 ------------------------------------------------------------------------
 
 # 下一階段
@@ -238,11 +280,11 @@ Milestone 5 持續進行。
 下一個 Milestone 5 vertical slice：
 
 ```text
-PPT / Slides Generator
+Website Generator
 ```
 
-之後再進入 Website、composition integration 與
-Milestone 5 acceptance。
+Slides Generator 已完成；PPTX / PDF / HTML 保留為未來 renderer capability。
+之後再進入 composition integration 與 Milestone 5 acceptance。
 
 ------------------------------------------------------------------------
 

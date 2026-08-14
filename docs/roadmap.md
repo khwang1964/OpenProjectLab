@@ -1,7 +1,7 @@
 # OpenProjectLab Roadmap
 
 > Status: Active
-> Last Updated: 2026-08-13
+> Last Updated: 2026-08-14
 
 ------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ Required coverage: 67.0%
 
 > **Milestone 5 — Open Courseware Platform**
 
-Milestone 5 已完成 Course/Week foundation，以及 Lab、Quiz、Assignment 三個 material-generator vertical slices：
+Milestone 5 已完成 Course/Week foundation、Lab/Quiz/Assignment material-generator vertical slices，以及 Slides presentation-source vertical slice：
 
 ```text
 Open Courseware Architecture
@@ -225,11 +225,36 @@ Merged implementation sequence:
 #57 integration
 ```
 
+
+#### Slides Generator ✅
+
+- ADR 0018 Accepted
+- canonical generator name: `slides`
+- required deck `title` and ordered `slides`
+- deterministic canonical artifact `<target>/slides.md`
+- canonical `GenerationPlan` / `GenerationResult`
+- dry-run / overwrite / manifest integration
+- canonical template `templates/slides/slides.md.j2`
+- CLI `slides` command and `list` / legacy `--list` exposure
+- structured CLI input through `--slides-file` JSON
+- contract, template, generator integration, and CLI integration tests
+- no PPTX / PDF / HTML rendering in the core generator
+- no accidental `generator.sdk` expansion
+
+Merged implementation sequence:
+
+```text
+#59 design
+#60 contract tests
+#61 minimum implementation
+#62 integration
+```
+
+
 #### Next
 
 ## Remaining Planned Features
 
-- PPT / Slides Generator
 - Website Generator
 - composition integration
 - Milestone 5 representative E2E and acceptance document

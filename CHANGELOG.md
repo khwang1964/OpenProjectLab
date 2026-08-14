@@ -43,6 +43,14 @@
 - Added the `assignment` CLI command and built-in `list` / legacy `--list` exposure.
 - Added structured Assignment CLI input through `--content-file` JSON.
 - Added Assignment manifest integration using the existing manifest schema.
+- Added ADR 0018 — Slides Generator Contract.
+- Added `SlidesGenerator` as the first presentation-source Generator.
+- Added canonical `slides` built-in identity and deterministic `<target>/slides.md` output.
+- Added the canonical `templates/slides/slides.md.j2` template and manifest registration.
+- Added Slides contract tests, generator integration tests, template tests, and CLI integration tests.
+- Added the `slides` CLI command and built-in `list` / legacy `--list` exposure.
+- Added structured Slides CLI input through `--slides-file` JSON.
+- Added Slides manifest integration using the existing manifest schema.
 
 #### Milestone 4 — Plugin Ecosystem
 
@@ -55,6 +63,14 @@
 - Added `docs/milestones/milestone-4-acceptance.md`.
 
 ### Changed
+
+- Marked ADR 0018 — Slides Generator Contract as Accepted after design, contract,
+  implementation, integration, regression, documentation, and CI gates completed.
+- Updated Open Courseware architecture to mark Slides as Implemented while Website,
+  composition orchestration, and PPTX / PDF / HTML rendering remain Proposed.
+- Preserved `GenerateRequest`, `GenerationPlan`, `GenerationResult`, dry-run,
+  overwrite, manifest, filesystem, and renderer boundaries for Slides.
+- Preserved `generator.sdk` without adding Slides-specific public symbols.
 
 - Marked ADR 0016 — Quiz Generator Contract as Accepted after design, contract,
   implementation, integration, regression, and CI gates completed.
@@ -99,6 +115,14 @@
   ADR 0015 does not expand the public Plugin SDK.
 
 ### Verification
+
+- Verified Slides request validation for deck title, ordered slides, slide titles,
+  ordered content, immutability, and deterministic planning.
+- Verified deterministic Slides `slides.md` generation and slide/content ordering.
+- Verified Slides dry-run, overwrite, manifest, built-in list, JSON input, and CLI integration.
+- Verified PPTX / PDF / HTML rendering remains outside the core Slides Generator boundary.
+- Verified PR #59 through PR #62 complete the Slides design/test/implementation/integration sequence.
+- Verified the full regression suite at the integration baseline: 738 passed.
 
 - Verified Quiz request validation for Week, `quiz_id`, title, Questions, choices,
   and correct-answer membership.

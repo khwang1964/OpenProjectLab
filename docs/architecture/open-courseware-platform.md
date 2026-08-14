@@ -1,8 +1,8 @@
 # OpenProjectLab Open Courseware Platform Architecture
 
-> Status: Proposed\
+> Status: Active\
 > Milestone: 5 --- Open Courseware Platform\
-> Last updated: 2026-08-13\
+> Last updated: 2026-08-14\
 > Scope: Courseware domain model, composition, generators, templates,
 > artifacts, extension points, testing, documentation, and acceptance\
 > Audience: Maintainers, contributors, courseware authors, Generator
@@ -287,7 +287,7 @@ Material Generator(s)
     ├── Lab
     ├── Quiz
     ├── Assignment
-    ├── PPT
+    ├── Slides
     └── Website
 ```
 
@@ -339,7 +339,7 @@ week         Existing
 lab          Implemented
 quiz         Implemented
 assignment   Implemented
-ppt          Proposed
+slides       Implemented
 website      Proposed
 ```
 
@@ -358,22 +358,29 @@ files、expected outputs 與 validation steps。
 
 **Assignment**：已實作的 Week-scoped authored learning-task artifact；使用 explicit `assignment_id`，支援 ordered objectives、deliverables、resources 以及 authored instructions / submission guidance，透過 `opl assignment` / `--content-file` JSON 接入。artifact deterministic 產生於 `week-{week:02d}/assignment/{assignment_id}/README.md`；grading、scoring、rubric engine、starter-code packaging 與 submission/LMS backend 仍不屬於 目前 core scope。
 
-## 16. PPT / Slides Projection
+## 16. Slides Projection
 
-PPT Generator 是 presentation projection：
+Slides Generator 已依 ADR 0018 實作為 presentation-source projection：
 
 ``` text
 Structured Courseware Content
         ↓
-Slides Generation Plan
+SlidesGenerator
         ↓
-Presentation Template / Renderer
+GenerationPlan
         ↓
-Presentation Artifact
+templates/slides/slides.md.j2
+        ↓
+slides.md
 ```
 
-PPT 不應成為 Course domain owner。若未來支援 PPTX/HTML slides，應共享
-content intent。
+Canonical generator identity 為 `slides`。第一版接受 deck `title` 與 ordered
+`slides` structured content，透過 CLI `slides` command 與 `--slides-file`
+JSON 接入；輸出為 deterministic、可 Git review 的 Markdown source。
+
+PPTX、PDF 與 HTML rendering 不屬於目前 Slides Generator core
+responsibility。它們保留為未來獨立 renderer capability，且不得讓 Slides
+成為 Course domain owner。
 
 ## 17. Website Projection
 
@@ -817,8 +824,7 @@ Architecture 階段以下均視為 Proposed，除非現有 code/tests 已證明�
 -   formal Course domain model
 -   formal Week domain model beyond current request contract
 -   LearningMaterial model
--   Lab / Quiz / Assignment Generators
--   PPT / Website Generators
+-   Website Generator
 -   Courseware Orchestrator
 -   composition result
 -   capability metadata
@@ -838,7 +844,7 @@ Architecture 階段以下均視為 Proposed，除非現有 code/tests 已證明�
 7.  Dry run / overwrite semantics 對新 Generator 一致。
 8.  Composition 不透過 private Generator methods。
 9.  Plugin extension 只依賴 documented public SDK。
-10. Website/PPT 是 projection，不是 Course domain owner。
+10. Website/Slides 是 projection，不是 Course domain owner。
 11. AI 不成為 Milestone 5 core runtime dependency。
 12. Proposed capability 不描述為 implemented。
 13. 新 feature 同步 architecture、tests、documentation 與 Code Review
@@ -938,7 +944,7 @@ Step 5.1 完成時：
 -   Course / Week / Learning Material terminology 已定義。
 -   Domain、Generator、Template、Artifact、Filesystem ownership 已分離。
 -   Existing Course/Week migration direction 已記錄。
--   Lab / Quiz / Assignment / PPT / Website 明確標示 Proposed。
+-   Website 明確標示 Proposed；Lab / Quiz / Assignment / Slides 已由 production code、tests 與 accepted ADR 支援。
 -   Composition boundary 已定義，但未過早承諾 implementation class。
 -   Test strategy、documentation strategy 與 Code Review Checklist
     已建立。

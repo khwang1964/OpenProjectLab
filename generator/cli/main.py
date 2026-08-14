@@ -23,6 +23,7 @@ from generator.generators.course_generator import CourseGenerator
 from generator.generators.lab_generator import LabGenerator
 from generator.generators.quiz_generator import QuizGenerator
 from generator.generators.slides_generator import SlidesGenerator
+from generator.generators.website_generator import WebsiteGenerator
 from generator.generators.week_generator import WeekGenerator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -231,6 +232,33 @@ def build_parser() -> argparse.ArgumentParser:
     _add_write_options(slides)
     slides.set_defaults(handler=_handle_slides)
 
+    website = subparsers.add_parser(
+        "website",
+        help="產生靜態課程網站",
+    )
+    website.add_argument(
+        "project_slug",
+        help="專案代號，例如 modern-java",
+    )
+    website.add_argument(
+        "--title",
+        required=True,
+        help="網站標題",
+    )
+    website.add_argument(
+        "--course-name",
+        help="課程名稱；預設使用專案代號",
+    )
+    website.add_argument(
+        "--pages-file",
+        type=Path,
+        required=True,
+        metavar="FILE",
+        help="Website structured pages JSON 檔案",
+    )
+    _add_write_options(website)
+    website.set_defaults(handler=_handle_website)
+
     return parser
 
 
@@ -291,6 +319,12 @@ def _load_slides_file(path: Path) -> object:
         return json.load(file)
 
 
+def _load_website_pages_file(path: Path) -> object:
+    """Load structured Website pages from a UTF-8 JSON file."""
+    with path.open(encoding="utf-8") as file:
+        return json.load(file)
+
+
 def _resolve_roots(args: argparse.Namespace) -> tuple[Path, Path]:
     config = _load_config(args.config)
     config_paths: dict[str, Any] = config.paths if config is not None else {}
@@ -331,6 +365,7 @@ def _handle_list(args: argparse.Namespace) -> int:
         (LabGenerator.name, LabGenerator.description),
         (QuizGenerator.name, QuizGenerator.description),
         (SlidesGenerator.name, SlidesGenerator.description),
+        (WebsiteGenerator.name, WebsiteGenerator.description),
         (WeekGenerator.name, WeekGenerator.description),
     )
     for name, description in rows:
@@ -531,6 +566,31 @@ def _handle_slides(args: argparse.Namespace) -> int:
         ),
     )
     _print_file_result("投影片檔案", result)
+    return 0
+
+
+def _handle_website(args: argparse.Namespace) -> int:
+    template_root, output_root = _resolve_roots(args)
+    project_root = output_root / args.project_slug
+    context: dict[str, Any] = {
+        "title": args.title,
+        "course_name": args.course_name or args.project_slug,
+        "pages": _load_website_pages_file(args.pages_file),
+        "record_manifest": not args.no_manifest,
+    }
+
+    result = WebsiteGenerator(template_root).generate(
+        GenerateRequest(
+            generator_name=WebsiteGenerator.name,
+            target=project_root,
+            values=context,
+            options=RuntimeOptions(
+                overwrite=args.force,
+                dry_run=args.dry_run,
+            ),
+        ),
+    )
+    _print_file_result("網站檔案", result)
     return 0
 
 

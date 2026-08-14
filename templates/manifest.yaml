@@ -70,7 +70,7 @@ templates:
   required:
   - title
   - slides
-- path: website/index.md.j2
+- path: website/page.html.j2
   generator: website
   required:
   - course_name

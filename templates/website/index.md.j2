@@ -1,9 +1,0 @@
-# {{ site_title | default(course_name, true) }}
-
-{{ description | default("OpenProjectLab 開放教材網站", true) }}
-
-## 課程導覽
-
-{% for item in navigation | default(["課程首頁", "每週教材", "作業", "授權"], true) %}
-- {{ item }}
-{% endfor %}

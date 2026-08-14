@@ -26,7 +26,7 @@ def test_core_generator_templates_exist(
         "lab": {"lab/README.md.j2"},
         "assignment": {"assignment/README.md.j2"},
         "quiz": {"quiz/README.md.j2"},
-        "website": {"website/index.md.j2"},
+        "website": {"website/page.html.j2"},
     }
 
     for generator, required_paths in expected.items():

@@ -127,9 +127,20 @@ import yaml
             "# Week 01: Reactive Programming",
         ),
         (
-            "website/index.md.j2",
-            {"course_name": "Modern Java in Action"},
-            "# Modern Java in Action",
+            "website/page.html.j2",
+            {
+                "site_title": "Modern Java in Action",
+                "page": {
+                    "path": "index.html",
+                    "title": "Home",
+                    "content": "Welcome to the course.",
+                },
+                "navigation": (
+                    {"path": "index.html", "title": "Home"},
+                    {"path": "weeks/week-01.html", "title": "Week 01"},
+                ),
+            },
+            "<!doctype html>",
         ),
     ],
 )

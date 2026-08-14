@@ -22,6 +22,7 @@ from generator.generators.bootstrap_generator import BootstrapGenerator
 from generator.generators.course_generator import CourseGenerator
 from generator.generators.lab_generator import LabGenerator
 from generator.generators.quiz_generator import QuizGenerator
+from generator.generators.slides_generator import SlidesGenerator
 from generator.generators.week_generator import WeekGenerator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -203,6 +204,33 @@ def build_parser() -> argparse.ArgumentParser:
     _add_write_options(quiz)
     quiz.set_defaults(handler=_handle_quiz)
 
+    slides = subparsers.add_parser(
+        "slides",
+        help="產生 Markdown 投影片",
+    )
+    slides.add_argument(
+        "project_slug",
+        help="專案代號，例如 modern-java",
+    )
+    slides.add_argument(
+        "--title",
+        required=True,
+        help="投影片標題",
+    )
+    slides.add_argument(
+        "--course-name",
+        help="課程名稱；預設使用專案代號",
+    )
+    slides.add_argument(
+        "--slides-file",
+        type=Path,
+        required=True,
+        metavar="FILE",
+        help="Slides structured content JSON 檔案",
+    )
+    _add_write_options(slides)
+    slides.set_defaults(handler=_handle_slides)
+
     return parser
 
 
@@ -257,6 +285,12 @@ def _load_assignment_content(path: Path) -> dict[str, object]:
     return value
 
 
+def _load_slides_file(path: Path) -> object:
+    """Load structured Slides content from a UTF-8 JSON file."""
+    with path.open(encoding="utf-8") as file:
+        return json.load(file)
+
+
 def _resolve_roots(args: argparse.Namespace) -> tuple[Path, Path]:
     config = _load_config(args.config)
     config_paths: dict[str, Any] = config.paths if config is not None else {}
@@ -296,6 +330,7 @@ def _handle_list(args: argparse.Namespace) -> int:
         (CourseGenerator.name, CourseGenerator.description),
         (LabGenerator.name, LabGenerator.description),
         (QuizGenerator.name, QuizGenerator.description),
+        (SlidesGenerator.name, SlidesGenerator.description),
         (WeekGenerator.name, WeekGenerator.description),
     )
     for name, description in rows:
@@ -471,6 +506,31 @@ def _handle_quiz(args: argparse.Namespace) -> int:
         ),
     )
     _print_file_result("Quiz 檔案", result)
+    return 0
+
+
+def _handle_slides(args: argparse.Namespace) -> int:
+    template_root, output_root = _resolve_roots(args)
+    project_root = output_root / args.project_slug
+    context: dict[str, Any] = {
+        "title": args.title,
+        "course_name": args.course_name or args.project_slug,
+        "slides": _load_slides_file(args.slides_file),
+        "record_manifest": not args.no_manifest,
+    }
+
+    result = SlidesGenerator(template_root).generate(
+        GenerateRequest(
+            generator_name=SlidesGenerator.name,
+            target=project_root,
+            values=context,
+            options=RuntimeOptions(
+                overwrite=args.force,
+                dry_run=args.dry_run,
+            ),
+        ),
+    )
+    _print_file_result("投影片檔案", result)
     return 0
 
 

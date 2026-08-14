@@ -31,7 +31,7 @@
 | [0015](0015-lab-generator-contract.md) | Lab Generator Contract | Accepted |
 | [0016](0016-quiz-generator-contract.md) | Quiz Generator Contract | Accepted |
 | [0017](0017-assignment-generator-contract.md) | Assignment Generator Contract | Accepted |
-| [0018](0018-slides-generator-contract.md) | Slides Generator Contract | Proposed |
+| [0018](0018-slides-generator-contract.md) | Slides Generator Contract | Accepted |
 
 ## 新增 ADR
 

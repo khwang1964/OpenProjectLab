@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title }} | {{ site_title }}</title>
+</head>
+<body>
+  <header>
+    <h1>{{ site_title }}</h1>
+    <nav>
+      <ul>
+{% for item in navigation %}
+        <li><a href="/{{ item.path }}">{{ item.title }}</a></li>
+{% endfor %}
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>{{ page.title }}</h2>
+    <div>{{ page.content }}</div>
+  </main>
+</body>
+</html>

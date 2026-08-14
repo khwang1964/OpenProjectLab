@@ -293,7 +293,7 @@ Material Generator(s)
 
 Composition layer 已依 ADR 0020 實作；每個 Generator 仍透過正式
 `run(request)` lifecycle 執行。Production boundary 為
-`generator/courseware/composition.py`，並由 contract 與 representative integration tests 驗證。
+`generator/courseware/composition.py`，並由 contract、representative integration 與 Milestone 5 representative E2E tests 驗證。
 
 若引入 Orchestrator，其責任限於：
 
@@ -709,12 +709,20 @@ Direct Filesystem Mutation
 
 ### E2E acceptance
 
--   generate representative course
--   inspect artifact tree
--   dry run
--   regenerate under overwrite policy
--   verify manifest/results
--   verify third-party extension path where applicable
+Milestone 5 representative E2E 已由
+`tests/integration/test_courseware_composition_e2e.py` 建立 acceptance evidence：
+
+-   generate representative composed courseware repository
+-   verify Course / Week / Lab / Quiz / Assignment / Slides / Website artifacts
+-   verify deterministic generator execution ordering
+-   verify exact artifact membership
+-   verify manifest generator provenance
+-   verify reproducible user-facing artifact content
+-   verify composition-wide dry-run non-persistence
+
+Overwrite semantics 仍由既有 generator contract/integration coverage 驗證；
+third-party extension path 已由 Milestone 4 installed-distribution E2E 證明，
+Milestone 5 不建立第二套 Plugin acceptance path。
 
 ## 34. Representative Acceptance Fixture
 
@@ -731,8 +739,7 @@ sample-course
     └── Assignment
 ```
 
-Acceptance 最終應涵蓋 README、week
-artifacts、Lab、Quiz、Assignment、Slides 與 static Website。
+Milestone 5 representative E2E 已涵蓋 README、Week、Lab、Quiz、Assignment、Slides 與 static Website artifacts。
 
 ## 35. Test Isolation
 
@@ -761,28 +768,24 @@ Milestone 5 每個新增 feature 必須同步評估：
 -   `CHANGELOG.md`
 -   `docs/milestones/milestone-5-acceptance.md`
 
-## 37. ADR Plan
+## 37. ADR Record
 
-第一份建議 ADR：
+Milestone 5 已形成並接受下列 architecture contracts：
 
 ``` text
-docs/adr/0014-open-courseware-domain-contract.md
+ADR 0014 — Open Courseware Domain Contract
+ADR 0015 — Lab Generator Contract
+ADR 0016 — Quiz Generator Contract
+ADR 0017 — Assignment Generator Contract
+ADR 0018 — Slides Generator Contract
+ADR 0019 — Website Generator Contract
+ADR 0020 — Courseware Composition Contract
 ```
 
-應固定：
+新的 architecture decision 仍應只在具體 decision 形成時新增 ADR；不得為了
+里程碑編號完整而預先建立沒有實際 contract 需求的 ADR。
 
--   Course identity
--   Week identity
--   minimum domain model
--   material composition semantics
--   domain validation boundary
--   serialization vs domain separation
--   existing Course/Week migration compatibility
-
-後續只有在具體 decision 形成時，才考慮 composition/artifact
-ADR；不要預先建立沒有實際決策需求的 ADR。
-
-## 38. Proposed Implementation Sequence
+## 38. Implemented Milestone Sequence
 
 ### Step 5.1 --- Architecture
 
@@ -834,7 +837,7 @@ Course → Week → Materials → Projections。
 -   roadmap / HISTORY / CHANGELOG
 -   milestone acceptance document
 
-Step 編號是 architecture proposal；若正式採用，應同步 roadmap。
+實際完成狀態與正式 step 編號以 `docs/roadmap.md` 與 milestone acceptance document 為準。
 
 ## 39. Current Limitations
 
@@ -982,10 +985,10 @@ Step 5.1 完成時：
 -   `docs/HISTORY.md`
 -   `CHANGELOG.md`
 
-下一個建議 decision document：
+Milestone 5 formal acceptance：
 
 ``` text
-docs/adr/0014-open-courseware-domain-contract.md
+docs/milestones/milestone-5-acceptance.md
 ```
 
 ------------------------------------------------------------------------

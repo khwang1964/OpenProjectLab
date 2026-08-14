@@ -344,19 +344,45 @@ Lab、Quiz、Assignment、Slides 與 Website，且未擴張 `generator.sdk`。
 
 ------------------------------------------------------------------------
 
-# 下一階段
+### Step 5.9 — Milestone 5 Representative E2E
 
-Milestone 5 持續進行。
+PR #74 建立 Milestone 5 的 representative end-to-end acceptance boundary。
 
-Courseware Composition Integration 已完成；下一階段進入：
+測試：
 
 ```text
-Milestone 5 Representative E2E
-→ Formal Acceptance
+tests/integration/test_courseware_composition_e2e.py
 ```
 
-Slides 的 PPTX / PDF / HTML rendering，以及 Website hosting / deployment，
-仍保留為未來獨立 capability，不納入目前 Composition contract。
+Representative flow 使用 production `CoursewareComposer`、既有
+`GeneratorRegistry` 與 production Course / Week / Lab / Quiz / Assignment /
+Slides / Website generators，驗證：
+
+- deterministic generator execution ordering
+- complete representative artifact membership
+- manifest generator provenance
+- reproducible user-facing artifact content
+- composition-wide dry-run 不留下 persistent project repository
+
+這個 E2E 不建立第二套 orchestration，也不擴張 public SDK；它把 Milestone 5
+既有 domain、generator、projection 與 composition contracts 串成完整 acceptance
+evidence。
+
+------------------------------------------------------------------------
+
+# 下一階段
+
+Milestone 5 的 implementation、composition 與 representative E2E 已完成；
+目前進入 Formal Acceptance / Closure。
+
+```text
+Milestone 5 Formal Acceptance
+→ Milestone 6 AI Integration
+```
+
+Slides 的 PPTX / PDF / HTML rendering、Website hosting / deployment、
+parallel composition 與 cross-generator transaction/rollback，仍保留為未來
+獨立 capability，不納入 Milestone 5 acceptance。
 
 ------------------------------------------------------------------------
 

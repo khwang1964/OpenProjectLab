@@ -60,6 +60,13 @@
 - Added the `website` CLI command and built-in `list` / legacy `--list` exposure.
 - Added structured Website CLI input through `--pages-file` JSON.
 - Added Website manifest integration using the existing manifest schema.
+- Added ADR 0020 — Courseware Composition Contract.
+- Added `generator/courseware/composition.py` as the deterministic courseware orchestration layer.
+- Added ordered `GenerateRequest` composition, existing-registry preflight, canonical generator execution,
+  and ordered `GenerationResult` aggregation.
+- Added fail-fast composition semantics without cross-generator rollback.
+- Added composition contract and representative integration coverage across Course, Week, Lab, Quiz,
+  Assignment, Slides, and Website.
 
 #### Milestone 4 — Plugin Ecosystem
 
@@ -72,6 +79,13 @@
 - Added `docs/milestones/milestone-4-acceptance.md`.
 
 ### Changed
+
+- Marked ADR 0020 — Courseware Composition Contract as Accepted after design, contract,
+  implementation, and representative integration gates completed.
+- Updated Open Courseware architecture to mark deterministic courseware composition as Implemented.
+- Preserved canonical `BaseGenerator.run(request)`, existing registry/plugin resolution, filesystem,
+  manifest, dry-run, overwrite, and `GenerationResult` boundaries for composition.
+- Preserved `generator.sdk` without adding composition-specific public symbols.
 
 - Marked ADR 0019 — Website Generator Contract as Accepted after design, contract,
   implementation, integration, regression, documentation, and CI gates completed.
@@ -133,6 +147,15 @@
 
 ### Verification
 
+- Verified Courseware Composition deterministic request/execution ordering and ordered result aggregation.
+- Verified existing registry preflight prevents execution when a required generator cannot be resolved.
+- Verified representative composition across Course, Week, Lab, Quiz, Assignment, Slides, and Website.
+- Verified fail-fast behavior stops later generators without claiming rollback of earlier successful work.
+- Verified composition-wide dry-run, overwrite propagation, manifest compatibility, and input immutability.
+- Verified PR #69 through PR #72 complete the Composition design/test/implementation/integration sequence.
+- Final post-composition full-regression count and coverage should be recorded from the acceptance-branch
+  `python -m pytest` run before merge; the existing 828 / 88.05% line below is the Website integration baseline.
+
 - Verified Website request validation for site title, ordered pages, safe relative
   `.html` paths, unique normalized paths, required `index.html`, page titles, and content.
 - Verified deterministic multi-page Website planning, navigation ordering, and static HTML output.
@@ -147,7 +170,7 @@
 - Verified Slides dry-run, overwrite, manifest, built-in list, JSON input, and CLI integration.
 - Verified PPTX / PDF / HTML rendering remains outside the core Slides Generator boundary.
 - Verified PR #59 through PR #62 complete the Slides design/test/implementation/integration sequence.
-- Verified the full regression suite at the integration baseline: 828 passed with 88.05% total coverage.
+- Verified the full regression suite at the integration baseline: 864 passed with 88.76% total coverage.
 - Verified the required 67.0% coverage gate was satisfied.
 
 - Verified Quiz request validation for Week, `quiz_id`, title, Questions, choices,

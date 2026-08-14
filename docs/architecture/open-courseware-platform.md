@@ -2,7 +2,7 @@
 
 > Status: Active\
 > Milestone: 5 --- Open Courseware Platform\
-> Last updated: 2026-08-14\
+> Last updated: 2026-08-15\
 > Scope: Courseware domain model, composition, generators, templates,
 > artifacts, extension points, testing, documentation, and acceptance\
 > Audience: Maintainers, contributors, courseware authors, Generator
@@ -291,8 +291,9 @@ Material Generator(s)
     └── Website
 ```
 
-Composition layer 可以協調 Generator，但每個 Generator 仍透過正式
-`run(request)` lifecycle 執行。
+Composition layer 已依 ADR 0020 實作；每個 Generator 仍透過正式
+`run(request)` lifecycle 執行。Production boundary 為
+`generator/courseware/composition.py`，並由 contract 與 representative integration tests 驗證。
 
 若引入 Orchestrator，其責任限於：
 
@@ -304,6 +305,25 @@ Composition layer 可以協調 Generator，但每個 Generator 仍透過正式
 
 Orchestrator 不直接 render template、寫 filesystem、重做 registry/plugin
 loading，或呼叫 private Generator methods。
+
+目前第一版已實作並驗證：
+
+```text
+Ordered GenerateRequest(s)
+        ↓
+CoursewareComposer
+        ↓
+GeneratorRegistry preflight
+        ↓
+BaseGenerator.run(request)
+        ↓
+Ordered GenerationResult collection
+```
+
+其 semantics 為 deterministic sequential execution、preflight resolution、
+fail-fast、no cross-generator rollback；dry-run、overwrite、manifest 與 filesystem
+ownership 仍留在既有 generator/shared infrastructure。Composition 不擴張
+`generator.sdk`，也不建立第二套 registry 或 manifest。
 
 ## 13. Generator Responsibility
 
@@ -578,8 +598,7 @@ projection:website
 
 單一 Generator 使用既有 lifecycle guarantees。
 
-跨 Generator composition 是否提供全 course rollback 尚未決定。初始
-architecture：
+ADR 0020 已固定第一版跨 Generator composition 為 deterministic sequential、fail-fast、non-transactional execution：
 
 -   planning/validation 儘量在 write 前完成。
 -   execution order deterministic。
@@ -821,11 +840,8 @@ Step 編號是 architecture proposal；若正式採用，應同步 roadmap。
 
 Architecture 階段以下均視為 Proposed，除非現有 code/tests 已證明：
 
--   formal Course domain model
--   formal Week domain model beyond current request contract
 -   LearningMaterial model
--   Courseware Orchestrator
--   composition result
+-   public CompositionResult hierarchy
 -   capability metadata
 -   courseware-specific public SDK
 -   Website hosting / deployment
@@ -944,7 +960,7 @@ Step 5.1 完成時：
 -   Domain、Generator、Template、Artifact、Filesystem ownership 已分離。
 -   Existing Course/Week migration direction 已記錄。
 -   Lab / Quiz / Assignment / Slides / Website 已由 production code、tests 與 accepted ADR 支援。
--   Composition boundary 已定義，但未過早承諾 implementation class。
+-   Composition boundary 已由 ADR 0020、production implementation、contract tests 與 representative integration tests 驗證。
 -   Test strategy、documentation strategy 與 Code Review Checklist
     已建立。
 -   沒有 runtime code change。

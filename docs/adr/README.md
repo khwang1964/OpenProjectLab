@@ -33,7 +33,7 @@
 | [0017](0017-assignment-generator-contract.md) | Assignment Generator Contract | Accepted |
 | [0018](0018-slides-generator-contract.md) | Slides Generator Contract | Accepted |
 | [0019](0019-website-generator-contract.md) | Website Generator Contract | Accepted |
-| [0020](0020-courseware-composition-contract.md) | Courseware Composition Contract | Proposed |
+| [0020](0020-courseware-composition-contract.md) | Courseware Composition Contract | Accepted |
 
 ## 新增 ADR
 

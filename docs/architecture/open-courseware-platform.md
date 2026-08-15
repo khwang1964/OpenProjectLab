@@ -643,27 +643,59 @@ attribution metadata，但不自動推斷第三方內容授權。
 
 ## 32. AI Boundary
 
-Milestone 6 才是 AI Integration。
+Milestone 6 已開始 AI Integration 的 Design First 階段。
 
-Milestone 5 應建立：
+Milestone 5 所建立的 structured Courseware Domain、Composition、
+GenerationPlan 與 Filesystem boundaries，現在成為 AI Integration 的 canonical
+downstream path。
+
+正式方向：
 
 ``` text
-AI
-  ↓
-Structured Courseware Intent
-  ↓
-Validated Domain
-  ↓
-Existing Generator Lifecycle
+AI Application Service
+        ↓
+AIProvider
+        ↓
+AIResponse
+        ↓
+Structured Validation
+        ↓
+Validated Courseware Domain
+        ↓
+Courseware Composition
+        ↓
+GenerationPlan
+        ↓
+Filesystem
 ```
 
-而不是：
+禁止：
 
 ``` text
-AI
-  ↓
+AI Provider
+        ↓
 Direct Filesystem Mutation
 ```
+
+也禁止：
+
+``` text
+Generator / Courseware Domain
+        ↓
+Provider-specific SDK
+```
+
+AI output 一律視為 untrusted external input；Prompt 不取代 Domain validation。
+Provider-specific request/response types、credentials 與 operational metadata
+不得污染 Courseware Domain。
+
+Milestone 6 的完整 architecture 與 decision contract 由下列文件定義：
+
+-   `docs/architecture/ai-integration.md`
+-   `docs/adr/0021-ai-integration-contract.md`
+
+ADR 0021 目前為 `Proposed`；相關 production contract 與 AI features 在 code/tests
+落地前仍不得描述為 implemented。
 
 ## 33. Testing Strategy
 
@@ -849,7 +881,7 @@ Architecture 階段以下均視為 Proposed，除非現有 code/tests 已證明�
 -   courseware-specific public SDK
 -   Website hosting / deployment
 -   LMS integration
--   AI generation
+-   AI production generation / review integration（Milestone 6 architecture 已開始，runtime 尚未完成）
 
 ## 40. Architecture Invariants
 
@@ -981,7 +1013,10 @@ Step 5.1 完成時：
 -   `docs/adr/0010-plugin-sdk-public-contract.md`
 -   `docs/adr/0011-plugin-validation-contract.md`
 -   `docs/adr/0012-plugin-entry-point-contract.md`
+-   `docs/architecture/ai-integration.md`
+-   `docs/adr/0021-ai-integration-contract.md`
 -   `docs/milestones/milestone-4-acceptance.md`
+-   `docs/milestones/milestone-5-acceptance.md`
 -   `docs/HISTORY.md`
 -   `CHANGELOG.md`
 

@@ -25,39 +25,31 @@ Coverage: 85.90%
 Required coverage: 67.0%
 ```
 
-目前焦點：
+Milestone 5 — Open Courseware Platform 已完成正式 acceptance 與 post-merge consistency alignment。
 
-> **Milestone 5 — Open Courseware Platform**
-
-Milestone 5 已完成 Course/Week foundation、Lab/Quiz/Assignment material-generator vertical slices、Slides presentation-source vertical slice，以及 Website static-publishing vertical slice：
+Milestone 5 completion baseline：
 
 ```text
-Open Courseware Architecture
+Course / Week domain foundation
     ↓
-ADR 0014 Course / Week Domain Contract
+Lab / Quiz / Assignment generators
     ↓
-Course / Week production domain models
+Slides / Website projections
     ↓
-ADR 0015 Lab Generator Contract
+Courseware Composition
     ↓
-Lab contract tests
+Representative E2E
     ↓
-LabGenerator
+Milestone 5 formal acceptance
     ↓
-Lab CLI / template / manifest integration
-    ↓
-Lab documentation acceptance
-    ↓
-ADR 0016 Quiz Generator Contract
-    ↓
-Quiz contract tests
-    ↓
-QuizGenerator
-    ↓
-Quiz CLI / template / manifest integration
-    ↓
-Quiz documentation acceptance
+Post-merge consistency verification
 ```
+
+目前焦點：
+
+> **Milestone 6 — AI Integration**
+
+Milestone 6 目前進入 Design First 階段，先建立 AI Integration Architecture 與 ADR 0021，再進入 AI core contract tests 與 implementation。
 
 ------------------------------------------------------------------------
 
@@ -312,22 +304,91 @@ Merged implementation sequence:
 - composition-wide dry-run non-persistence
 - PR #74
 
-### Step 5.6 — Formal Milestone Acceptance 🚧
+### Step 5.6 — Formal Milestone Acceptance ✅
 
 - `docs/milestones/milestone-5-acceptance.md`
 - roadmap / HISTORY / CHANGELOG alignment
 - final full-regression and coverage baseline
 - pre-commit / CI acceptance gates
 
-## Remaining Planned Features
+## Acceptance and Closure
 
-- complete Milestone 5 formal acceptance and closure
+- `docs/milestones/milestone-5-acceptance.md`
+- formal roadmap / HISTORY / CHANGELOG alignment
+- representative E2E acceptance evidence
+- full regression / coverage acceptance
+- CI / pre-commit acceptance gates
+- post-merge consistency alignment
 
-**Status:** Acceptance In Progress
+Merged closure sequence:
+
+```text
+#74 representative E2E
+#75 formal Milestone 5 acceptance
+#76 post-merge consistency alignment
+```
+
+**Status:** Completed
 
 ------------------------------------------------------------------------
 
-# Milestone 6 — AI Integration
+# Milestone 6 — AI Integration 🚧
+
+目標：
+
+在 Milestone 5 已穩定的 structured Courseware Domain、Composition、
+GenerationPlan 與 Filesystem boundaries 上，加入可替換、可驗證、可測試的
+AI capability，而不建立第二套 generation pipeline。
+
+核心原則：
+
+```text
+AI proposes.
+Domain validates.
+Generator plans.
+Filesystem commits.
+Tests verify.
+```
+
+## Step 6.1 — AI Integration Architecture and Contract 🚧
+
+目前進行中：
+
+- `docs/architecture/ai-integration.md`
+- ADR 0021 — AI Integration Contract (`Proposed`)
+- Provider-independent `AIProvider` boundary design
+- `AIRequest` / `AIResponse` conceptual contracts
+- structured-output validation boundary
+- Courseware Domain / Generator / Filesystem separation
+- credential isolation
+- deterministic `FakeAIProvider` testing strategy
+- no real-provider dependency in core CI
+
+## Planned Implementation Sequence
+
+```text
+Architecture / ADR
+    ↓
+AI core contract tests
+    ↓
+AIRequest / AIResponse / AIProvider
+    ↓
+FakeAIProvider
+    ↓
+Structured response validation
+    ↓
+AI-to-Courseware mapping
+    ↓
+AI-assisted Courseware generation
+    ↓
+AI Review
+    ↓
+Real Provider Adapter
+    ↓
+Representative AI E2E
+    ↓
+Milestone 6 Acceptance
+```
 
 ## Planned Features
 
@@ -337,6 +398,8 @@ Merged implementation sequence:
 - AI Template Completion
 - AI Course Builder
 - AI Refactoring Assistant
+
+**Status:** Design In Progress
 
 ------------------------------------------------------------------------
 

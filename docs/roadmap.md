@@ -118,7 +118,7 @@ Milestone 5 Open Courseware work.
 
 ------------------------------------------------------------------------
 
-# Milestone 5 — Open Courseware Platform 🚧
+# Milestone 5 — Open Courseware Platform ✅
 
 目標：
 

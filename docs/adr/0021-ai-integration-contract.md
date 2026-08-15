@@ -1227,7 +1227,8 @@ course_builder.py
 - structural validation before Domain integration
 - no direct production filesystem mutation from AI services
 
-第一個真實 Provider SDK 仍不屬於已完成的 core contract。
+第一個 concrete Provider Adapter 已由 ADR 0022 後續落地；ADR 0021 的
+provider-independent core contract 本身仍不依賴真實 Provider SDK。
 
 ---
 
@@ -1619,13 +1620,15 @@ ADR 0021 的 acceptance criteria 已滿足，因此狀態為 `Accepted`：
 - related architecture、ADR index 與 roadmap 進行一致性同步。
 - repository quality gates 持續作為每個 AI PR 的 merge 條件。
 
-ADR Acceptance 不代表 Milestone 6 完成，也不代表 Real Provider Adapter 已存在。
+ADR Acceptance 不代表 Milestone 6 formal acceptance；Real Provider Adapter
+已由後續 ADR 0022 與 Step 6.10 落地。
 
 ---
 
 ## 54. Follow-Up Work
 
-ADR 接受後的 provider-independent implementation 已完成至 AI Course Builder：
+ADR 0021 的 architecture decision 維持不變；implementation status 已演進至
+Milestone 6 representative E2E。
 
 ```text
 ADR 0021 Accepted
@@ -1648,21 +1651,26 @@ AI Template Completion ✅
         ↓
 AI Course Builder ✅
         ↓
-Real Provider Adapter ⏳
+Real Provider Adapter / ADR 0022 ✅
         ↓
-Representative AI E2E ⏳
+Representative deterministic AI E2E ✅
         ↓
-Milestone 6 Acceptance ⏳
+Milestone 6 Formal Acceptance 🚧
 ```
 
-下一個 engineering focus 應從新增 Fake-only use case 轉向 infrastructure validation：
+已完成的 follow-up infrastructure：
 
-1. 第一個 Real Provider Adapter contract / design。
+1. Real Provider Adapter contract / ADR 0022。
 2. Provider-independent provider error conversion 與 timeout behavior。
-3. runtime configuration / credential boundary。
-4. live provider tests 與 core CI 分離。
-5. representative deterministic AI E2E。
-6. Milestone 6 documentation alignment 與 acceptance。
+3. credential isolation 與 injected-client adapter boundary。
+4. live provider tests 與 core CI separation。
+5. representative deterministic AI → Domain → Composition → Filesystem E2E。
+
+目前剩餘工作是 Milestone 6 formal acceptance record、final regression /
+coverage / CI evidence 與 post-merge consistency verification。
+
+Paid/live provider invocation 維持 optional operational verification，不是
+ADR 0021 或 Milestone 6 core acceptance 的必要條件。
 
 ---
 

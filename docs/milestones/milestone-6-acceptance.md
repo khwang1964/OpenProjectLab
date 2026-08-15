@@ -313,23 +313,23 @@ python -m pytest
 
 ### Final Evidence
 
-目前已知：
+Step 6.12 final local regression：
 
 ``` text
-Step 6.11 regression baseline: 1119 passed
-Coverage gate: >= 67.0%
+Final tests: 1119 passed, 1 deselected
+Final total coverage: 90.23%
+Required coverage: 67.0%
+Coverage gate: PASSED
 ```
 
-Step 6.12 acceptance branch 尚需記錄：
+目前尚待：
 
 ``` text
-Final tests passed: PENDING
-Final total coverage: PENDING
-Pre-commit: PENDING
 GitHub Actions / CI: PENDING
 ```
 
-不得在取得實際結果前填入推測數字。
+本地 full regression 與 coverage gate 已完成；GitHub Actions / CI evidence
+必須等 acceptance PR 執行後再更新，不得提前標示為 Green。
 
 ## 12. Deferred Capabilities
 
@@ -376,7 +376,7 @@ Milestone 6 可正式接受，當且僅當：
 -   [x] existing Courseware / Generator / Composition boundaries 保持。
 -   [x] Step 6.11 full regression 已達 1119 passed。
 -   [ ] Step 6.12 documentation alignment 完成。
--   [ ] final full-regression / coverage evidence 記錄完成。
+-   [x] final full-regression / coverage evidence 記錄完成。
 -   [ ] GitHub Actions / CI acceptance gate 全綠。
 -   [ ] post-merge consistency verification 完成。
 
@@ -467,20 +467,23 @@ contracts。
 ``` text
 Milestone 6 --- AI Integration
 Status: Acceptance Candidate
+Local regression: 1119 passed, 1 deselected
+Total coverage: 90.23%
+Required coverage: 67.0%
+GitHub Actions / CI: PENDING
 ```
 
-已完成的 architecture、contracts、provider adapter 與 representative E2E
-證據足以進入 Step 6.12 formal acceptance。
+architecture、contracts、provider adapter、representative E2E、final local
+regression 與 coverage gate 已完成。
 
-在 final regression、coverage、CI 與 documentation consistency gates
-完成後，將本節改為：
+在 acceptance PR 的 GitHub Actions / CI 全綠後，將本節改為：
 
 ``` text
 Milestone 6 --- AI Integration
 Status: Accepted
 ```
 
-並記錄最終 acceptance baseline。
+merge 後再執行 post-merge consistency verification，完成 Milestone 6 closure。
 
 ------------------------------------------------------------------------
 

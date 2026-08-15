@@ -354,8 +354,11 @@
 -   Verified E2E reproducibility, dry-run non-persistence, and failure before
     filesystem side effects.
 -   Recorded the Step 6.11 full-regression evidence: 1119 passed.
--   Final Milestone 6 acceptance coverage / CI baseline and post-merge consistency
-    verification remain pending.
+-   Recorded the Step 6.12 final local regression evidence: 1119 passed, 1 deselected.
+-   Verified total coverage at 90.23%, above the required 67.0% gate.
+-   GitHub Actions / CI acceptance and post-merge consistency verification remain pending.
+-   Final local regression / coverage evidence is complete; acceptance PR GitHub
+    Actions / CI and post-merge consistency verification remain pending.
 
 -   Verified Courseware Composition deterministic request/execution
     ordering and ordered result aggregation.

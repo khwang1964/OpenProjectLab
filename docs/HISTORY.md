@@ -613,11 +613,17 @@ branch 重新記錄。
 -   live-provider test separation
 -   representative deterministic AI → Domain → Composition → Filesystem E2E
 
-尚未完成：
+已完成 Step 6.12 local acceptance evidence：
 
 -   `docs/milestones/milestone-6-acceptance.md`
--   final Milestone 6 full-regression / coverage acceptance record
--   acceptance PR / CI closure
+-   final local regression: 1119 passed, 1 deselected
+-   total coverage: 90.23%
+-   required coverage: 67.0% — Passed
+
+尚未完成：
+
+-   acceptance PR / GitHub Actions / CI closure
+-   squash merge
 -   post-merge consistency verification
 
 Paid/live OpenAI invocation 不是 Milestone 6 core acceptance 的必要條件。

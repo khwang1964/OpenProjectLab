@@ -100,6 +100,17 @@ Milestone 6 的核心架構決策由 ADR 0021 與 ADR 0022 保持 `Accepted`；
 Milestone 6 formal acceptance 則由 milestone acceptance record 與最終
 quality-gate evidence 決定。
 
+目前 Milestone 6 Step 6.12 local quality-gate evidence：
+
+``` text
+1119 passed, 1 deselected
+Total coverage: 90.23%
+Required coverage: 67.0%
+```
+
+GitHub Actions / CI 與 post-merge consistency verification 尚待 acceptance PR
+與 merge 後完成。
+
 ## 新增 ADR
 
 1.  使用下一個可用的四位數編號。

@@ -179,7 +179,8 @@
 - Verified Slides dry-run, overwrite, manifest, built-in list, JSON input, and CLI integration.
 - Verified PPTX / PDF / HTML rendering remains outside the core Slides Generator boundary.
 - Verified PR #59 through PR #62 complete the Slides design/test/implementation/integration sequence.
-- Verified the full regression suite at the integration baseline: 867 passed with 88.76% total coverage.
+- Verified the full regression suite at the Milestone 5 formal acceptance
+  baseline: 867 passed with 88.76% total coverage.
 - Verified the required 67.0% coverage gate was satisfied.
 
 - Verified Quiz request validation for Week, `quiz_id`, title, Questions, choices,

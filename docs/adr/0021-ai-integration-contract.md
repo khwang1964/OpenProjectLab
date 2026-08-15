@@ -1,6 +1,6 @@
 # ADR 0021: AI Integration Contract
 
-> **Status:** Proposed
+> **Status:** Accepted
 > **Milestone:** 6 — AI Integration
 > **Date:** 2026-08-15
 > **Decision Owners:** OpenProjectLab Maintainers
@@ -1189,41 +1189,45 @@ Public API stabilization 應獨立審查。
 
 ## 41. Initial Implementation Scope
 
-本 ADR 接受後，第一個 implementation sequence 應保持最小。
+本 ADR 的最小 contract 已完成並持續演進。
 
-### Contract Tests
-
-先建立：
-
-```text
-tests/ai/
-├── __init__.py
-├── test_ai_request_contract.py
-├── test_ai_response_contract.py
-├── test_ai_provider_contract.py
-└── test_fake_ai_provider.py
-```
-
-### Minimal Production Contract
-
-接著建立：
+### Core contracts
 
 ```text
 generator/ai/
 ├── __init__.py
 ├── models.py
-└── protocols.py
+├── protocols.py
+├── errors.py
+├── validation.py
+└── testing.py
 ```
 
-必要時加入：
+### Provider-independent application capabilities
+
+後續依同一 contract 落地：
 
 ```text
-testing/fakes
+courseware.py
+service.py
+review.py
+review_service.py
+documentation.py
+documentation_service.py
+template_completion.py
+template_completion_service.py
+course_builder.py
 ```
 
-或其他經 review 的 fake provider location。
+這些 production contracts 均保持：
 
-第一輪不需要真實 Provider SDK。
+- no network requirement in core tests
+- no API key requirement in core CI
+- deterministic `FakeAIProvider`
+- structural validation before Domain integration
+- no direct production filesystem mutation from AI services
+
+第一個真實 Provider SDK 仍不屬於已完成的 core contract。
 
 ---
 
@@ -1603,62 +1607,62 @@ configuration documentation
 
 ## 53. Acceptance Criteria
 
-ADR 0021 can move from `Proposed` to `Accepted` when:
+ADR 0021 的 acceptance criteria 已滿足，因此狀態為 `Accepted`：
 
-- AI Integration Architecture is reviewed.
-- Provider boundary is agreed.
-- Domain/Generator/Filesystem boundaries are agreed.
-- Credential policy is agreed.
-- deterministic testing strategy is agreed.
-- `AIRequest` / `AIResponse` conceptual contracts are agreed.
-- `FakeAIProvider` is accepted as the core test strategy.
-- related architecture and roadmap documentation are synchronized.
-- repository quality checks pass.
+- AI Integration Architecture 已建立並完成 review。
+- Provider boundary 已由 runtime-checkable `AIProvider` contract 落地。
+- Domain / Generator / Filesystem boundaries 已由 implementation 與 tests 保護。
+- Credential isolation policy 已固定，core tests / CI 不要求 API key。
+- deterministic testing strategy 已由 `FakeAIProvider` 落地。
+- `AIRequest` / `AIResponse` contracts 已實作並測試。
+- structured validation 與 AI-to-Courseware mapping 已實作。
+- related architecture、ADR index 與 roadmap 進行一致性同步。
+- repository quality gates 持續作為每個 AI PR 的 merge 條件。
 
-Implementation is not required for the ADR itself to become Accepted.
-
-The ADR defines the contract implementation must follow.
+ADR Acceptance 不代表 Milestone 6 完成，也不代表 Real Provider Adapter 已存在。
 
 ---
 
 ## 54. Follow-Up Work
 
-After this ADR is accepted, Milestone 6 should proceed in this order:
+ADR 接受後的 provider-independent implementation 已完成至 AI Course Builder：
 
 ```text
 ADR 0021 Accepted
         ↓
-AI Core Contract Tests
+AI Core Contracts ✅
         ↓
-AIRequest / AIResponse / AIProvider
+FakeAIProvider ✅
         ↓
-FakeAIProvider
+Structured Response Validation ✅
         ↓
-Structured Response Validation
+AI-to-Courseware Mapping ✅
         ↓
-AI-to-Courseware Mapping
+AI Course Generation Service ✅
         ↓
-AI-assisted Courseware Integration
+AI Review ✅
         ↓
-AI Review
+AI Documentation ✅
         ↓
-Real Provider Adapter
+AI Template Completion ✅
         ↓
-Representative AI E2E
+AI Course Builder ✅
         ↓
-Milestone 6 Acceptance
+Real Provider Adapter ⏳
+        ↓
+Representative AI E2E ⏳
+        ↓
+Milestone 6 Acceptance ⏳
 ```
 
-The next immediate engineering step should therefore be:
+下一個 engineering focus 應從新增 Fake-only use case 轉向 infrastructure validation：
 
-```text
-tests/ai/test_ai_provider_contract.py
-tests/ai/test_ai_request_contract.py
-tests/ai/test_ai_response_contract.py
-tests/ai/test_fake_ai_provider.py
-```
-
-following the established OPL Contract-First workflow.
+1. 第一個 Real Provider Adapter contract / design。
+2. Provider-independent provider error conversion 與 timeout behavior。
+3. runtime configuration / credential boundary。
+4. live provider tests 與 core CI 分離。
+5. representative deterministic AI E2E。
+6. Milestone 6 documentation alignment 與 acceptance。
 
 ---
 

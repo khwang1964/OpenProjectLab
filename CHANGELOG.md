@@ -4,6 +4,21 @@
 
 ### Added
 
+#### Milestone 6 — AI Integration
+
+- Added the AI Integration architecture and ADR 0021 — AI Integration Contract.
+- Added immutable provider-independent `AIRequest` and `AIResponse` contracts.
+- Added the runtime-checkable `AIProvider` protocol and deterministic `FakeAIProvider`.
+- Added structured AI response validation and `AIResponseValidationError`.
+- Added AI-to-Courseware mapping into production `Course` / `Week` domain objects.
+- Added `AICourseGenerationService` as the provider-independent AI course generation application boundary.
+- Added immutable `AIReviewFinding` / `AIReviewResult` contracts and advisory `AIReviewService`.
+- Added immutable `AIDocumentDraft` and `AIDocumentationService`.
+- Added immutable `AITemplateCompletionResult` and `AITemplateCompletionService`.
+- Added immutable `AICourseBuildRequest` and high-level `AICourseBuilder`.
+- Added deterministic AI contract and application tests that require no network, API key, paid model account, or real Provider SDK.
+- Added explicit boundaries preventing AI services from bypassing Courseware Domain validation or directly mutating the production filesystem.
+
 #### Milestone 5 — Open Courseware Platform
 
 - Added the Open Courseware Platform architecture and responsibility boundaries.
@@ -84,6 +99,20 @@
 
 ### Changed
 
+- Marked ADR 0021 — AI Integration Contract as Accepted after the architecture,
+  provider boundary, deterministic Fake-provider strategy, structural validation,
+  Courseware mapping, and provider-independent application contracts were established.
+- Updated Milestone 6 status from Design First to active implementation.
+- Preserved Courseware Domain, Generator, Composition, GenerationPlan, and Filesystem
+  boundaries while adding AI capabilities.
+- Kept provider-specific SDK types, credentials, network access, and live-provider
+  behavior outside the core AI contracts and normal CI.
+- Kept AI Review advisory, AI Documentation non-mutating, Template Completion
+  independent of rendering/filesystem mutation, and Course Builder independent of
+  real providers and direct filesystem writes.
+- Deferred Real Provider Adapter infrastructure, live-provider tests, representative
+  AI-to-filesystem E2E, and Milestone 6 formal acceptance.
+
 - Marked ADR 0020 — Courseware Composition Contract as Accepted after design, contract,
   implementation, and representative integration gates completed.
 - Updated Open Courseware architecture to mark deterministic courseware composition as Implemented.
@@ -151,6 +180,22 @@
 
 ### Verification
 
+- Verified PR #77 establishes the Milestone 6 AI Integration architecture and ADR 0021.
+- Verified PR #78 establishes `AIRequest`, `AIResponse`, `AIProvider`, and deterministic `FakeAIProvider`.
+- Verified PR #79 establishes structured AI response validation.
+- Verified PR #80 maps validated AI responses into production Course / Week domain objects.
+- Verified PR #81 establishes the provider-independent AI Course Generation Service.
+- Verified PR #82 establishes advisory AI Review contracts and service.
+- Verified PR #83 establishes AI Documentation contracts and service.
+- Verified PR #84 establishes AI Template Completion contracts and service.
+- Verified PR #85 establishes the high-level AI Course Builder and requested week-count completeness validation.
+- Verified core Milestone 6 AI tests remain deterministic and require no network, API key,
+  paid provider account, or real Provider SDK.
+- Verified current AI services do not directly mutate the production filesystem and do not
+  bypass existing Courseware Domain validation.
+- Real Provider Adapter, live-provider tests, representative AI E2E, and final Milestone 6
+  regression/coverage acceptance remain pending.
+
 - Verified Courseware Composition deterministic request/execution ordering and ordered result aggregation.
 - Verified existing registry preflight prevents execution when a required generator cannot be resolved.
 - Verified representative composition across Course, Week, Lab, Quiz, Assignment, Slides, and Website.
@@ -163,8 +208,7 @@
   Slides, and Website artifacts through the production composition/generator pipeline.
 - Verified representative E2E artifact membership, manifest generator provenance,
   deterministic/reproducible user-facing output, and full-course dry-run non-persistence.
-- Final Milestone 5 full-regression count and coverage must be recorded from the
-  acceptance-branch `python -m pytest` run before merge.
+- Recorded the Milestone 5 formal acceptance regression baseline: 867 passed with 88.76% total coverage.
 - Verified Website request validation for site title, ordered pages, safe relative
   `.html` paths, unique normalized paths, required `index.html`, page titles, and content.
 - Verified deterministic multi-page Website planning, navigation ordering, and static HTML output.

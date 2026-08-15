@@ -1,6 +1,6 @@
 # OpenProjectLab AI Integration Architecture
 
-> **Status:** Proposed
+> **Status:** Active
 > **Milestone:** 6 — AI Integration
 > **Scope:** AI provider abstraction, AI application services, structured generation, validation, courseware integration, testing, security, observability, and future AI-assisted workflows
 > **Audience:** Maintainers, contributors, AI integration developers, Generator developers, Plugin developers
@@ -55,7 +55,7 @@ AI Integration Architecture 的主要目標包括：
 - 支援 AI Review。
 - 支援 AI Documentation。
 - 支援 AI Template Completion。
-- 支援未來 AI Course Builder。
+- 支援 AI Course Builder。
 - 支援未來 AI Refactoring Assistant。
 - 讓 Unit Test 與 Contract Test 不需要網路。
 - 讓 CI 不需要真實 API Key。
@@ -270,21 +270,26 @@ AI Integration Layer 位於 Application Capability 與外部 AI Provider 之間�
 
 ## 7. Proposed Module Structure
 
-初步建議：
+目前 production module 已演進為：
 
 ```text
 generator/
 ├── ai/
 │   ├── __init__.py
-│   ├── protocols.py
 │   ├── models.py
+│   ├── protocols.py
 │   ├── errors.py
-│   ├── service.py
 │   ├── validation.py
-│   ├── prompts.py
-│   └── providers/
-│       ├── __init__.py
-│       └── ...
+│   ├── testing.py
+│   ├── courseware.py
+│   ├── service.py
+│   ├── review.py
+│   ├── review_service.py
+│   ├── documentation.py
+│   ├── documentation_service.py
+│   ├── template_completion.py
+│   ├── template_completion_service.py
+│   └── course_builder.py
 │
 ├── courseware/
 ├── generators/
@@ -292,20 +297,19 @@ generator/
 └── core/
 ```
 
-測試：
+目前 `tests/ai/` 已涵蓋：
 
-```text
-tests/
-└── ai/
-    ├── __init__.py
-    ├── test_ai_provider_contract.py
-    ├── test_ai_request_contract.py
-    ├── test_ai_response_contract.py
-    ├── test_ai_validation.py
-    └── test_fake_ai_provider.py
-```
+- AI request / response / provider contracts
+- deterministic `FakeAIProvider`
+- structured response validation
+- AI-to-Courseware mapping
+- course generation service
+- AI review contract / service
+- AI documentation contract / service
+- AI template completion contract / service
+- AI course builder contract / completeness validation
 
-正式目錄應在 Contract 與 ADR 接受後再建立。
+Provider Adapter、provider configuration 與 live-provider tests 尚未加入 core implementation。
 
 ---
 
@@ -2329,95 +2333,102 @@ No paid account
 
 ## 81. Milestone 6 Implementation Phases
 
-建議 Milestone 6 分為：
+Milestone 6 目前已完成 provider-independent core 與主要 application contracts：
 
-### Phase 1 — Architecture and Contract
-
-建立：
+### Phase 1 — Architecture and Contract ✅
 
 - AI Integration Architecture
-- AI Integration ADR
-- Provider boundary
-- Request / Response conceptual contract
-- Testing strategy
+- ADR 0021
+- Provider / Domain / Generator / Filesystem boundaries
+- deterministic testing strategy
 
-### Phase 2 — Core Contract Tests
-
-建立：
+### Phase 2 — Core Contracts ✅
 
 - `AIRequest`
 - `AIResponse`
-- `AIProvider`
-- `FakeAIProvider`
+- runtime-checkable `AIProvider`
+- deterministic `FakeAIProvider`
 
-的 contract tests。
+### Phase 3 — Structured Validation and Mapping ✅
 
-### Phase 3 — Core Implementation
+- `AIResponseValidationError`
+- mapping-shaped structural validation
+- AI-to-Courseware `Course` / `Week` mapping
+- Domain validation ownership preserved
 
-實作最小 AI abstraction。
+### Phase 4 — Application Services ✅
 
-不加入真實 Provider。
+- AI Course Generation Service
+- AI Review
+- AI Documentation
+- AI Template Completion
+- AI Course Builder
 
-### Phase 4 — Structured AI Generation
+### Phase 5 — Provider Adapter ⏳
 
-建立：
+下一個 infrastructure stage：
 
-- response validation
-- structured DTO
-- Domain mapping
+- first real Provider Adapter contract
+- Provider-independent exception conversion
+- runtime configuration / credential isolation
+- timeout policy
+- live-test separation from core CI
 
-### Phase 5 — Courseware Integration
+### Phase 6 — Representative AI E2E ⏳
 
-建立 AI-assisted Courseware use case。
-
-### Phase 6 — AI Review
-
-建立 structured review pipeline。
-
-### Phase 7 — Provider Adapter
-
-在 Core Contract 穩定後加入第一個真實 Provider Adapter。
-
-### Phase 8 — Representative E2E
-
-使用 Fake Provider 驗證完整 AI → Courseware pipeline。
-
-### Phase 9 — Documentation Alignment
-
-同步所有 architecture、reference、roadmap、history 與 changelog。
-
-### Phase 10 — Milestone Acceptance
-
-完成：
+使用 `FakeAIProvider` 驗證：
 
 ```text
-Milestone 6 Acceptance
+Course Specification
+        ↓
+AICourseBuilder
+        ↓
+AIProvider
+        ↓
+AIResponse
+        ↓
+Validation / Mapping
+        ↓
+Courseware Domain
+        ↓
+Composition
+        ↓
+GenerationPlan
+        ↓
+Filesystem
 ```
 
-並執行 post-merge consistency verification。
+### Phase 7 — Documentation Alignment and Milestone Acceptance ⏳
+
+完成 architecture/reference/roadmap/history/changelog alignment、representative E2E、full regression、CI 與 Milestone 6 acceptance record。
 
 ---
 
 ## 82. Current Limitations
 
-在 Milestone 6 開始時，以下能力應視為尚未完成：
+截至 2026-08-15，以下 provider-independent capabilities 已由 production code 與 tests 支援：
 
 - AI Provider abstraction
-- AI Request contract
-- AI Response contract
-- AI exception hierarchy
-- Fake AI Provider
-- Structured AI response validation
+- AI Request / Response contracts
+- deterministic Fake AI Provider
+- structured AI response validation
 - AI-to-Courseware mapping
-- AI Content Generation
+- AI Course Generation Service
 - AI Review
 - AI Documentation
 - AI Template Completion
 - AI Course Builder
+
+目前仍屬未完成或後續範圍：
+
+- 完整 AI exception hierarchy（目前僅有已落地的 validation / use-case errors）
+- Real / Live Provider Adapter
+- Provider runtime configuration
+- credential-backed provider integration
+- live-provider test workflow
+- representative AI → Composition → GenerationPlan → Filesystem E2E
 - AI Refactoring Assistant
 - AI CLI
-- Provider configuration
-- Live Provider Adapter
 - AI evaluation
 - AI provenance
 - AI usage accounting
@@ -2425,9 +2436,7 @@ Milestone 6 Acceptance
 - AI streaming
 - AI tool calling
 
-Architecture 文件描述未來方向，不代表功能已存在。
-
-正式能力必須以 production code、tests 與 accepted ADR 為準。
+因此目前 Milestone 6 的主要缺口已從「core capability」轉為「real-provider infrastructure、representative E2E 與 milestone acceptance」。
 
 ---
 

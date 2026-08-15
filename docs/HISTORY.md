@@ -554,7 +554,8 @@ live-test separation、documentation alignment 與 regression/CI 為準。
 
 ### Step 6.11 --- Representative deterministic AI E2E
 
-Step 6.11 已建立 Milestone 6 的 representative deterministic acceptance path：
+Step 6.11 已建立 Milestone 6 的 representative deterministic acceptance
+path：
 
 ``` text
 AICourseBuildRequest
@@ -580,73 +581,87 @@ Filesystem
 
 Representative E2E 驗證：
 
-- production `AICourseBuilder`
-- deterministic `FakeAIProvider`
-- production `Course` / `Week`
-- production `CoursewareComposer`
-- production Course / Week Generators
-- deterministic artifact membership/content
-- reproducible output across repeated runs
-- composition dry-run leaves no persistent project output
-- invalid AI response fails before filesystem side effects
-- no network / no API key / no paid invocation
+-   production `AICourseBuilder`
+-   deterministic `FakeAIProvider`
+-   production `Course` / `Week`
+-   production `CoursewareComposer`
+-   production Course / Week Generators
+-   deterministic artifact membership/content
+-   reproducible output across repeated runs
+-   composition dry-run leaves no persistent project output
+-   invalid AI response fails before filesystem side effects
+-   no network / no API key / no paid invocation
 
-Step 6.11 integration test 與 full regression 已通過；目前已知 regression
-baseline 為：
+Step 6.11 integration test 與 full regression 已通過；目前已知
+regression baseline 為：
 
 ``` text
 1119 passed
 ```
 
-這個 baseline 是 Step 6.11 verification evidence；Milestone 6 formal
-acceptance 的最終 coverage / CI baseline 仍應在 Step 6.12 acceptance
-branch 重新記錄。
+這個 baseline 是 Step 6.11 verification evidence；Step 6.12 formal
+acceptance 隨後以最終 regression、coverage 與 CI evidence 完成收束。
 
 ### Milestone 6 Current Boundary
 
 目前已完成：
 
 -   provider-independent AI core
--  主要 application contracts
+-   主要 application contracts
 -   Real Provider Adapter infrastructure
 -   deterministic no-network OpenAI adapter tests
 -   live-provider test separation
--   representative deterministic AI → Domain → Composition → Filesystem E2E
+-   representative deterministic AI → Domain → Composition → Filesystem
+    E2E
 
-已完成 Step 6.12 local acceptance evidence：
+Step 6.12 formal acceptance 與 post-merge consistency alignment 已完成：
 
 -   `docs/milestones/milestone-6-acceptance.md`
--   final local regression: 1119 passed, 1 deselected
+-   final regression: 1119 passed, 1 deselected
 -   total coverage: 90.23%
--   required coverage: 67.0% — Passed
+-   required coverage: 67.0% --- Passed
+-   acceptance PR GitHub Actions / CI --- Passed
+-   squash merge completed
+-   post-merge consistency verification completed
 
-尚未完成：
+Milestone 6 因此正式關閉。
 
--   acceptance PR / GitHub Actions / CI closure
--   squash merge
--   post-merge consistency verification
-
-Paid/live OpenAI invocation 不是 Milestone 6 core acceptance 的必要條件。
-AI Refactoring Assistant、AI CLI、evaluation、provenance、usage accounting、
-caching、streaming 與 tool calling 保留為後續 capability。
+Paid/live OpenAI invocation 不是 Milestone 6 core acceptance
+的必要條件。 AI Refactoring Assistant、AI
+CLI、evaluation、provenance、usage accounting、 caching、streaming 與
+tool calling 保留為後續 capability。
 
 ------------------------------------------------------------------------
 
 # 下一階段
 
-目前 engineering focus：
+Milestone 6 已完成：
 
 ``` text
-Milestone 6 Documentation Alignment
+AI Integration Architecture
     ↓
-Formal Acceptance Record
+Provider-independent AI Core
     ↓
-Final Regression / Coverage / CI
+Real Provider Adapter
+    ↓
+Representative deterministic AI E2E
+    ↓
+Formal Acceptance
     ↓
 Post-merge Consistency Verification
 ```
 
-Milestone 5 已正式完成；Milestone 6 目前進入 **Formal Acceptance In Progress**。
+Formal acceptance baseline：
+
+``` text
+1119 passed, 1 deselected
+Coverage: 90.23%
+Required coverage: 67.0%
+CI: Passed
+```
+
+Milestone 5 與 Milestone 6 均已正式完成；下一階段進入 **Milestone 7 ---
+Marketplace planning**。
 
 ------------------------------------------------------------------------
 

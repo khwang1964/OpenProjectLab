@@ -58,8 +58,7 @@ mapping、Course Generation、Review、Documentation、Template Completion
 
 目前焦點已轉向：
 
-> **Real Provider Adapter infrastructure → representative deterministic
-> AI E2E → Milestone 6 acceptance**
+> **Representative deterministic AI E2E → Milestone 6 acceptance**
 
 ------------------------------------------------------------------------
 
@@ -435,45 +434,45 @@ Tests verify.
 -   existing Domain validation preserved
 -   PR #85
 
-## Step 6.10 --- Real Provider Adapter 🚧
+## Step 6.10 --- Real Provider Adapter ✅
 
-Design First 已開始：
-
--   ADR 0022 --- AI Provider Adapter Contract (`Proposed`)
+-   ADR 0022 --- AI Provider Adapter Contract Accepted
 -   existing `AIProvider` remains the application boundary
--   Provider-specific SDK / request / response types remain
+-   provider-specific SDK / request / response types remain
     adapter-private
--   runtime credential isolation
--   finite timeout contract
--   Provider-independent error conversion with exception chaining
--   no hidden automatic retry in the initial contract
--   deterministic adapter tests through injected fake/stub provider
-    clients
--   live-provider tests separated from core CI
--   no provider SDK dependency in Courseware Domain or Generator
--   first concrete provider selection deferred until contract review
+-   minimum provider-independent error hierarchy established
+-   runtime credential isolation preserved
+-   finite timeout behavior established
+-   no hidden automatic retry in the initial adapter contract
+-   first concrete `OpenAIProviderAdapter` implemented
+-   deterministic provider contract / credential / error tests
+-   deterministic no-network OpenAI adapter tests
+-   `ai_live` marker registered for explicit live-provider verification
+-   live tests excluded from normal pytest / pre-commit /
+    credential-free CI
+-   missing `OPENAI_API_KEY` skips explicit live smoke verification
+-   paid/live OpenAI invocation is optional operational verification and
+    is not required for ADR 0022 acceptance or Step 6.10 completion
 
-Implementation sequence：
+Implementation sequence:
 
 ``` text
 ADR 0022
     ↓
 Provider Adapter Contract Tests
     ↓
-Minimum Provider-independent Error Additions
+Provider-independent Error Contract
     ↓
-First Concrete Provider Adapter
+OpenAI Provider Adapter
     ↓
-No-network Provider-specific Tests
+No-network OpenAI Adapter Tests
     ↓
 Live-test Separation
     ↓
 Documentation / Regression / CI
 ```
 
-ADR 0022 alone does not complete Step 6.10; completion still requires
-the first concrete adapter and deterministic contract/error/security
-tests.
+**Step 6.10 Status:** Completed
 
 ## Step 6.11 --- Representative AI E2E ⏳
 

@@ -295,7 +295,10 @@ generator/
 │   ├── documentation_service.py
 │   ├── template_completion.py
 │   ├── template_completion_service.py
-│   └── course_builder.py
+│   ├── course_builder.py
+│   └── providers/
+│       ├── __init__.py
+│       └── openai.py
 │
 ├── courseware/
 ├── generators/
@@ -315,8 +318,10 @@ generator/
 -   AI template completion contract / service
 -   AI course builder contract / completeness validation
 
-Provider Adapter、provider configuration 與 live-provider tests 尚未加入
-core implementation。
+`OpenAIProviderAdapter`、provider-independent error
+conversion、deterministic no-network provider tests 與 `ai_live` test
+separation 已加入。正式 provider configuration schema 與 paid/live
+provider invocation 仍不是 core requirement。
 
 ------------------------------------------------------------------------
 
@@ -1279,7 +1284,7 @@ malformed responses fail explicitly
 
 ## 39. Real Provider Tests
 
-未來若建立 Real Provider integration tests，應：
+Real Provider smoke-test boundary 已建立，並應持續遵守：
 
 -   明確標記。
 -   預設不執行。
@@ -1291,13 +1296,14 @@ malformed responses fail explicitly
 -   有 rate limit strategy。
 -   不依賴 exact natural-language output。
 
-例如未來可能使用：
+目前正式使用：
 
 ``` text
 pytest marker: ai_live
 ```
 
-正式命名由測試架構決定。
+一般 pytest 預設排除 `ai_live`；explicit live run 在沒有
+`OPENAI_API_KEY` 時必須 skip，而不是使 core verification 失敗。
 
 ------------------------------------------------------------------------
 
@@ -2387,22 +2393,25 @@ contracts：
 -   AI Template Completion
 -   AI Course Builder
 
-### Phase 5 --- Provider Adapter 🚧
+### Phase 5 --- Provider Adapter ✅
 
-Design First 已進入 ADR 0022：
+ADR 0022 已 Accepted，Step 6.10 已完成：
 
 -   existing `AIProvider` remains the application boundary
 -   Provider-specific SDK / request / response isolation
 -   runtime credential isolation
+-   minimum provider-independent error hierarchy
 -   finite timeout contract
 -   Provider-independent exception conversion with chaining
 -   no hidden automatic retry in the initial contract
--   deterministic fake/stub-client adapter tests
--   live-test separation from core CI
--   first concrete provider selection remains an implementation decision
+-   first concrete `OpenAIProviderAdapter`
+-   deterministic generic provider-adapter tests
+-   deterministic no-network OpenAI adapter tests
+-   `ai_live` opt-in smoke-test separation from core CI
+-   missing live credential produces skip rather than core failure
 
-ADR 0022 目前為 `Proposed`；contract review / acceptance 後才進入
-provider-specific implementation。
+Paid/live OpenAI invocation remains optional operational verification
+and is not required for ADR 0022 acceptance or Step 6.10 completion.
 
 ### Phase 6 --- Representative AI E2E ⏳
 
@@ -2438,8 +2447,7 @@ acceptance record。
 
 ## 82. Current Limitations
 
-截至 2026-08-15，以下 provider-independent capabilities 已由 production
-code 與 tests 支援：
+截至 2026-08-15，以下 capabilities 已由 production code 與 tests 支援：
 
 -   AI Provider abstraction
 -   AI Request / Response contracts
@@ -2451,17 +2459,19 @@ code 與 tests 支援：
 -   AI Documentation
 -   AI Template Completion
 -   AI Course Builder
+-   minimum provider-independent AI provider error hierarchy
+-   first concrete `OpenAIProviderAdapter`
+-   deterministic generic provider adapter contract / credential / error
+    tests
+-   deterministic no-network OpenAI adapter tests
+-   `ai_live` opt-in live-provider smoke-test boundary
 
 目前仍屬未完成或後續範圍：
 
--   完整 AI exception hierarchy（目前僅有已落地的 validation / use-case
-    errors）
--   Real / Live Provider Adapter implementation（ADR 0022 contract
-    已提出）
--   Provider runtime configuration
--   credential-backed provider integration
--   live-provider test workflow
+-   final public provider runtime configuration schema
 -   representative AI → Composition → GenerationPlan → Filesystem E2E
+-   Milestone 6 formal acceptance
+-   optional paid/live OpenAI operational verification
 -   AI Refactoring Assistant
 -   AI CLI
 -   AI evaluation
@@ -2471,9 +2481,8 @@ code 與 tests 支援：
 -   AI streaming
 -   AI tool calling
 
-因此目前 Milestone 6 的主要缺口已從「core
-capability」轉為「real-provider infrastructure、representative E2E 與
-milestone acceptance」。
+因此目前 Milestone 6 的主要缺口已從 real-provider infrastructure 轉為
+representative deterministic AI E2E 與 milestone acceptance。
 
 ------------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 # ADR 0022 --- AI Provider Adapter Contract
 
-> **Status:** Proposed **Date:** 2026-08-15 **Milestone:** 6 --- AI
+> **Status:** Accepted **Date:** 2026-08-15 **Milestone:** 6 --- AI
 > Integration **Step:** 6.10 --- Real Provider Adapter **Decision
 > Scope:** Provider adapter boundary, SDK isolation, credentials,
 > timeout, error conversion, deterministic tests, and live-provider test

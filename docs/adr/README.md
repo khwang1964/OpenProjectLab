@@ -13,71 +13,74 @@ Records（ADR），
 
 ## ADR 索引
 
-  --------------------------------------------------------------------------------------------------------
-  ADR                                                      標題                    狀態
-  -------------------------------------------------------- ----------------------- -----------------------
-  [0001](0001-project-philosophy.md)                       Project philosophy      Accepted
+  ---------------------------------------------------------------------------------------------
+  ADR                                                      標題                 狀態
+  -------------------------------------------------------- -------------------- ---------------
+  [0001](0001-project-philosophy.md)                       Project philosophy   Accepted
 
-  [0002](0002-generator-lifecycle.md)                      Generator lifecycle     Accepted
+  [0002](0002-generator-lifecycle.md)                      Generator lifecycle  Accepted
 
-  [0003](0003-configuration-and-plugin-framework.md)       Configuration and       Accepted
+  [0003](0003-configuration-and-plugin-framework.md)       Configuration and    Accepted
                                                            plugin framework
 
-  [0004](0004-remove-generator-specific-result-types.md)   Remove                  Accepted
+  [0004](0004-remove-generator-specific-result-types.md)   Remove               Accepted
                                                            generator-specific
                                                            result types
 
-  [0005](0005-generator-input-contract.md)                 Generator Input         Accepted
+  [0005](0005-generator-input-contract.md)                 Generator Input      Accepted
                                                            Contract
 
-  [0006](0006-generator-validation-contract.md)            Generator Validation    Accepted
+  [0006](0006-generator-validation-contract.md)            Generator Validation Accepted
                                                            Contract
 
-  [0007](0007-generation-plan-contract.md)                 Generation Plan         Accepted
+  [0007](0007-generation-plan-contract.md)                 Generation Plan      Accepted
                                                            Contract
 
-  [0008](0008-generator-execution-contract.md)             Generator Execution     Accepted
+  [0008](0008-generator-execution-contract.md)             Generator Execution  Accepted
                                                            Contract
 
-  [0009](0009-remove-legacy-generator-lifecycle.md)        Remove Legacy Generator Accepted
-                                                           Lifecycle
+  [0009](0009-remove-legacy-generator-lifecycle.md)        Remove Legacy        Accepted
+                                                           Generator Lifecycle
 
-  [0010](0010-plugin-sdk-public-contract.md)               Plugin SDK Public       Accepted
+  [0010](0010-plugin-sdk-public-contract.md)               Plugin SDK Public    Accepted
                                                            Contract
 
-  [0011](0011-plugin-validation-contract.md)               Plugin Validation       Accepted
+  [0011](0011-plugin-validation-contract.md)               Plugin Validation    Accepted
                                                            Contract
 
-  [0012](0012-plugin-entry-point-contract.md)              Plugin Entry-Point      Accepted
+  [0012](0012-plugin-entry-point-contract.md)              Plugin Entry-Point   Accepted
                                                            Contract
 
-  [0013](0013-plugin-distribution-contract.md)             Plugin Distribution     Proposed
+  [0013](0013-plugin-distribution-contract.md)             Plugin Distribution  Proposed
                                                            Contract
 
-  [0014](0014-open-courseware-domain-contract.md)          Open Courseware Domain  Accepted
+  [0014](0014-open-courseware-domain-contract.md)          Open Courseware      Accepted
+                                                           Domain Contract
+
+  [0015](0015-lab-generator-contract.md)                   Lab Generator        Accepted
                                                            Contract
 
-  [0015](0015-lab-generator-contract.md)                   Lab Generator Contract  Accepted
-
-  [0016](0016-quiz-generator-contract.md)                  Quiz Generator Contract Accepted
-
-  [0017](0017-assignment-generator-contract.md)            Assignment Generator    Accepted
+  [0016](0016-quiz-generator-contract.md)                  Quiz Generator       Accepted
                                                            Contract
 
-  [0018](0018-slides-generator-contract.md)                Slides Generator        Accepted
+  [0017](0017-assignment-generator-contract.md)            Assignment Generator Accepted
                                                            Contract
 
-  [0019](0019-website-generator-contract.md)               Website Generator       Accepted
+  [0018](0018-slides-generator-contract.md)                Slides Generator     Accepted
                                                            Contract
 
-  [0020](0020-courseware-composition-contract.md)          Courseware Composition  Accepted
+  [0019](0019-website-generator-contract.md)               Website Generator    Accepted
                                                            Contract
 
-  [0021](0021-ai-integration-contract.md)                  AI Integration Contract Accepted
+  [0020](0020-courseware-composition-contract.md)          Courseware           Accepted
+                                                           Composition Contract
 
-  [0022](0022-ai-provider-adapter-contract.md)             AI Provider Adapter     Proposed
+  [0021](0021-ai-integration-contract.md)                  AI Integration       Accepted
                                                            Contract
-  --------------------------------------------------------------------------------------------------------
+
+  [0022](0022-ai-provider-adapter-contract.md)             AI Provider Adapter  Accepted
+                                                           Contract
+  ---------------------------------------------------------------------------------------------
 
 ## 新增 ADR
 

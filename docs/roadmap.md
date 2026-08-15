@@ -49,7 +49,11 @@ Post-merge consistency verification
 
 > **Milestone 6 — AI Integration**
 
-Milestone 6 目前進入 Design First 階段，先建立 AI Integration Architecture 與 ADR 0021，再進入 AI core contract tests 與 implementation。
+Milestone 6 已完成 Design First 與主要 provider-independent AI contracts，並已落地 AI core、structured validation、Courseware mapping、Course Generation、Review、Documentation、Template Completion 與 Course Builder。
+
+目前焦點已轉向：
+
+> **Real Provider Adapter infrastructure → representative deterministic AI E2E → Milestone 6 acceptance**
 
 ------------------------------------------------------------------------
 
@@ -350,58 +354,140 @@ Filesystem commits.
 Tests verify.
 ```
 
-## Step 6.1 — AI Integration Architecture and Contract 🚧
-
-目前進行中：
+## Step 6.1 — AI Integration Architecture and Contract ✅
 
 - `docs/architecture/ai-integration.md`
-- ADR 0021 — AI Integration Contract (`Proposed`)
-- Provider-independent `AIProvider` boundary design
-- `AIRequest` / `AIResponse` conceptual contracts
-- structured-output validation boundary
-- Courseware Domain / Generator / Filesystem separation
+- ADR 0021 — AI Integration Contract
+- Provider / Domain / Generator / Filesystem responsibility boundaries
 - credential isolation
-- deterministic `FakeAIProvider` testing strategy
-- no real-provider dependency in core CI
+- deterministic testing strategy
+- PR #77
 
-## Planned Implementation Sequence
+## Step 6.2 — AI Core Contracts ✅
+
+- immutable `AIRequest` / `AIResponse`
+- runtime-checkable `AIProvider`
+- deterministic `FakeAIProvider`
+- core contract tests
+- PR #78
+
+## Step 6.3 — Structured Response Validation ✅
+
+- `AIResponseValidationError`
+- mapping-shaped structural validation
+- required-field / type validation
+- immutable/no-side-effect failure semantics
+- PR #79
+
+## Step 6.4 — AI-to-Courseware Mapping ✅
+
+- AI structured response → production `Course` / `Week`
+- deterministic Week ordering
+- Domain invariant ownership preserved
+- provider metadata excluded from Domain
+- PR #80
+
+## Step 6.5 — AI Course Generation Service ✅
+
+- injected `AIProvider`
+- provider invocation → existing Courseware mapper
+- deterministic Fake-provider application tests
+- PR #81
+
+## Step 6.6 — AI Review Contract and Service ✅
+
+- immutable `AIReviewFinding` / `AIReviewResult`
+- structured severity / finding validation
+- advisory-only `AIReviewService`
+- no Courseware or filesystem mutation
+- PR #82
+
+## Step 6.7 — AI Documentation Contract and Service ✅
+
+- immutable `AIDocumentDraft`
+- structured markdown / text draft validation
+- `AIDocumentationService`
+- no direct repository/document filesystem mutation
+- PR #83
+
+## Step 6.8 — AI Template Completion Contract and Service ✅
+
+- immutable `AITemplateCompletionResult`
+- deterministic context-key ordering
+- `AITemplateCompletionService`
+- no direct Jinja render or filesystem mutation
+- PR #84
+
+## Step 6.9 — AI Course Builder ✅
+
+- immutable `AICourseBuildRequest`
+- high-level `AICourseBuilder`
+- provider-independent `AIRequest` construction
+- existing Courseware mapping reuse
+- explicit requested `week_count` completeness rule
+- existing Domain validation preserved
+- PR #85
+
+## Step 6.10 — Real Provider Adapter ⏳
+
+下一個 infrastructure stage：
+
+- first Provider Adapter contract
+- provider-specific request/response isolation
+- Provider-independent error conversion
+- timeout behavior
+- runtime configuration / credential boundary
+- no provider SDK dependency in Courseware Domain or Generator
+
+## Step 6.11 — Representative AI E2E ⏳
+
+以 `FakeAIProvider` 建立 deterministic acceptance path：
 
 ```text
-Architecture / ADR
-    ↓
-AI core contract tests
-    ↓
-AIRequest / AIResponse / AIProvider
-    ↓
+Course Specification
+        ↓
+AICourseBuilder
+        ↓
 FakeAIProvider
-    ↓
-Structured response validation
-    ↓
-AI-to-Courseware mapping
-    ↓
-AI-assisted Courseware generation
-    ↓
-AI Review
-    ↓
-Real Provider Adapter
-    ↓
-Representative AI E2E
-    ↓
-Milestone 6 Acceptance
+        ↓
+AIResponse
+        ↓
+Validation / Mapping
+        ↓
+Courseware Domain
+        ↓
+Courseware Composition
+        ↓
+GenerationPlan
+        ↓
+Filesystem
 ```
 
-## Planned Features
+Core E2E 必須維持 no-network / no-API-key / no-cost。
 
-- AI-assisted Content Generation
-- AI Review
-- AI Documentation
-- AI Template Completion
-- AI Course Builder
+## Step 6.12 — Documentation Alignment and Acceptance ⏳
+
+- architecture / ADR / reference alignment
+- roadmap / HISTORY / CHANGELOG alignment
+- representative AI E2E
+- full regression / coverage
+- pre-commit / CI
+- `docs/milestones/milestone-6-acceptance.md`
+- post-merge consistency verification
+
+## Deferred / Follow-Up Capabilities
+
 - AI Refactoring Assistant
+- AI CLI
+- provider marketplace / pluginized provider adapters
+- AI evaluation / provenance / usage accounting
+- caching / streaming / tool calling
 
-**Status:** Design In Progress
+這些不應阻擋 provider-independent core architecture 的 acceptance，除非後續 ADR 將其提升為 Milestone 6 exit criterion。
 
-------------------------------------------------------------------------
+**Status:** Implementation In Progress
+
+---
 
 # Milestone 7 — Marketplace
 

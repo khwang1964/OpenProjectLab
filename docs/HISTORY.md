@@ -370,19 +370,178 @@ evidence。
 
 ------------------------------------------------------------------------
 
-# 下一階段
+### Step 5.10 — Formal Acceptance and Closure
 
-Milestone 5 的 implementation、composition 與 representative E2E 已完成；
-目前進入 Formal Acceptance / Closure。
+Milestone 5 已完成 formal acceptance 與 post-merge consistency alignment。
 
 ```text
-Milestone 5 Formal Acceptance
-→ Milestone 6 AI Integration
+PR #75 — docs: accept milestone 5 open courseware platform
+PR #76 — docs: align milestone 5 post-merge status
 ```
 
-Slides 的 PPTX / PDF / HTML rendering、Website hosting / deployment、
-parallel composition 與 cross-generator transaction/rollback，仍保留為未來
-獨立 capability，不納入 Milestone 5 acceptance。
+Formal acceptance baseline：
+
+```text
+867 passed
+Coverage: 88.76%
+Required coverage: 67.0%
+```
+
+Milestone 5 因此正式關閉，開發焦點轉向 Milestone 6。
+
+------------------------------------------------------------------------
+
+## AI Integration（Milestone 6）
+
+Milestone 6 在既有 Courseware Domain、Composition、GenerationPlan 與
+Filesystem boundaries 上加入 provider-independent AI capability，而不建立
+第二套 generation pipeline。
+
+核心原則：
+
+```text
+AI proposes.
+Domain validates.
+Generator plans.
+Filesystem commits.
+Tests verify.
+```
+
+### Step 6.1 — AI Integration Architecture and Contract
+
+```text
+PR #77 — docs: design ai integration architecture
+```
+
+建立 `docs/architecture/ai-integration.md` 與 ADR 0021，固定：
+
+- AI Provider / Application / Domain / Generator / Filesystem boundaries
+- provider-specific SDK isolation
+- credential isolation
+- structured-output-first strategy
+- AI output as untrusted external input
+- deterministic `FakeAIProvider` core testing strategy
+- no real-provider dependency in normal CI
+
+ADR 0021 已依目前 implementation evidence 對齊為 Accepted。
+
+### Step 6.2 — AI Core Contracts
+
+```text
+PR #78 — feat: establish ai core contracts
+```
+
+完成：
+
+- immutable `AIRequest`
+- immutable `AIResponse`
+- runtime-checkable `AIProvider`
+- deterministic `FakeAIProvider`
+- no-network / no-credential core contract tests
+
+### Step 6.3 — Structured Response Validation
+
+```text
+PR #79 — feat: establish ai response validation contract
+```
+
+建立 `AIResponseValidationError` 與 mapping-shaped structural validation，
+驗證 required fields / field types，同時保持 validation 與 Courseware Domain、
+Filesystem side effects 分離。
+
+### Step 6.4 — AI-to-Courseware Mapping
+
+```text
+PR #80 — feat: establish ai courseware mapping contract
+```
+
+將 validated AI response 映射為 production `Course` / `Week`，保持
+deterministic Week ordering、provider metadata isolation，以及 structural
+validation failure 與 Domain invariant failure 的語意分離。
+
+### Step 6.5 — AI Course Generation Service
+
+```text
+PR #81 — feat: establish ai course generation service
+```
+
+建立 `AICourseGenerationService`，以 injected `AIProvider` 串接既有
+validation / mapping boundary；不直接依賴 filesystem、CLI 或 real Provider。
+
+### Step 6.6 — AI Review
+
+```text
+PR #82 — feat: establish ai review contract
+```
+
+建立 immutable `AIReviewFinding` / `AIReviewResult` 與 `AIReviewService`。
+Review 保持 advisory，不直接修改 Courseware Domain 或 Filesystem。
+
+### Step 6.7 — AI Documentation
+
+```text
+PR #83 — feat: establish ai documentation contract
+```
+
+建立 immutable `AIDocumentDraft` 與 `AIDocumentationService`，支援
+structured Markdown / plain-text draft，同時保持 provider-independent、
+deterministic、non-mutating behavior。
+
+### Step 6.8 — AI Template Completion
+
+```text
+PR #84 — feat: establish ai template completion contract
+```
+
+建立 immutable `AITemplateCompletionResult` 與 `AITemplateCompletionService`，
+保留 deterministic context-key ordering，並保持與 Jinja rendering /
+Filesystem mutation 分離。
+
+### Step 6.9 — AI Course Builder
+
+```text
+PR #85 — feat: establish ai course builder contract
+```
+
+建立 immutable `AICourseBuildRequest` 與 high-level `AICourseBuilder`，
+將 course specification 轉換成 provider-independent `AIRequest`，重用既有
+AI-to-Courseware mapping，並加入 requested week-count completeness validation。
+
+### Milestone 6 Current Boundary
+
+目前已完成 provider-independent AI core 與主要 application contracts。
+
+尚未完成：
+
+- Real Provider Adapter
+- provider runtime configuration / credential-backed integration
+- live-provider test workflow
+- representative deterministic AI → Composition → GenerationPlan → Filesystem E2E
+- Milestone 6 formal acceptance
+
+AI Refactoring Assistant、AI CLI、evaluation、provenance、usage accounting、
+caching、streaming 與 tool calling 保留為後續 capability，不應被誤標為目前
+已實作功能。
+
+------------------------------------------------------------------------
+
+# 下一階段
+
+目前 engineering focus：
+
+```text
+Real Provider Adapter Design / Contract
+    ↓
+Provider-independent failure conversion / timeout / configuration
+    ↓
+Live-provider test separation
+    ↓
+Representative deterministic AI E2E
+    ↓
+Milestone 6 Formal Acceptance
+```
+
+Milestone 5 已正式完成；Milestone 6 目前為 **Implementation In Progress**。
 
 ------------------------------------------------------------------------
 

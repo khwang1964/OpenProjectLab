@@ -643,7 +643,7 @@ attribution metadata，但不自動推斷第三方內容授權。
 
 ## 32. AI Boundary
 
-Milestone 6 已開始 AI Integration 的 Design First 階段。
+Milestone 6 已從 Design First 階段進入 provider-independent production implementation。
 
 Milestone 5 所建立的 structured Courseware Domain、Composition、
 GenerationPlan 與 Filesystem boundaries，現在成為 AI Integration 的 canonical
@@ -694,8 +694,20 @@ Milestone 6 的完整 architecture 與 decision contract 由下列文件定義�
 -   `docs/architecture/ai-integration.md`
 -   `docs/adr/0021-ai-integration-contract.md`
 
-ADR 0021 目前為 `Proposed`；相關 production contract 與 AI features 在 code/tests
-落地前仍不得描述為 implemented。
+ADR 0021 已可依其 acceptance criteria 對齊為 `Accepted`。目前 production code / tests 已支援：
+
+-   `AIRequest` / `AIResponse` / `AIProvider`
+-   deterministic `FakeAIProvider`
+-   structured response validation
+-   AI-to-Courseware mapping
+-   AI Course Generation Service
+-   AI Review
+-   AI Documentation
+-   AI Template Completion
+-   AI Course Builder
+
+Real Provider Adapter、provider configuration、live-provider tests 與 representative
+AI-to-filesystem E2E 尚未完成，因此仍不得描述為 implemented。
 
 ## 33. Testing Strategy
 
@@ -881,7 +893,7 @@ Architecture 階段以下均視為 Proposed，除非現有 code/tests 已證明�
 -   courseware-specific public SDK
 -   Website hosting / deployment
 -   LMS integration
--   AI production generation / review integration（Milestone 6 architecture 已開始，runtime 尚未完成）
+-   Real Provider Adapter / live-provider runtime integration（provider-independent AI runtime 已落地）
 
 ## 40. Architecture Invariants
 

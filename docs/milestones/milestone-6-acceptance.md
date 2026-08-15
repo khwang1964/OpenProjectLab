@@ -1,6 +1,5 @@
 # Milestone 6 Acceptance --- AI Integration
-
-> **Status:** Acceptance Candidate **Milestone:** 6 --- AI Integration
+> **Status:** Accepted  **Milestone:** 6 --- AI Integration
 > **Date:** 2026-08-15 **Acceptance Scope:** Provider-independent AI
 > contracts, structured validation, Courseware integration, AI
 > application services, Real Provider Adapter infrastructure,
@@ -29,10 +28,10 @@ Milestone 6 acceptance 必須證明 AI capability 沒有破壞 Milestone 5
 Domain、Generator、Composition、GenerationPlan、Filesystem 與
 deterministic testing boundaries。
 
-本文件目前為 **Acceptance Candidate**。Step 6.10 與 Step 6.11 已完成；
-最終 `python -m pytest` coverage baseline、pre-commit 與 GitHub Actions
-/ CI evidence 應在 Step 6.12 acceptance branch
-上重新確認後，才將本文件改為 `Accepted`。
+本文件目前為 **Accepted**。Step 6.10、Step 6.11 與 Step 6.12 已完成；
+final local regression、coverage、pre-commit 與 acceptance PR GitHub Actions / CI
+evidence 均已確認。merge 後仍需執行 post-merge consistency verification，
+作為 Milestone 6 repository closure 的最後一致性檢查。
 
 ## 2. Accepted Architecture
 
@@ -206,8 +205,9 @@ Step 6.11 full-regression evidence：
 1119 passed
 ```
 
-此數字是目前已知 Step 6.11 verification baseline。Step 6.12 應重新執行
-full regression 並以最新結果取代或確認此 baseline。
+Step 6.12 已重新執行 full regression；最終 local acceptance evidence 為
+`1119 passed, 1 deselected`，total coverage 為 `90.23%`，高於 required
+coverage `67.0%`。
 
 ## 7. Security Acceptance
 
@@ -276,7 +276,7 @@ Milestone 5 canonical boundaries 必須保持：
 
 ## 10. Documentation Alignment
 
-Step 6.12 應確認以下文件一致：
+Step 6.12 已確認以下文件一致：
 
 -   `docs/architecture/ai-integration.md`
 -   `docs/architecture/open-courseware-platform.md`
@@ -288,11 +288,11 @@ Step 6.12 應確認以下文件一致：
 -   `CHANGELOG.md`
 -   `docs/milestones/milestone-6-acceptance.md`
 
-文件不得再將 Step 6.10 或 Step 6.11 描述為 pending。
+文件不得再將 Step 6.10、Step 6.11 或 Step 6.12 描述為 pending。
 
 ## 11. Final Acceptance Gates
 
-在將本文件狀態由 `Acceptance Candidate` 改為 `Accepted` 前，必須執行：
+本文件轉為 `Accepted` 前已執行：
 
 ``` powershell
 git diff --check
@@ -313,23 +313,24 @@ python -m pytest
 
 ### Final Evidence
 
-目前已知：
+Step 6.12 final local regression：
 
 ``` text
-Step 6.11 regression baseline: 1119 passed
-Coverage gate: >= 67.0%
+Final tests: 1119 passed, 1 deselected
+Final total coverage: 90.23%
+Required coverage: 67.0%
+Coverage gate: PASSED
 ```
 
-Step 6.12 acceptance branch 尚需記錄：
+Acceptance PR CI evidence：
 
 ``` text
-Final tests passed: PENDING
-Final total coverage: PENDING
-Pre-commit: PENDING
-GitHub Actions / CI: PENDING
+GitHub Actions / CI: PASSED
+0 cancelled, 0 failing, 1 successful, 0 skipped, 0 pending
+CI/Quality checks (pull_request): PASSED
 ```
 
-不得在取得實際結果前填入推測數字。
+本地 full regression、coverage gate 與 acceptance PR CI 均已完成。
 
 ## 12. Deferred Capabilities
 
@@ -375,9 +376,9 @@ Milestone 6 可正式接受，當且僅當：
     effects。
 -   [x] existing Courseware / Generator / Composition boundaries 保持。
 -   [x] Step 6.11 full regression 已達 1119 passed。
--   [ ] Step 6.12 documentation alignment 完成。
--   [ ] final full-regression / coverage evidence 記錄完成。
--   [ ] GitHub Actions / CI acceptance gate 全綠。
+-   [x] Step 6.12 Completed。
+-   [x] final full-regression / coverage evidence 記錄完成。
+-   [x] GitHub Actions / CI acceptance gate 全綠。
 -   [ ] post-merge consistency verification 完成。
 
 ## 14. Rollback and Isolation
@@ -401,64 +402,64 @@ contracts。
 
 ### Architecture
 
--   [ ] AI capability 沒有建立第二套 generation pipeline。
--   [ ] Courseware Domain 不依賴 Provider SDK。
--   [ ] Generator 不直接呼叫 AI Provider。
--   [ ] AI Provider / service 不直接寫 production filesystem。
--   [ ] Provider-specific types 留在 adapter boundary。
--   [ ] existing Composition / GenerationPlan pipeline 保持 canonical。
+-   [x] AI capability 沒有建立第二套 generation pipeline。
+-   [x] Courseware Domain 不依賴 Provider SDK。
+-   [x] Generator 不直接呼叫 AI Provider。
+-   [x] AI Provider / service 不直接寫 production filesystem。
+-   [x] Provider-specific types 留在 adapter boundary。
+-   [x] existing Composition / GenerationPlan pipeline 保持 canonical。
 
 ### Contracts and Validation
 
--   [ ] `AIRequest` / `AIResponse` 保持 provider-independent。
--   [ ] AI output 被視為 untrusted input。
--   [ ] structural validation 在 Domain integration 前執行。
--   [ ] Domain validation 仍由 Courseware Domain 擁有。
--   [ ] incomplete / invalid output 明確失敗。
--   [ ] Prompt 未被當成 executable validation contract。
+-   [x] `AIRequest` / `AIResponse` 保持 provider-independent。
+-   [x] AI output 被視為 untrusted input。
+-   [x] structural validation 在 Domain integration 前執行。
+-   [x] Domain validation 仍由 Courseware Domain 擁有。
+-   [x] incomplete / invalid output 明確失敗。
+-   [x] Prompt 未被當成 executable validation contract。
 
 ### Provider and Security
 
--   [ ] Adapter implements existing `AIProvider`。
--   [ ] finite timeout 已定義。
--   [ ] provider errors 明確轉換並保留 chaining。
--   [ ] unexpected programming errors 未被隱藏。
--   [ ] credentials 未進入 models / Domain / generated output。
--   [ ] normal logs / errors 不洩漏 credentials。
--   [ ] live-provider invocation 保持 opt-in。
+-   [x] Adapter implements existing `AIProvider`。
+-   [x] finite timeout 已定義。
+-   [x] provider errors 明確轉換並保留 chaining。
+-   [x] unexpected programming errors 未被隱藏。
+-   [x] credentials 未進入 models / Domain / generated output。
+-   [x] normal logs / errors 不洩漏 credentials。
+-   [x] live-provider invocation 保持 opt-in。
 
 ### Testing
 
--   [ ] core tests 不需要 network。
--   [ ] core tests 不需要 API key。
--   [ ] `FakeAIProvider` deterministic。
--   [ ] provider adapter tests deterministic。
--   [ ] representative AI E2E deterministic。
--   [ ] E2E 驗證 reproducibility。
--   [ ] E2E 驗證 dry-run non-persistence。
--   [ ] invalid AI response no-side-effect behavior 有驗證。
--   [ ] non-AI regression suite 全綠。
+-   [x] core tests 不需要 network。
+-   [x] core tests 不需要 API key。
+-   [x] `FakeAIProvider` deterministic。
+-   [x] provider adapter tests deterministic。
+-   [x] representative AI E2E deterministic。
+-   [x] E2E 驗證 reproducibility。
+-   [x] E2E 驗證 dry-run non-persistence。
+-   [x] invalid AI response no-side-effect behavior 有驗證。
+-   [x] non-AI regression suite 全綠。
 
 ### Documentation
 
--   [ ] AI architecture 已同步。
--   [ ] ADR 0021 / 0022 status 與 implementation 一致。
--   [ ] ADR index 已同步。
--   [ ] Roadmap 已同步。
--   [ ] HISTORY 已同步。
--   [ ] CHANGELOG 已同步。
--   [ ] 本 acceptance record 已填入 final evidence。
+-   [x] AI architecture 已同步。
+-   [x] ADR 0021 / 0022 status 與 implementation 一致。
+-   [x] ADR index 已同步。
+-   [x] Roadmap 已同步。
+-   [x] HISTORY 已同步。
+-   [x] CHANGELOG 已同步。
+-   [x] 本 acceptance record 已填入 final evidence。
 
 ### Automation
 
--   [ ] `git diff --check` 通過。
--   [ ] Ruff 通過。
--   [ ] Ruff Format 通過。
--   [ ] `pre-commit run --all-files` 通過。
--   [ ] `python -m pytest` 通過。
--   [ ] Coverage \>= 67.0%。
--   [ ] GitHub Actions / CI 全綠。
--   [ ] core CI 不依賴 live AI provider。
+-   [x] `git diff --check` 通過。
+-   [x] Ruff 通過。
+-   [x] Ruff Format 通過。
+-   [x] `pre-commit run --all-files` 通過。
+-   [x] `python -m pytest` 通過。
+-   [x] Coverage \>= 67.0%。
+-   [x] GitHub Actions / CI 全綠。
+-   [x] core CI 不依賴 live AI provider。
 
 ## 16. Acceptance Decision
 
@@ -466,21 +467,21 @@ contracts。
 
 ``` text
 Milestone 6 --- AI Integration
-Status: Acceptance Candidate
-```
-
-已完成的 architecture、contracts、provider adapter 與 representative E2E
-證據足以進入 Step 6.12 formal acceptance。
-
-在 final regression、coverage、CI 與 documentation consistency gates
-完成後，將本節改為：
-
-``` text
-Milestone 6 --- AI Integration
 Status: Accepted
+Local regression: 1119 passed, 1 deselected
+Total coverage: 90.23%
+Required coverage: 67.0%
+Coverage gate: PASSED
+GitHub Actions / CI: PASSED
 ```
 
-並記錄最終 acceptance baseline。
+architecture、contracts、provider adapter、representative E2E、Step 6.12
+documentation alignment、final local regression、coverage gate 與 acceptance PR
+CI 均已完成，因此 Milestone 6 formal acceptance 已成立。
+
+merge 後仍需執行 post-merge consistency verification，以確認 `main`、
+`origin/main` 與 acceptance documentation 完全一致；該檢查屬 repository
+closure verification，不回溯否定已取得的 formal acceptance evidence。
 
 ------------------------------------------------------------------------
 
@@ -509,5 +510,6 @@ Domain；Step 6.11 已證明 AI-generated structured course data 可以透過
 production Domain、Composition、Generator 與 Filesystem pipeline 形成
 deterministic courseware output。
 
-Step 6.12 的最後工作是將文件與 automation evidence
-正式收束，而不是再新增 新的 AI architecture。
+Step 6.12 已將文件與 automation evidence 正式收束；Milestone 6 formal
+acceptance 已完成。下一個動作是 merge 後執行 post-merge consistency
+verification，而不是再新增新的 AI architecture。

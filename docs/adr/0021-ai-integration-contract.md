@@ -1666,8 +1666,17 @@ Milestone 6 Formal Acceptance 🚧
 4. live provider tests 與 core CI separation。
 5. representative deterministic AI → Domain → Composition → Filesystem E2E。
 
-目前剩餘工作是 Milestone 6 formal acceptance record、final regression /
-coverage / CI evidence 與 post-merge consistency verification。
+Milestone 6 formal acceptance record 與 final local regression / coverage
+evidence 已建立：
+
+``` text
+1119 passed, 1 deselected
+Total coverage: 90.23%
+Required coverage: 67.0%
+```
+
+目前剩餘工作是 acceptance PR GitHub Actions / CI 與 post-merge consistency
+verification。
 
 Paid/live provider invocation 維持 optional operational verification，不是
 ADR 0021 或 Milestone 6 core acceptance 的必要條件。

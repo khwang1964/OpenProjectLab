@@ -2450,9 +2450,20 @@ Step 6.11 verification baseline：
 
 ### Phase 7 --- Documentation Alignment and Milestone Acceptance 🚧
 
-完成 architecture/reference/roadmap/history/changelog
-alignment、representative E2E、full regression、CI 與 Milestone 6
-acceptance record。
+已完成：
+
+-   architecture / ADR / roadmap / history / changelog alignment
+-   `docs/milestones/milestone-6-acceptance.md`
+-   representative deterministic AI E2E
+-   final local regression: 1119 passed, 1 deselected
+-   total coverage: 90.23%
+-   required coverage: 67.0% — Passed
+
+剩餘：
+
+-   acceptance PR GitHub Actions / CI
+-   squash merge
+-   post-merge consistency verification
 
 ------------------------------------------------------------------------
 
@@ -2480,8 +2491,16 @@ acceptance record。
 目前仍屬未完成或後續範圍：
 
 -   final public provider runtime configuration schema
--   Milestone 6 formal acceptance record / final coverage baseline
--   acceptance PR / CI closure and post-merge consistency verification
+-   acceptance PR / GitHub Actions / CI closure
+-   post-merge consistency verification
+
+Milestone 6 final local acceptance evidence 已完成：
+
+``` text
+1119 passed, 1 deselected
+Total coverage: 90.23%
+Required coverage: 67.0%
+```
 -   optional paid/live OpenAI operational verification
 -   AI Refactoring Assistant
 -   AI CLI

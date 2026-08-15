@@ -515,12 +515,20 @@ Filesystem
 
 ## Step 6.12 --- Documentation Alignment and Acceptance 🚧
 
+Completed local acceptance evidence:
+
 -   architecture / ADR / reference alignment
 -   roadmap / HISTORY / CHANGELOG alignment
--   representative AI E2E
--   full regression / coverage
--   pre-commit / CI
+-   representative deterministic AI E2E
 -   `docs/milestones/milestone-6-acceptance.md`
+-   final local regression: 1119 passed, 1 deselected
+-   total coverage: 90.23%
+-   required coverage: 67.0% — Passed
+
+Remaining closure gates:
+
+-   acceptance PR GitHub Actions / CI
+-   squash merge
 -   post-merge consistency verification
 
 ## Deferred / Follow-Up Capabilities

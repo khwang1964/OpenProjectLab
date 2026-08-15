@@ -422,6 +422,17 @@ Paid/live OpenAI invocation remains optional operational verification
 and is not required for ADR 0022 acceptance or Milestone 6 core
 acceptance.
 
+Latest Milestone 6 local acceptance regression:
+
+``` text
+1119 passed, 1 deselected
+Total coverage: 90.23%
+Required coverage: 67.0%
+```
+
+The coverage gate is satisfied. Acceptance PR GitHub Actions / CI remains a
+separate final Milestone 6 closure gate.
+
 Step 6.11 has subsequently established the representative deterministic
 AI-to-Courseware E2E. ADR 0022 therefore has no remaining implementation
 dependency on that E2E; Milestone 6 formal acceptance is tracked

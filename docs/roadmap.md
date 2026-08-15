@@ -58,7 +58,7 @@ mapping、Course Generation、Review、Documentation、Template Completion
 
 目前焦點已轉向：
 
-> **Representative deterministic AI E2E → Milestone 6 acceptance**
+> **Milestone 6 documentation alignment → formal acceptance → post-merge consistency**
 
 ------------------------------------------------------------------------
 
@@ -474,9 +474,22 @@ Documentation / Regression / CI
 
 **Step 6.10 Status:** Completed
 
-## Step 6.11 --- Representative AI E2E ⏳
+## Step 6.11 --- Representative AI E2E ✅
 
-以 `FakeAIProvider` 建立 deterministic acceptance path：
+-   `tests/integration/test_ai_courseware_e2e.py`
+-   production `AICourseBuilder`
+-   deterministic `FakeAIProvider`
+-   production `Course` / `Week`
+-   production `CoursewareComposer`
+-   production Course / Week Generators
+-   deterministic artifact membership and content
+-   reproducibility across repeated runs
+-   composition-wide dry-run non-persistence
+-   invalid AI response fails before filesystem side effects
+-   no network / no API key / no paid invocation
+-   Step 6.11 verification baseline: 1119 passed
+
+Representative acceptance path:
 
 ``` text
 Course Specification
@@ -498,9 +511,9 @@ GenerationPlan
 Filesystem
 ```
 
-Core E2E 必須維持 no-network / no-API-key / no-cost。
+**Step 6.11 Status:** Completed
 
-## Step 6.12 --- Documentation Alignment and Acceptance ⏳
+## Step 6.12 --- Documentation Alignment and Acceptance 🚧
 
 -   architecture / ADR / reference alignment
 -   roadmap / HISTORY / CHANGELOG alignment
@@ -521,7 +534,7 @@ Core E2E 必須維持 no-network / no-API-key / no-cost。
 這些不應阻擋 provider-independent core architecture 的
 acceptance，除非後續 ADR 將其提升為 Milestone 6 exit criterion。
 
-**Status:** Implementation In Progress
+**Status:** Formal Acceptance In Progress
 
 ------------------------------------------------------------------------
 

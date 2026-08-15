@@ -394,29 +394,65 @@ Costs:
 -   live-test infrastructure is separate;
 -   provider timeout/error semantics must be normalized carefully.
 
+## Implementation Status
+
+Step 6.10 --- Real Provider Adapter 已完成。
+
+目前 implementation evidence 包括：
+
+-   existing `AIProvider` 持續作為 provider-independent application
+    boundary；
+-   minimum provider-independent AI provider error hierarchy；
+-   first concrete `OpenAIProviderAdapter`；
+-   injected client / transport boundary for deterministic tests；
+-   finite timeout behavior；
+-   explicit authentication, rate-limit, timeout, unavailable, and
+    provider error conversion；
+-   exception chaining；
+-   credential isolation and non-leakage coverage；
+-   deterministic generic provider-adapter tests；
+-   deterministic no-network OpenAI adapter tests；
+-   opt-in `ai_live` marker and live-provider smoke-test separation；
+-   missing `OPENAI_API_KEY` causes live verification to skip rather
+    than fail core verification；
+-   normal pytest, pre-commit, and core CI remain credential-free and
+    cost-free.
+
+Paid/live OpenAI invocation remains optional operational verification
+and is not required for ADR 0022 acceptance or Milestone 6 core
+acceptance.
+
+Step 6.11 has subsequently established the representative deterministic
+AI-to-Courseware E2E. ADR 0022 therefore has no remaining implementation
+dependency on that E2E; Milestone 6 formal acceptance is tracked
+separately in `docs/milestones/milestone-6-acceptance.md`.
+
 ## Implementation Plan
 
+The Step 6.10 implementation sequence has completed:
+
 ``` text
-ADR 0022 Provider Adapter Contract
+ADR 0022 Provider Adapter Contract ✅
         ↓
-Architecture / ADR Index / Roadmap Alignment
+Architecture / ADR Index / Roadmap Alignment ✅
         ↓
-Provider Adapter Contract Tests
+Provider Adapter Contract Tests ✅
         ↓
-Minimum Provider-independent Error Additions
+Minimum Provider-independent Error Additions ✅
         ↓
-First Concrete Provider Adapter
+First Concrete Provider Adapter ✅
         ↓
-No-network Provider-specific Tests
+No-network Provider-specific Tests ✅
         ↓
-Live-test Marker / Separation
+Live-test Marker / Separation ✅
         ↓
-Optional Live Provider Smoke Test
+Documentation Alignment ✅
         ↓
-Documentation Alignment
-        ↓
-Full Regression / CI
+Full Regression / Core CI ✅
 ```
+
+Optional paid/live Provider smoke verification remains operational and
+is not a core acceptance gate.
 
 ## Test Strategy
 
@@ -478,7 +514,8 @@ state is not stored in Courseware Domain objects.
 
 ## Acceptance Criteria
 
-ADR 0022 may move from `Proposed` to `Accepted` when:
+ADR 0022 moved from `Proposed` to `Accepted` after the following
+criteria were satisfied:
 
 -   adapter responsibility and SDK isolation are reviewed;
 -   credential ownership/isolation is agreed;
@@ -492,10 +529,11 @@ ADR 0022 may move from `Proposed` to `Accepted` when:
 
 ADR acceptance does not require a live provider call.
 
-Step 6.10 implementation completion additionally requires provider
-contract tests, first concrete adapter, required OPL error types,
+Step 6.10 implementation completion additionally required provider
+contract tests, the first concrete adapter, required OPL error types,
 no-network provider-specific tests, live-test separation, full
-regression/CI, and documentation alignment.
+regression/core CI, and documentation alignment. These Step 6.10
+requirements are now complete.
 
 ## Code Review Checklist
 

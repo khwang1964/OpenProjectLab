@@ -552,22 +552,77 @@ ADR 0022 的 acceptance 不要求真實付費 Provider call；Step 6.10 的
 engineering completion 以 concrete adapter、deterministic tests、
 live-test separation、documentation alignment 與 regression/CI 為準。
 
+### Step 6.11 --- Representative deterministic AI E2E
+
+Step 6.11 已建立 Milestone 6 的 representative deterministic acceptance path：
+
+``` text
+AICourseBuildRequest
+        ↓
+AICourseBuilder
+        ↓
+FakeAIProvider
+        ↓
+AIResponse
+        ↓
+Structural Validation / Mapping
+        ↓
+Course / Week
+        ↓
+CoursewareComposer
+        ↓
+Production Generators
+        ↓
+GenerationPlan
+        ↓
+Filesystem
+```
+
+Representative E2E 驗證：
+
+- production `AICourseBuilder`
+- deterministic `FakeAIProvider`
+- production `Course` / `Week`
+- production `CoursewareComposer`
+- production Course / Week Generators
+- deterministic artifact membership/content
+- reproducible output across repeated runs
+- composition dry-run leaves no persistent project output
+- invalid AI response fails before filesystem side effects
+- no network / no API key / no paid invocation
+
+Step 6.11 integration test 與 full regression 已通過；目前已知 regression
+baseline 為：
+
+``` text
+1119 passed
+```
+
+這個 baseline 是 Step 6.11 verification evidence；Milestone 6 formal
+acceptance 的最終 coverage / CI baseline 仍應在 Step 6.12 acceptance
+branch 重新記錄。
+
 ### Milestone 6 Current Boundary
 
-目前已完成 provider-independent AI core、主要 application contracts，
-以及第一個 Real Provider Adapter infrastructure。
+目前已完成：
+
+-   provider-independent AI core
+-  主要 application contracts
+-   Real Provider Adapter infrastructure
+-   deterministic no-network OpenAI adapter tests
+-   live-provider test separation
+-   representative deterministic AI → Domain → Composition → Filesystem E2E
 
 尚未完成：
 
--   representative deterministic AI → Composition → GenerationPlan →
-    Filesystem E2E
--   Milestone 6 documentation / formal acceptance
+-   `docs/milestones/milestone-6-acceptance.md`
+-   final Milestone 6 full-regression / coverage acceptance record
+-   acceptance PR / CI closure
 -   post-merge consistency verification
 
-Paid/live OpenAI invocation 不是 Milestone 6 core acceptance
-的必要條件。 AI Refactoring Assistant、AI
-CLI、evaluation、provenance、usage accounting、 caching、streaming 與
-tool calling 保留為後續 capability。
+Paid/live OpenAI invocation 不是 Milestone 6 core acceptance 的必要條件。
+AI Refactoring Assistant、AI CLI、evaluation、provenance、usage accounting、
+caching、streaming 與 tool calling 保留為後續 capability。
 
 ------------------------------------------------------------------------
 
@@ -576,13 +631,16 @@ tool calling 保留為後續 capability。
 目前 engineering focus：
 
 ``` text
-Representative deterministic AI E2E
+Milestone 6 Documentation Alignment
     ↓
-Milestone 6 Formal Acceptance
+Formal Acceptance Record
+    ↓
+Final Regression / Coverage / CI
+    ↓
+Post-merge Consistency Verification
 ```
 
-Milestone 5 已正式完成；Milestone 6 目前為 **Implementation In
-Progress**。
+Milestone 5 已正式完成；Milestone 6 目前進入 **Formal Acceptance In Progress**。
 
 ------------------------------------------------------------------------
 

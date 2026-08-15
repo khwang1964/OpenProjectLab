@@ -13,9 +13,9 @@ Records（ADR），
 
 ## ADR 索引
 
-  ---------------------------------------------------------------------------------------------
+  -----------------------------------------------------------------------------------------
   ADR                                                      標題                 狀態
-  -------------------------------------------------------- -------------------- ---------------
+  -------------------------------------------------------- -------------------- -----------
   [0001](0001-project-philosophy.md)                       Project philosophy   Accepted
 
   [0002](0002-generator-lifecycle.md)                      Generator lifecycle  Accepted
@@ -80,7 +80,25 @@ Records（ADR），
 
   [0022](0022-ai-provider-adapter-contract.md)             AI Provider Adapter  Accepted
                                                            Contract
-  ---------------------------------------------------------------------------------------------
+  -----------------------------------------------------------------------------------------
+
+## Milestone Acceptance Records
+
+ADR 記錄架構決策；Milestone acceptance record 記錄跨 ADR、實作、測試、
+文件與 automation gates 的里程碑收束證據。兩者責任不同，不以 acceptance
+record 取代 ADR。
+
+目前正式 acceptance records：
+
+-   `docs/milestones/milestone-4-acceptance.md`
+-   `docs/milestones/milestone-5-acceptance.md`
+-   `docs/milestones/milestone-6-acceptance.md`（Step 6.12 acceptance
+    candidate；完成 final regression / coverage / CI
+    後轉為正式接受紀錄）
+
+Milestone 6 的核心架構決策由 ADR 0021 與 ADR 0022 保持 `Accepted`；
+Milestone 6 formal acceptance 則由 milestone acceptance record 與最終
+quality-gate evidence 決定。
 
 ## 新增 ADR
 

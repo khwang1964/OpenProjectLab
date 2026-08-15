@@ -2413,7 +2413,7 @@ ADR 0022 已 Accepted，Step 6.10 已完成：
 Paid/live OpenAI invocation remains optional operational verification
 and is not required for ADR 0022 acceptance or Step 6.10 completion.
 
-### Phase 6 --- Representative AI E2E ⏳
+### Phase 6 --- Representative AI E2E ✅
 
 使用 `FakeAIProvider` 驗證：
 
@@ -2437,7 +2437,18 @@ GenerationPlan
 Filesystem
 ```
 
-### Phase 7 --- Documentation Alignment and Milestone Acceptance ⏳
+Representative E2E 已由 `tests/integration/test_ai_courseware_e2e.py`
+落地，並驗證 production AI / Domain / Composition / Generator /
+Filesystem boundaries、reproducibility、dry-run non-persistence 與
+fail-before-side-effect behavior。
+
+Step 6.11 verification baseline：
+
+``` text
+1119 passed
+```
+
+### Phase 7 --- Documentation Alignment and Milestone Acceptance 🚧
 
 完成 architecture/reference/roadmap/history/changelog
 alignment、representative E2E、full regression、CI 與 Milestone 6
@@ -2469,8 +2480,8 @@ acceptance record。
 目前仍屬未完成或後續範圍：
 
 -   final public provider runtime configuration schema
--   representative AI → Composition → GenerationPlan → Filesystem E2E
--   Milestone 6 formal acceptance
+-   Milestone 6 formal acceptance record / final coverage baseline
+-   acceptance PR / CI closure and post-merge consistency verification
 -   optional paid/live OpenAI operational verification
 -   AI Refactoring Assistant
 -   AI CLI
@@ -2481,8 +2492,8 @@ acceptance record。
 -   AI streaming
 -   AI tool calling
 
-因此目前 Milestone 6 的主要缺口已從 real-provider infrastructure 轉為
-representative deterministic AI E2E 與 milestone acceptance。
+因此目前 Milestone 6 的主要缺口已收斂為 formal acceptance documentation、
+final regression / coverage / CI evidence 與 post-merge consistency verification。
 
 ------------------------------------------------------------------------
 

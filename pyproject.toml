@@ -95,7 +95,12 @@ pythonpath = ["."]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+markers = [
+    "ai_live: tests requiring a real AI provider and external credentials",
+]
 addopts = [
+    "-m",
+    "not ai_live",
     "-v",
     "-ra",
     "--strict-markers",

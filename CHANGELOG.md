@@ -44,11 +44,13 @@
     boundary.
 -   Added default live-test exclusion so normal pytest, pre-commit, and
     core CI remain credential-free and cost-free.
--   Added the Milestone 6 representative deterministic AI-to-courseware E2E.
--   Added E2E coverage across `AICourseBuilder`, `FakeAIProvider`, Course/Week
-    Domain, `CoursewareComposer`, production generators, and filesystem output.
--   Added E2E verification for reproducibility, dry-run non-persistence, and
-    fail-before-side-effect behavior for invalid AI output.
+-   Added the Milestone 6 representative deterministic AI-to-courseware
+    E2E.
+-   Added E2E coverage across `AICourseBuilder`, `FakeAIProvider`,
+    Course/Week Domain, `CoursewareComposer`, production generators, and
+    filesystem output.
+-   Added E2E verification for reproducibility, dry-run non-persistence,
+    and fail-before-side-effect behavior for invalid AI output.
 
 #### Milestone 5 --- Open Courseware Platform
 
@@ -188,8 +190,13 @@
     core acceptance.
 
 -   Completed the representative deterministic AI-to-filesystem E2E.
--   Moved Milestone 6 into documentation / formal acceptance alignment; final
-    acceptance and post-merge consistency remain pending.
+
+-   Marked Milestone 6 --- AI Integration as formally Accepted and
+    Completed.
+
+-   Completed post-merge documentation consistency alignment.
+
+-   Moved active development focus to Milestone 7 Marketplace planning.
 
 -   Marked ADR 0020 --- Courseware Composition Contract as Accepted
     after design, contract, implementation, and representative
@@ -349,16 +356,27 @@
 -   Paid/live OpenAI invocation remains optional operational
     verification.
 
--   Verified the representative deterministic AI E2E across AI Course Builder,
-    Courseware Domain, Composition, production generators, and filesystem behavior.
--   Verified E2E reproducibility, dry-run non-persistence, and failure before
-    filesystem side effects.
+-   Verified the representative deterministic AI E2E across AI Course
+    Builder, Courseware Domain, Composition, production generators, and
+    filesystem behavior.
+
+-   Verified E2E reproducibility, dry-run non-persistence, and failure
+    before filesystem side effects.
+
 -   Recorded the Step 6.11 full-regression evidence: 1119 passed.
--   Recorded the Step 6.12 final local regression evidence: 1119 passed, 1 deselected.
+
+-   Recorded the Step 6.12 final local regression evidence: 1119 passed,
+    1 deselected.
+
 -   Verified total coverage at 90.23%, above the required 67.0% gate.
--   GitHub Actions / CI acceptance and post-merge consistency verification remain pending.
--   Final local regression / coverage evidence is complete; acceptance PR GitHub
-    Actions / CI and post-merge consistency verification remain pending.
+
+-   Verified acceptance PR GitHub Actions / CI passed.
+
+-   Completed Milestone 6 post-merge consistency verification.
+
+-   Recorded the final Milestone 6 acceptance baseline: 1119 passed, 1
+    deselected with 90.23% total coverage against the required 67.0%
+    gate.
 
 -   Verified Courseware Composition deterministic request/execution
     ordering and ordered result aggregation.

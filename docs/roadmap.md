@@ -47,18 +47,21 @@ Milestone 5 formal acceptance
 Post-merge consistency verification
 ```
 
+Milestone 6 --- AI Integration 已完成 formal acceptance 與 post-merge
+consistency alignment。
+
+Milestone 6 completion baseline：
+
+``` text
+1119 passed, 1 deselected
+Coverage: 90.23%
+Required coverage: 67.0%
+CI: Passed
+```
+
 目前焦點：
 
-> **Milestone 6 --- AI Integration**
-
-Milestone 6 已完成 Design First 與主要 provider-independent AI
-contracts，並已落地 AI core、structured validation、Courseware
-mapping、Course Generation、Review、Documentation、Template Completion
-與 Course Builder。
-
-目前焦點已轉向：
-
-> **Milestone 6 documentation alignment → formal acceptance → post-merge consistency**
+> **Milestone 7 --- Marketplace planning**
 
 ------------------------------------------------------------------------
 
@@ -342,7 +345,7 @@ Merged closure sequence:
 
 ------------------------------------------------------------------------
 
-# Milestone 6 --- AI Integration 🚧
+# Milestone 6 --- AI Integration ✅
 
 目標：
 
@@ -513,23 +516,22 @@ Filesystem
 
 **Step 6.11 Status:** Completed
 
-## Step 6.12 --- Documentation Alignment and Acceptance 🚧
+## Step 6.12 --- Documentation Alignment and Acceptance ✅
 
-Completed local acceptance evidence:
+Completed acceptance evidence:
 
 -   architecture / ADR / reference alignment
 -   roadmap / HISTORY / CHANGELOG alignment
 -   representative deterministic AI E2E
 -   `docs/milestones/milestone-6-acceptance.md`
--   final local regression: 1119 passed, 1 deselected
+-   final regression: 1119 passed, 1 deselected
 -   total coverage: 90.23%
--   required coverage: 67.0% — Passed
+-   required coverage: 67.0% --- Passed
+-   acceptance PR GitHub Actions / CI --- Passed
+-   squash merge completed
+-   post-merge consistency verification completed
 
-Remaining closure gates:
-
--   acceptance PR GitHub Actions / CI
--   squash merge
--   post-merge consistency verification
+**Step 6.12 Status:** Completed
 
 ## Deferred / Follow-Up Capabilities
 
@@ -542,7 +544,7 @@ Remaining closure gates:
 這些不應阻擋 provider-independent core architecture 的
 acceptance，除非後續 ADR 將其提升為 Milestone 6 exit criterion。
 
-**Status:** Formal Acceptance In Progress
+**Status:** Completed
 
 ------------------------------------------------------------------------
 

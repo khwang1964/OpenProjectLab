@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 7 --- Marketplace — Step 7.1 Architecture and Artifact Contract Design**
+> **Milestone 7 --- Marketplace — Step 7.9 Documentation Alignment and Formal Acceptance**
 
 ------------------------------------------------------------------------
 
@@ -548,7 +548,7 @@ acceptance，除非後續 ADR 將其提升為 Milestone 6 exit criterion。
 
 ------------------------------------------------------------------------
 
-# Milestone 7 --- Marketplace 🚧
+# Milestone 7 --- Marketplace ✅
 
 目標：
 
@@ -564,118 +564,122 @@ Contracts validate.
 Existing OPL pipelines execute.
 ```
 
-## Step 7.1 --- Marketplace Architecture and Artifact Contract 🚧
-
-目前進行：
+## Step 7.1 --- Marketplace Architecture and Artifact Contract ✅
 
 -   `docs/architecture/marketplace.md`
--   ADR 0023 --- Marketplace Artifact Contract (`Proposed`)
--   common Marketplace Artifact model design
--   Plugin / Generator / Template package boundaries
--   stable artifact identity and versioning semantics
--   OPL compatibility requirement
--   distribution metadata boundary
--   SHA-256 integrity metadata boundary
--   discovery / installation / activation separation
--   deterministic no-network contract-test strategy
--   existing Plugin SDK / Entry Point / Generator lifecycle preserved
--   no Marketplace-specific execution framework
+-   ADR 0023 --- Marketplace Artifact Contract
+-   common Marketplace artifact identity / version / type contract
+-   OPL compatibility / distribution / integrity boundaries
+-   installation separated from activation
+-   existing Plugin SDK / Generator lifecycle preserved
 -   no accidental `generator.sdk` expansion
 
-Proposed common artifact contract：
+## Step 7.2 --- Artifact Contract Tests ✅
+
+-   `tests/marketplace/test_artifact_contract.py`
+-   identity / version / type / coordinate validation
+-   compatibility requirement validation
+-   distribution / integrity metadata validation
+-   immutability and deterministic behavior
+
+## Step 7.3 --- Minimum Artifact Models ✅
+
+-   production `generator/marketplace/models.py`
+-   immutable `MarketplaceArtifact`
+-   immutable identity / version / coordinate models
+-   deterministic compatibility requirement
+
+## Step 7.4 --- Repository / Index Contract ✅
+
+-   deterministic `InMemoryMarketplaceRepository`
+-   exact coordinate lookup
+-   deterministic available-version ordering
+-   explicit not-found semantics
+-   duplicate-coordinate rejection
+-   no network dependency
+
+## Step 7.5 --- Integrity and Acquisition ✅
+
+-   deterministic SHA-256 integrity verification
+-   explicit integrity mismatch failure
+-   deterministic `InMemoryArtifactAcquirer`
+-   acquisition returns bytes only
+-   integrity and acquisition kept separate
+-   no network / filesystem side effects
+
+## Step 7.6 --- Installation Integration ✅
+
+-   immutable structured installation result
+-   deterministic `InMemoryArtifactInstaller`
+-   duplicate-install rejection
+-   installation remains separate from activation
+-   no Plugin registration / Generator execution / Courseware output
+
+## Step 7.7 --- Template Packages ✅
+
+-   immutable `TemplateEntry`
+-   immutable `TemplatePackageManifest`
+-   immutable `TemplatePackage`
+-   Marketplace artifact identity/version reused
+-   safe relative paths and traversal rejection
+-   duplicate name/path rejection
+-   deterministic template/resource ordering
+-   no Jinja execution or Generator runtime
+
+## Step 7.8 --- Representative Marketplace E2E ✅
+
+-   `tests/integration/test_marketplace_e2e.py`
+-   production repository → acquisition → integrity → installation composition
+-   exact-coordinate representative flow
+-   deterministic repeated-run behavior
+-   repository / acquisition / integrity failure-before-install behavior
+-   no partial installation state
+-   no public network
+-   no generated-project filesystem persistence
+-   no Plugin activation or Generator execution
+
+## Step 7.9 --- Documentation Alignment and Formal Acceptance 🚧
+
+Completed local acceptance evidence：
 
 ``` text
-MarketplaceArtifact
-    ├── schema_version
-    ├── identity
-    ├── version
-    ├── artifact_type
-    ├── compatibility
-    ├── distribution
-    └── integrity
+1315 passed, 1 deselected
+Coverage: 89.89%
+Required coverage: 67.0% --- Passed
 ```
 
-Initial artifact types：
+Documentation alignment：
 
-``` text
-MarketplaceArtifact
-├── Plugin Package
-├── Generator Package
-└── Template Package
-```
+-   `docs/architecture/marketplace.md`
+-   ADR 0023 → Accepted
+-   ADR index
+-   roadmap
+-   HISTORY
+-   CHANGELOG
+-   `docs/milestones/milestone-7-acceptance.md`
 
-Architecture boundary：
+Remaining closure gates：
 
-``` text
-Publisher
-    ↓
-Marketplace Artifact Metadata
-    ↓
-Validation
-    ↓
-Repository / Distribution Source
-    ↓
-Discovery
-    ↓
-Compatibility Validation
-    ↓
-Integrity Validation
-    ↓
-Installation
-    ↓
-Existing OPL Integration Boundary
-```
-
-**Step 7.1 Status:** In Progress / Design
-
-## Planned Implementation Sequence
-
-``` text
-Step 7.1 Architecture / ADR
-    ↓
-Step 7.2 Artifact Contract Tests
-    ↓
-Step 7.3 Minimum Artifact Models
-    ↓
-Step 7.4 Repository / Index Contract
-    ↓
-Step 7.5 Integrity and Acquisition
-    ↓
-Step 7.6 Installation Integration
-    ↓
-Step 7.7 Template Packages
-    ↓
-Step 7.8 Representative Marketplace E2E
-    ↓
-Step 7.9 Documentation Alignment and Acceptance
-```
-
-## Planned Features
-
--   Template Packages
--   Plugin Marketplace
--   Community Repository
--   Shared Generators
--   Versioned Templates
+-   acceptance PR GitHub Actions / CI
+-   squash merge
+-   post-merge consistency verification
 
 ## Deferred / Follow-Up Capabilities
 
-以下不屬於 Step 7.1 implementation：
-
--   Marketplace web UI
--   ratings / reviews
--   recommendation engine
--   monetization / payment
--   publisher signing / identity verification
--   sandboxed third-party code execution
--   general-purpose dependency resolver
+-   remote Marketplace service
+-   Community Repository hosting
 -   Marketplace CLI
--   AI Provider Marketplace
+-   real package-manager integration
+-   Marketplace-driven Plugin / Generator activation
+-   artifact signing / publisher identity
+-   sandbox / trust policy
+-   general-purpose dependency resolver
 -   lock-file / cache policy
+-   ratings / reviews
+-   monetization / payment
+-   AI Provider Marketplace
 
-以上能力若未來需要，應由後續 architecture work 與 ADR 明確定義。
-
-**Status:** In Progress
+**Status:** Acceptance In Progress
 
 ------------------------------------------------------------------------
 

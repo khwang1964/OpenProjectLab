@@ -127,8 +127,8 @@ Total coverage: 89.89%
 Required coverage: 67.0% --- Passed
 ```
 
-Acceptance PR GitHub Actions / CI 與 post-merge consistency verification 仍作為
-Milestone 7 最後 closure gates。
+Milestone 7 acceptance PR GitHub Actions / CI 已通過，squash merge 與
+post-merge consistency verification 已完成；Milestone 7 正式關閉。
 
 ## 新增 ADR
 

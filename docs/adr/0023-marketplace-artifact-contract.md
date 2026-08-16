@@ -925,7 +925,7 @@ ADR 0023 可在以下條件完成後由 `Proposed` 轉為 `Accepted`：
 - [x] `pre-commit run --all-files` 通過。
 - [x] `python -m pytest` 通過。
 - [x] Coverage 不低於 repository policy。
-- [ ] CI 通過（acceptance PR pending）。
+- [x] CI 通過。
 
 ---
 
@@ -943,7 +943,7 @@ ADR 0023 因 artifact contract、repository/index、integrity/acquisition、
 installation、Template Package 與 representative Marketplace E2E 已完成，
 正式轉為 `Accepted`。
 
-GitHub Actions / CI 仍由 Milestone 7 acceptance PR 作為最後 automation gate。
+GitHub Actions / CI 已由 Milestone 7 acceptance PR 驗證通過；squash merge 與 post-merge consistency verification 亦已完成。
 
 ---
 
@@ -1020,7 +1020,7 @@ GitHub Actions / CI 仍由 Milestone 7 acceptance PR 作為最後 automation gat
 - [ ] `pre-commit run --all-files` passes。
 - [ ] `python -m pytest` passes。
 - [ ] Coverage remains above repository policy。
-- [ ] CI passes。
+- [x] CI passes。
 
 ---
 

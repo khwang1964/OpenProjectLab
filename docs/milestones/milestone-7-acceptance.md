@@ -1,6 +1,6 @@
 # Milestone 7 — Marketplace Acceptance
 
-> **Status:** Acceptance PR Pending
+> **Status:** Accepted
 > **Milestone:** 7 — Marketplace
 > **Date:** 2026-08-16
 > **Primary ADR:** ADR 0023 — Marketplace Artifact Contract
@@ -257,13 +257,13 @@ Milestone 7 implementation and documentation changes are present.
 Full regression:        1315 passed, 1 deselected
 Total coverage:         89.89%
 Required coverage:      67.0% --- Passed
-git diff --check:       Pending final documentation check
-Ruff:                   Pending final documentation check
-Ruff Format:            Pending final documentation check
-pre-commit:             Pending final documentation check
-GitHub Actions / CI:    Pending acceptance PR
-Squash merge:           Pending
-Post-merge consistency: Pending
+git diff --check:       Passed
+Ruff:                   Passed
+Ruff Format:            Passed
+pre-commit:             Passed
+GitHub Actions / CI:    Passed
+Squash merge:           Completed
+Post-merge consistency: Completed
 ```
 
 The previous Milestone 6 baseline (`1119 passed, 1 deselected`, 90.23%
@@ -343,15 +343,15 @@ implemented.
 
 ### Automation
 
-- [ ] `git diff --check` passed.
-- [ ] Ruff passed.
-- [ ] Ruff Format passed.
-- [ ] `pre-commit run --all-files` passed.
-- [ ] `python -m pytest` passed.
-- [ ] Coverage policy passed.
-- [ ] GitHub Actions / CI passed.
-- [ ] Acceptance PR squash merged.
-- [ ] Post-merge consistency verification completed.
+- [x] `git diff --check` passed.
+- [x] Ruff passed.
+- [x] Ruff Format passed.
+- [x] `pre-commit run --all-files` passed.
+- [x] `python -m pytest` passed.
+- [x] Coverage policy passed.
+- [x] GitHub Actions / CI passed.
+- [x] Acceptance PR squash merged.
+- [x] Post-merge consistency verification completed.
 
 ---
 
@@ -377,16 +377,15 @@ implemented.
 - [ ] No accidental `generator.sdk` expansion.
 - [ ] Deferred capabilities are not overclaimed.
 - [ ] Architecture, ADR, roadmap, HISTORY and CHANGELOG agree.
-- [ ] Final regression / coverage / pre-commit / CI evidence is recorded.
+- [x] Final regression / coverage / pre-commit / CI evidence is recorded.
 
 ---
 
 ## Final Acceptance Decision
 
-**Current status: Local acceptance evidence complete; acceptance PR / CI / merge pending.**
+**Current status: Accepted and post-merge verified.**
 
-The implementation/test scope for Milestone 7 is complete through the
-representative Marketplace E2E. Formal acceptance becomes complete only after:
+Milestone 7 has completed the full acceptance sequence:
 
 ```text
 Documentation Alignment
@@ -404,9 +403,10 @@ Squash Merge
 Post-merge Consistency Verification
 ```
 
-The exact local regression and coverage baseline is now recorded and ADR 0023
-is `Accepted`. Milestone 7 becomes fully closed after the acceptance PR passes
-GitHub Actions / CI, is squash merged, and post-merge consistency verification
-completes.
+The final local regression baseline is `1315 passed, 1 deselected` with
+89.89% total coverage against the required 67.0% gate. ADR 0023 is `Accepted`.
+GitHub Actions / CI passed, the acceptance PR was squash merged, local `main`
+was synchronized with `origin/main`, and post-merge consistency verification
+completed. Milestone 7 is therefore formally closed.
 
 > **Marketplace distributes. Contracts validate. Existing OPL pipelines execute.**

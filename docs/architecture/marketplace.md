@@ -1599,7 +1599,7 @@ Total coverage: 89.89%
 Required coverage: 67.0% --- Passed
 ```
 
-Formal acceptance PR 仍需通過 GitHub Actions / CI，並於 squash merge 後完成 post-merge consistency verification。
+Milestone 7 acceptance PR 已通過 GitHub Actions / CI、完成 squash merge，並完成 post-merge consistency verification。
 
 ---
 

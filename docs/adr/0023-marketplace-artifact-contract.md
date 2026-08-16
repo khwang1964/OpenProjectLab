@@ -1,6 +1,6 @@
 # ADR 0023 — Marketplace Artifact Contract
 
-> **Status:** Proposed
+> **Status:** Accepted
 > **Date:** 2026-08-16
 > **Milestone:** 7 — Marketplace
 > **Decision Type:** Architecture / Distribution Contract
@@ -854,21 +854,26 @@ Step 7.1 為 architecture/documentation-only change，因此 rollback 不涉及 
 目前：
 
 ```text
-Marketplace Architecture        Proposed
-Artifact Contract               Proposed
-Artifact Contract Tests         Not implemented
-Marketplace Models              Not implemented
-Marketplace Repository          Not implemented
-Compatibility Resolver          Not implemented
-Integrity Verifier              Not implemented
-Marketplace Installer           Not implemented
-Template Packages               Not implemented
-Community Repository            Not implemented
-Marketplace CLI                 Not implemented
-Representative Marketplace E2E Not implemented
+Marketplace Architecture        Implemented
+Artifact Contract               Implemented
+Artifact Contract Tests         Implemented
+Marketplace Models              Implemented
+Marketplace Repository          Implemented
+Compatibility Requirement       Implemented
+Integrity Verifier              Implemented
+Artifact Acquisition            Implemented
+Marketplace Installer           Implemented
+Template Packages               Implemented
+Representative Marketplace E2E Implemented
+Community Repository            Deferred
+Marketplace CLI                 Deferred
+Remote Marketplace Service      Deferred
 ```
 
-因此本 ADR 不宣稱 Marketplace 已可使用。
+Milestone 7 已完成 common Marketplace artifact contract 與 deterministic
+local/in-memory integration boundary。Remote Marketplace、Community Repository
+hosting、CLI、signing、sandbox、general dependency resolution 與 activation
+runtime 仍屬後續 capability。
 
 ---
 
@@ -878,49 +883,67 @@ ADR 0023 可在以下條件完成後由 `Proposed` 轉為 `Accepted`：
 
 ### Contract
 
-- [ ] Artifact identity contract 有 production implementation。
-- [ ] Artifact version contract 有 production implementation。
-- [ ] Artifact type contract 有 production implementation。
-- [ ] Artifact coordinate contract 有 production implementation。
-- [ ] Schema version contract 有 production implementation。
-- [ ] OPL compatibility contract 有 production implementation。
-- [ ] Distribution metadata contract 有 production implementation。
-- [ ] Integrity metadata contract 有 production implementation。
+- [x] Artifact identity contract 有 production implementation。
+- [x] Artifact version contract 有 production implementation。
+- [x] Artifact type contract 有 production implementation。
+- [x] Artifact coordinate contract 有 production implementation。
+- [x] Schema version contract 有 production implementation。
+- [x] OPL compatibility contract 有 production implementation。
+- [x] Distribution metadata contract 有 production implementation。
+- [x] Integrity metadata contract 有 production implementation。
 
 ### Tests
 
-- [ ] Marketplace artifact contract tests 通過。
-- [ ] Invalid metadata tests 通過。
-- [ ] Compatibility tests 通過。
-- [ ] Integrity tests 通過。
-- [ ] Duplicate coordinate semantics 有測試。
-- [ ] Tests deterministic。
-- [ ] Core tests 不依賴 network。
+- [x] Marketplace artifact contract tests 通過。
+- [x] Invalid metadata tests 通過。
+- [x] Compatibility tests 通過。
+- [x] Integrity tests 通過。
+- [x] Duplicate coordinate semantics 有測試。
+- [x] Tests deterministic。
+- [x] Core tests 不依賴 network。
 
 ### Architecture
 
-- [ ] Marketplace 沒有建立第二套 Generator lifecycle。
-- [ ] Existing Plugin SDK remains canonical。
-- [ ] Existing Entry Point / Plugin validation boundaries preserved。
-- [ ] Marketplace metadata 不繞過 Generator validation。
-- [ ] Marketplace metadata 不控制 generated filesystem side effects。
+- [x] Marketplace 沒有建立第二套 Generator lifecycle。
+- [x] Existing Plugin SDK remains canonical。
+- [x] Existing Entry Point / Plugin validation boundaries preserved。
+- [x] Marketplace metadata 不繞過 Generator validation。
+- [x] Marketplace metadata 不控制 generated filesystem side effects。
 
 ### Documentation
 
-- [ ] Marketplace architecture 同步。
-- [ ] ADR index 同步。
-- [ ] Roadmap 同步。
-- [ ] Implementation status 沒有 overclaim。
+- [x] Marketplace architecture 同步。
+- [x] ADR index 同步。
+- [x] Roadmap 同步。
+- [x] Implementation status 沒有 overclaim。
 
 ### Automation
 
-- [ ] `git diff --check` 通過。
-- [ ] Ruff 通過。
-- [ ] Ruff Format 通過。
-- [ ] `pre-commit run --all-files` 通過。
-- [ ] `python -m pytest` 通過。
-- [ ] Coverage 不低於 repository policy。
-- [ ] CI 通過。
+- [x] `git diff --check` 通過。
+- [x] Ruff 通過。
+- [x] Ruff Format 通過。
+- [x] `pre-commit run --all-files` 通過。
+- [x] `python -m pytest` 通過。
+- [x] Coverage 不低於 repository policy。
+- [ ] CI 通過（acceptance PR pending）。
+
+---
+
+## Acceptance Evidence
+
+Final local Milestone 7 regression：
+
+```text
+1315 passed, 1 deselected
+Total coverage: 89.89%
+Required coverage: 67.0% --- Passed
+```
+
+ADR 0023 因 artifact contract、repository/index、integrity/acquisition、
+installation、Template Package 與 representative Marketplace E2E 已完成，
+正式轉為 `Accepted`。
+
+GitHub Actions / CI 仍由 Milestone 7 acceptance PR 作為最後 automation gate。
 
 ---
 

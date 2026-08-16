@@ -1,6 +1,6 @@
 # OpenProjectLab Marketplace Architecture
 
-> **Status:** Proposed
+> **Status:** Implemented
 > **Milestone:** 7 — Marketplace
 > **Scope:** Marketplace artifacts, package metadata, identity, versioning, compatibility, integrity, discovery, distribution, installation, upgrade, removal, trust, and ecosystem boundaries
 > **Audience:** Maintainers, contributors, Plugin authors, Generator authors, Template authors, package publishers, and future Marketplace tooling developers
@@ -179,7 +179,7 @@ class ArtifactType(StrEnum):
     TEMPLATE = "template"
 ```
 
-正式名稱與 module placement 由後續 contract implementation 決定。
+正式 production implementation 位於 `generator/marketplace/`，並由 contract tests 驗證。
 
 Artifact type 必須：
 
@@ -349,7 +349,7 @@ MAJOR.MINOR.PATCH
 2.0.0
 ```
 
-正式 parser、pre-release、build metadata 與 comparison semantics 應由 contract tests 與 implementation 決定。
+目前 production contract 使用 canonical `MAJOR.MINOR.PATCH`，comparison semantics 由 Marketplace contract tests 鎖定；pre-release 與 build metadata 仍為後續能力。
 
 不得以：
 
@@ -448,7 +448,7 @@ integrity:
   digest: example-digest
 ```
 
-這只是 architecture example，不代表目前 production schema 已存在。
+此格式仍是 architecture example；production contract 目前以 immutable Python models 表達，尚未建立公開序列化 schema。
 
 ---
 
@@ -690,7 +690,7 @@ Marketplace Repository 是可發現 artifact metadata 的來源。
 MarketplaceRepository
 ```
 
-初始 architecture 應允許：
+Architecture 允許未來擴充：
 
 ```text
 Local Repository
@@ -773,7 +773,7 @@ latest compatible version
 
 但 selection policy 必須 deterministic。
 
-Contract implementation 初期可以先只支援 exact version，以降低 dependency resolution complexity。
+目前 production repository contract 支援 exact version lookup 與 deterministic available-version ordering；range-based selection 仍為後續能力。
 
 ---
 
@@ -806,7 +806,7 @@ Return Installation Result
 
 ## 31. Installation Result
 
-未來可定義 immutable result：
+目前已定義 immutable installation result：
 
 ```text
 ArtifactInstallationResult
@@ -1061,7 +1061,7 @@ Remote integration tests 應與 core deterministic tests 分離。
 
 ## 44. Proposed Domain Models
 
-後續 contract implementation 可以評估：
+目前 production domain models 已建立：
 
 ```text
 ArtifactType
@@ -1086,22 +1086,21 @@ MarketplaceArtifact
 
 ## 45. Proposed Module Boundary
 
-可能的 production structure：
+目前 production structure：
 
 ```text
 generator/
 └── marketplace/
     ├── __init__.py
     ├── models.py
-    ├── validation.py
-    ├── compatibility.py
     ├── repository.py
-    └── installation.py
+    ├── integrity.py
+    ├── acquisition.py
+    ├── installation.py
+    └── template_package.py
 ```
 
-**此目錄目前只是 architecture proposal。**
-
-Step 7.1 不應因本文件而直接建立 production modules。
+目前 implementation 採最小、deterministic、no-network contract boundary；remote repository、package-manager integration 與 activation runtime 仍未實作。
 
 ---
 
@@ -1477,31 +1476,40 @@ Milestone 7 必須保護：
 
 ---
 
-## 62. Current Limitations
+## 62. Current Implementation and Limitations
 
-截至 Milestone 7 Step 7.1 design：
+截至 Milestone 7 formal acceptance，已實作：
 
-以下屬於 architecture proposal，而非 implemented capability：
+* immutable `MarketplaceArtifact` / identity / version / coordinate models；
+* deterministic OPL compatibility requirement；
+* distribution metadata；
+* SHA-256 integrity metadata與 verification；
+* deterministic in-memory Marketplace repository / index；
+* deterministic in-memory artifact acquisition boundary；
+* immutable installation result 與 in-memory installer；
+* Template Package / manifest / safe-relative-path contract；
+* representative Marketplace E2E；
+* deterministic no-network tests；
+* installation / activation separation；
+* no accidental `generator.sdk` expansion。
 
-* `MarketplaceArtifact` production model；
-* artifact metadata schema；
-* Marketplace repository；
-* artifact discovery；
-* compatibility resolver；
-* integrity verifier；
-* Marketplace installer；
-* Template Package distribution；
-* Marketplace CLI；
-* Community Repository；
-* Marketplace lock file；
-* package cache；
+仍屬 Deferred / Follow-Up：
+
 * remote Marketplace service；
+* Community Repository hosting；
+* Marketplace CLI；
+* real package-manager integration；
+* Plugin activation through Marketplace installation；
+* Generator activation through Marketplace installation；
+* artifact signing / publisher identity；
+* trust policy / sandbox；
+* dependency solver；
+* lock file / cache policy；
 * ratings / reviews；
-* signing / publisher identity；
-* sandbox；
-* automatic dependency resolution。
+* monetization；
+* AI Provider Marketplace。
 
-現有 production capability 仍以既有 Generator、Plugin、Courseware、AI 與 Filesystem contracts 為準。
+這些 deferred capabilities 不屬於 Milestone 7 formal acceptance requirement。
 
 ---
 
@@ -1509,71 +1517,71 @@ Milestone 7 必須保護：
 
 ### Architecture
 
-* [ ] Marketplace 只負責 distribution / discovery / installation concerns。
-* [ ] 沒有建立第二套 Generator lifecycle。
-* [ ] Existing Plugin SDK remains canonical。
-* [ ] Existing Entry Point discovery remains canonical。
-* [ ] Courseware Domain boundary 未被 Marketplace 繞過。
-* [ ] AI boundary 未被 Marketplace 擴張。
+* [x] Marketplace 只負責 distribution / discovery / installation concerns。
+* [x] 沒有建立第二套 Generator lifecycle。
+* [x] Existing Plugin SDK remains canonical。
+* [x] Existing Entry Point discovery remains canonical。
+* [x] Courseware Domain boundary 未被 Marketplace 繞過。
+* [x] AI boundary 未被 Marketplace 擴張。
 * [ ] Filesystem ownership 清楚。
 * [ ] Dependency direction 清楚。
 
 ### Artifact Contract
 
-* [ ] Artifact identity 與 display metadata 分離。
-* [ ] Identity policy deterministic。
-* [ ] Version contract 明確。
-* [ ] Artifact type 明確。
-* [ ] Artifact coordinate immutable。
-* [ ] Schema version 與 artifact version 分離。
-* [ ] Duplicate coordinate semantics 明確。
+* [x] Artifact identity 與 display metadata 分離。
+* [x] Identity policy deterministic。
+* [x] Version contract 明確。
+* [x] Artifact type 明確。
+* [x] Artifact coordinate immutable。
+* [x] Schema version 與 artifact version 分離。
+* [x] Duplicate coordinate semantics 明確。
 
 ### Compatibility
 
-* [ ] OPL compatibility 可在 side effect 前驗證。
-* [ ] Compatibility 不依賴 network。
-* [ ] Incompatible artifact 明確失敗。
-* [ ] Marketplace 沒有重新實作 general dependency solver。
+* [x] OPL compatibility 可在 side effect 前驗證。
+* [x] Compatibility 不依賴 network。
+* [x] Incompatible artifact 明確失敗。
+* [x] Marketplace 沒有重新實作 general dependency solver。
 
 ### Distribution and Integrity
 
-* [ ] Distribution location 與 identity 分離。
-* [ ] Integrity metadata 明確。
-* [ ] Integrity verification 發生於 activation 前。
-* [ ] Checksum 不被描述成 trust guarantee。
-* [ ] Discovery 不產生 installation side effect。
-* [ ] Installation 不自動 execution。
+* [x] Distribution location 與 identity 分離。
+* [x] Integrity metadata 明確。
+* [x] Integrity verification 發生於 activation 前。
+* [x] Checksum 不被描述成 trust guarantee。
+* [x] Discovery 不產生 installation side effect。
+* [x] Installation 不自動 execution。
 
 ### Security
 
-* [ ] Third-party metadata 視為 untrusted。
-* [ ] Third-party package content 視為 untrusted。
-* [ ] Plugin validation 不被 Marketplace metadata 取代。
+* [x] Third-party metadata 視為 untrusted。
+* [x] Third-party package content 視為 untrusted。
+* [x] Plugin validation 不被 Marketplace metadata 取代。
 * [ ] Path / filesystem boundary 已評估。
-* [ ] Remote data 不成為 implicit authority。
-* [ ] 不宣稱提供 sandbox。
+* [x] Remote data 不成為 implicit authority。
+* [x] 不宣稱提供 sandbox。
 
 ### Tests
 
-* [ ] Artifact identity validation 有測試策略。
-* [ ] Version validation 有測試策略。
-* [ ] Type validation 有測試策略。
-* [ ] Compatibility 有測試策略。
-* [ ] Integrity 有測試策略。
-* [ ] Duplicate coordinate 有測試策略。
-* [ ] Repository determinism 有測試策略。
-* [ ] Installation failure / cleanup 有測試策略。
-* [ ] Core tests 不需要 network。
-* [ ] Representative E2E strategy 已定義。
+* [x] Artifact identity validation 有測試策略。
+* [x] Version validation 有測試策略。
+* [x] Type validation 有測試策略。
+* [x] Compatibility 有測試策略。
+* [x] Integrity 有測試策略。
+* [x] Duplicate coordinate 有測試策略。
+* [x] Repository determinism 有測試策略。
+* [x] Installation failure / cleanup 有測試策略。
+* [x] Core tests 不需要 network。
+* [x] Representative E2E strategy 已定義。
 
 ### Documentation and Automation
 
-* [ ] Marketplace architecture 已更新。
-* [ ] ADR 0023 已同步。
-* [ ] ADR index 已同步。
-* [ ] Roadmap 已同步。
-* [ ] 尚未實作能力明確標為 Proposed。
-* [ ] Production API 未因 design PR 被提前擴張。
+* [x] Marketplace architecture 已更新。
+* [x] ADR 0023 已同步。
+* [x] ADR index 已同步。
+* [x] Roadmap 已同步。
+* [x] 尚未實作能力明確標為 Proposed。
+* [x] Production API 未因 design PR 被提前擴張。
 * [ ] `git diff --check` 通過。
 * [ ] `pre-commit run --all-files` 通過。
 * [ ] `python -m pytest` 通過。
@@ -1581,7 +1589,21 @@ Milestone 7 必須保護：
 
 ---
 
-## 64. Related Documents
+## 64. Milestone 7 Verification Baseline
+
+Milestone 7 final local regression：
+
+```text
+1315 passed, 1 deselected
+Total coverage: 89.89%
+Required coverage: 67.0% --- Passed
+```
+
+Formal acceptance PR 仍需通過 GitHub Actions / CI，並於 squash merge 後完成 post-merge consistency verification。
+
+---
+
+## 65. Related Documents
 
 * [Architecture Overview](overview.md)
 * [Generator Architecture](generator.md)
@@ -1598,7 +1620,7 @@ Milestone 7 必須保護：
 
 ---
 
-## 65. Summary
+## 66. Summary
 
 Marketplace 的核心不是建立另一個執行框架，而是把既有 OPL capability 轉化為可以安全分發與組合的 ecosystem artifacts。
 

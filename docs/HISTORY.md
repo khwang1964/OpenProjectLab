@@ -633,35 +633,115 @@ tool calling 保留為後續 capability。
 
 ------------------------------------------------------------------------
 
+## Marketplace（Milestone 7）
+
+Milestone 7 在既有 Generator Core、Plugin SDK、Courseware、AI 與
+Filesystem boundaries 上建立 deterministic Marketplace artifact ecosystem。
+
+核心原則：
+
+``` text
+Marketplace distributes.
+Contracts validate.
+Existing OPL pipelines execute.
+```
+
+### Step 7.1 --- Marketplace Architecture and ADR 0023
+
+建立 `docs/architecture/marketplace.md` 與 ADR 0023，固定 common artifact
+identity、version、type、compatibility、distribution、integrity，以及
+discovery / acquisition / installation / activation responsibility boundaries。
+
+### Step 7.2–7.3 --- Artifact Contract and Models
+
+完成 Marketplace artifact contract tests 與 minimum immutable production
+models，包括：
+
+``` text
+ArtifactIdentity
+ArtifactVersion
+ArtifactType
+ArtifactCoordinate
+CompatibilityRequirement
+DistributionMetadata
+IntegrityMetadata
+MarketplaceArtifact
+```
+
+### Step 7.4 --- Repository / Index Contract
+
+建立 deterministic in-memory repository / index，支援 exact coordinate
+lookup、available-version ordering、duplicate-coordinate rejection 與 explicit
+not-found semantics。
+
+### Step 7.5 --- Integrity and Acquisition
+
+建立 deterministic SHA-256 integrity verification 與 no-network in-memory
+artifact acquisition boundary。Acquisition 只取得 bytes；Integrity verification
+獨立執行，mismatch 在 installation 前失敗。
+
+### Step 7.6 --- Installation Integration
+
+建立 immutable installation result 與 deterministic in-memory installer。
+Installation 與 Activation 明確分離，不自動執行 Plugin registration、
+Entry Point discovery、Generator execution 或 Courseware output。
+
+### Step 7.7 --- Template Packages
+
+建立 Template Package contract，重用 Marketplace artifact identity/version，
+並加入 safe relative path、path traversal rejection、duplicate name/path
+rejection、deterministic ordering 與 immutable manifest semantics。
+
+### Step 7.8 --- Representative Marketplace E2E
+
+Representative path：
+
+``` text
+InMemoryMarketplaceRepository
+        ↓
+Exact Artifact Lookup
+        ↓
+InMemoryArtifactAcquirer
+        ↓
+Integrity Verification
+        ↓
+InMemoryArtifactInstaller
+        ↓
+Template Package Contract
+```
+
+E2E 驗證 deterministic happy path、exact coordinate、repository not-found、
+missing payload、integrity mismatch-before-install、no partial installation
+state，以及 no public network / no generated-project filesystem persistence。
+
+### Step 7.9 --- Formal Acceptance
+
+Final local acceptance baseline：
+
+``` text
+1315 passed, 1 deselected
+Coverage: 89.89%
+Required coverage: 67.0% --- Passed
+```
+
+ADR 0023 已依 implementation 與 test evidence 轉為 `Accepted`。
+Milestone 7 acceptance PR 尚需 GitHub Actions / CI、squash merge 與
+post-merge consistency verification 完成最後 closure。
+
+Remote Marketplace、Community Repository hosting、Marketplace CLI、
+real package-manager integration、signing/publisher identity、sandbox/trust、
+dependency solver、lock-file/cache、ratings/reviews、monetization 與 AI Provider
+Marketplace 仍屬後續 capability。
+
+------------------------------------------------------------------------
+
 # 下一階段
 
-Milestone 6 已完成：
+Milestone 7 的 local implementation、representative E2E 與 acceptance
+documentation 已完成；目前進入 acceptance PR / CI / merge closure。
 
-``` text
-AI Integration Architecture
-    ↓
-Provider-independent AI Core
-    ↓
-Real Provider Adapter
-    ↓
-Representative deterministic AI E2E
-    ↓
-Formal Acceptance
-    ↓
-Post-merge Consistency Verification
-```
-
-Formal acceptance baseline：
-
-``` text
-1119 passed, 1 deselected
-Coverage: 90.23%
-Required coverage: 67.0%
-CI: Passed
-```
-
-Milestone 5 與 Milestone 6 均已正式完成；下一階段進入 **Milestone 7 ---
-Marketplace planning**。
+完成 post-merge consistency verification 後，下一階段將進入下一個正式
+roadmap milestone / v1.0 stabilization planning。
 
 ------------------------------------------------------------------------
 

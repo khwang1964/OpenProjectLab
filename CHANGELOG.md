@@ -4,6 +4,29 @@
 
 ### Added
 
+#### Milestone 7 --- Marketplace
+
+-   Added the Marketplace architecture and ADR 0023 --- Marketplace
+    Artifact Contract.
+-   Added immutable Marketplace artifact identity, version, type,
+    coordinate, compatibility, distribution, and integrity models.
+-   Added deterministic Marketplace artifact contract tests.
+-   Added deterministic in-memory Marketplace repository / index lookup.
+-   Added exact-coordinate lookup, deterministic version ordering,
+    duplicate-coordinate rejection, and explicit not-found errors.
+-   Added deterministic SHA-256 integrity verification.
+-   Added deterministic in-memory artifact acquisition returning bytes
+    without activation or filesystem side effects.
+-   Added immutable structured installation results and deterministic
+    in-memory installation contract.
+-   Added Template Package, manifest, and safe relative-path contracts.
+-   Added duplicate template/resource name/path rejection and
+    deterministic package ordering.
+-   Added the representative deterministic Marketplace E2E across
+    repository, acquisition, integrity verification, installation, and
+    Template Package boundaries.
+-   Added `docs/milestones/milestone-7-acceptance.md`.
+
 #### Milestone 6 --- AI Integration
 
 -   Added the AI Integration architecture and ADR 0021 --- AI
@@ -167,6 +190,24 @@
 
 ### Changed
 
+-   Marked ADR 0023 --- Marketplace Artifact Contract as Accepted after
+    artifact models, repository/index, integrity/acquisition,
+    installation, Template Package, representative E2E, full regression,
+    and coverage gates completed locally.
+
+-   Completed Milestone 7 Marketplace implementation through the
+    representative deterministic E2E while preserving separation between
+    installation and activation.
+
+-   Preserved existing Plugin SDK, Entry Point, Generator lifecycle,
+    Courseware Domain, Filesystem, and AI boundaries without Marketplace
+    public-SDK expansion.
+
+-   Kept remote Marketplace, Community Repository hosting, Marketplace
+    CLI, real package-manager integration, signing/publisher identity,
+    sandbox/trust, dependency solving, lock-file/cache, ratings/reviews,
+    monetization, and AI Provider Marketplace as deferred capabilities.
+
 -   Marked ADR 0021 --- AI Integration Contract as Accepted after the
     architecture, provider boundary, deterministic Fake-provider
     strategy, structural validation, Courseware mapping, and
@@ -306,6 +347,22 @@
     `generator.sdk`; ADR 0015 does not expand the public Plugin SDK.
 
 ### Verification
+
+-   Verified the Milestone 7 representative Marketplace E2E composes
+    production repository, acquisition, integrity verification,
+    installation, and Template Package contracts.
+
+-   Verified repository not-found, missing payload, and integrity
+    mismatch failures occur before installation side effects.
+
+-   Verified failed Marketplace flows leave no partial installation
+    state and require no public network or generated-project filesystem
+    persistence.
+
+-   Recorded the Milestone 7 final local regression evidence: 1315
+    passed, 1 deselected.
+
+-   Verified total coverage at 89.89%, above the required 67.0% gate.
 
 -   Verified PR #77 establishes the Milestone 6 AI Integration
     architecture and ADR 0021.

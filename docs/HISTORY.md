@@ -725,8 +725,9 @@ Required coverage: 67.0% --- Passed
 ```
 
 ADR 0023 已依 implementation 與 test evidence 轉為 `Accepted`。
-Milestone 7 acceptance PR 尚需 GitHub Actions / CI、squash merge 與
-post-merge consistency verification 完成最後 closure。
+Milestone 7 acceptance PR 已通過 GitHub Actions / CI，完成 squash merge，
+並完成 post-merge consistency verification。Local `main` 與 `origin/main`
+已確認同步，working tree clean。
 
 Remote Marketplace、Community Repository hosting、Marketplace CLI、
 real package-manager integration、signing/publisher identity、sandbox/trust、
@@ -737,11 +738,11 @@ Marketplace 仍屬後續 capability。
 
 # 下一階段
 
-Milestone 7 的 local implementation、representative E2E 與 acceptance
-documentation 已完成；目前進入 acceptance PR / CI / merge closure。
+Milestone 7 已完成 implementation、representative E2E、formal acceptance、
+GitHub Actions / CI、squash merge 與 post-merge consistency verification，
+因此正式關閉。
 
-完成 post-merge consistency verification 後，下一階段將進入下一個正式
-roadmap milestone / v1.0 stabilization planning。
+下一階段進入 **v1.0 stabilization / release-readiness planning**。
 
 ------------------------------------------------------------------------
 

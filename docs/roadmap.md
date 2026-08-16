@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 7 --- Marketplace — Step 7.9 Documentation Alignment and Formal Acceptance**
+> **Milestone 7 --- Marketplace completed; next focus: v1.0 stabilization planning**
 
 ------------------------------------------------------------------------
 
@@ -638,7 +638,7 @@ Existing OPL pipelines execute.
 -   no generated-project filesystem persistence
 -   no Plugin activation or Generator execution
 
-## Step 7.9 --- Documentation Alignment and Formal Acceptance 🚧
+## Step 7.9 --- Documentation Alignment and Formal Acceptance ✅
 
 Completed local acceptance evidence：
 
@@ -658,11 +658,12 @@ Documentation alignment：
 -   CHANGELOG
 -   `docs/milestones/milestone-7-acceptance.md`
 
-Remaining closure gates：
+Completed closure gates：
 
--   acceptance PR GitHub Actions / CI
--   squash merge
--   post-merge consistency verification
+-   acceptance PR GitHub Actions / CI --- Passed
+-   squash merge --- Completed
+-   post-merge consistency verification --- Completed
+-   local `main` synchronized with `origin/main`
 
 ## Deferred / Follow-Up Capabilities
 
@@ -679,7 +680,7 @@ Remaining closure gates：
 -   monetization / payment
 -   AI Provider Marketplace
 
-**Status:** Acceptance In Progress
+**Status:** Completed
 
 ------------------------------------------------------------------------
 

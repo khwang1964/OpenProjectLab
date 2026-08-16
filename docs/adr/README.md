@@ -80,6 +80,9 @@ Records（ADR），
 
   [0022](0022-ai-provider-adapter-contract.md)             AI Provider Adapter  Accepted
                                                            Contract
+
+  [0023](0023-marketplace-artifact-contract.md)            Marketplace Artifact Proposed
+                                                           Contract
   -----------------------------------------------------------------------------------------
 
 ## Milestone Acceptance Records
@@ -92,24 +95,29 @@ record 取代 ADR。
 
 -   `docs/milestones/milestone-4-acceptance.md`
 -   `docs/milestones/milestone-5-acceptance.md`
--   `docs/milestones/milestone-6-acceptance.md`（Step 6.12 acceptance
-    candidate；完成 final regression / coverage / CI
-    後轉為正式接受紀錄）
+-   `docs/milestones/milestone-6-acceptance.md`
 
 Milestone 6 的核心架構決策由 ADR 0021 與 ADR 0022 保持 `Accepted`；
-Milestone 6 formal acceptance 則由 milestone acceptance record 與最終
-quality-gate evidence 決定。
+Milestone 6 formal acceptance 已由 milestone acceptance record、最終
+quality-gate evidence、GitHub Actions / CI、squash merge 與 post-merge
+consistency verification 完成收束。
 
-目前 Milestone 6 Step 6.12 local quality-gate evidence：
+Milestone 6 final acceptance baseline：
 
 ``` text
 1119 passed, 1 deselected
 Total coverage: 90.23%
-Required coverage: 67.0%
+Required coverage: 67.0% --- Passed
+GitHub Actions / CI: Passed
+Squash merge: Completed
+Post-merge consistency verification: Completed
 ```
 
-GitHub Actions / CI 與 post-merge consistency verification 尚待 acceptance PR
-與 merge 後完成。
+目前 ADR development focus 已進入 Milestone 7 Marketplace。
+ADR 0023 --- Marketplace Artifact Contract 維持 `Proposed`，直到
+artifact contract tests、minimum implementation、integration 與必要
+documentation / CI evidence 完成後，再依 ADR acceptance 規則評估轉為
+`Accepted`。
 
 ## 新增 ADR
 

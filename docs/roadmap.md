@@ -1,6 +1,6 @@
 # OpenProjectLab Roadmap
 
-> Status: Active Last Updated: 2026-08-15
+> Status: Active Last Updated: 2026-08-16
 
 ------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 7 --- Marketplace planning**
+> **Milestone 7 --- Marketplace — Step 7.1 Architecture and Artifact Contract Design**
 
 ------------------------------------------------------------------------
 
@@ -548,7 +548,107 @@ acceptance，除非後續 ADR 將其提升為 Milestone 6 exit criterion。
 
 ------------------------------------------------------------------------
 
-# Milestone 7 --- Marketplace
+# Milestone 7 --- Marketplace 🚧
+
+目標：
+
+在既有 Generator Core、Plugin SDK、Courseware、AI 與 Filesystem
+boundaries 上建立可發佈、可發現、可驗證、可安裝與可版本化的
+Marketplace ecosystem，而不建立第二套 execution framework。
+
+核心原則：
+
+``` text
+Marketplace distributes.
+Contracts validate.
+Existing OPL pipelines execute.
+```
+
+## Step 7.1 --- Marketplace Architecture and Artifact Contract 🚧
+
+目前進行：
+
+-   `docs/architecture/marketplace.md`
+-   ADR 0023 --- Marketplace Artifact Contract (`Proposed`)
+-   common Marketplace Artifact model design
+-   Plugin / Generator / Template package boundaries
+-   stable artifact identity and versioning semantics
+-   OPL compatibility requirement
+-   distribution metadata boundary
+-   SHA-256 integrity metadata boundary
+-   discovery / installation / activation separation
+-   deterministic no-network contract-test strategy
+-   existing Plugin SDK / Entry Point / Generator lifecycle preserved
+-   no Marketplace-specific execution framework
+-   no accidental `generator.sdk` expansion
+
+Proposed common artifact contract：
+
+``` text
+MarketplaceArtifact
+    ├── schema_version
+    ├── identity
+    ├── version
+    ├── artifact_type
+    ├── compatibility
+    ├── distribution
+    └── integrity
+```
+
+Initial artifact types：
+
+``` text
+MarketplaceArtifact
+├── Plugin Package
+├── Generator Package
+└── Template Package
+```
+
+Architecture boundary：
+
+``` text
+Publisher
+    ↓
+Marketplace Artifact Metadata
+    ↓
+Validation
+    ↓
+Repository / Distribution Source
+    ↓
+Discovery
+    ↓
+Compatibility Validation
+    ↓
+Integrity Validation
+    ↓
+Installation
+    ↓
+Existing OPL Integration Boundary
+```
+
+**Step 7.1 Status:** In Progress / Design
+
+## Planned Implementation Sequence
+
+``` text
+Step 7.1 Architecture / ADR
+    ↓
+Step 7.2 Artifact Contract Tests
+    ↓
+Step 7.3 Minimum Artifact Models
+    ↓
+Step 7.4 Repository / Index Contract
+    ↓
+Step 7.5 Integrity and Acquisition
+    ↓
+Step 7.6 Installation Integration
+    ↓
+Step 7.7 Template Packages
+    ↓
+Step 7.8 Representative Marketplace E2E
+    ↓
+Step 7.9 Documentation Alignment and Acceptance
+```
 
 ## Planned Features
 
@@ -557,6 +657,25 @@ acceptance，除非後續 ADR 將其提升為 Milestone 6 exit criterion。
 -   Community Repository
 -   Shared Generators
 -   Versioned Templates
+
+## Deferred / Follow-Up Capabilities
+
+以下不屬於 Step 7.1 implementation：
+
+-   Marketplace web UI
+-   ratings / reviews
+-   recommendation engine
+-   monetization / payment
+-   publisher signing / identity verification
+-   sandboxed third-party code execution
+-   general-purpose dependency resolver
+-   Marketplace CLI
+-   AI Provider Marketplace
+-   lock-file / cache policy
+
+以上能力若未來需要，應由後續 architecture work 與 ADR 明確定義。
+
+**Status:** In Progress
 
 ------------------------------------------------------------------------
 

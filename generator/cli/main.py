@@ -25,10 +25,11 @@ from generator.generators.quiz_generator import QuizGenerator
 from generator.generators.slides_generator import SlidesGenerator
 from generator.generators.website_generator import WebsiteGenerator
 from generator.generators.week_generator import WeekGenerator
+from generator.resources import package_template_root
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CONFIG = PROJECT_ROOT / "config" / "default.yaml"
-DEFAULT_TEMPLATE_ROOT = PROJECT_ROOT / "templates"
+DEFAULT_TEMPLATE_ROOT = package_template_root()
 DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "courses"
 
 

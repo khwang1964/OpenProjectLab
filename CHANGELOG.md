@@ -49,6 +49,16 @@
     boundaries, and representative reliability E2E behavior.
 -   Added `docs/releases/v1.0-reliability-hardening-acceptance.md` as
     the Step 8.3 acceptance record.
+-   Added `docs/releases/v1.0-packaging-installation.md` as the
+    governing Step 8.4 packaging / installation / distribution design.
+-   Added Step 8.4 build-artifact, installed-resource, clean-install,
+    and template-resource migration contract coverage.
+-   Added `generator.resources` as the package-owned runtime resource
+    boundary.
+-   Migrated runtime templates to canonical
+    `generator/resources/templates/`.
+-   Added `docs/releases/v1.0-packaging-installation-acceptance.md` as
+    the Step 8.4 acceptance record.
 
 #### Milestone 7 --- Marketplace
 
@@ -249,15 +259,33 @@
 
 -   Kept Step 8.4 packaging / clean-install verification as the owner of
     the discovered template-resource packaging risk.
--   Started Step 8.3 Reliability / Regression Hardening under the
-    Step 8.2 frozen v1.0 contract boundary.
+
+-   Started Step 8.3 Reliability / Regression Hardening under the Step
+    8.2 frozen v1.0 contract boundary.
+
 -   Completed the Step 8.3 reliability test implementation across the
     planned subsystems without expanding the frozen v1.0 public surface.
+
 -   Preserved fail-fast Composition semantics without introducing
     cross-Generator rollback or generalized transaction guarantees.
+
 -   Completed and formally accepted Step 8.3 Reliability / Regression
     Hardening after targeted reliability coverage, full regression,
     coverage, local quality gates, and GitHub Actions / CI passed.
+
+-   Started Step 8.4 Packaging / Installation / Distribution under the
+    frozen v1.0 public-contract boundary.
+
+-   Replaced repository-root default template resolution with the
+    package-owned `package_template_root()` boundary while preserving
+    explicit template-root override behavior.
+
+-   Removed the legacy repository-level runtime template dependency
+    after isolation tests proved package-owned templates fully replace
+    it.
+
+-   Completed Step 8.4 local packaging / installation acceptance; formal
+    acceptance remains pending GitHub Actions / CI.
 
 -   Moved the active development focus from Marketplace feature
     completion to contract audit, stabilization, packaging,
@@ -443,21 +471,54 @@
 
 -   Marked Step 8.2 --- Public Contract Audit & Freeze as formally
     Accepted.
--   Verified the consolidated Step 8.3 reliability suite passes with
-    66 tests.
+
+-   Verified the consolidated Step 8.3 reliability suite passes with 66
+    tests.
+
 -   Verified Step 8.3 hardening covers failure-before-side-effect,
     deterministic repetition, atomic-write failure preservation,
     temporary-file cleanup, Plugin batch atomicity, Marketplace
     integrity-before-installation, AI structured-output rejection, CLI
     input failures, and representative Composition fail-fast behavior.
+
 -   Recorded the Step 8.3 final local regression evidence: 1535 passed,
     1 deselected.
+
 -   Verified total coverage at 90.54%, above the required 67.0% gate.
--   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit passed
-    for the completed Step 8.3 repository state.
+
+-   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit
+    passed for the completed Step 8.3 repository state.
+
 -   Verified GitHub Actions / CI passed for the Step 8.3 acceptance PR.
+
 -   Marked Step 8.3 --- Reliability / Regression Hardening as formally
     Accepted.
+
+-   Verified Step 8.4 wheel and sdist builds pass.
+
+-   Verified `python -m twine check dist/*` passes.
+
+-   Verified required runtime templates are present in the built wheel.
+
+-   Verified clean-wheel installation imports the installed `generator`
+    package without repository `PYTHONPATH` or editable installation.
+
+-   Verified installed `opl list` and representative installed
+    generation pass using package-owned runtime resources.
+
+-   Verified the legacy repository-level runtime template dependency is
+    removed.
+
+-   Recorded the Step 8.4 final local regression evidence: 1558 passed,
+    1 deselected.
+
+-   Verified total coverage at 90.55%, above the required 67.0% gate.
+
+-   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit
+    passed for the completed Step 8.4 local repository state.
+
+-   GitHub Actions / CI remains the final external Step 8.4 acceptance
+    gate.
 
 -   Milestone 7 historical evidence was not reused.
 

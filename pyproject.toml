@@ -61,6 +61,11 @@ opl = "generator.cli.main:main"
 [tool.setuptools]
 include-package-data = true
 
+[tool.setuptools.package-data]
+"generator.resources" = [
+    "templates/**/*",
+]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["generator", "generator.*"]

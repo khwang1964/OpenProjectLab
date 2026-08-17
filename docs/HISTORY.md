@@ -961,18 +961,94 @@ Formal Step 8.3 acceptance      Accepted
 
 ------------------------------------------------------------------------
 
-# 下一階段
+# Step 8.4 --- Packaging / Installation / Distribution
 
-完成 Step 8.3 final regression、CI、acceptance、squash merge、sync main
-與 post-merge consistency verification 後，開發焦點轉入：
+Step 8.4 已建立 governing design：
 
 ``` text
-Step 8.4 --- Packaging / Installation / Distribution
+docs/releases/v1.0-packaging-installation.md
 ```
 
-Step 8.4 將直接處理 Step 8.2 已記錄的 repository-level `templates/`
-packaging risk，並以 built artifact + clean installation 驗證 installed
-user workflow。
+並建立 formal acceptance record：
+
+``` text
+docs/releases/v1.0-packaging-installation-acceptance.md
+```
+
+Step 8.2 所揭露的 repository-level `templates/` packaging risk 已在 Step
+8.4 透過 Red Phase 實際重現：source checkout 可取得 templates， 但初始
+wheel / clean-install runtime 無法取得 built-in Generator 所需 runtime
+resources。
+
+Production fix 將 runtime templates 遷移為 package-owned canonical
+resource：
+
+``` text
+generator/resources/templates/
+```
+
+並以 `package_template_root()` 建立單一 runtime resource resolution
+boundary。CLI default template root 不再依賴 repository root；explicit
+template-root override behavior 保持。
+
+Legacy repository-level runtime template tree 已在 isolation
+verification 通過後移除。Template regression、Generator / CLI
+integration、 package-resource contracts 與 clean-wheel installed-user
+workflow 均已通過。
+
+Local packaging / installation evidence：
+
+``` text
+Wheel build --- Passed
+sdist build --- Passed
+twine check --- Passed
+Wheel resource inspection --- Passed
+Clean-wheel installation --- Passed
+Installed generator import --- Passed
+Installed opl list --- Passed
+Installed representative generation --- Passed
+Legacy templates dependency --- Removed
+```
+
+Step 8.4 final local quality gate：
+
+``` text
+1558 passed, 1 deselected
+Coverage: 90.55%
+Required coverage: 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+GitHub Actions / CI --- Pending
+```
+
+目前狀態：
+
+``` text
+Packaging implementation        Complete
+Package-resource migration      Complete
+Clean-install verification      Passed
+Final local quality gate        Passed
+Regression                      1558 passed, 1 deselected
+Coverage                        90.55% (required 67.0%)
+GitHub Actions / CI             Pending
+Formal Step 8.4 acceptance      Pending
+```
+
+Step 8.4 因此目前為 **Local Acceptance Passed --- GitHub Actions / CI
+Pending**。不得在 CI evidence 取得前標示為正式 Accepted。
+
+------------------------------------------------------------------------
+
+# 下一階段
+
+Step 8.4 acceptance PR 通過 GitHub Actions / CI、完成正式 acceptance、
+squash merge、sync main 與 post-merge consistency verification 後，
+開發焦點轉入：
+
+``` text
+Step 8.5 --- Documentation & Bilingual User Manuals
+```
 
 ------------------------------------------------------------------------
 

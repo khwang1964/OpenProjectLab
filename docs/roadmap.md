@@ -827,9 +827,9 @@ Consolidated targeted reliability evidence：
 ```
 
 Step 8.3 不建立新的 v1.0 product scope，也不引入 cross-Generator
-rollback / generalized transaction promise。Final acceptance 必須從完成態
-repository 重新取得 full regression、coverage、quality gates 與 CI
-evidence，不重用 Step 8.2 baseline。
+rollback / generalized transaction promise。Final acceptance
+必須從完成態 repository 重新取得 full regression、coverage、quality
+gates 與 CI evidence，不重用 Step 8.2 baseline。
 
 Formal acceptance record：
 
@@ -852,28 +852,60 @@ GitHub Actions / CI --- Passed
 
 **Status:** Accepted
 
-## Step 8.4 --- Packaging / Installation / Distribution
+## Step 8.4 --- Packaging / Installation / Distribution ✅
 
-驗證：
+Governing design：
 
 ``` text
-Build release artifact
-        ↓
-Install in clean environment
-        ↓
-Verify version
-        ↓
-Verify CLI entry point
-        ↓
-Verify packaged templates/resources
-        ↓
-Run representative workflow
+docs/releases/v1.0-packaging-installation.md
+```
+
+Formal acceptance record：
+
+``` text
+docs/releases/v1.0-packaging-installation-acceptance.md
+```
+
+Step 8.4 已完成 package-resource production fix，將 runtime templates 從
+repository-level `templates/` 遷移為唯一 canonical source：
+
+``` text
+generator/resources/templates/
+```
+
+CLI default template resolution 已改由 package-resource boundary 提供，
+explicit template-root override behavior 維持不變。
+
+Local installed-user verification：
+
+``` text
+Build wheel / sdist --- Passed
+twine check --- Passed
+Wheel runtime resources --- Passed
+Clean-wheel installation --- Passed
+Installed generator import --- Passed
+Installed opl list --- Passed
+Installed representative generation --- Passed
+Legacy repository templates dependency --- Removed
+```
+
+Final local acceptance evidence：
+
+``` text
+1558 passed, 1 deselected
+Coverage: 90.55%
+Required coverage: 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+GitHub Actions / CI --- Passed
 ```
 
 不得依賴 developer checkout、editable-only imports、undeclared
-dependencies 或未追蹤本機檔案。
+dependencies、`PYTHONPATH`、legacy repository-level `templates/`
+或未追蹤 本機檔案。
 
-**Status:** Planned
+**Status:** Accepted
 
 ## Step 8.5 --- Documentation & Bilingual User Manuals
 

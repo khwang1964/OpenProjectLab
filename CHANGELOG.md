@@ -255,6 +255,9 @@
     planned subsystems without expanding the frozen v1.0 public surface.
 -   Preserved fail-fast Composition semantics without introducing
     cross-Generator rollback or generalized transaction guarantees.
+-   Completed and formally accepted Step 8.3 Reliability / Regression
+    Hardening after targeted reliability coverage, full regression,
+    coverage, local quality gates, and GitHub Actions / CI passed.
 
 -   Moved the active development focus from Marketplace feature
     completion to contract audit, stabilization, packaging,
@@ -452,7 +455,9 @@
 -   Verified total coverage at 90.54%, above the required 67.0% gate.
 -   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit passed
     for the completed Step 8.3 repository state.
--   GitHub Actions / CI remains the final external acceptance gate.
+-   Verified GitHub Actions / CI passed for the Step 8.3 acceptance PR.
+-   Marked Step 8.3 --- Reliability / Regression Hardening as formally
+    Accepted.
 
 -   Milestone 7 historical evidence was not reused.
 

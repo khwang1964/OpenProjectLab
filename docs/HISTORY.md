@@ -930,6 +930,23 @@ Formal acceptance record：
 docs/releases/v1.0-reliability-hardening-acceptance.md
 ```
 
+Step 8.3 final acceptance evidence：
+
+``` text
+Targeted reliability suite: 66 passed
+Full regression: 1535 passed, 1 deselected
+Coverage: 90.54%
+Required coverage: 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+GitHub Actions / CI --- Passed
+```
+
+因此 Step 8.3 --- Reliability / Regression Hardening 已正式 Accepted。
+後續只需完成 squash merge、sync main 與 post-merge consistency
+verification。
+
 目前狀態：
 
 ``` text
@@ -938,8 +955,8 @@ Targeted reliability suite      66 passed
 Final local quality gate        Passed
 Regression                      1535 passed, 1 deselected
 Coverage                        90.54% (required 67.0%)
-GitHub Actions / CI             Pending
-Formal Step 8.3 acceptance      Pending
+GitHub Actions / CI             Passed
+Formal Step 8.3 acceptance      Accepted
 ```
 
 ------------------------------------------------------------------------

@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.3 local acceptance passed; CI closeout in progress**
+> **Milestone 8 --- Step 8.3 Accepted; merge closeout in progress**
 
 ------------------------------------------------------------------------
 
@@ -788,7 +788,7 @@ GitHub Actions / CI --- Passed
 
 **Status:** Accepted
 
-## Step 8.3 --- Reliability / Regression Hardening 🚧
+## Step 8.3 --- Reliability / Regression Hardening ✅
 
 Governing design：
 
@@ -837,18 +837,20 @@ Formal acceptance record：
 docs/releases/v1.0-reliability-hardening-acceptance.md
 ```
 
-Final local acceptance evidence：
+Final acceptance evidence：
 
 ``` text
-1535 passed, 1 deselected
+Targeted reliability suite: 66 passed
+Full regression: 1535 passed, 1 deselected
 Coverage: 90.54%
 Required coverage: 67.0% --- Passed
 git diff --check --- Passed
 Ruff / Ruff Format --- Passed
 pre-commit --- Passed
+GitHub Actions / CI --- Passed
 ```
 
-**Status:** Local Acceptance Passed — GitHub Actions / CI Pending
+**Status:** Accepted
 
 ## Step 8.4 --- Packaging / Installation / Distribution
 

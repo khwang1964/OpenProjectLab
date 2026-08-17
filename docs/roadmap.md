@@ -1,6 +1,6 @@
 # OpenProjectLab Roadmap
 
-> Status: Active Last Updated: 2026-08-16
+> Status: Active Last Updated: 2026-08-17
 
 ------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 7 --- Marketplace completed; next focus: v1.0 stabilization planning**
+> **Milestone 8 --- v1.0 Stabilization & Release Readiness is now in progress**
 
 ------------------------------------------------------------------------
 
@@ -684,6 +684,285 @@ Completed closure gates：
 
 ------------------------------------------------------------------------
 
+# Milestone 8 --- v1.0 Stabilization & Release Readiness 🚧
+
+目標：
+
+將 Milestone 1–7 已建立的 capability 收斂成可公開承諾、可安裝、可文件化、
+可維護且可重現驗證的 v1.0 stable release，而不是再建立新的主要平台能力。
+
+核心原則：
+
+``` text
+Do not add what v1.0 does not need.
+Audit what v1.0 already has.
+Stabilize what v1.0 promises.
+Document what v1.0 supports.
+Automate what v1.0 must verify.
+Release only what v1.0 can maintain.
+```
+
+Milestone 8 是 **v1.0 前最後一個 engineering milestone**，並採用
+feature-freeze mindset。非 release-blocking 的新功能應移入 v1.1+ backlog。
+
+## Step 8.1 --- Release Readiness Baseline 🚧
+
+建立：
+
+``` text
+docs/releases/v1.0-release-readiness.md
+```
+
+Step 8.1 定義：
+
+-   Milestone 8 scope 與 release-readiness gates
+-   Stable / Candidate / Experimental / Internal / Deferred
+    contract classification
+-   public contract inventory
+-   feature-freeze boundary
+-   bilingual User Manual requirement
+-   compatibility / deprecation policy requirements
+-   support matrix / known limitations requirements
+-   packaging / clean-install verification
+-   release automation / reproducibility requirements
+-   RC 與 GA 的 acceptance separation
+
+**Status:** In Progress
+
+Step 8.1 不因 planning 文件建立而自動完成；仍需 documentation alignment、
+quality gates、PR / CI、merge 與 consistency verification。
+
+## Step 8.2 --- Public Contract Audit & Freeze
+
+Audit 並分類：
+
+-   CLI
+-   Generator lifecycle / request / plan / result
+-   `generator.sdk`
+-   Plugin SDK / Entry Point / validation / registration
+-   Course / Week Domain
+-   built-in Generators
+-   Courseware Composition
+-   AI provider-independent contracts
+-   Marketplace contracts
+-   Configuration
+-   Filesystem-visible behavior
+-   Errors / exceptions
+-   generated artifact layouts
+-   installation entry points
+
+只有具備 implementation、tests、documentation 與明確 compatibility
+semantics 的 capability 才可升級為 Stable。
+
+**Status:** Planned
+
+## Step 8.3 --- Reliability / Regression Hardening
+
+重點：
+
+-   regression
+-   edge cases
+-   deterministic behavior
+-   failure-before-side-effect
+-   cleanup
+-   dry-run / overwrite behavior
+-   contract consistency
+-   representative E2E
+
+Milestone 7 historical baseline：
+
+``` text
+1315 passed, 1 deselected
+Coverage: 89.89%
+Required coverage: 67.0%
+```
+
+Milestone 8 final acceptance 必須重新取得自己的 final regression /
+coverage evidence，不可直接重用此 historical baseline。
+
+**Status:** Planned
+
+## Step 8.4 --- Packaging / Installation / Distribution
+
+驗證：
+
+``` text
+Build release artifact
+        ↓
+Install in clean environment
+        ↓
+Verify version
+        ↓
+Verify CLI entry point
+        ↓
+Verify packaged templates/resources
+        ↓
+Run representative workflow
+```
+
+不得依賴 developer checkout、editable-only imports、undeclared
+dependencies 或未追蹤本機檔案。
+
+**Status:** Planned
+
+## Step 8.5 --- Documentation & Bilingual User Manuals
+
+v1.0 必須提供兩套正式 User Manual：
+
+``` text
+docs/user-guide/en/
+docs/user-guide/zh-TW/
+```
+
+兩個版本至少涵蓋：
+
+-   README / navigation
+-   concepts
+-   installation
+-   quick start
+-   configuration
+-   CLI
+-   generators
+-   courseware
+-   plugins
+-   AI integration
+-   Marketplace
+-   troubleshooting
+-   upgrading
+
+English 與 Traditional Chinese (Taiwan) 必須維持 functional documentation
+parity。
+
+Quick Start 應建立 First 15 Minutes representative onboarding flow，並在可行
+範圍內轉為 executable documentation smoke test。
+
+**Status:** Planned
+
+## Step 8.6 --- Compatibility & Deprecation Policy
+
+建立正式 compatibility / deprecation governance，定義：
+
+``` text
+1.0.x → compatibility-preserving fixes
+1.x   → backward-compatible evolution
+2.0   → intentional breaking public-contract changes
+```
+
+Stable contract 的移除或破壞性修改必須遵循明確 deprecation /
+migration path。
+
+**Status:** Planned
+
+## Step 8.7 --- Support Matrix / Known Limitations
+
+建立：
+
+``` text
+docs/reference/support-matrix.md
+docs/releases/v1.0-known-limitations.md
+```
+
+Supported 必須有 CI、automated tests 或明確 release verification evidence。
+
+文件應清楚區分：
+
+``` text
+Supported
+Experimental
+Known Limitation
+Deferred
+```
+
+**Status:** Planned
+
+## Step 8.8 --- Release Automation & Reproducibility
+
+建立 maintainer release process，並確保：
+
+``` text
+Version
+  ↕
+Commit SHA
+  ↕
+Git Tag
+  ↕
+Release Artifact
+  ↕
+GitHub Release
+```
+
+保持一致且可追溯。
+
+Automation 應涵蓋可合理自動化的 version verification、quality gates、
+documentation checks、package build、clean-install smoke tests 與 release
+artifact validation。
+
+**Status:** Planned
+
+## Step 8.9 --- Full Release-readiness Verification
+
+Final verification 至少包括：
+
+``` text
+git diff --check
+Ruff
+Ruff Format
+pre-commit
+full pytest
+coverage
+documentation checks
+package validation
+clean-install smoke tests
+GitHub Actions / CI
+```
+
+並建立 representative installed-user E2E。
+
+**Status:** Planned
+
+## Step 8.10 --- RC Acceptance
+
+Milestone 8 completion 的 target：
+
+``` text
+v1.0.0-rc.1
+```
+
+RC acceptance 與 GA acceptance 分離。
+
+RC 階段原則上只接受：
+
+-   release blockers
+-   correctness defects
+-   compatibility defects
+-   installation / packaging defects
+-   security defects
+-   documentation correctness fixes
+-   release/test automation defects
+
+RC validation 通過後才進入：
+
+``` text
+v1.0.0 GA
+```
+
+**Status:** Planned
+
+## Milestone 8 Deferred / v1.1+ Candidates
+
+Milestone 7 已明確 deferred 的 remote Marketplace、Marketplace CLI、
+signing / publisher identity、sandbox / trust、dependency resolver、
+ratings / reviews、monetization、AI Provider Marketplace 等能力，不因
+Milestone 8 啟動而自動成為 v1.0 blocker。
+
+Milestone 6 deferred 的 AI Refactoring Assistant、AI CLI、evaluation、
+provenance / usage accounting、caching、streaming 與 tool calling 亦維持
+v1.1+ candidate，除非後續 release-readiness decision 明確提升其優先級。
+
+**Status:** In Progress
+
+------------------------------------------------------------------------
+
 # Version Targets
 
   Version   Target
@@ -694,7 +973,7 @@ Completed closure gates：
   v0.5.x    Open Courseware
   v0.6.x    AI Integration
   v0.7.x    Marketplace
-  v1.0.0    Stable Release
+  v1.0.0    Stabilization → RC → Stable Release
 
 ------------------------------------------------------------------------
 

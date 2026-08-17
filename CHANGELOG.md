@@ -4,6 +4,32 @@
 
 ### Added
 
+#### Milestone 8 --- v1.0 Stabilization & Release Readiness
+
+-   Added `docs/releases/v1.0-release-readiness.md` as the governing
+    release-readiness plan for the final pre-v1.0 engineering milestone.
+-   Defined the Milestone 8 release gates from 8.1 Release Readiness
+    Baseline through 8.10 RC Acceptance.
+-   Defined the v1.0 contract classification model: Stable, Candidate,
+    Experimental, Internal, and Deferred.
+-   Defined a feature-freeze mindset for Milestone 8 so non-blocking
+    product expansion is deferred to the v1.1+ backlog.
+-   Defined English and Traditional Chinese (Taiwan) User Manuals as
+    mandatory v1.0 release requirements with functional documentation
+    parity.
+-   Defined the First 15 Minutes Quick Start as a representative
+    onboarding flow that should become an executable documentation smoke
+    test where practical.
+-   Defined compatibility and deprecation policy work as explicit v1.0
+    release-readiness gates.
+-   Defined support-matrix and known-limitations documentation as
+    explicit v1.0 release-readiness gates.
+-   Defined release automation, artifact/version/tag consistency, clean
+    installation verification, and release reproducibility as explicit
+    release-readiness requirements.
+-   Defined Milestone 8 completion as readiness to create
+    `v1.0.0-rc.1`, distinct from the later `v1.0.0` GA acceptance.
+
 #### Milestone 7 --- Marketplace
 
 -   Added the Marketplace architecture and ADR 0023 --- Marketplace
@@ -189,6 +215,17 @@
 -   Added `docs/milestones/milestone-4-acceptance.md`.
 
 ### Changed
+
+-   Started Milestone 8 --- v1.0 Stabilization & Release Readiness as
+    the final pre-v1.0 engineering milestone.
+
+-   Moved the active development focus from Marketplace feature
+    completion to contract audit, stabilization, packaging,
+    documentation, compatibility, release automation, and RC readiness.
+
+-   Established that deferred Marketplace, AI, filesystem, and error
+    capabilities remain non-blocking unless explicitly promoted through
+    a later release-readiness decision.
 
 -   Marked ADR 0023 --- Marketplace Artifact Contract as Accepted after
     artifact models, repository/index, integrity/acquisition,

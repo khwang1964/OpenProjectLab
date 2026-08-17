@@ -736,13 +736,84 @@ Marketplace 仍屬後續 capability。
 
 ------------------------------------------------------------------------
 
+## v1.0 Stabilization & Release Readiness（Milestone 8）
+
+Milestone 7 完成後，OPL 正式從主要 capability expansion 轉入第一個 stable
+release 的 stabilization 階段。
+
+Milestone 8 是 **v1.0 前最後一個 engineering milestone**，核心目標不是再
+增加大型功能，而是確認目前已建立的能力是否足以形成可維護的 stable
+compatibility commitment。
+
+Milestone 8 的演進方向：
+
+``` text
+Release Readiness Baseline
+        ↓
+Public Contract Audit & Freeze
+        ↓
+Reliability / Regression Hardening
+        ↓
+Packaging / Installation / Distribution
+        ↓
+Documentation & Bilingual User Manuals
+        ↓
+Compatibility & Deprecation Policy
+        ↓
+Support Matrix / Known Limitations
+        ↓
+Release Automation & Reproducibility
+        ↓
+Full Release-readiness Verification
+        ↓
+RC Acceptance
+```
+
+此階段採用 feature-freeze mindset。只有 correctness、security、
+compatibility、reliability、installation、packaging、documentation
+correctness、testing、automation 或其他 release blocker 所需要的變更，
+才應進入 v1.0 stabilization scope；其他改善應移入 v1.1+ backlog。
+
+v1.0 User Manual 將維護兩個正式版本：
+
+``` text
+docs/user-guide/en/
+docs/user-guide/zh-TW/
+```
+
+English 與 Traditional Chinese (Taiwan) 版本必須保持 functional
+documentation parity，並涵蓋 concepts、installation、quick start、
+configuration、CLI、generators、courseware、plugins、AI integration、
+Marketplace、troubleshooting 與 upgrading。
+
+Milestone 8 completion 的意義是 OPL 已準備建立：
+
+``` text
+v1.0.0-rc.1
+```
+
+RC validation 通過後，才進入：
+
+``` text
+v1.0.0 GA
+```
+
+因此 Milestone 8 與 v1.0 GA acceptance 為兩個不同 gate。
+
+------------------------------------------------------------------------
+
 # 下一階段
 
-Milestone 7 已完成 implementation、representative E2E、formal acceptance、
-GitHub Actions / CI、squash merge 與 post-merge consistency verification，
-因此正式關閉。
+目前正式進入 **Milestone 8 --- v1.0 Stabilization & Release Readiness**。
 
-下一階段進入 **v1.0 stabilization / release-readiness planning**。
+第一個工作是 Step 8.1 --- Release Readiness Baseline，建立
+`docs/releases/v1.0-release-readiness.md`，固定 v1.0 scope、contract
+classification、release gates、雙語 User Manual、compatibility /
+deprecation、support matrix、known limitations、release automation 與 RC
+acceptance boundary。
+
+Step 8.1 尚未因文件建立而自動視為 Completed；仍需 documentation
+alignment、quality gates、PR / CI、merge 與後續一致性驗證。
 
 ------------------------------------------------------------------------
 

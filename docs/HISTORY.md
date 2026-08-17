@@ -1048,8 +1048,10 @@ Step 8.4 acceptance PR 已通過 GitHub Actions / CI，因此 Step 8.4
 
 # 下一階段
 
-Step 8.4 已完成正式 acceptance；squash merge、sync main 與 post-merge
-consistency verification 後， 開發焦點轉入：
+Step 8.4 已完成正式 acceptance、squash merge、main synchronization 與
+post-merge consistency verification。
+
+開發焦點現已正式轉入：
 
 ``` text
 Step 8.5 --- Documentation & Bilingual User Manuals

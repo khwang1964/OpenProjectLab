@@ -27,8 +27,21 @@
 -   Defined release automation, artifact/version/tag consistency, clean
     installation verification, and release reproducibility as explicit
     release-readiness requirements.
--   Defined Milestone 8 completion as readiness to create
-    `v1.0.0-rc.1`, distinct from the later `v1.0.0` GA acceptance.
+-   Defined Milestone 8 completion as readiness to create `v1.0.0-rc.1`,
+    distinct from the later `v1.0.0` GA acceptance.
+-   Added `docs/releases/v1.0-public-contract-audit.md` to classify and
+    freeze the v1.0 compatibility surface.
+-   Added dedicated v1 contract-freeze tests for SDK exports, Generator
+    contracts, Plugin contracts, CLI behavior, Courseware Domain,
+    built-in artifact contracts, Composition, AI, Marketplace,
+    Configuration, Filesystem, public errors, and packaging metadata /
+    console entry point.
+-   Added `docs/releases/v1.0-public-contract-freeze-acceptance.md` as
+    the Step 8.2 acceptance record.
+-   Recorded the packaging audit finding that repository-level
+    `templates/` require built-artifact and clean-install verification
+    in Step 8.4 before they can be claimed as release-ready packaged
+    resources.
 
 #### Milestone 7 --- Marketplace
 
@@ -219,6 +232,17 @@
 -   Started Milestone 8 --- v1.0 Stabilization & Release Readiness as
     the final pre-v1.0 engineering milestone.
 
+-   Completed the main Step 8.2 public-contract freeze implementation
+    and passed the final local regression / quality gates; CI closeout
+    remains.
+
+-   Classified the verified v1.0 public surface into Stable,
+    Experimental, Internal, and Deferred boundaries without promoting
+    unimplemented architecture proposals.
+
+-   Kept Step 8.4 packaging / clean-install verification as the owner of
+    the discovered template-resource packaging risk.
+
 -   Moved the active development focus from Marketplace feature
     completion to contract audit, stabilization, packaging,
     documentation, compatibility, release automation, and RC readiness.
@@ -385,6 +409,23 @@
 
 ### Verification
 
+-   Verified the Step 8.2 dedicated v1 contract-freeze slices are green
+    during incremental development.
+
+-   Verified the corrected Marketplace v1 public-contract suite passes
+    with 16 tests.
+
+-   Recorded the Step 8.2 final local regression evidence: 1469 passed,
+    1 deselected.
+
+-   Verified total coverage at 90.33%, above the required 67.0% gate.
+
+-   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit
+    passed for the completed Step 8.2 repository state.
+
+-   GitHub Actions / CI remains the final external acceptance gate;
+    Milestone 7 historical evidence was not reused.
+
 -   Verified the Milestone 7 representative Marketplace E2E composes
     production repository, acquisition, integrity verification,
     installation, and Template Package contracts.
@@ -401,7 +442,6 @@
 
 -   Verified total coverage at 89.89%, above the required 67.0% gate.
 
-
 -   Verified the Milestone 7 acceptance PR GitHub Actions / CI passed.
 
 -   Completed the Milestone 7 acceptance squash merge.
@@ -412,7 +452,6 @@
     after acceptance merge.
 
 -   Marked Milestone 7 --- Marketplace as formally Completed.
-
 
 -   Verified PR #77 establishes the Milestone 6 AI Integration
     architecture and ADR 0021.

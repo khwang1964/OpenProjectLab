@@ -59,7 +59,7 @@ jobs:
 
       - name: Install packaging verification tools
         run: |
-          python -m pip install build twine pytest
+          python -m pip install build twine pytest pytest-cov
 
       - name: Build wheel and sdist
         run: python -m build

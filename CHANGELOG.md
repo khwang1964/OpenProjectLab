@@ -288,6 +288,19 @@
     Distribution after local artifact verification and GitHub Actions /
     CI passed.
 
+-   Added dedicated GitHub Actions artifact-path verification that builds
+    wheel and sdist artifacts, validates them with Twine, resolves the
+    exact built wheel through `OPL_TEST_WHEEL`, and runs the packaging
+    suite against the real artifact.
+
+-   Recorded Step 8.4 packaging artifact evidence: 29 packaging tests
+    passed with 0 skipped using
+    `openprojectlab-0.6.0-py3-none-any.whl`; the corresponding sdist is
+    `openprojectlab-0.6.0.tar.gz`.
+
+-   Moved the active Milestone 8 focus to Step 8.5 --- Documentation &
+    Bilingual User Manuals.
+
 -   Moved the active development focus from Marketplace feature
     completion to contract audit, stabilization, packaging,
     documentation, compatibility, release automation, and RC readiness.
@@ -519,6 +532,12 @@
     passed for the completed Step 8.4 local repository state.
 
 -   Verified GitHub Actions / CI passed for the Step 8.4 acceptance PR.
+
+-   Verified the dedicated GitHub `Packaging artifact verification` job
+    passed together with the existing `Quality checks` job.
+
+-   Verified the Step 8.4 packaging suite passes with 29 tests and 0
+    skipped against `openprojectlab-0.6.0-py3-none-any.whl`.
 
 -   Marked Step 8.4 --- Packaging / Installation / Distribution as
     formally Accepted.

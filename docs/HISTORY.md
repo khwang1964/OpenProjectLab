@@ -881,19 +881,81 @@ consistency verification。
 
 ------------------------------------------------------------------------
 
-# 下一階段
+# Step 8.3 --- Reliability / Regression Hardening
 
-完成 Step 8.2 squash merge、sync main 與 post-merge consistency
-verification 後，開發焦點轉入：
+Step 8.3 已建立 governing design：
 
 ``` text
-Step 8.3 --- Reliability / Regression Hardening
+docs/releases/v1.0-reliability-hardening.md
 ```
 
-Step 8.3 將優先處理 regression、edge cases、determinism、
-failure-before-side-effect、cleanup、dry-run / overwrite
-consistency，以及 Step 8.2 audit 所揭露的 release-readiness
-defects；不擴張新的主要 v1.0 功能。
+並完成下列 reliability hardening slices：
+
+``` text
+Filesystem / Write Policy
+Generator Lifecycle
+Courseware Composition
+Plugin Loading / Registration
+Marketplace
+AI
+CLI / Structured Input
+Representative Reliability E2E
+```
+
+核心原則維持：
+
+``` text
+Protect frozen v1.0 contracts.
+Fail predictably.
+Preserve existing state.
+Fail before avoidable side effects.
+Keep deterministic behavior deterministic.
+Do not invent cross-Generator rollback.
+```
+
+Consolidated Step 8.3 reliability suite：
+
+``` text
+66 passed
+```
+
+這 66 tests 是 Step 8.3 targeted reliability evidence；正式 acceptance
+仍需由完成態 repository 重新執行 full regression、coverage、
+`git diff --check`、Ruff、Ruff Format、pre-commit 與 GitHub Actions /
+CI，不能沿用 Step 8.2 的 1469 / 90.33% 作為 Step 8.3 final evidence。
+
+Formal acceptance record：
+
+``` text
+docs/releases/v1.0-reliability-hardening-acceptance.md
+```
+
+目前狀態：
+
+``` text
+Reliability implementation      Complete
+Targeted reliability suite      66 passed
+Final local quality gate        Passed
+Regression                      1535 passed, 1 deselected
+Coverage                        90.54% (required 67.0%)
+GitHub Actions / CI             Pending
+Formal Step 8.3 acceptance      Pending
+```
+
+------------------------------------------------------------------------
+
+# 下一階段
+
+完成 Step 8.3 final regression、CI、acceptance、squash merge、sync main
+與 post-merge consistency verification 後，開發焦點轉入：
+
+``` text
+Step 8.4 --- Packaging / Installation / Distribution
+```
+
+Step 8.4 將直接處理 Step 8.2 已記錄的 repository-level `templates/`
+packaging risk，並以 built artifact + clean installation 驗證 installed
+user workflow。
 
 ------------------------------------------------------------------------
 

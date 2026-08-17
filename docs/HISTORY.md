@@ -636,7 +636,8 @@ tool calling 保留為後續 capability。
 ## Marketplace（Milestone 7）
 
 Milestone 7 在既有 Generator Core、Plugin SDK、Courseware、AI 與
-Filesystem boundaries 上建立 deterministic Marketplace artifact ecosystem。
+Filesystem boundaries 上建立 deterministic Marketplace artifact
+ecosystem。
 
 核心原則：
 
@@ -648,11 +649,13 @@ Existing OPL pipelines execute.
 
 ### Step 7.1 --- Marketplace Architecture and ADR 0023
 
-建立 `docs/architecture/marketplace.md` 與 ADR 0023，固定 common artifact
+建立 `docs/architecture/marketplace.md` 與 ADR 0023，固定 common
+artifact
 identity、version、type、compatibility、distribution、integrity，以及
-discovery / acquisition / installation / activation responsibility boundaries。
+discovery / acquisition / installation / activation responsibility
+boundaries。
 
-### Step 7.2–7.3 --- Artifact Contract and Models
+### Step 7.2--7.3 --- Artifact Contract and Models
 
 完成 Marketplace artifact contract tests 與 minimum immutable production
 models，包括：
@@ -671,26 +674,29 @@ MarketplaceArtifact
 ### Step 7.4 --- Repository / Index Contract
 
 建立 deterministic in-memory repository / index，支援 exact coordinate
-lookup、available-version ordering、duplicate-coordinate rejection 與 explicit
-not-found semantics。
+lookup、available-version ordering、duplicate-coordinate rejection 與
+explicit not-found semantics。
 
 ### Step 7.5 --- Integrity and Acquisition
 
-建立 deterministic SHA-256 integrity verification 與 no-network in-memory
-artifact acquisition boundary。Acquisition 只取得 bytes；Integrity verification
-獨立執行，mismatch 在 installation 前失敗。
+建立 deterministic SHA-256 integrity verification 與 no-network
+in-memory artifact acquisition boundary。Acquisition 只取得
+bytes；Integrity verification 獨立執行，mismatch 在 installation
+前失敗。
 
 ### Step 7.6 --- Installation Integration
 
-建立 immutable installation result 與 deterministic in-memory installer。
-Installation 與 Activation 明確分離，不自動執行 Plugin registration、
-Entry Point discovery、Generator execution 或 Courseware output。
+建立 immutable installation result 與 deterministic in-memory
+installer。 Installation 與 Activation 明確分離，不自動執行 Plugin
+registration、 Entry Point discovery、Generator execution 或 Courseware
+output。
 
 ### Step 7.7 --- Template Packages
 
-建立 Template Package contract，重用 Marketplace artifact identity/version，
-並加入 safe relative path、path traversal rejection、duplicate name/path
-rejection、deterministic ordering 與 immutable manifest semantics。
+建立 Template Package contract，重用 Marketplace artifact
+identity/version， 並加入 safe relative path、path traversal
+rejection、duplicate name/path rejection、deterministic ordering 與
+immutable manifest semantics。
 
 ### Step 7.8 --- Representative Marketplace E2E
 
@@ -710,9 +716,10 @@ InMemoryArtifactInstaller
 Template Package Contract
 ```
 
-E2E 驗證 deterministic happy path、exact coordinate、repository not-found、
-missing payload、integrity mismatch-before-install、no partial installation
-state，以及 no public network / no generated-project filesystem persistence。
+E2E 驗證 deterministic happy path、exact coordinate、repository
+not-found、 missing payload、integrity mismatch-before-install、no
+partial installation state，以及 no public network / no
+generated-project filesystem persistence。
 
 ### Step 7.9 --- Formal Acceptance
 
@@ -725,21 +732,21 @@ Required coverage: 67.0% --- Passed
 ```
 
 ADR 0023 已依 implementation 與 test evidence 轉為 `Accepted`。
-Milestone 7 acceptance PR 已通過 GitHub Actions / CI，完成 squash merge，
-並完成 post-merge consistency verification。Local `main` 與 `origin/main`
-已確認同步，working tree clean。
+Milestone 7 acceptance PR 已通過 GitHub Actions / CI，完成 squash
+merge， 並完成 post-merge consistency verification。Local `main` 與
+`origin/main` 已確認同步，working tree clean。
 
-Remote Marketplace、Community Repository hosting、Marketplace CLI、
-real package-manager integration、signing/publisher identity、sandbox/trust、
-dependency solver、lock-file/cache、ratings/reviews、monetization 與 AI Provider
-Marketplace 仍屬後續 capability。
+Remote Marketplace、Community Repository hosting、Marketplace CLI、 real
+package-manager integration、signing/publisher identity、sandbox/trust、
+dependency solver、lock-file/cache、ratings/reviews、monetization 與 AI
+Provider Marketplace 仍屬後續 capability。
 
 ------------------------------------------------------------------------
 
 ## v1.0 Stabilization & Release Readiness（Milestone 8）
 
-Milestone 7 完成後，OPL 正式從主要 capability expansion 轉入第一個 stable
-release 的 stabilization 階段。
+Milestone 7 完成後，OPL 正式從主要 capability expansion 轉入第一個
+stable release 的 stabilization 階段。
 
 Milestone 8 是 **v1.0 前最後一個 engineering milestone**，核心目標不是再
 增加大型功能，而是確認目前已建立的能力是否足以形成可維護的 stable
@@ -802,18 +809,91 @@ v1.0.0 GA
 
 ------------------------------------------------------------------------
 
+# Milestone 8 目前進度
+
+Step 8.1 --- Release Readiness Baseline 已建立
+`docs/releases/v1.0-release-readiness.md`，固定 v1.0 scope、contract
+classification、feature-freeze、release gates、雙語 User Manual、
+compatibility / deprecation、support matrix、known
+limitations、packaging / clean-install、release automation 與 RC / GA
+separation。
+
+Step 8.2 --- Public Contract Audit & Freeze 已完成主要 contract-freeze
+implementation，並以 dedicated v1 tests 保護下列 public surface：
+
+``` text
+generator.sdk
+Generator public lifecycle / contracts
+Plugin Entry Point / validation / registration
+CLI command surface
+Course / Week Domain
+built-in Generator identities / reviewed artifact paths
+Courseware Composition
+provider-independent AI contracts
+Marketplace contracts
+configuration verified subset
+filesystem verified subset
+public error hierarchy
+packaging metadata / console entry point
+```
+
+正式 audit 文件：
+
+``` text
+docs/releases/v1.0-public-contract-audit.md
+```
+
+正式 acceptance 文件：
+
+``` text
+docs/releases/v1.0-public-contract-freeze-acceptance.md
+```
+
+Step 8.2 亦記錄一項必須帶入 Step 8.4 的 packaging finding：
+repository-level `templates/` 目前不應在尚未完成 built-artifact /
+clean-install verification 前被宣稱為 release-ready packaged resources。
+
+Step 8.2 已完成 final local quality gate：
+
+``` text
+1469 passed, 1 deselected
+Coverage: 90.33%
+Required coverage: 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+```
+
+Step 8.2 的 final local acceptance evidence 與 GitHub Actions / CI
+均已通過：
+
+``` text
+1469 passed, 1 deselected
+Coverage: 90.33%
+Required coverage: 67.0% --- Passed
+GitHub Actions / CI --- Passed
+```
+
+因此 Step 8.2 --- Public Contract Audit & Freeze 已正式 Accepted。這組
+1469 / 90.33% 為 Step 8.2 自己的 acceptance evidence，不重用 Milestone 7
+historical baseline。後續只需完成 squash merge、sync main 與 post-merge
+consistency verification。
+
+------------------------------------------------------------------------
+
 # 下一階段
 
-目前正式進入 **Milestone 8 --- v1.0 Stabilization & Release Readiness**。
+完成 Step 8.2 squash merge、sync main 與 post-merge consistency
+verification 後，開發焦點轉入：
 
-第一個工作是 Step 8.1 --- Release Readiness Baseline，建立
-`docs/releases/v1.0-release-readiness.md`，固定 v1.0 scope、contract
-classification、release gates、雙語 User Manual、compatibility /
-deprecation、support matrix、known limitations、release automation 與 RC
-acceptance boundary。
+``` text
+Step 8.3 --- Reliability / Regression Hardening
+```
 
-Step 8.1 尚未因文件建立而自動視為 Completed；仍需 documentation
-alignment、quality gates、PR / CI、merge 與後續一致性驗證。
+Step 8.3 將優先處理 regression、edge cases、determinism、
+failure-before-side-effect、cleanup、dry-run / overwrite
+consistency，以及 Step 8.2 audit 所揭露的 release-readiness
+defects；不擴張新的主要 v1.0 功能。
 
 ------------------------------------------------------------------------
 

@@ -61,7 +61,8 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- v1.0 Stabilization & Release Readiness is now in progress**
+> **Milestone 8 --- Step 8.2 Accepted; merge closeout is now in
+> progress**
 
 ------------------------------------------------------------------------
 
@@ -553,8 +554,8 @@ acceptance，除非後續 ADR 將其提升為 Milestone 6 exit criterion。
 目標：
 
 在既有 Generator Core、Plugin SDK、Courseware、AI 與 Filesystem
-boundaries 上建立可發佈、可發現、可驗證、可安裝與可版本化的
-Marketplace ecosystem，而不建立第二套 execution framework。
+boundaries 上建立可發佈、可發現、可驗證、可安裝與可版本化的 Marketplace
+ecosystem，而不建立第二套 execution framework。
 
 核心原則：
 
@@ -629,7 +630,8 @@ Existing OPL pipelines execute.
 ## Step 7.8 --- Representative Marketplace E2E ✅
 
 -   `tests/integration/test_marketplace_e2e.py`
--   production repository → acquisition → integrity → installation composition
+-   production repository → acquisition → integrity → installation
+    composition
 -   exact-coordinate representative flow
 -   deterministic repeated-run behavior
 -   repository / acquisition / integrity failure-before-install behavior
@@ -688,8 +690,9 @@ Completed closure gates：
 
 目標：
 
-將 Milestone 1–7 已建立的 capability 收斂成可公開承諾、可安裝、可文件化、
-可維護且可重現驗證的 v1.0 stable release，而不是再建立新的主要平台能力。
+將 Milestone 1--7 已建立的 capability
+收斂成可公開承諾、可安裝、可文件化、 可維護且可重現驗證的 v1.0 stable
+release，而不是再建立新的主要平台能力。
 
 核心原則：
 
@@ -703,9 +706,10 @@ Release only what v1.0 can maintain.
 ```
 
 Milestone 8 是 **v1.0 前最後一個 engineering milestone**，並採用
-feature-freeze mindset。非 release-blocking 的新功能應移入 v1.1+ backlog。
+feature-freeze mindset。非 release-blocking 的新功能應移入 v1.1+
+backlog。
 
-## Step 8.1 --- Release Readiness Baseline 🚧
+## Step 8.1 --- Release Readiness Baseline ✅
 
 建立：
 
@@ -716,8 +720,8 @@ docs/releases/v1.0-release-readiness.md
 Step 8.1 定義：
 
 -   Milestone 8 scope 與 release-readiness gates
--   Stable / Candidate / Experimental / Internal / Deferred
-    contract classification
+-   Stable / Candidate / Experimental / Internal / Deferred contract
+    classification
 -   public contract inventory
 -   feature-freeze boundary
 -   bilingual User Manual requirement
@@ -727,12 +731,13 @@ Step 8.1 定義：
 -   release automation / reproducibility requirements
 -   RC 與 GA 的 acceptance separation
 
-**Status:** In Progress
+**Status:** Completed
 
-Step 8.1 不因 planning 文件建立而自動完成；仍需 documentation alignment、
-quality gates、PR / CI、merge 與 consistency verification。
+Step 8.1 已建立並對齊 Milestone 8 的 governing release-readiness
+baseline；後續 contract freeze、packaging、documentation 與 release
+gates 依此執行。
 
-## Step 8.2 --- Public Contract Audit & Freeze
+## Step 8.2 --- Public Contract Audit & Freeze ✅
 
 Audit 並分類：
 
@@ -754,7 +759,35 @@ Audit 並分類：
 只有具備 implementation、tests、documentation 與明確 compatibility
 semantics 的 capability 才可升級為 Stable。
 
-**Status:** Planned
+已建立：
+
+``` text
+docs/releases/v1.0-public-contract-audit.md
+docs/releases/v1.0-public-contract-freeze-acceptance.md
+```
+
+Dedicated v1 freeze tests 已涵蓋
+SDK、Generator、Plugin、CLI、Courseware、 built-in
+artifacts、Composition、AI、Marketplace、Configuration、
+Filesystem、Errors 與 Packaging metadata / console entry point。
+
+Step 8.2 audit 已記錄 packaging resource finding：repository-level
+`templates/` 必須在 Step 8.4 透過 built artifact / clean-install 驗證，
+目前不得提前宣稱為 packaged-resource guarantee。
+
+Final acceptance evidence：
+
+``` text
+1469 passed, 1 deselected
+Coverage: 90.33%
+Required coverage: 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+GitHub Actions / CI --- Passed
+```
+
+**Status:** Accepted
 
 ## Step 8.3 --- Reliability / Regression Hardening
 
@@ -830,11 +863,11 @@ docs/user-guide/zh-TW/
 -   troubleshooting
 -   upgrading
 
-English 與 Traditional Chinese (Taiwan) 必須維持 functional documentation
-parity。
+English 與 Traditional Chinese (Taiwan) 必須維持 functional
+documentation parity。
 
-Quick Start 應建立 First 15 Minutes representative onboarding flow，並在可行
-範圍內轉為 executable documentation smoke test。
+Quick Start 應建立 First 15 Minutes representative onboarding
+flow，並在可行 範圍內轉為 executable documentation smoke test。
 
 **Status:** Planned
 
@@ -848,8 +881,8 @@ Quick Start 應建立 First 15 Minutes representative onboarding flow，並在�
 2.0   → intentional breaking public-contract changes
 ```
 
-Stable contract 的移除或破壞性修改必須遵循明確 deprecation /
-migration path。
+Stable contract 的移除或破壞性修改必須遵循明確 deprecation / migration
+path。
 
 **Status:** Planned
 
@@ -862,7 +895,8 @@ docs/reference/support-matrix.md
 docs/releases/v1.0-known-limitations.md
 ```
 
-Supported 必須有 CI、automated tests 或明確 release verification evidence。
+Supported 必須有 CI、automated tests 或明確 release verification
+evidence。
 
 文件應清楚區分：
 
@@ -894,8 +928,8 @@ GitHub Release
 保持一致且可追溯。
 
 Automation 應涵蓋可合理自動化的 version verification、quality gates、
-documentation checks、package build、clean-install smoke tests 與 release
-artifact validation。
+documentation checks、package build、clean-install smoke tests 與
+release artifact validation。
 
 **Status:** Planned
 
@@ -966,7 +1000,7 @@ v1.1+ candidate，除非後續 release-readiness decision 明確提升其優先�
 # Version Targets
 
   Version   Target
-  --------- --------------------------------
+  --------- -------------------------------------
   v0.2.x    Foundation
   v0.3.x    Documentation + Core Framework
   v0.4.x    Plugin Framework

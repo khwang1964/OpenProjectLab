@@ -232,9 +232,9 @@
 -   Started Milestone 8 --- v1.0 Stabilization & Release Readiness as
     the final pre-v1.0 engineering milestone.
 
--   Completed the main Step 8.2 public-contract freeze implementation
-    and passed the final local regression / quality gates; CI closeout
-    remains.
+-   Completed and formally accepted Step 8.2 public-contract freeze
+    after final local regression, quality gates, and GitHub Actions / CI
+    passed.
 
 -   Classified the verified v1.0 public surface into Stable,
     Experimental, Internal, and Deferred boundaries without promoting
@@ -423,8 +423,12 @@
 -   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit
     passed for the completed Step 8.2 repository state.
 
--   GitHub Actions / CI remains the final external acceptance gate;
-    Milestone 7 historical evidence was not reused.
+-   Verified GitHub Actions / CI passed for the Step 8.2 acceptance PR.
+
+-   Marked Step 8.2 --- Public Contract Audit & Freeze as formally
+    Accepted.
+
+-   Milestone 7 historical evidence was not reused.
 
 -   Verified the Milestone 7 representative Marketplace E2E composes
     production repository, acquisition, integrity verification,

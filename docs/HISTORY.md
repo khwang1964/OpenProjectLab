@@ -864,16 +864,27 @@ Ruff / Ruff Format --- Passed
 pre-commit --- Passed
 ```
 
-因此 Step 8.2 的 local acceptance evidence 已完成；目前只剩 GitHub
-Actions / CI 與 merge 後 consistency verification 尚待完成。這組 1469 /
-90.33% 為 Step 8.2 自己的 acceptance evidence，不重用 Milestone 7
-historical baseline。
+Step 8.2 的 final local acceptance evidence 與 GitHub Actions / CI
+均已通過：
+
+``` text
+1469 passed, 1 deselected
+Coverage: 90.33%
+Required coverage: 67.0% --- Passed
+GitHub Actions / CI --- Passed
+```
+
+因此 Step 8.2 --- Public Contract Audit & Freeze 已正式 Accepted。這組
+1469 / 90.33% 為 Step 8.2 自己的 acceptance evidence，不重用 Milestone 7
+historical baseline。後續只需完成 squash merge、sync main 與 post-merge
+consistency verification。
 
 ------------------------------------------------------------------------
 
 # 下一階段
 
-完成 Step 8.2 final regression / CI acceptance 後，開發焦點轉入：
+完成 Step 8.2 squash merge、sync main 與 post-merge consistency
+verification 後，開發焦點轉入：
 
 ``` text
 Step 8.3 --- Reliability / Regression Hardening

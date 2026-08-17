@@ -61,8 +61,8 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.2 local acceptance passed; CI closeout is now
-> in progress**
+> **Milestone 8 --- Step 8.2 Accepted; merge closeout is now in
+> progress**
 
 ------------------------------------------------------------------------
 
@@ -737,7 +737,7 @@ Step 8.1 已建立並對齊 Milestone 8 的 governing release-readiness
 baseline；後續 contract freeze、packaging、documentation 與 release
 gates 依此執行。
 
-## Step 8.2 --- Public Contract Audit & Freeze 🚧
+## Step 8.2 --- Public Contract Audit & Freeze ✅
 
 Audit 並分類：
 
@@ -775,7 +775,7 @@ Step 8.2 audit 已記錄 packaging resource finding：repository-level
 `templates/` 必須在 Step 8.4 透過 built artifact / clean-install 驗證，
 目前不得提前宣稱為 packaged-resource guarantee。
 
-Final local acceptance evidence：
+Final acceptance evidence：
 
 ``` text
 1469 passed, 1 deselected
@@ -784,9 +784,10 @@ Required coverage: 67.0% --- Passed
 git diff --check --- Passed
 Ruff / Ruff Format --- Passed
 pre-commit --- Passed
+GitHub Actions / CI --- Passed
 ```
 
-**Status:** Local Acceptance Passed --- GitHub Actions / CI Pending
+**Status:** Accepted
 
 ## Step 8.3 --- Reliability / Regression Hardening
 

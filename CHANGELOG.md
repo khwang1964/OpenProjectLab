@@ -42,6 +42,13 @@
     `templates/` require built-artifact and clean-install verification
     in Step 8.4 before they can be claimed as release-ready packaged
     resources.
+-   Added `docs/releases/v1.0-reliability-hardening.md` as the governing
+    Step 8.3 reliability / regression hardening plan.
+-   Added v1 reliability tests for Filesystem, Generator lifecycle,
+    Courseware Composition, Plugin loading, Marketplace, AI, CLI input
+    boundaries, and representative reliability E2E behavior.
+-   Added `docs/releases/v1.0-reliability-hardening-acceptance.md` as
+    the Step 8.3 acceptance record.
 
 #### Milestone 7 --- Marketplace
 
@@ -242,6 +249,15 @@
 
 -   Kept Step 8.4 packaging / clean-install verification as the owner of
     the discovered template-resource packaging risk.
+-   Started Step 8.3 Reliability / Regression Hardening under the
+    Step 8.2 frozen v1.0 contract boundary.
+-   Completed the Step 8.3 reliability test implementation across the
+    planned subsystems without expanding the frozen v1.0 public surface.
+-   Preserved fail-fast Composition semantics without introducing
+    cross-Generator rollback or generalized transaction guarantees.
+-   Completed and formally accepted Step 8.3 Reliability / Regression
+    Hardening after targeted reliability coverage, full regression,
+    coverage, local quality gates, and GitHub Actions / CI passed.
 
 -   Moved the active development focus from Marketplace feature
     completion to contract audit, stabilization, packaging,
@@ -426,6 +442,21 @@
 -   Verified GitHub Actions / CI passed for the Step 8.2 acceptance PR.
 
 -   Marked Step 8.2 --- Public Contract Audit & Freeze as formally
+    Accepted.
+-   Verified the consolidated Step 8.3 reliability suite passes with
+    66 tests.
+-   Verified Step 8.3 hardening covers failure-before-side-effect,
+    deterministic repetition, atomic-write failure preservation,
+    temporary-file cleanup, Plugin batch atomicity, Marketplace
+    integrity-before-installation, AI structured-output rejection, CLI
+    input failures, and representative Composition fail-fast behavior.
+-   Recorded the Step 8.3 final local regression evidence: 1535 passed,
+    1 deselected.
+-   Verified total coverage at 90.54%, above the required 67.0% gate.
+-   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit passed
+    for the completed Step 8.3 repository state.
+-   Verified GitHub Actions / CI passed for the Step 8.3 acceptance PR.
+-   Marked Step 8.3 --- Reliability / Regression Hardening as formally
     Accepted.
 
 -   Milestone 7 historical evidence was not reused.

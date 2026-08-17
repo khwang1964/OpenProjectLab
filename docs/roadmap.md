@@ -61,8 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.2 Accepted; merge closeout is now in
-> progress**
+> **Milestone 8 --- Step 8.3 Accepted; merge closeout in progress**
 
 ------------------------------------------------------------------------
 
@@ -789,31 +788,69 @@ GitHub Actions / CI --- Passed
 
 **Status:** Accepted
 
-## Step 8.3 --- Reliability / Regression Hardening
+## Step 8.3 --- Reliability / Regression Hardening ✅
 
-重點：
-
--   regression
--   edge cases
--   deterministic behavior
--   failure-before-side-effect
--   cleanup
--   dry-run / overwrite behavior
--   contract consistency
--   representative E2E
-
-Milestone 7 historical baseline：
+Governing design：
 
 ``` text
-1315 passed, 1 deselected
-Coverage: 89.89%
-Required coverage: 67.0%
+docs/releases/v1.0-reliability-hardening.md
 ```
 
-Milestone 8 final acceptance 必須重新取得自己的 final regression /
-coverage evidence，不可直接重用此 historical baseline。
+已完成 reliability hardening：
 
-**Status:** Planned
+-   Filesystem / Write Policy
+-   Generator lifecycle
+-   Courseware Composition
+-   Plugin loading / registration
+-   Marketplace
+-   AI
+-   CLI / structured input
+-   representative reliability E2E
+
+已建立：
+
+``` text
+tests/core/test_v1_filesystem_reliability.py
+tests/generators/test_v1_generator_reliability.py
+tests/courseware/test_v1_composition_reliability.py
+tests/plugins/test_v1_plugin_reliability.py
+tests/marketplace/test_v1_marketplace_reliability.py
+tests/ai/test_v1_ai_reliability.py
+tests/integration/test_v1_cli_reliability.py
+tests/integration/test_v1_reliability_e2e.py
+```
+
+Consolidated targeted reliability evidence：
+
+``` text
+66 passed
+```
+
+Step 8.3 不建立新的 v1.0 product scope，也不引入 cross-Generator
+rollback / generalized transaction promise。Final acceptance 必須從完成態
+repository 重新取得 full regression、coverage、quality gates 與 CI
+evidence，不重用 Step 8.2 baseline。
+
+Formal acceptance record：
+
+``` text
+docs/releases/v1.0-reliability-hardening-acceptance.md
+```
+
+Final acceptance evidence：
+
+``` text
+Targeted reliability suite: 66 passed
+Full regression: 1535 passed, 1 deselected
+Coverage: 90.54%
+Required coverage: 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+GitHub Actions / CI --- Passed
+```
+
+**Status:** Accepted
 
 ## Step 8.4 --- Packaging / Installation / Distribution
 

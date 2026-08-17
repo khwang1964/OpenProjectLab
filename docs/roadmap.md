@@ -852,7 +852,7 @@ GitHub Actions / CI --- Passed
 
 **Status:** Accepted
 
-## Step 8.4 --- Packaging / Installation / Distribution 🚧
+## Step 8.4 --- Packaging / Installation / Distribution ✅
 
 Governing design：
 
@@ -898,14 +898,14 @@ Required coverage: 67.0% --- Passed
 git diff --check --- Passed
 Ruff / Ruff Format --- Passed
 pre-commit --- Passed
-GitHub Actions / CI --- Pending
+GitHub Actions / CI --- Passed
 ```
 
 不得依賴 developer checkout、editable-only imports、undeclared
 dependencies、`PYTHONPATH`、legacy repository-level `templates/`
 或未追蹤 本機檔案。
 
-**Status:** Local Acceptance Passed --- GitHub Actions / CI Pending
+**Status:** Accepted
 
 ## Step 8.5 --- Documentation & Bilingual User Manuals
 

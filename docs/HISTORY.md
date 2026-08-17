@@ -1019,7 +1019,7 @@ Required coverage: 67.0% --- Passed
 git diff --check --- Passed
 Ruff / Ruff Format --- Passed
 pre-commit --- Passed
-GitHub Actions / CI --- Pending
+GitHub Actions / CI --- Passed
 ```
 
 目前狀態：
@@ -1031,20 +1031,19 @@ Clean-install verification      Passed
 Final local quality gate        Passed
 Regression                      1558 passed, 1 deselected
 Coverage                        90.55% (required 67.0%)
-GitHub Actions / CI             Pending
-Formal Step 8.4 acceptance      Pending
+GitHub Actions / CI             Passed
+Formal Step 8.4 acceptance      Accepted
 ```
 
-Step 8.4 因此目前為 **Local Acceptance Passed --- GitHub Actions / CI
-Pending**。不得在 CI evidence 取得前標示為正式 Accepted。
+Step 8.4 acceptance PR 已通過 GitHub Actions / CI，因此 Step 8.4
+正式標示為 **Accepted**。
 
 ------------------------------------------------------------------------
 
 # 下一階段
 
-Step 8.4 acceptance PR 通過 GitHub Actions / CI、完成正式 acceptance、
-squash merge、sync main 與 post-merge consistency verification 後，
-開發焦點轉入：
+Step 8.4 已完成正式 acceptance；squash merge、sync main 與 post-merge
+consistency verification 後， 開發焦點轉入：
 
 ``` text
 Step 8.5 --- Documentation & Bilingual User Manuals

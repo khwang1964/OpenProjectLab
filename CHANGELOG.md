@@ -284,8 +284,9 @@
     after isolation tests proved package-owned templates fully replace
     it.
 
--   Completed Step 8.4 local packaging / installation acceptance; formal
-    acceptance remains pending GitHub Actions / CI.
+-   Completed and formally accepted Step 8.4 Packaging / Installation /
+    Distribution after local artifact verification and GitHub Actions /
+    CI passed.
 
 -   Moved the active development focus from Marketplace feature
     completion to contract audit, stabilization, packaging,
@@ -517,8 +518,10 @@
 -   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit
     passed for the completed Step 8.4 local repository state.
 
--   GitHub Actions / CI remains the final external Step 8.4 acceptance
-    gate.
+-   Verified GitHub Actions / CI passed for the Step 8.4 acceptance PR.
+
+-   Marked Step 8.4 --- Packaging / Installation / Distribution as
+    formally Accepted.
 
 -   Milestone 7 historical evidence was not reused.
 

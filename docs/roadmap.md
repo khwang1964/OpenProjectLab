@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.3 Accepted; merge closeout in progress**
+> **Milestone 8 --- Step 8.4 Accepted; Step 8.5 Documentation & Bilingual User Manuals next**
 
 ------------------------------------------------------------------------
 
@@ -887,6 +887,9 @@ Installed generator import --- Passed
 Installed opl list --- Passed
 Installed representative generation --- Passed
 Legacy repository templates dependency --- Removed
+Packaging suite --- 29 passed, 0 skipped
+Wheel --- openprojectlab-0.6.0-py3-none-any.whl
+sdist --- openprojectlab-0.6.0.tar.gz
 ```
 
 Final local acceptance evidence：
@@ -906,6 +909,13 @@ dependencies、`PYTHONPATH`、legacy repository-level `templates/`
 或未追蹤 本機檔案。
 
 **Status:** Accepted
+
+Step 8.4 artifact-path CI is now automated and verified on GitHub Actions:
+
+``` text
+GitHub Quality checks --- Passed
+GitHub Packaging artifact verification --- Passed
+```
 
 ## Step 8.5 --- Documentation & Bilingual User Manuals
 

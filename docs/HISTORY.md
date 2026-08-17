@@ -1008,6 +1008,9 @@ Installed generator import --- Passed
 Installed opl list --- Passed
 Installed representative generation --- Passed
 Legacy templates dependency --- Removed
+Packaging suite --- 29 passed, 0 skipped
+Wheel --- openprojectlab-0.6.0-py3-none-any.whl
+sdist --- openprojectlab-0.6.0.tar.gz
 ```
 
 Step 8.4 final local quality gate：
@@ -1032,6 +1035,9 @@ Final local quality gate        Passed
 Regression                      1558 passed, 1 deselected
 Coverage                        90.55% (required 67.0%)
 GitHub Actions / CI             Passed
+GitHub Quality checks            Passed
+GitHub Packaging artifact verification
+                                 Passed
 Formal Step 8.4 acceptance      Accepted
 ```
 

@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.6 Accepted; Step 8.7 Support Matrix / Known Limitations next**
+> **Milestone 8 --- Step 8.7 Accepted locally; final acceptance PR / GitHub Actions CI pending**
 
 ------------------------------------------------------------------------
 
@@ -1048,26 +1048,80 @@ Support Matrix / Known Limitations。
 
 ## Step 8.7 --- Support Matrix / Known Limitations 🚧
 
-建立：
+Governing documents：
 
 ``` text
 docs/reference/support-matrix.md
 docs/releases/v1.0-known-limitations.md
 ```
 
-Supported 必須有 CI、automated tests 或明確 release verification
-evidence。
-
-文件應清楚區分：
+Formal acceptance candidate：
 
 ``` text
-Supported
-Experimental
-Known Limitation
-Deferred
+docs/releases/v1.0-support-matrix-known-limitations-acceptance.md
 ```
 
-**Status:** In Progress
+Step 8.7 已完成 evidence-based support governance、known-limitation
+register、focused automation 與 exact environment evidence population。
+
+Completed delivery sequence：
+
+``` text
+PR #128 — docs: define v1.0 support matrix and known limitations
+PR #129 — test: define v1 support matrix contracts
+PR #130 — docs: record v1.0 environment support evidence
+```
+
+Focused automation：
+
+``` text
+tests/support/test_support_matrix_contract.py
+tests/support/test_known_limitations_contract.py
+31 passed
+```
+
+Current explicit environment support evidence：
+
+``` text
+Ubuntu (ubuntu-latest) + Python 3.14
+    → Supported through GitHub Actions CI
+
+Windows + Python 3.14.5
+    → Supported through maintainer-owned wheel-backed verification
+    → Step 8.6 evidence: 1648 passed, 1 deselected; 90.55% coverage
+```
+
+No broader Python-version or operating-system support is implied.
+
+Current delivery status：
+
+``` text
+8.7.1 Support-matrix governing design              Complete
+8.7.2 Known-limitations governing design           Complete
+8.7.3 Support-matrix contract tests                Complete
+8.7.4 Known-limitations contract tests             Complete
+8.7.5 Populate exact environment evidence          Complete
+8.7.6 Full regression + quality gates              Complete
+8.7.7 Formal Step 8.7 acceptance                   Accepted locally; PR / CI pending
+```
+
+Completion-state local acceptance evidence：
+
+``` text
+Focused support suite --- 31 passed
+Full regression --- 1679 passed, 1 deselected
+Coverage --- 90.55%
+Required coverage --- 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+```
+
+Step 8.7 is Accepted locally. Final formal acceptance requires the
+acceptance PR to pass GitHub Actions / CI, followed by squash merge, main
+synchronization, and post-merge consistency verification.
+
+**Status:** Accepted locally; PR / CI pending
 
 ## Step 8.8 --- Release Automation & Reproducibility
 

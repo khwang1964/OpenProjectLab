@@ -64,6 +64,17 @@
 -   Added automated documentation structure, bilingual parity, functional parity, and First 15 Minutes installed-user verification.
 -   Added `docs/releases/v1.0-documentation-user-manuals-acceptance.md` as the Step 8.5 acceptance record.
 
+-   Added `docs/releases/v1.0-compatibility-deprecation-policy.md` as the
+    governing Step 8.6 compatibility and deprecation policy.
+-   Added `tests/compatibility/test_version_policy_contract.py` for
+    release-series governance, classification boundaries, behavioral
+    breaking-change rules, major-version removal policy, emergency
+    exceptions, and Step 8.2 source-of-truth preservation.
+-   Added `tests/compatibility/test_deprecation_policy_contract.py` for
+    Deprecated Stable lifecycle, required deprecation records, migration
+    guidance, EN/zh-TW parity, documentation / CHANGELOG obligations, and
+    emergency compatibility exceptions.
+
 #### Milestone 7 --- Marketplace
 
 -   Added the Marketplace architecture and ADR 0023 --- Marketplace
@@ -249,6 +260,21 @@
 -   Added `docs/milestones/milestone-4-acceptance.md`.
 
 ### Changed
+
+-   Established the v1 compatibility rule: `1.0.x` for
+    compatibility-preserving fixes, `1.x` for backward-compatible
+    evolution, and `2.0` for intentional breaking Stable-contract changes.
+-   Established the Deprecated Stable lifecycle and the normal rule that
+    Stable removal is not permitted before the next major version.
+-   Established mandatory migration guidance, user-facing EN/zh-TW
+    functional parity, documentation / CHANGELOG obligations, and explicit
+    emergency compatibility-exception evidence.
+-   Kept Step 8.2 public-contract freeze tests authoritative for the exact
+    v1.0 Stable surface.
+-   Completed Step 8.6 compatibility/deprecation policy automation and
+    moved active work to documentation / CHANGELOG alignment.
+-   Formal Step 8.6 acceptance remains pending fresh full-regression,
+    coverage, quality-gate, and GitHub Actions / CI evidence.
 
 -   Formally accepted Step 8.5 Documentation & Bilingual User Manuals after acceptance PR #120 passed GitHub Actions / CI, was squash merged, `main` was synchronized with `origin/main`, and post-merge consistency verification completed.
 -   Moved the active Milestone 8 focus to Step 8.6 --- Compatibility & Deprecation Policy.
@@ -473,6 +499,14 @@
     `generator.sdk`; ADR 0015 does not expand the public Plugin SDK.
 
 ### Verification
+
+-   Verified PR #122 merged the v1.0 compatibility and deprecation
+    governing policy.
+-   Verified PR #123 merged the v1 compatibility policy contract tests.
+-   Verified PR #124 merged the v1 deprecation policy contract tests.
+-   Recorded Step 8.6 policy automation as complete while leaving formal
+    Step 8.6 acceptance pending final regression, coverage, quality gates,
+    and GitHub Actions / CI.
 
 -   Recorded the Step 8.5 final local regression evidence: 1616 passed, 1 deselected.
 -   Verified Step 8.5 total coverage at 90.55%, above the required 67.0% gate.

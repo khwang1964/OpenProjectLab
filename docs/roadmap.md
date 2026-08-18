@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.5 Accepted; Step 8.6 Compatibility & Deprecation Policy active**
+> **Milestone 8 --- Step 8.6 Compatibility & Deprecation Policy active; policy automation complete, documentation alignment in progress**
 
 ------------------------------------------------------------------------
 
@@ -959,18 +959,56 @@ Post-merge consistency verification --- Completed
 
 **Status:** Accepted
 
-## Step 8.6 --- Compatibility & Deprecation Policy
+## Step 8.6 --- Compatibility & Deprecation Policy 🚧
 
-建立正式 compatibility / deprecation governance，定義：
+Governing policy：
+
+``` text
+docs/releases/v1.0-compatibility-deprecation-policy.md
+```
+
+正式 compatibility / deprecation governance 定義：
 
 ``` text
 1.0.x → compatibility-preserving fixes
 1.x   → backward-compatible evolution
-2.0   → intentional breaking public-contract changes
+2.0   → intentional breaking Stable-contract changes
 ```
 
 Stable contract 的移除或破壞性修改必須遵循明確 deprecation / migration
-path。
+path。Step 8.2 frozen classifications remain authoritative；Step 8.6 不建立
+第二份 Stable-surface inventory。
+
+Completed implementation sequence：
+
+``` text
+PR #122 — docs: define v1.0 compatibility and deprecation policy
+PR #123 — test: define v1 compatibility policy contract
+PR #124 — test: define v1 deprecation policy contract
+```
+
+Automation：
+
+``` text
+tests/compatibility/__init__.py
+tests/compatibility/test_version_policy_contract.py
+tests/compatibility/test_deprecation_policy_contract.py
+```
+
+Current delivery status：
+
+``` text
+8.6.1 Governing compatibility/deprecation design   Complete
+8.6.2 Compatibility policy contract tests          Complete
+8.6.3 Deprecation policy contract tests            Complete
+8.6.4 Documentation / CHANGELOG integration        In Progress
+8.6.5 Full regression + coverage + quality gates   Pending
+8.6.6 Formal Step 8.6 acceptance                   Pending
+```
+
+已固定 Deprecated Stable lifecycle、major-version removal boundary、
+migration guidance、EN/zh-TW user-facing migration parity、documentation /
+CHANGELOG obligations，以及 emergency compatibility exception evidence。
 
 **Status:** In Progress
 

@@ -1073,13 +1073,66 @@ Step 8.5 acceptance PR #120 已通過 GitHub Actions / CI，完成 squash merge�
 
 ------------------------------------------------------------------------
 
-# 下一階段
+# Step 8.6 --- Compatibility & Deprecation Policy
 
-Step 8.5 已完成正式 acceptance 與 post-merge consistency verification。開發焦點現已正式轉入：
+Step 8.6 已建立 v1.0 compatibility / deprecation governing policy，並完成
+兩組 focused contract automation。Step 8.2 frozen public-contract
+classification 仍是 Stable surface 的唯一 authoritative baseline；Step 8.6
+不重新定義或擴張該 surface。
+
+Governing policy：
 
 ``` text
-Step 8.6 --- Compatibility & Deprecation Policy
+docs/releases/v1.0-compatibility-deprecation-policy.md
 ```
+
+核心 release-series rule：
+
+``` text
+1.0.x → compatibility-preserving fixes
+1.x   → backward-compatible evolution
+2.0   → intentional breaking Stable-contract changes
+```
+
+已完成 implementation sequence：
+
+``` text
+PR #122 — docs: define v1.0 compatibility and deprecation policy
+PR #123 — test: define v1 compatibility policy contract
+PR #124 — test: define v1 deprecation policy contract
+```
+
+Automation：
+
+``` text
+tests/compatibility/__init__.py
+tests/compatibility/test_version_policy_contract.py
+tests/compatibility/test_deprecation_policy_contract.py
+```
+
+目前已固定 Stable / Candidate / Experimental / Internal / Deferred 的相容性
+責任、behavioral compatibility、Deprecated Stable lifecycle、major-version
+removal boundary、migration guidance、EN/zh-TW functional parity、
+documentation / CHANGELOG obligations，以及 emergency compatibility
+exception evidence。
+
+Step 8.6 policy automation 已完成，正在進行 documentation / CHANGELOG
+alignment。Formal acceptance 尚未宣告；必須由完成態 repository 重新取得
+full regression、coverage、quality gates 與 GitHub Actions / CI evidence。
+
+------------------------------------------------------------------------
+
+# 下一階段
+
+Step 8.6 governing policy 與 compatibility / deprecation contract
+automation 已完成。開發焦點目前位於：
+
+``` text
+Step 8.6.4 --- Documentation / CHANGELOG Integration Rules
+```
+
+完成 alignment 後，將執行 Step 8.6 final regression / coverage / quality
+gates，再建立 formal acceptance evidence。
 
 ------------------------------------------------------------------------
 

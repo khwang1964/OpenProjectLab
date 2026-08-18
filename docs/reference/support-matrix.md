@@ -1,6 +1,6 @@
 # OpenProjectLab v1.0 Support Matrix
 
-> **Status:** Design / Contract Definition
+> **Status:** Accepted locally; final acceptance PR / GitHub Actions CI pending
 > **Milestone:** 8 --- v1.0 Stabilization & Release Readiness
 > **Step:** 8.7 --- Support Matrix / Known Limitations
 > **Depends on:** Step 8.2 Public Contract Audit & Freeze; Step 8.3 Reliability / Regression Hardening; Step 8.4 Packaging / Installation / Distribution; Step 8.5 Documentation & Bilingual User Manuals; Step 8.6 Compatibility & Deprecation Policy
@@ -548,12 +548,12 @@ A generalized environment-detection engine is not required for v1.0.
 
 ### Support Governance
 
-- [ ] Canonical status vocabulary is defined.
-- [ ] Supported claims require evidence.
-- [ ] Experimental claims are clearly labeled.
-- [ ] Deferred claims remain outside v1.0 scope.
-- [ ] Known limitations are separately documented.
-- [ ] Step 8.2 remains authoritative for Stable contract classification.
+- [x] Canonical status vocabulary is defined.
+- [x] Supported claims require evidence.
+- [x] Experimental claims are clearly labeled.
+- [x] Deferred claims remain outside v1.0 scope.
+- [x] Known limitations are separately documented.
+- [x] Step 8.2 remains authoritative for Stable contract classification.
 
 ### Environment Claims
 
@@ -564,24 +564,24 @@ A generalized environment-detection engine is not required for v1.0.
 
 ### Capability Claims
 
-- [ ] CLI support matches frozen/tested behavior.
-- [ ] Generator support matches implemented/tested built-ins.
-- [ ] Plugin support matches Stable SDK/Entry Point evidence.
-- [ ] Courseware support does not claim deferred grading/rendering/hosting.
-- [ ] AI support separates deterministic core from live-provider operation.
-- [ ] Marketplace support separates deterministic core from remote service.
-- [ ] Documentation support reflects EN/zh-TW automated parity.
+- [x] CLI support matches frozen/tested behavior.
+- [x] Generator support matches implemented/tested built-ins.
+- [x] Plugin support matches Stable SDK/Entry Point evidence.
+- [x] Courseware support does not claim deferred grading/rendering/hosting.
+- [x] AI support separates deterministic core from live-provider operation.
+- [x] Marketplace support separates deterministic core from remote service.
+- [x] Documentation support reflects EN/zh-TW automated parity.
 
 ### Automation / Quality
 
-- [ ] `tests/support/test_support_matrix_contract.py` exists.
-- [ ] `tests/support/test_known_limitations_contract.py` exists.
-- [ ] `git diff --check` passes.
-- [ ] Ruff / Ruff Format pass.
-- [ ] pre-commit passes.
-- [ ] full pytest passes.
-- [ ] coverage remains >= 67.0%.
-- [ ] GitHub Actions / CI passes.
+- [x] `tests/support/test_support_matrix_contract.py` exists.
+- [x] `tests/support/test_known_limitations_contract.py` exists.
+- [x] `git diff --check` passes.
+- [x] Ruff / Ruff Format pass.
+- [x] pre-commit passes.
+- [x] full pytest passes: 1679 passed, 1 deselected.
+- [x] coverage passes: 90.55% >= 67.0%.
+- [ ] GitHub Actions / CI passes for the Step 8.7 acceptance PR.
 
 ---
 
@@ -644,11 +644,14 @@ Step 8.8 Release Automation & Reproducibility
 ```text
 Step 8.6 Compatibility & Deprecation Policy        Accepted
 Step 8.7 Support Matrix / Known Limitations        In Progress
-Support governance                                  Defined by this document
+Support governance                                  Complete
+Support contract automation                          31 passed
 Exact Python-version matrix                         Populated from CI/release evidence
 Exact operating-system matrix                       Populated from CI/release evidence
-Known-limitations register                          Defined separately
-Formal Step 8.7 acceptance                          Pending
+Known-limitations register                          Complete
+Full regression                                  1679 passed, 1 deselected
+Coverage                                         90.55% (required 67.0%)
+Formal Step 8.7 acceptance                          Accepted locally; PR / CI pending
 ```
 
 ---

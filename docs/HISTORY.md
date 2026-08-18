@@ -1142,19 +1142,85 @@ merge，merge commit 為
 與 `HEAD` 已確認一致，working tree clean，post-merge consistency
 verification 亦完成，因此 Step 8.6 已正式 Accepted。
 
+
+------------------------------------------------------------------------
+
+# Step 8.7 --- Support Matrix / Known Limitations
+
+Step 8.7 已完成 evidence-based support governance 與 known-limitations
+governance，並建立 focused contract automation。
+
+Governing documents：
+
+``` text
+docs/reference/support-matrix.md
+docs/releases/v1.0-known-limitations.md
+```
+
+Delivery sequence：
+
+``` text
+PR #128 — docs: define v1.0 support matrix and known limitations
+PR #129 — test: define v1 support matrix contracts
+PR #130 — docs: record v1.0 environment support evidence
+```
+
+Automation：
+
+``` text
+tests/support/test_support_matrix_contract.py
+tests/support/test_known_limitations_contract.py
+31 passed
+```
+
+Step 8.7 的 Supported claim 採 evidence-first 原則。完成態 environment
+matrix 目前只承諾已有直接證據的組合：
+
+``` text
+Ubuntu (ubuntu-latest) + Python 3.14
+    → GitHub Actions CI evidence
+
+Windows + Python 3.14.5
+    → maintainer-owned wheel-backed release verification
+    → 1648 passed, 1 deselected
+    → 90.55% coverage
+```
+
+其他 Python / OS combinations 即使可能可運作，也不構成 v1.0 support
+commitment。
+
+Known-limitations register 已明確區分 Supported、Experimental、Known
+Limitation 與 Deferred，並記錄 live-provider AI、remote Marketplace、
+Plugin distribution/trust、grading/scoring、Slides rendering、Website
+hosting/deployment、cross-Generator rollback、Internal API、built-artifact
+boundary 與 documentation-language boundary。
+
+目前 Step 8.7 acceptance candidate 已建立。Focused support suite 已通過
+31 tests，pre-commit 亦已通過。Final full regression、coverage、
+`git diff --check`、Ruff / Ruff Format 的完成態數值，以及 acceptance PR
+GitHub Actions / CI，仍須在正式 Accepted 前記錄。
+
+Formal acceptance candidate：
+
+``` text
+docs/releases/v1.0-support-matrix-known-limitations-acceptance.md
+```
+
+
 ------------------------------------------------------------------------
 
 # 下一階段
 
-Step 8.6 governing policy、contract automation、documentation /
-CHANGELOG alignment、wheel-backed final regression、acceptance PR、
-GitHub Actions / CI、squash merge、main synchronization 與 post-merge
-consistency verification 均已完成。
+Step 8.7 governing documents、contract automation 與 exact environment
+evidence 已完成；目前正在進行 completion-state full regression、coverage
+與 final quality gates。
 
-開發焦點正式轉入：
+下一個 gate：
 
 ``` text
-Step 8.7 --- Support Matrix / Known Limitations
+Step 8.7 formal acceptance
+        ↓
+Step 8.8 --- Release Automation & Reproducibility
 ```
 
 ------------------------------------------------------------------------

@@ -75,6 +75,18 @@
     guidance, EN/zh-TW parity, documentation / CHANGELOG obligations, and
     emergency compatibility exceptions.
 
+-   Added `docs/reference/support-matrix.md` as the evidence-backed v1.0
+    support contract.
+-   Added `docs/releases/v1.0-known-limitations.md` as the canonical v1.0
+    known-limitations and Deferred-scope register.
+-   Added `tests/support/test_support_matrix_contract.py` and
+    `tests/support/test_known_limitations_contract.py`.
+-   Added exact Step 8.7 environment evidence for Ubuntu
+    (`ubuntu-latest`) with Python 3.14 and the explicitly verified Windows
+    maintainer environment with Python 3.14.5.
+-   Added `docs/releases/v1.0-support-matrix-known-limitations-acceptance.md`
+    as the Step 8.7 acceptance candidate.
+
 #### Milestone 7 --- Marketplace
 
 -   Added the Marketplace architecture and ADR 0023 --- Marketplace
@@ -260,6 +272,18 @@
 -   Added `docs/milestones/milestone-4-acceptance.md`.
 
 ### Changed
+
+-   Completed Step 8.7 support-matrix and known-limitations governing
+    design through PR #128.
+-   Completed Step 8.7 focused support-contract automation through PR
+    #129; the focused suite passes with 31 tests.
+-   Populated exact environment support evidence through PR #130.
+-   Limited v1.0 environment support claims to evidence-backed
+    combinations and kept all other Python/OS combinations unclaimed.
+-   Advanced Step 8.7 to local acceptance after completion-state
+    regression and quality gates passed; final acceptance PR / CI,
+    squash merge, main synchronization, and post-merge consistency
+    verification remain required before formal acceptance.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -506,6 +530,26 @@
     `generator.sdk`; ADR 0015 does not expand the public Plugin SDK.
 
 ### Verification
+
+-   Verified Step 8.7 support-contract automation passes with 31 tests.
+-   Verified pre-commit passes for the Step 8.7 support/evidence state.
+-   Verified PR #128 merged the v1.0 support-matrix / known-limitations
+    governing design.
+-   Verified PR #129 merged the v1 support-matrix contract automation.
+-   Verified PR #130 merged the exact environment-support evidence.
+-   Recorded Ubuntu (`ubuntu-latest`) + Python 3.14 as CI-backed Supported
+    environment evidence.
+-   Recorded Windows + Python 3.14.5 as maintainer-owned wheel-backed
+    Supported environment evidence without generalizing the claim to all
+    Windows configurations.
+-   Recorded Step 8.7 completion-state full regression evidence:
+    1679 passed, 1 deselected.
+-   Verified Step 8.7 total coverage at 90.55%, above the required 67.0%
+    gate.
+-   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit passed
+    for the Step 8.7 local acceptance state.
+-   Marked Step 8.7 as Accepted locally; final acceptance PR / GitHub
+    Actions CI remains pending.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

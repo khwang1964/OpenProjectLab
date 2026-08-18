@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.6 Compatibility & Deprecation Policy active; policy automation complete, documentation alignment in progress**
+> **Milestone 8 --- Step 8.6 Compatibility & Deprecation Policy has reached local acceptance; final acceptance PR / GitHub Actions CI pending**
 
 ------------------------------------------------------------------------
 
@@ -1001,16 +1001,41 @@ Current delivery status：
 8.6.1 Governing compatibility/deprecation design   Complete
 8.6.2 Compatibility policy contract tests          Complete
 8.6.3 Deprecation policy contract tests            Complete
-8.6.4 Documentation / CHANGELOG integration        In Progress
-8.6.5 Full regression + coverage + quality gates   Pending
-8.6.6 Formal Step 8.6 acceptance                   Pending
+8.6.4 Documentation / CHANGELOG integration        Complete
+8.6.5 Full regression + coverage                   Passed
+8.6.6 Formal Step 8.6 acceptance                   Pending CI / merge
+```
+
+Final local regression evidence：
+
+``` text
+Full regression --- 1648 passed, 1 deselected
+Wheel-related skips --- 0
+Coverage --- 90.55%
+Required coverage --- 67.0% --- Passed
+```
+
+完成態 repository 使用實際 built wheel 與 `OPL_TEST_WHEEL` 執行
+packaging / clean-install / First 15 Minutes installed-user paths，因此
+這組 1648 / 90.55% 為 Step 8.6 的 fresh local acceptance evidence，
+不沿用 Step 8.5 baseline。
+
+Formal acceptance record：
+
+``` text
+docs/releases/v1.0-compatibility-deprecation-policy-acceptance.md
 ```
 
 已固定 Deprecated Stable lifecycle、major-version removal boundary、
 migration guidance、EN/zh-TW user-facing migration parity、documentation /
 CHANGELOG obligations，以及 emergency compatibility exception evidence。
 
-**Status:** In Progress
+尚未完成的 formal gate 為 final recorded local quality gates、Step 8.6
+acceptance PR、GitHub Actions / CI、squash merge、main synchronization 與
+post-merge consistency verification。在這些 evidence 完成前，不提前將
+Step 8.6 標示為正式 Accepted。
+
+**Status:** Local Acceptance Passed — Formal Acceptance Pending CI / Merge
 
 ## Step 8.7 --- Support Matrix / Known Limitations
 

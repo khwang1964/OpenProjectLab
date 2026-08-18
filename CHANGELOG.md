@@ -272,9 +272,12 @@
 -   Kept Step 8.2 public-contract freeze tests authoritative for the exact
     v1.0 Stable surface.
 -   Completed Step 8.6 compatibility/deprecation policy automation and
-    moved active work to documentation / CHANGELOG alignment.
--   Formal Step 8.6 acceptance remains pending fresh full-regression,
-    coverage, quality-gate, and GitHub Actions / CI evidence.
+    documentation / CHANGELOG alignment.
+-   Re-ran the completed repository against a real built wheel through
+    `OPL_TEST_WHEEL`, preserving packaging, clean-install, and First 15
+    Minutes installed-user verification in the Step 8.6 acceptance state.
+-   Reached Step 8.6 local acceptance; formal acceptance remains pending
+    the final acceptance PR and GitHub Actions / CI.
 
 -   Formally accepted Step 8.5 Documentation & Bilingual User Manuals after acceptance PR #120 passed GitHub Actions / CI, was squash merged, `main` was synchronized with `origin/main`, and post-merge consistency verification completed.
 -   Moved the active Milestone 8 focus to Step 8.6 --- Compatibility & Deprecation Policy.
@@ -504,9 +507,18 @@
     governing policy.
 -   Verified PR #123 merged the v1 compatibility policy contract tests.
 -   Verified PR #124 merged the v1 deprecation policy contract tests.
--   Recorded Step 8.6 policy automation as complete while leaving formal
-    Step 8.6 acceptance pending final regression, coverage, quality gates,
-    and GitHub Actions / CI.
+-   Recorded Step 8.6 policy automation as complete.
+-   Recorded the Step 8.6 wheel-backed final local regression evidence:
+    1648 passed, 1 deselected.
+-   Verified Step 8.6 total coverage at 90.55%, above the required 67.0%
+    gate.
+-   Verified the wheel-backed run eliminates the 11 expected
+    `OPL_TEST_WHEEL`-missing skips from the preceding source-only run.
+-   Added
+    `docs/releases/v1.0-compatibility-deprecation-policy-acceptance.md`
+    as the Step 8.6 formal acceptance record.
+-   Left GitHub Actions / CI and formal Step 8.6 acceptance pending the
+    final acceptance PR.
 
 -   Recorded the Step 8.5 final local regression evidence: 1616 passed, 1 deselected.
 -   Verified Step 8.5 total coverage at 90.55%, above the required 67.0% gate.

@@ -182,11 +182,16 @@ def test_deferred_entries_are_not_presented_as_supported() -> None:
 def test_environment_uncertainty_is_explicit(
     known_limitations_text: str,
 ) -> None:
-    """Unverified Python/OS combinations must remain unclaimed."""
+    """Only explicitly evidenced Python/OS combinations may be supported."""
     assert "Exact Python and OS Matrix Must Be Evidence-Based" in (known_limitations_text)
-    assert "no unverified Python-version range should be advertised" in (known_limitations_text)
-    assert "no operating system should be marked Supported merely because" in (
-        known_limitations_text
+    assert "no unverified Python-version range is advertised" in (known_limitations_text)
+    assert (
+        "no operating system is marked Supported merely because the code "
+        "is portable Python" in known_limitations_text
+    )
+    assert (
+        "Other Python/OS combinations may work, but they are unverified "
+        "and carry no v1.0 support commitment." in known_limitations_text
     )
 
 

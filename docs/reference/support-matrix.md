@@ -134,9 +134,18 @@ Python version support
     → Supported only when explicitly represented in CI or release verification
 ```
 
-Until Step 8.7 automation verifies the exact version set, the canonical
-version list must be populated from repository evidence rather than
-assumption.
+The exact v1.0 Python support claim is therefore limited to the versions
+represented by current release evidence:
+
+- **Python 3.14 on Ubuntu (`ubuntu-latest`)** --- Supported through GitHub
+  Actions CI for both Quality checks and Packaging artifact verification.
+- **Python 3.14.5 on Windows** --- Supported through maintainer-owned,
+  wheel-backed Step 8.6 release verification: `1648 passed, 1 deselected`
+  with `90.55%` total coverage.
+
+No broader Python version range is implied. Python 3.11, 3.12, 3.13, 3.15,
+or any other version must remain unclaimed until explicit CI or release
+verification evidence exists.
 
 ### 4.2 Operating Systems
 
@@ -149,6 +158,18 @@ OS support
 
 A platform must not be listed as Supported solely because OPL is written
 in Python.
+
+The exact v1.0 operating-system support claim is limited to:
+
+- **Ubuntu (`ubuntu-latest`)** --- Supported through GitHub Actions CI with
+  Python 3.14.
+- **Windows maintainer environment** --- Supported for the explicitly
+  verified Python 3.14.5 wheel-backed release workflow.
+
+The Windows evidence is a maintainer-owned release-verification claim; it
+must not be generalized to every Windows edition or configuration. macOS
+and other operating systems remain unclaimed until explicit evidence is
+recorded.
 
 ---
 
@@ -484,10 +505,13 @@ using this schema:
 | AI | Live provider invocation | Experimental | Opt-in live tests | External dependency |
 | Marketplace | Deterministic local core | Supported | Milestone 7 + Step 8.2/8.3 tests | No remote service |
 | Docs | EN + zh-TW manuals | Supported | Step 8.5 automation | 13 paired chapters |
+| Runtime | Ubuntu (`ubuntu-latest`) + Python 3.14 | Supported | GitHub Actions CI: Quality checks + Packaging artifact verification | CI-backed environment |
+| Runtime | Windows + Python 3.14.5 | Supported | Step 8.6 wheel-backed maintainer release verification: 1648 passed, 1 deselected; 90.55% coverage | Do not generalize to all Windows configurations |
 | Release | Remote Marketplace | Deferred | No v1 implementation commitment | v1.1+ candidate |
 
-Environment-specific rows for operating systems and Python versions must
-be added only after the exact CI/release evidence is confirmed.
+These environment rows are the complete v1.0 environment support claim at
+this stage. Other Python versions and operating systems may work, but are
+unverified and are not part of the maintained v1.0 support commitment.
 
 ---
 
@@ -533,10 +557,10 @@ A generalized environment-detection engine is not required for v1.0.
 
 ### Environment Claims
 
-- [ ] Python support lists only actually verified versions.
-- [ ] OS support lists only actually verified platforms.
-- [ ] Installed-user support is based on real built artifacts.
-- [ ] Unsupported environment assumptions are not promoted.
+- [x] Python support lists only actually verified versions.
+- [x] OS support lists only actually verified platforms.
+- [x] Installed-user support is based on real built artifacts.
+- [x] Unsupported environment assumptions are not promoted.
 
 ### Capability Claims
 
@@ -621,8 +645,8 @@ Step 8.8 Release Automation & Reproducibility
 Step 8.6 Compatibility & Deprecation Policy        Accepted
 Step 8.7 Support Matrix / Known Limitations        In Progress
 Support governance                                  Defined by this document
-Exact Python-version matrix                         Pending evidence review
-Exact operating-system matrix                       Pending evidence review
+Exact Python-version matrix                         Populated from CI/release evidence
+Exact operating-system matrix                       Populated from CI/release evidence
 Known-limitations register                          Defined separately
 Formal Step 8.7 acceptance                          Pending
 ```

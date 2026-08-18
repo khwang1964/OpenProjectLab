@@ -1,6 +1,6 @@
 # OpenProjectLab v1.0 Support Matrix
 
-> **Status:** Accepted locally; final acceptance PR / GitHub Actions CI pending
+> **Status:** Accepted
 > **Milestone:** 8 --- v1.0 Stabilization & Release Readiness
 > **Step:** 8.7 --- Support Matrix / Known Limitations
 > **Depends on:** Step 8.2 Public Contract Audit & Freeze; Step 8.3 Reliability / Regression Hardening; Step 8.4 Packaging / Installation / Distribution; Step 8.5 Documentation & Bilingual User Manuals; Step 8.6 Compatibility & Deprecation Policy
@@ -581,7 +581,7 @@ A generalized environment-detection engine is not required for v1.0.
 - [x] pre-commit passes.
 - [x] full pytest passes: 1679 passed, 1 deselected.
 - [x] coverage passes: 90.55% >= 67.0%.
-- [ ] GitHub Actions / CI passes for the Step 8.7 acceptance PR.
+- [x] GitHub Actions / CI passed for Step 8.7 acceptance PR #131.
 
 ---
 
@@ -643,7 +643,7 @@ Step 8.8 Release Automation & Reproducibility
 
 ```text
 Step 8.6 Compatibility & Deprecation Policy        Accepted
-Step 8.7 Support Matrix / Known Limitations        In Progress
+Step 8.7 Support Matrix / Known Limitations        Accepted
 Support governance                                  Complete
 Support contract automation                          31 passed
 Exact Python-version matrix                         Populated from CI/release evidence
@@ -651,7 +651,11 @@ Exact operating-system matrix                       Populated from CI/release ev
 Known-limitations register                          Complete
 Full regression                                  1679 passed, 1 deselected
 Coverage                                         90.55% (required 67.0%)
-Formal Step 8.7 acceptance                          Accepted locally; PR / CI pending
+Acceptance PR                                      #131 merged
+GitHub Actions / CI                                 Passed
+Post-merge consistency                             Completed
+Formal Step 8.7 acceptance                          Accepted
+Next                                                Step 8.8 Release Automation & Reproducibility
 ```
 
 ---

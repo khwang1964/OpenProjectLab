@@ -1,6 +1,6 @@
 # OpenProjectLab Roadmap
 
-> Status: Active Last Updated: 2026-08-17
+> Status: Active Last Updated: 2026-08-18
 
 ------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.4 Accepted; Step 8.5 Documentation & Bilingual User Manuals next**
+> **Milestone 8 --- Step 8.5 Accepted locally; Step 8.6 Compatibility & Deprecation Policy next**
 
 ------------------------------------------------------------------------
 
@@ -917,38 +917,37 @@ GitHub Quality checks --- Passed
 GitHub Packaging artifact verification --- Passed
 ```
 
-## Step 8.5 --- Documentation & Bilingual User Manuals
+## Step 8.5 --- Documentation & Bilingual User Manuals ✅
 
-v1.0 必須提供兩套正式 User Manual：
+v1.0 now provides two formal User Manuals:
 
 ``` text
 docs/user-guide/en/
 docs/user-guide/zh-TW/
 ```
 
-兩個版本至少涵蓋：
+Both manuals contain 13 paired chapters covering README/navigation, concepts, installation, quick start, configuration, CLI, generators, courseware, plugins, AI integration, Marketplace, troubleshooting, and upgrading. Functional parity is protected by automated documentation tests.
 
--   README / navigation
--   concepts
--   installation
--   quick start
--   configuration
--   CLI
--   generators
--   courseware
--   plugins
--   AI integration
--   Marketplace
--   troubleshooting
--   upgrading
+The First 15 Minutes workflow is executable against the built wheel through `OPL_TEST_WHEEL` and the Step 8.4 clean-install pattern. Final local acceptance evidence:
 
-English 與 Traditional Chinese (Taiwan) 必須維持 functional
-documentation parity。
+``` text
+English User Manual --- 13 chapters
+zh-TW User Manual --- 13 chapters
+Documentation structure/parity/functional checks --- Passed
+First 15 Minutes --- 3 passed, 0 skipped
+Full regression --- 1616 passed, 1 deselected
+Coverage --- 90.55%
+Required coverage --- 67.0% --- Passed
+git diff --check / Ruff / Ruff Format / pre-commit --- Passed
+```
 
-Quick Start 應建立 First 15 Minutes representative onboarding
-flow，並在可行 範圍內轉為 executable documentation smoke test。
+Formal acceptance record:
 
-**Status:** Planned
+``` text
+docs/releases/v1.0-documentation-user-manuals-acceptance.md
+```
+
+**Status:** Accepted locally; final acceptance PR / GitHub Actions CI pending
 
 ## Step 8.6 --- Compatibility & Deprecation Policy
 

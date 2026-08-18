@@ -60,6 +60,10 @@
 -   Added `docs/releases/v1.0-packaging-installation-acceptance.md` as
     the Step 8.4 acceptance record.
 
+-   Added the complete v1.0 English and Traditional Chinese (Taiwan) User Manuals with 13 paired chapters per language.
+-   Added automated documentation structure, bilingual parity, functional parity, and First 15 Minutes installed-user verification.
+-   Added `docs/releases/v1.0-documentation-user-manuals-acceptance.md` as the Step 8.5 acceptance record.
+
 #### Milestone 7 --- Marketplace
 
 -   Added the Marketplace architecture and ADR 0023 --- Marketplace
@@ -245,6 +249,8 @@
 -   Added `docs/milestones/milestone-4-acceptance.md`.
 
 ### Changed
+
+-   Completed Step 8.5 Documentation & Bilingual User Manuals locally and moved the next Milestone 8 focus to Step 8.6 --- Compatibility & Deprecation Policy, pending final acceptance PR / CI.
 
 -   Started Milestone 8 --- v1.0 Stabilization & Release Readiness as
     the final pre-v1.0 engineering milestone.
@@ -466,6 +472,12 @@
     `generator.sdk`; ADR 0015 does not expand the public Plugin SDK.
 
 ### Verification
+
+-   Recorded the Step 8.5 final local regression evidence: 1616 passed, 1 deselected.
+-   Verified Step 8.5 total coverage at 90.55%, above the required 67.0% gate.
+-   Verified the executable First 15 Minutes documentation workflow passes with 3 passed and 0 skipped against the built-wheel path.
+-   Verified documentation structure, EN/zh-TW parity, functional parity, `git diff --check`, Ruff, Ruff Format, and pre-commit for the Step 8.5 local acceptance state.
+-   GitHub Actions / CI remains the final acceptance-PR gate before Step 8.5 merge closure.
 
 -   Verified the Step 8.2 dedicated v1 contract-freeze slices are green
     during incremental development.

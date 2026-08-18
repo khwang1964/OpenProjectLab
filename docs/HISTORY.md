@@ -1046,15 +1046,39 @@ Step 8.4 acceptance PR 已通過 GitHub Actions / CI，因此 Step 8.4
 
 ------------------------------------------------------------------------
 
-# 下一階段
+# Step 8.5 --- Documentation & Bilingual User Manuals
 
-Step 8.4 已完成正式 acceptance、squash merge、main synchronization 與
-post-merge consistency verification。
+Step 8.5 已完成兩套正式 v1.0 User Manual，各 13 個 paired chapters，並建立 structure、bilingual parity、functional parity 與 First 15 Minutes executable documentation automation。
 
-開發焦點現已正式轉入：
+Final local acceptance evidence：
 
 ``` text
-Step 8.5 --- Documentation & Bilingual User Manuals
+English User Manual --- 13 chapters
+zh-TW User Manual --- 13 chapters
+Documentation automation --- Passed
+First 15 Minutes --- 3 passed, 0 skipped
+Full regression --- 1616 passed, 1 deselected
+Coverage --- 90.55%
+Required coverage --- 67.0% --- Passed
+git diff --check / Ruff / Ruff Format / pre-commit --- Passed
+```
+
+Formal acceptance record：
+
+``` text
+docs/releases/v1.0-documentation-user-manuals-acceptance.md
+```
+
+Step 8.5 已達成 local acceptance；final acceptance PR / GitHub Actions CI 通過後即可 squash merge、sync main 與 post-merge consistency verification。
+
+------------------------------------------------------------------------
+
+# 下一階段
+
+Step 8.5 acceptance merge 完成後，開發焦點正式轉入：
+
+``` text
+Step 8.6 --- Compatibility & Deprecation Policy
 ```
 
 ------------------------------------------------------------------------

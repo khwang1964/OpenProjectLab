@@ -280,10 +280,12 @@
 -   Populated exact environment support evidence through PR #130.
 -   Limited v1.0 environment support claims to evidence-backed
     combinations and kept all other Python/OS combinations unclaimed.
--   Advanced Step 8.7 to local acceptance after completion-state
-    regression and quality gates passed; final acceptance PR / CI,
-    squash merge, main synchronization, and post-merge consistency
-    verification remain required before formal acceptance.
+-   Formally accepted Step 8.7 Support Matrix / Known Limitations after
+    acceptance PR #131 passed GitHub Actions / CI, was squash merged,
+    `main` was synchronized with `origin/main`, and post-merge consistency
+    verification completed.
+-   Moved the active Milestone 8 focus to Step 8.8 --- Release Automation
+    & Reproducibility.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -548,8 +550,13 @@
     gate.
 -   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit passed
     for the Step 8.7 local acceptance state.
--   Marked Step 8.7 as Accepted locally; final acceptance PR / GitHub
-    Actions CI remains pending.
+-   Verified GitHub Actions / CI passed for Step 8.7 acceptance PR #131.
+-   Verified Step 8.7 acceptance PR #131 was squash merged.
+-   Verified local `main` is synchronized with `origin/main` after the
+    acceptance merge.
+-   Completed Step 8.7 post-merge consistency verification.
+-   Marked Step 8.7 --- Support Matrix / Known Limitations as formally
+    Accepted.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

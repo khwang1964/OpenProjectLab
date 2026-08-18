@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.7 Accepted locally; final acceptance PR / GitHub Actions CI pending**
+> **Milestone 8 --- Step 8.7 Accepted; Step 8.8 Release Automation & Reproducibility active**
 
 ------------------------------------------------------------------------
 
@@ -1046,7 +1046,7 @@ Support Matrix / Known Limitations。
 
 **Status:** Accepted
 
-## Step 8.7 --- Support Matrix / Known Limitations 🚧
+## Step 8.7 --- Support Matrix / Known Limitations ✅
 
 Governing documents：
 
@@ -1102,7 +1102,7 @@ Current delivery status：
 8.7.4 Known-limitations contract tests             Complete
 8.7.5 Populate exact environment evidence          Complete
 8.7.6 Full regression + quality gates              Complete
-8.7.7 Formal Step 8.7 acceptance                   Accepted locally; PR / CI pending
+8.7.7 Formal Step 8.7 acceptance                   Accepted
 ```
 
 Completion-state local acceptance evidence：
@@ -1117,13 +1117,22 @@ Ruff / Ruff Format --- Passed
 pre-commit --- Passed
 ```
 
-Step 8.7 is Accepted locally. Final formal acceptance requires the
-acceptance PR to pass GitHub Actions / CI, followed by squash merge, main
-synchronization, and post-merge consistency verification.
+Closure evidence：
 
-**Status:** Accepted locally; PR / CI pending
+``` text
+Acceptance PR --- #131 merged
+GitHub Actions / CI --- Passed
+Squash merge --- Completed
+main synchronization --- Completed
+Post-merge consistency verification --- Completed
+```
 
-## Step 8.8 --- Release Automation & Reproducibility
+Step 8.7 is formally Accepted. The active Milestone 8 focus now moves to
+Step 8.8 --- Release Automation & Reproducibility.
+
+**Status:** Accepted
+
+## Step 8.8 --- Release Automation & Reproducibility 🚧
 
 建立 maintainer release process，並確保：
 
@@ -1145,7 +1154,7 @@ Automation 應涵蓋可合理自動化的 version verification、quality gates�
 documentation checks、package build、clean-install smoke tests 與
 release artifact validation。
 
-**Status:** Planned
+**Status:** In Progress
 
 ## Step 8.9 --- Full Release-readiness Verification
 

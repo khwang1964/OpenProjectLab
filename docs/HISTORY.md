@@ -1195,31 +1195,44 @@ Plugin distribution/trust、grading/scoring、Slides rendering、Website
 hosting/deployment、cross-Generator rollback、Internal API、built-artifact
 boundary 與 documentation-language boundary。
 
-目前 Step 8.7 acceptance candidate 已建立。Focused support suite 已通過
-31 tests，pre-commit 亦已通過。Final full regression、coverage、
-`git diff --check`、Ruff / Ruff Format 的完成態數值，以及 acceptance PR
-GitHub Actions / CI，仍須在正式 Accepted 前記錄。
+Step 8.7 completion-state acceptance evidence：
 
-Formal acceptance candidate：
+``` text
+Focused support suite --- 31 passed
+Full regression --- 1679 passed, 1 deselected
+Coverage --- 90.55%
+Required coverage --- 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+```
+
+這組 1679 / 90.55% 是 Step 8.7 completion-state 的 fresh acceptance
+evidence，不沿用 Step 8.6 的 1648 / 90.55% baseline。
+
+Formal acceptance record：
 
 ``` text
 docs/releases/v1.0-support-matrix-known-limitations-acceptance.md
 ```
+
+Step 8.7 acceptance PR #131 已通過 GitHub Actions / CI，完成 squash
+merge、sync main 與 post-merge consistency verification，因此 Step 8.7
+已正式 Accepted。
 
 
 ------------------------------------------------------------------------
 
 # 下一階段
 
-Step 8.7 governing documents、contract automation 與 exact environment
-evidence 已完成；目前正在進行 completion-state full regression、coverage
-與 final quality gates。
+Step 8.7 governing documents、contract automation、exact environment
+evidence、completion-state regression、acceptance PR、GitHub Actions / CI、
+squash merge、main synchronization 與 post-merge consistency verification
+均已完成。
 
-下一個 gate：
+開發焦點正式轉入：
 
 ``` text
-Step 8.7 formal acceptance
-        ↓
 Step 8.8 --- Release Automation & Reproducibility
 ```
 

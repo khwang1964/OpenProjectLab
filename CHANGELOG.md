@@ -250,7 +250,8 @@
 
 ### Changed
 
--   Completed Step 8.5 Documentation & Bilingual User Manuals locally and moved the next Milestone 8 focus to Step 8.6 --- Compatibility & Deprecation Policy, pending final acceptance PR / CI.
+-   Formally accepted Step 8.5 Documentation & Bilingual User Manuals after acceptance PR #120 passed GitHub Actions / CI, was squash merged, `main` was synchronized with `origin/main`, and post-merge consistency verification completed.
+-   Moved the active Milestone 8 focus to Step 8.6 --- Compatibility & Deprecation Policy.
 
 -   Started Milestone 8 --- v1.0 Stabilization & Release Readiness as
     the final pre-v1.0 engineering milestone.
@@ -477,7 +478,11 @@
 -   Verified Step 8.5 total coverage at 90.55%, above the required 67.0% gate.
 -   Verified the executable First 15 Minutes documentation workflow passes with 3 passed and 0 skipped against the built-wheel path.
 -   Verified documentation structure, EN/zh-TW parity, functional parity, `git diff --check`, Ruff, Ruff Format, and pre-commit for the Step 8.5 local acceptance state.
--   GitHub Actions / CI remains the final acceptance-PR gate before Step 8.5 merge closure.
+-   Verified GitHub Actions / CI passed for Step 8.5 acceptance PR #120.
+-   Completed the Step 8.5 acceptance squash merge.
+-   Verified local `main` is synchronized with `origin/main` after the acceptance merge.
+-   Completed Step 8.5 post-merge consistency verification.
+-   Marked Step 8.5 --- Documentation & Bilingual User Manuals as formally Accepted.
 
 -   Verified the Step 8.2 dedicated v1 contract-freeze slices are green
     during incremental development.

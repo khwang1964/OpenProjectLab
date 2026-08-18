@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.5 Accepted locally; Step 8.6 Compatibility & Deprecation Policy next**
+> **Milestone 8 --- Step 8.5 Accepted; Step 8.6 Compatibility & Deprecation Policy active**
 
 ------------------------------------------------------------------------
 
@@ -947,7 +947,17 @@ Formal acceptance record:
 docs/releases/v1.0-documentation-user-manuals-acceptance.md
 ```
 
-**Status:** Accepted locally; final acceptance PR / GitHub Actions CI pending
+Closure evidence:
+
+``` text
+Acceptance PR --- #120 merged
+GitHub Actions / CI --- Passed
+Squash merge --- Completed
+main synchronization --- Completed
+Post-merge consistency verification --- Completed
+```
+
+**Status:** Accepted
 
 ## Step 8.6 --- Compatibility & Deprecation Policy
 
@@ -962,7 +972,7 @@ docs/releases/v1.0-documentation-user-manuals-acceptance.md
 Stable contract 的移除或破壞性修改必須遵循明確 deprecation / migration
 path。
 
-**Status:** Planned
+**Status:** In Progress
 
 ## Step 8.7 --- Support Matrix / Known Limitations
 

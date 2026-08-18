@@ -1069,13 +1069,13 @@ Formal acceptance record：
 docs/releases/v1.0-documentation-user-manuals-acceptance.md
 ```
 
-Step 8.5 已達成 local acceptance；final acceptance PR / GitHub Actions CI 通過後即可 squash merge、sync main 與 post-merge consistency verification。
+Step 8.5 acceptance PR #120 已通過 GitHub Actions / CI，完成 squash merge、sync main 與 post-merge consistency verification，因此 Step 8.5 已正式 Accepted。
 
 ------------------------------------------------------------------------
 
 # 下一階段
 
-Step 8.5 acceptance merge 完成後，開發焦點正式轉入：
+Step 8.5 已完成正式 acceptance 與 post-merge consistency verification。開發焦點現已正式轉入：
 
 ``` text
 Step 8.6 --- Compatibility & Deprecation Policy

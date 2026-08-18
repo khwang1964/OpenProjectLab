@@ -132,10 +132,12 @@ def test_environment_support_is_evidence_based(
         "OS support → Supported only when directly exercised by CI / "
         "release verification" in support_matrix_text
     )
+    assert "Ubuntu (`ubuntu-latest`) + Python 3.14" in support_matrix_text
+    assert "Windows + Python 3.14.5" in support_matrix_text
     assert (
-        "Environment-specific rows for operating systems and Python "
-        "versions must be added only after the exact CI/release evidence "
-        "is confirmed." in support_matrix_text
+        "Other Python versions and operating systems may work, but are "
+        "unverified and are not part of the maintained v1.0 support "
+        "commitment." in support_matrix_text
     )
 
 

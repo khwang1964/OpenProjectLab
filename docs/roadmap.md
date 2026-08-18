@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.6 Compatibility & Deprecation Policy has reached local acceptance; final acceptance PR / GitHub Actions CI pending**
+> **Milestone 8 --- Step 8.6 Accepted; Step 8.7 Support Matrix / Known Limitations next**
 
 ------------------------------------------------------------------------
 
@@ -959,7 +959,7 @@ Post-merge consistency verification --- Completed
 
 **Status:** Accepted
 
-## Step 8.6 --- Compatibility & Deprecation Policy 🚧
+## Step 8.6 --- Compatibility & Deprecation Policy ✅
 
 Governing policy：
 
@@ -1003,7 +1003,7 @@ Current delivery status：
 8.6.3 Deprecation policy contract tests            Complete
 8.6.4 Documentation / CHANGELOG integration        Complete
 8.6.5 Full regression + coverage                   Passed
-8.6.6 Formal Step 8.6 acceptance                   Pending CI / merge
+8.6.6 Formal Step 8.6 acceptance                   Accepted
 ```
 
 Final local regression evidence：
@@ -1030,14 +1030,23 @@ docs/releases/v1.0-compatibility-deprecation-policy-acceptance.md
 migration guidance、EN/zh-TW user-facing migration parity、documentation /
 CHANGELOG obligations，以及 emergency compatibility exception evidence。
 
-尚未完成的 formal gate 為 final recorded local quality gates、Step 8.6
-acceptance PR、GitHub Actions / CI、squash merge、main synchronization 與
-post-merge consistency verification。在這些 evidence 完成前，不提前將
-Step 8.6 標示為正式 Accepted。
+Closure evidence：
 
-**Status:** Local Acceptance Passed — Formal Acceptance Pending CI / Merge
+``` text
+Acceptance PR --- #126 merged
+GitHub Actions / CI --- Passed
+Acceptance merge commit --- f3ae0584e8b47b5ccf0d94fe1a7882868d899580
+Squash merge --- Completed
+main synchronization --- Completed
+Post-merge consistency verification --- Completed
+```
 
-## Step 8.7 --- Support Matrix / Known Limitations
+Step 8.6 已正式 Accepted。下一個 active slice 為 Step 8.7 ---
+Support Matrix / Known Limitations。
+
+**Status:** Accepted
+
+## Step 8.7 --- Support Matrix / Known Limitations 🚧
 
 建立：
 
@@ -1058,7 +1067,7 @@ Known Limitation
 Deferred
 ```
 
-**Status:** Planned
+**Status:** In Progress
 
 ## Step 8.8 --- Release Automation & Reproducibility
 

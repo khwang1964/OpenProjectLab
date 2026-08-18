@@ -276,8 +276,12 @@
 -   Re-ran the completed repository against a real built wheel through
     `OPL_TEST_WHEEL`, preserving packaging, clean-install, and First 15
     Minutes installed-user verification in the Step 8.6 acceptance state.
--   Reached Step 8.6 local acceptance; formal acceptance remains pending
-    the final acceptance PR and GitHub Actions / CI.
+-   Formally accepted Step 8.6 Compatibility & Deprecation Policy after
+    acceptance PR #126 passed GitHub Actions / CI, was squash merged, and
+    `main` was synchronized with `origin/main`.
+-   Completed Step 8.6 post-merge consistency verification.
+-   Moved the active Milestone 8 focus to Step 8.7 --- Support Matrix /
+    Known Limitations.
 
 -   Formally accepted Step 8.5 Documentation & Bilingual User Manuals after acceptance PR #120 passed GitHub Actions / CI, was squash merged, `main` was synchronized with `origin/main`, and post-merge consistency verification completed.
 -   Moved the active Milestone 8 focus to Step 8.6 --- Compatibility & Deprecation Policy.
@@ -517,8 +521,14 @@
 -   Added
     `docs/releases/v1.0-compatibility-deprecation-policy-acceptance.md`
     as the Step 8.6 formal acceptance record.
--   Left GitHub Actions / CI and formal Step 8.6 acceptance pending the
-    final acceptance PR.
+-   Verified GitHub Actions / CI passed for Step 8.6 acceptance PR #126.
+-   Verified acceptance PR #126 squash merged as
+    `f3ae0584e8b47b5ccf0d94fe1a7882868d899580`.
+-   Verified `HEAD`, local `main`, and `origin/main` resolve to the same
+    acceptance merge commit.
+-   Completed Step 8.6 post-merge consistency verification.
+-   Marked Step 8.6 --- Compatibility & Deprecation Policy as formally
+    Accepted.
 
 -   Recorded the Step 8.5 final local regression evidence: 1616 passed, 1 deselected.
 -   Verified Step 8.5 total coverage at 90.55%, above the required 67.0% gate.

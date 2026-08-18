@@ -1136,27 +1136,24 @@ Required coverage --- 67.0% --- Passed
 docs/releases/v1.0-compatibility-deprecation-policy-acceptance.md
 ```
 
-目前 Step 8.6 已達 local acceptance；final acceptance PR / GitHub Actions
-CI 通過後才正式標示為 Accepted。
+Step 8.6 acceptance PR #126 已通過 GitHub Actions / CI，完成 squash
+merge，merge commit 為
+`f3ae0584e8b47b5ccf0d94fe1a7882868d899580`。Local `main`、`origin/main`
+與 `HEAD` 已確認一致，working tree clean，post-merge consistency
+verification 亦完成，因此 Step 8.6 已正式 Accepted。
 
 ------------------------------------------------------------------------
 
 # 下一階段
 
 Step 8.6 governing policy、contract automation、documentation /
-CHANGELOG alignment 與 wheel-backed final local regression 已完成。
+CHANGELOG alignment、wheel-backed final regression、acceptance PR、
+GitHub Actions / CI、squash merge、main synchronization 與 post-merge
+consistency verification 均已完成。
 
-目前剩餘 gate：
+開發焦點正式轉入：
 
 ``` text
-local quality gates
-        ↓
-Step 8.6 acceptance PR
-        ↓
-GitHub Actions / CI
-        ↓
-squash merge / sync main / post-merge consistency
-        ↓
 Step 8.7 --- Support Matrix / Known Limitations
 ```
 

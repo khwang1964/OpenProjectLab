@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.7 Accepted; Step 8.8 Release Automation & Reproducibility active**
+> **Milestone 8 --- Step 8.8 completion-state local verification passed; formal acceptance PR/CI pending**
 
 ------------------------------------------------------------------------
 
@@ -1134,7 +1134,11 @@ Step 8.8 --- Release Automation & Reproducibility.
 
 ## Step 8.8 --- Release Automation & Reproducibility 🚧
 
-建立 maintainer release process，並確保：
+Step 8.8 已完成 governing design、release identity / artifact / workflow /
+GitHub Release / semantic reproducibility contracts、maintainer release
+documentation，以及 completion-state local verification。
+
+Release identity 維持單一可追溯關係：
 
 ``` text
 Version
@@ -1148,13 +1152,41 @@ Release Artifact
 GitHub Release
 ```
 
-保持一致且可追溯。
+已完成的 release-readiness automation boundary 包括：
 
-Automation 應涵蓋可合理自動化的 version verification、quality gates、
-documentation checks、package build、clean-install smoke tests 與
-release artifact validation。
+- canonical version / tag / commit consistency
+- clean release-artifact selection and metadata validation
+- checksum generation / verification
+- verification-before-publication workflow contract
+- GitHub Release identity / asset consistency
+- wheel-backed clean-install verification
+- semantic reproducibility verification
+- maintainer release runbook and abort/correction procedures
+- fresh completion-state full regression and coverage verification
 
-**Status:** In Progress
+Step 8.8 completion-state local acceptance evidence：
+
+``` text
+Full regression --- 1777 passed, 1 deselected
+Coverage --- 90.89%
+Required coverage --- 67.0% --- Passed
+```
+
+這組 `1777 / 90.89%` 是 Step 8.8 完成態 repository 的 fresh evidence，
+不沿用 Step 8.7 的 `1679 / 90.55%` baseline。
+
+Formal acceptance record：
+
+``` text
+docs/releases/v1.0-release-automation-reproducibility-acceptance.md
+```
+
+目前 local acceptance evidence 已完成；GitHub Actions / CI、acceptance
+PR squash merge、main synchronization 與 post-merge consistency
+verification 仍屬 formal closure gate，完成前不宣稱 Step 8.8 已正式
+Accepted。
+
+**Status:** Local Acceptance Passed — Formal Acceptance Pending
 
 ## Step 8.9 --- Full Release-readiness Verification
 

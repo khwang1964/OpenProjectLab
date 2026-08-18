@@ -1223,17 +1223,76 @@ merge、sync main 與 post-merge consistency verification，因此 Step 8.7
 
 ------------------------------------------------------------------------
 
-# 下一階段
+# Step 8.8 --- Release Automation & Reproducibility
 
-Step 8.7 governing documents、contract automation、exact environment
-evidence、completion-state regression、acceptance PR、GitHub Actions / CI、
-squash merge、main synchronization 與 post-merge consistency verification
-均已完成。
-
-開發焦點正式轉入：
+Step 8.8 已完成 release automation / reproducibility governing design 與
+主要 automation slices，將 v1.0 release identity 固定為一致且可追溯的：
 
 ``` text
-Step 8.8 --- Release Automation & Reproducibility
+Version
+    ↕
+Commit SHA
+    ↕
+Git Tag
+    ↕
+Release Artifact
+    ↕
+GitHub Release
+```
+
+完成範圍包括 canonical version / tag / SHA consistency、artifact metadata
+與 checksum validation、maintainer release workflow、GitHub Release
+consistency、wheel-backed clean-install、semantic reproducibility，以及
+maintainer release documentation。
+
+Step 8.8.8 已從完成態 repository 重新取得 fresh full-regression
+evidence：
+
+``` text
+Full regression --- 1777 passed, 1 deselected
+Coverage --- 90.89%
+Required coverage --- 67.0% --- Passed
+```
+
+這組 evidence 不沿用 Step 8.7 的 `1679 passed, 1 deselected` /
+`90.55%` historical baseline。
+
+Formal acceptance record 已建立：
+
+``` text
+docs/releases/v1.0-release-automation-reproducibility-acceptance.md
+```
+
+目前 Step 8.8 已完成 local acceptance verification。GitHub Actions / CI、
+acceptance PR squash merge、main synchronization 與 post-merge consistency
+verification 仍需完成後，才可將 Step 8.8 標示為正式 Accepted。
+
+------------------------------------------------------------------------
+
+# 下一階段
+
+先完成 Step 8.8 formal closure：
+
+``` text
+acceptance commit
+    ↓
+push
+    ↓
+acceptance PR
+    ↓
+GitHub Actions / CI
+    ↓
+squash merge
+    ↓
+sync main
+    ↓
+post-merge consistency verification
+```
+
+完成後，開發焦點轉入：
+
+``` text
+Step 8.9 --- Full Release-readiness Verification
 ```
 
 ------------------------------------------------------------------------

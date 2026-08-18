@@ -86,6 +86,12 @@
     maintainer environment with Python 3.14.5.
 -   Added `docs/releases/v1.0-support-matrix-known-limitations-acceptance.md`
     as the Step 8.7 acceptance candidate.
+-   Added `docs/releases/v1.0-release-automation-reproducibility-acceptance.md`
+    as the Step 8.8 formal acceptance record.
+-   Added completion-state Step 8.8 release-verification evidence covering
+    release identity, artifact/checksum validation, GitHub Release
+    consistency, clean-install behavior, semantic reproducibility, and the
+    maintainer release process.
 
 #### Milestone 7 --- Marketplace
 
@@ -286,6 +292,11 @@
     verification completed.
 -   Moved the active Milestone 8 focus to Step 8.8 --- Release Automation
     & Reproducibility.
+-   Completed Step 8.8 completion-state local verification and prepared the
+    formal acceptance record.
+-   Kept Step 8.8 formal acceptance gated on acceptance PR / GitHub Actions
+    CI, squash merge, main synchronization, and post-merge consistency
+    verification.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -557,6 +568,15 @@
 -   Completed Step 8.7 post-merge consistency verification.
 -   Marked Step 8.7 --- Support Matrix / Known Limitations as formally
     Accepted.
+
+-   Recorded Step 8.8 completion-state full regression evidence:
+    1777 passed, 1 deselected.
+-   Verified Step 8.8 total coverage at 90.89%, above the required 67.0%
+    gate.
+-   Recorded the Step 8.8 completion-state evidence as fresh verification
+    rather than reusing the Step 8.7 `1679 / 90.55%` baseline.
+-   Prepared Step 8.8 formal acceptance documentation; GitHub Actions / CI
+    and post-merge closure remain pending until the acceptance PR completes.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

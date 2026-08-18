@@ -1116,23 +1116,49 @@ removal boundary、migration guidance、EN/zh-TW functional parity、
 documentation / CHANGELOG obligations，以及 emergency compatibility
 exception evidence。
 
-Step 8.6 policy automation 已完成，正在進行 documentation / CHANGELOG
-alignment。Formal acceptance 尚未宣告；必須由完成態 repository 重新取得
-full regression、coverage、quality gates 與 GitHub Actions / CI evidence。
+Step 8.6 policy automation 與 documentation / CHANGELOG alignment
+已完成。完成態 repository 已使用實際 built wheel 設定
+`OPL_TEST_WHEEL`，使 packaging / clean-install / First 15 Minutes
+installed-user checks 不再因缺少 wheel 而 skip，並取得新的 local
+acceptance regression evidence：
+
+``` text
+Full regression --- 1648 passed, 1 deselected
+Wheel-related skips --- 0
+Coverage --- 90.55%
+Required coverage --- 67.0% --- Passed
+```
+
+這組 1648 / 90.55% 是 Step 8.6 completion-state 的 fresh local evidence，
+不沿用 Step 8.5 的 1616 / 90.55% baseline。Formal acceptance record：
+
+``` text
+docs/releases/v1.0-compatibility-deprecation-policy-acceptance.md
+```
+
+目前 Step 8.6 已達 local acceptance；final acceptance PR / GitHub Actions
+CI 通過後才正式標示為 Accepted。
 
 ------------------------------------------------------------------------
 
 # 下一階段
 
-Step 8.6 governing policy 與 compatibility / deprecation contract
-automation 已完成。開發焦點目前位於：
+Step 8.6 governing policy、contract automation、documentation /
+CHANGELOG alignment 與 wheel-backed final local regression 已完成。
+
+目前剩餘 gate：
 
 ``` text
-Step 8.6.4 --- Documentation / CHANGELOG Integration Rules
+local quality gates
+        ↓
+Step 8.6 acceptance PR
+        ↓
+GitHub Actions / CI
+        ↓
+squash merge / sync main / post-merge consistency
+        ↓
+Step 8.7 --- Support Matrix / Known Limitations
 ```
-
-完成 alignment 後，將執行 Step 8.6 final regression / coverage / quality
-gates，再建立 formal acceptance evidence。
 
 ------------------------------------------------------------------------
 

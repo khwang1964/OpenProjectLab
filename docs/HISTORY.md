@@ -1679,26 +1679,34 @@ Formal-acceptance candidate focused suite：
 41 passed
 ```
 
-Acceptance record 目前仍為：
+Step 8.10.9 acceptance candidate 隨後透過 PR #154 完成 reviewed closure。
+PR #154 required CI 通過後 squash merged，實際 acceptance merge commit：
 
 ``` text
-Status --- Acceptance Candidate
-Formal RC Acceptance --- Pending
+d37a3d84161e66e98ebbff2aafaf1a14e27f865c
 ```
 
-且保留下列 closure gates 為 Pending：
+同步 `main` 後完成 post-merge consistency 與 cross-document terminal-state
+alignment。Published RC identity 保持不變：
 
 ``` text
-Acceptance PR
-Acceptance PR CI
-Acceptance squash merge
-main synchronization
-post-merge consistency verification
-cross-document terminal-state alignment
-Formal RC Acceptance
+RC identity --- v1.0.0-rc.1
+Published source SHA --- b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8
+Acceptance PR --- #154
+Acceptance PR CI --- Passed
+Acceptance squash merge --- Completed
+main synchronization --- Completed
+post-merge consistency verification --- Completed
+cross-document terminal-state alignment --- Completed
+Formal RC Acceptance --- Accepted
+v1.0.0 GA Acceptance --- Not Accepted
 ```
 
-因此 Step 8.10 尚未正式 Accepted，`v1.0.0` GA 亦維持 Not Accepted。
+因此 **Step 8.10 --- RC Acceptance 已正式 Accepted**，Milestone 8 的 RC
+Acceptance lifecycle 完成。Acceptance merge commit 只記錄正式接受證據，
+不會 retarget 已發布的 `v1.0.0-rc.1` 或替換其 artifact bytes。
+
+下一個獨立 release gate 為 `v1.0.0` GA Acceptance。
 
 ------------------------------------------------------------------------
 

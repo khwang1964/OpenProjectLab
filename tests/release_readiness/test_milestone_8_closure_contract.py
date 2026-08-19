@@ -128,7 +128,6 @@ def test_each_completed_milestone_8_step_has_governing_documents(
 def test_step_8_1_release_readiness_baseline_is_formally_closed() -> None:
     """The Milestone 8 baseline must not remain Proposed after Step 8.8."""
     baseline = _read(RELEASES_DIR / "v1.0-release-readiness.md")
-
     assert _metadata_value(baseline, "Status") == "Accepted"
 
 
@@ -142,7 +141,6 @@ def test_steps_8_2_through_8_8_have_accepted_records(
 ) -> None:
     """Every completed implementation step must have an Accepted record."""
     record = _read(RELEASES_DIR / filename)
-
     assert _metadata_value(record, "Status") == "Accepted"
     assert _metadata_value(record, "Step").startswith(step)
 
@@ -161,7 +159,7 @@ def test_prior_release_documents_have_no_unresolved_closure_markers() -> None:
 
 
 def test_step_8_9_design_examples_are_not_scanned_as_prior_step_debt() -> None:
-    """Rule examples in the active governing design must not be false positives."""
+    """Rule examples in the Step 8.9 governing design must not be false positives."""
     design_path = RELEASES_DIR / STEP_8_9_DESIGN
     design = _read(design_path)
 
@@ -170,7 +168,7 @@ def test_step_8_9_design_examples_are_not_scanned_as_prior_step_debt() -> None:
 
 
 def test_step_8_9_documents_are_not_scanned_as_prior_step_debt() -> None:
-    """Active Step 8.9 records must not be treated as Step 8.1-8.8 debt."""
+    """Step 8.9 records must not be treated as Step 8.1-8.8 debt."""
     design_path = RELEASES_DIR / STEP_8_9_DESIGN
     acceptance_path = RELEASES_DIR / STEP_8_9_ACCEPTANCE
 
@@ -179,7 +177,7 @@ def test_step_8_9_documents_are_not_scanned_as_prior_step_debt() -> None:
 
 
 def test_step_8_10_documents_are_not_scanned_as_prior_step_debt() -> None:
-    """Active Step 8.10 records must not be treated as Step 8.1-8.8 debt."""
+    """Step 8.10 records must not be treated as Step 8.1-8.8 debt."""
     step_8_10_documents = {
         RELEASES_DIR / "v1.0-rc-acceptance.md",
         RELEASES_DIR / "v1.0-rc-build-artifact-identity.md",
@@ -188,9 +186,7 @@ def test_step_8_10_documents_are_not_scanned_as_prior_step_debt() -> None:
         RELEASES_DIR / "v1.0-rc-acceptance-record.md",
     }
 
-    prior_documents = set(_prior_release_documents())
-
-    assert step_8_10_documents.isdisjoint(prior_documents)
+    assert step_8_10_documents.isdisjoint(set(_prior_release_documents()))
 
 
 def test_prior_release_document_scope_is_explicit_and_complete() -> None:
@@ -207,31 +203,22 @@ def test_prior_release_document_scope_is_explicit_and_complete() -> None:
 
 
 def test_roadmap_marks_step_8_1_as_completed() -> None:
-    """The baseline slice uses Completed as its approved terminal state."""
     roadmap = _read(ROADMAP_PATH)
-
     assert _roadmap_status(roadmap, "8.1") == "Completed"
 
 
 @pytest.mark.parametrize("step", tuple(f"8.{number}" for number in range(2, 9)))
 def test_roadmap_marks_steps_8_2_through_8_8_as_accepted(step: str) -> None:
-    """Implementation slices must expose their Accepted terminal state."""
     roadmap = _read(ROADMAP_PATH)
-
     assert _roadmap_status(roadmap, step) == "Accepted"
 
 
 def test_roadmap_marks_step_8_9_as_accepted() -> None:
-    """The completed full-readiness step must expose its Accepted state."""
     roadmap = _read(ROADMAP_PATH)
-
     assert _roadmap_status(roadmap, "8.9") == "Accepted"
 
 
-def test_roadmap_does_not_preapprove_step_8_10() -> None:
-    """Step 8.9 closure must not pre-approve RC Acceptance."""
+def test_roadmap_marks_step_8_10_as_accepted_after_formal_closure() -> None:
+    """Terminal Milestone 8 state must expose Step 8.10 as Accepted."""
     roadmap = _read(ROADMAP_PATH)
-
-    status = _roadmap_status(roadmap, "8.10")
-
-    assert status in {"Planned", "In Progress"}
+    assert _roadmap_status(roadmap, "8.10") == "Accepted"

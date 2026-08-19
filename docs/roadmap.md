@@ -1219,8 +1219,8 @@ Planned delivery sequence：
 8.9.2 Steps 8.1–8.8 closure-contract automation          Completed
 8.9.3 Contract / policy / support consistency            Completed
 8.9.4 Documentation / First 15 Minutes verification      Completed
-8.9.5 Artifact-backed representative installed-user E2E  In Progress
-8.9.6 Integrated package / release identity verification Planned
+8.9.5 Artifact-backed representative installed-user E2E  Completed
+8.9.6 Integrated package / release identity verification In Progress
 8.9.7 Full regression and local quality gates            Planned
 8.9.8 GitHub Actions / CI verification                   Planned
 8.9.9 Formal acceptance and post-merge consistency       Planned
@@ -1265,7 +1265,16 @@ configured wheel in a fresh environment outside the source checkout, including
 installed identity, console entry point, generated artifact, and invalid-command
 behavior.
 
-**Status:** In Progress — Step 8.9.5 Artifact-backed Installed-user E2E
+Step 8.9.5 completed through PR #145 and squash merge commit
+`e34ce0d901c2c7a214c0785cdebeee1d3c63359b`. Both required GitHub Actions
+jobs passed. Post-merge artifact-backed verification passed 64 focused tests
+with zero required skips, and the working tree was clean.
+
+Step 8.9.6 now integrates canonical version, wheel and sdist identity,
+distribution metadata, artifact-set, checksum, commit, and release-source
+consistency without creating a tag, GitHub Release, or RC.
+
+**Status:** In Progress — Step 8.9.6 Integrated Package / Release Identity Verification
 
 ## Step 8.10 --- RC Acceptance
 

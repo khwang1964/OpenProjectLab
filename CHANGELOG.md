@@ -339,6 +339,14 @@
     zero required skips and a clean working tree.
 -   Moved the active verification slice to Step 8.9.5 Artifact-backed
     Representative Installed-user E2E.
+-   Completed Step 8.9.5 through PR #145 after both required GitHub Actions
+    jobs passed and squash merged as commit
+    `e34ce0d901c2c7a214c0785cdebeee1d3c63359b`.
+-   Verified the Step 8.9.5 post-merge artifact-backed suite with 64 passed,
+    zero required skips, and a clean working tree.
+-   Moved the active verification slice to Step 8.9.6 Integrated Package /
+    Release Identity Verification without creating a tag, GitHub Release, or
+    RC.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible

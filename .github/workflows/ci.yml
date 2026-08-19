@@ -69,13 +69,19 @@ jobs:
       - name: Validate distribution metadata
         run: python -m twine check dist/*
 
-      - name: Resolve built wheel
-        id: wheel
+      - name: Generate SHA-256 checksums
+        run: |
+          cd dist
+          sha256sum *.whl *.tar.gz > SHA256SUMS.txt
+
+      - name: Resolve release artifact set
+        id: artifacts
         shell: bash
         run: |
           set -euo pipefail
           shopt -s nullglob
           wheels=(dist/*.whl)
+          sdists=(dist/*.tar.gz)
 
           if [ "${#wheels[@]}" -ne 1 ]; then
             echo "Expected exactly one wheel, found ${#wheels[@]}"
@@ -83,19 +89,30 @@ jobs:
             exit 1
           fi
 
+          if [ "${#sdists[@]}" -ne 1 ]; then
+            echo "Expected exactly one sdist, found ${#sdists[@]}"
+            printf '%s\n' "${sdists[@]}"
+            exit 1
+          fi
+
           wheel_path="$(realpath "${wheels[0]}")"
+          dist_dir="$(realpath dist)"
+          checksum_manifest="$(realpath dist/SHA256SUMS.txt)"
           echo "wheel=$wheel_path" >> "$GITHUB_OUTPUT"
+          echo "dist_dir=$dist_dir" >> "$GITHUB_OUTPUT"
+          echo "checksum_manifest=$checksum_manifest" >> "$GITHUB_OUTPUT"
           echo "Built wheel: $wheel_path"
+          echo "Built sdist: $(realpath "${sdists[0]}")"
 
       - name: Run packaging artifact tests
         env:
-          OPL_TEST_WHEEL: ${{ steps.wheel.outputs.wheel }}
+          OPL_TEST_WHEEL: ${{ steps.artifacts.outputs.wheel }}
         run: |
           python -m pytest tests/packaging -v --no-cov
 
       - name: Run installed-user documentation readiness tests
         env:
-          OPL_TEST_WHEEL: ${{ steps.wheel.outputs.wheel }}
+          OPL_TEST_WHEEL: ${{ steps.artifacts.outputs.wheel }}
         run: |
           python -m pytest \
             tests/documentation/test_first_15_minutes.py \
@@ -104,10 +121,19 @@ jobs:
 
       - name: Run artifact-backed release-readiness tests
         env:
-          OPL_TEST_WHEEL: ${{ steps.wheel.outputs.wheel }}
+          OPL_TEST_WHEEL: ${{ steps.artifacts.outputs.wheel }}
         run: |
           python -m pytest \
-            tests/documentation/test_first_15_minutes.py \
-            tests/release_readiness/test_v1_documentation_first_15_minutes.py \
             tests/release_readiness/test_v1_artifact_backed_installed_user_e2e.py \
+            -v --no-cov
+
+      - name: Run integrated package release identity tests
+        env:
+          OPL_TEST_WHEEL: ${{ steps.artifacts.outputs.wheel }}
+          OPL_TEST_DIST_DIR: ${{ steps.artifacts.outputs.dist_dir }}
+          OPL_TEST_CHECKSUM_MANIFEST: ${{ steps.artifacts.outputs.checksum_manifest }}
+          OPL_RELEASE_COMMIT_SHA: ${{ github.sha }}
+        run: |
+          python -m pytest \
+            tests/release_readiness/test_v1_integrated_package_release_identity.py \
             -v --no-cov

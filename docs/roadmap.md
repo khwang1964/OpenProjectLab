@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.10 RC Acceptance next**
+> **Milestone 8 --- Step 8.10 RC Acceptance in progress**
 
 ------------------------------------------------------------------------
 
@@ -1350,7 +1350,37 @@ create or accept an RC.
 
 **Status:** Accepted
 
-## Step 8.10 --- RC Acceptance
+## Step 8.10 --- RC Acceptance 🚧
+
+Step 8.9 formal acceptance 已完成，因此 Step 8.10 已正式啟動。
+Step 8.10 將 repository-level release readiness 轉換為實際 RC
+acceptance contract，但仍不預先建立或接受 RC。
+
+Governing contract：
+
+``` text
+docs/releases/v1.0-rc-acceptance.md
+```
+
+Contract automation：
+
+``` text
+tests/release_readiness/test_v1_rc_acceptance_contract.py
+```
+
+目前 delivery sequence：
+
+``` text
+8.10.1 RC Acceptance Baseline                  Completed
+8.10.2 RC Acceptance Contract                  Completed
+8.10.3 RC Contract Automation                  Completed
+8.10.4 RC Build / Artifact Identity            Next
+8.10.5 RC Artifact-backed Verification         Planned
+8.10.6 RC Full Regression / Local Quality Gates Planned
+8.10.7 RC GitHub Actions / CI                  Planned
+8.10.8 RC Creation / Publication Identity      Planned
+8.10.9 Formal RC Acceptance / Post-merge       Planned
+```
 
 Milestone 8 completion 的 target：
 
@@ -1358,7 +1388,22 @@ Milestone 8 completion 的 target：
 v1.0.0-rc.1
 ```
 
-RC acceptance 與 GA acceptance 分離。
+Step 8.10 固定 RC acceptance 與 GA acceptance 分離，並採 fail-closed
+原則。RC identity 必須使下列 release identity 保持一致：
+
+``` text
+canonical RC version
+    ↕
+approved source commit
+    ↕
+wheel / sdist metadata
+    ↕
+artifact checksums
+    ↕
+RC tag
+    ↕
+GitHub Release
+```
 
 RC 階段原則上只接受：
 
@@ -1370,13 +1415,24 @@ RC 階段原則上只接受：
 -   documentation correctness fixes
 -   release/test automation defects
 
-RC validation 通過後才進入：
+Step 8.10 governing contract 明確要求 artifact-backed evidence；source-only
+success、stale artifacts 或 required artifact-backed skips 都不能取代 RC
+acceptance evidence。
+
+目前尚未建立 `v1.0.0-rc.1` tag、GitHub Release 或正式 RC acceptance。
+下一個 active slice 為：
+
+``` text
+Step 8.10.4 --- RC Build / Artifact Identity
+```
+
+RC validation 完成並取得正式 acceptance evidence 後，才進入獨立的：
 
 ``` text
 v1.0.0 GA
 ```
 
-**Status:** Planned
+**Status:** In Progress
 
 ## Milestone 8 Deferred / v1.1+ Candidates
 

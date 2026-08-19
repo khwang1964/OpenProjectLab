@@ -1441,6 +1441,66 @@ Release-readiness Verification 已正式 Accepted**。
 
 ------------------------------------------------------------------------
 
+# Step 8.10 --- RC Acceptance
+
+Step 8.9 已正式 Accepted 後，OPL 進入獨立的 Step 8.10 RC Acceptance
+gate。此步驟不重新定義 Step 8.9 的 release-readiness 結論，而是將已驗證的
+repository state 綁定到一個可稽核的 Release Candidate identity。
+
+Governing contract：
+
+``` text
+docs/releases/v1.0-rc-acceptance.md
+```
+
+Automated contract：
+
+``` text
+tests/release_readiness/test_v1_rc_acceptance_contract.py
+```
+
+Step 8.10 已固定第一個 RC identity：
+
+``` text
+v1.0.0-rc.1
+```
+
+並明確保留 Python package metadata 所需的 prerelease normalization
+boundary，同時維持 human-facing tag / release identity 為
+`v1.0.0-rc.1`。
+
+RC governing contract 固定下列核心要求：
+
+-   Step 8.9 formal acceptance 是 Step 8.10 的必要前置條件。
+-   RC Acceptance 與 `v1.0.0` GA Acceptance 為兩個獨立 gate。
+-   RC Acceptance 採 fail-closed 原則。
+-   approved source commit、package version、wheel / sdist metadata、
+    checksums、tag 與 GitHub Release 必須描述同一個 RC。
+-   artifact-backed verification 不可由 source-checkout-only success
+    取代。
+-   required artifact-backed skips 不得被視為 final RC evidence。
+-   stale artifacts、retargeted published tag 或相同 RC identity 下替換
+    artifact 均不允許。
+-   RC 期間的變更維持在 release blocker / correctness /
+    compatibility / packaging / security / documentation correctness /
+    release-test automation 範圍。
+-   不預先填入未來 test count、coverage、PR、CI、commit、tag、
+    checksum 或 GitHub Release evidence。
+
+目前 Step 8.10 delivery state：
+
+``` text
+8.10.1 RC Acceptance Baseline                   Completed
+8.10.2 RC Acceptance Contract                   Completed
+8.10.3 RC Contract Automation                   Completed
+8.10.4 RC Build / Artifact Identity             Next
+```
+
+目前仍未建立或正式接受 `v1.0.0-rc.1`，也未預先接受 `v1.0.0` GA。
+下一個 active slice 為 Step 8.10.4 RC Build / Artifact Identity。
+
+------------------------------------------------------------------------
+
 # 我們的願景
 
 OpenProjectLab 的目標不是建立更多程式，而是建立：

@@ -193,8 +193,10 @@ def test_roadmap_marks_step_8_9_as_accepted() -> None:
     assert _roadmap_status(roadmap, "8.9") == "Accepted"
 
 
-def test_roadmap_keeps_step_8_10_planned() -> None:
-    """Step 8.9 closure automation must not pre-approve RC Acceptance."""
+def test_roadmap_does_not_preapprove_step_8_10() -> None:
+    """Step 8.9 closure must not pre-approve RC Acceptance."""
     roadmap = _read(ROADMAP_PATH)
 
-    assert _roadmap_status(roadmap, "8.10") == "Planned"
+    status = _roadmap_status(roadmap, "8.10")
+
+    assert status in {"Planned", "In Progress"}

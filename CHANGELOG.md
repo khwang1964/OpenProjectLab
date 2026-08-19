@@ -105,6 +105,10 @@
     as the Step 8.9.4 integration contract for the accepted documentation
     suites, 13-chapter EN/zh-TW parity, and current-wheel First 15 Minutes
     verification.
+-   Added `tests/release_readiness/test_v1_artifact_backed_installed_user_e2e.py`
+    as the Step 8.9.5 clean-environment contract for installed distribution
+    identity, source-checkout isolation, console behavior, representative
+    artifact generation, and invalid-command behavior.
 
 #### Milestone 7 --- Marketplace
 
@@ -329,6 +333,12 @@
 -   Required Step 8.9.4 final evidence to identify a current built wheel and
     execute the wheel-backed documentation tests; required skips cannot count
     as completion evidence.
+-   Completed Step 8.9.4 through PR #144 and squash merge commit
+    `234d683d9bae3a82cd2cda951d0926c1da1c9140`; post-merge current-wheel
+    verification passed 116 documentation and release-readiness tests with
+    zero required skips and a clean working tree.
+-   Moved the active verification slice to Step 8.9.5 Artifact-backed
+    Representative Installed-user E2E.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible

@@ -1302,6 +1302,43 @@ Step 8.9 在本次 Step 8.8 closure 中仍維持 `Planned`，尚未提前開始�
 
 ------------------------------------------------------------------------
 
+# Step 8.9 --- Full Release-readiness Verification
+
+Step 8.9 已正式啟動 governing-design slice，新增：
+
+``` text
+docs/releases/v1.0-full-release-readiness-verification.md
+```
+
+這一階段整合 Steps 8.1–8.8 的 accepted evidence，驗證 public-contract、
+compatibility/deprecation、support matrix/known limitations、EN/zh-TW
+文件、First 15 Minutes、release artifacts、representative installed-user
+E2E、full regression、coverage、quality gates 與 GitHub Actions / CI 是否
+共同描述同一個完整 v1.0 release-candidate state。
+
+Step 8.9 採 fail-closed 原則；任一 required gate 失敗或缺乏證據，都不能
+以其他通過項目抵銷。此 governing-design slice 不建立 acceptance record、
+不填入未來測試數字，也不建立或發布 `v1.0.0-rc.1`。
+
+Planned sequence：
+
+``` text
+8.9.1 Governing design and verification inventory
+8.9.2 Steps 8.1–8.8 closure-contract automation
+8.9.3 Contract / policy / support consistency automation
+8.9.4 Documentation and First 15 Minutes verification
+8.9.5 Artifact-backed representative installed-user E2E
+8.9.6 Integrated package / release identity verification
+8.9.7 Full regression and local quality gates
+8.9.8 GitHub Actions / CI verification
+8.9.9 Formal acceptance and post-merge consistency
+```
+
+目前狀態為 **Step 8.9.1 In Progress**；Step 8.10 RC Acceptance 仍為
+`Planned`。
+
+------------------------------------------------------------------------
+
 # 我們的願景
 
 OpenProjectLab 的目標不是建立更多程式，而是建立：

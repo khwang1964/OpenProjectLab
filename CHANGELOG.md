@@ -92,6 +92,10 @@
     release identity, artifact/checksum validation, GitHub Release
     consistency, clean-install behavior, semantic reproducibility, and the
     maintainer release process.
+-   Added `docs/releases/v1.0-full-release-readiness-verification.md` as the
+    governing Step 8.9 design for closure auditing, contract/policy/documentation
+    consistency, artifact-backed installed-user verification, full quality
+    gates, CI evidence, and formal readiness acceptance.
 
 #### Milestone 7 --- Marketplace
 
@@ -298,6 +302,13 @@
     completed main synchronization and post-merge consistency verification.
 -   Kept Step 8.9 Full Release-readiness Verification as the next planned gate;
     Step 8.8 closure does not pre-approve or start Step 8.9.
+-   Started Step 8.9 Full Release-readiness Verification with its governing
+    design and verification inventory boundary.
+-   Defined the Step 8.9 fail-closed delivery sequence from Steps 8.1–8.8
+    closure auditing through representative installed-user E2E, full
+    regression, CI verification, and formal acceptance.
+-   Kept Step 8.10 RC Acceptance separate: Step 8.9 neither creates
+    `v1.0.0-rc.1` nor pre-approves RC Acceptance.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible

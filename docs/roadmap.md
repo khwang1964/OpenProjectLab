@@ -1,6 +1,6 @@
 # OpenProjectLab Roadmap
 
-> Status: Active Last Updated: 2026-08-18
+> Status: Active Last Updated: 2026-08-19
 
 ------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.8 formally Accepted; Step 8.9 is the next planned gate**
+> **Milestone 8 --- Step 8.9 Full Release-readiness Verification active**
 
 ------------------------------------------------------------------------
 
@@ -1203,7 +1203,30 @@ Release-readiness Verification；本次 closure 不提前宣告 Step 8.9 已開�
 
 ## Step 8.9 --- Full Release-readiness Verification
 
-Final verification 至少包括：
+Step 8.9 將 Steps 8.1–8.8 的 accepted contracts 整合為完整、
+artifact-backed、可稽核的 v1.0 release-readiness decision。
+
+Governing design：
+
+``` text
+docs/releases/v1.0-full-release-readiness-verification.md
+```
+
+Planned delivery sequence：
+
+``` text
+8.9.1 Governing design and verification inventory       In Progress
+8.9.2 Steps 8.1–8.8 closure-contract automation          Planned
+8.9.3 Contract / policy / support consistency            Planned
+8.9.4 Documentation / First 15 Minutes verification      Planned
+8.9.5 Artifact-backed representative installed-user E2E  Planned
+8.9.6 Integrated package / release identity verification Planned
+8.9.7 Full regression and local quality gates            Planned
+8.9.8 GitHub Actions / CI verification                   Planned
+8.9.9 Formal acceptance and post-merge consistency       Planned
+```
+
+Final verification gates include：
 
 ``` text
 git diff --check
@@ -1220,7 +1243,10 @@ GitHub Actions / CI
 
 並建立 representative installed-user E2E。
 
-**Status:** Planned
+Step 8.9 不建立或發布 `v1.0.0-rc.1`，也不預先核准 Step 8.10 RC
+Acceptance。通過 Step 8.9 僅代表 repository 已準備進入 RC Acceptance。
+
+**Status:** In Progress — Step 8.9.1 Governing Design
 
 ## Step 8.10 --- RC Acceptance
 

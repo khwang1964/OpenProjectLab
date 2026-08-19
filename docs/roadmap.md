@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.9 Full Release-readiness Verification active**
+> **Milestone 8 --- Step 8.9.9 Formal Acceptance / Post-merge Consistency active**
 
 ------------------------------------------------------------------------
 
@@ -1220,10 +1220,10 @@ Planned delivery sequence：
 8.9.3 Contract / policy / support consistency            Completed
 8.9.4 Documentation / First 15 Minutes verification      Completed
 8.9.5 Artifact-backed representative installed-user E2E  Completed
-8.9.6 Integrated package / release identity verification In Progress
-8.9.7 Full regression and local quality gates            Planned
-8.9.8 GitHub Actions / CI verification                   Planned
-8.9.9 Formal acceptance and post-merge consistency       Planned
+8.9.6 Integrated package / release identity verification Completed
+8.9.7 Full regression and local quality gates            Completed
+8.9.8 GitHub Actions / CI verification                   Completed
+8.9.9 Formal acceptance and post-merge consistency       In Progress
 ```
 
 Final verification gates include：
@@ -1270,11 +1270,48 @@ Step 8.9.5 completed through PR #145 and squash merge commit
 jobs passed. Post-merge artifact-backed verification passed 64 focused tests
 with zero required skips, and the working tree was clean.
 
-Step 8.9.6 now integrates canonical version, wheel and sdist identity,
-distribution metadata, artifact-set, checksum, commit, and release-source
-consistency without creating a tag, GitHub Release, or RC.
+Step 8.9.6 completed through PR #146 and established integrated canonical
+version, wheel/sdist identity, distribution metadata, artifact-set, checksum,
+commit, and release-source consistency without creating a tag, GitHub Release,
+or RC.
 
-**Status:** In Progress — Step 8.9.6 Integrated Package / Release Identity Verification
+Step 8.9.7 then completed the fresh local completion-state regression:
+
+``` text
+1822 passed, 22 skipped, 1 deselected
+Coverage: 90.89%
+Required coverage: 67.0% --- Passed
+pre-commit --- Passed
+git diff --check --- Passed
+working tree --- Clean
+```
+
+All 22 skips were reviewed as expected artifact-backed tests requiring
+`OPL_TEST_WHEEL`, `OPL_TEST_DIST_DIR`, or `OPL_RELEASE_COMMIT_SHA`; they do
+not represent disabled regressions.
+
+Step 8.9.8 completed through acceptance PR #147. GitHub Actions workflow
+`32229975851` passed both required jobs:
+
+``` text
+Quality checks --- Passed
+Packaging artifact verification --- Passed
+```
+
+PR #147 was squash merged as
+`9b0566b3fc4d2b0b94ae5e775fdd3c86c0e79e03`.
+
+Step 8.9.9 is now active. Local `main` synchronization, post-merge consistency
+verification, acceptance-record closure, and the explicit Step 8.9 `Accepted`
+transition remain required before Step 8.10 may begin.
+
+Formal acceptance record:
+
+``` text
+docs/releases/v1.0-full-release-readiness-verification-acceptance.md
+```
+
+**Status:** In Progress — Step 8.9.9 Formal Acceptance / Post-merge Consistency
 
 ## Step 8.10 --- RC Acceptance
 

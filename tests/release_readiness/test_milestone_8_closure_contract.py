@@ -12,6 +12,7 @@ RELEASES_DIR = REPO_ROOT / "docs" / "releases"
 ROADMAP_PATH = REPO_ROOT / "docs" / "roadmap.md"
 
 STEP_8_9_DESIGN = "v1.0-full-release-readiness-verification.md"
+STEP_8_9_ACCEPTANCE = "v1.0-full-release-readiness-verification-acceptance.md"
 
 GOVERNING_DOCUMENTS = {
     "8.1": ("v1.0-release-readiness.md",),
@@ -89,7 +90,14 @@ def _roadmap_status(roadmap: str, step: str) -> str:
 
 def _prior_release_documents() -> tuple[Path, ...]:
     """Return release documents owned by Steps 8.1-8.8."""
-    return tuple(path for path in sorted(RELEASES_DIR.glob("*.md")) if path.name != STEP_8_9_DESIGN)
+    step_8_9_documents = {
+        STEP_8_9_DESIGN,
+        STEP_8_9_ACCEPTANCE,
+    }
+
+    return tuple(
+        path for path in sorted(RELEASES_DIR.glob("*.md")) if path.name not in step_8_9_documents
+    )
 
 
 @pytest.mark.parametrize(
@@ -152,7 +160,15 @@ def test_step_8_9_design_examples_are_not_scanned_as_prior_step_debt() -> None:
 
     assert "<actual result>" in design
     assert "<PR number>" in design
+
+
+def test_step_8_9_documents_are_not_scanned_as_prior_step_debt() -> None:
+    """Active Step 8.9 records must not be treated as Step 8.1-8.8 debt."""
+    design_path = RELEASES_DIR / STEP_8_9_DESIGN
+    acceptance_path = RELEASES_DIR / STEP_8_9_ACCEPTANCE
+
     assert design_path not in _prior_release_documents()
+    assert acceptance_path not in _prior_release_documents()
 
 
 def test_roadmap_marks_step_8_1_as_completed() -> None:

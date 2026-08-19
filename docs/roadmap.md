@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.9.9 Formal Acceptance / Post-merge Consistency active**
+> **Milestone 8 --- Step 8.10 RC Acceptance next**
 
 ------------------------------------------------------------------------
 
@@ -1223,7 +1223,7 @@ Planned delivery sequence：
 8.9.6 Integrated package / release identity verification Completed
 8.9.7 Full regression and local quality gates            Completed
 8.9.8 GitHub Actions / CI verification                   Completed
-8.9.9 Formal acceptance and post-merge consistency       In Progress
+8.9.9 Formal acceptance and post-merge consistency       Completed
 ```
 
 Final verification gates include：
@@ -1305,13 +1305,50 @@ Step 8.9.9 is now active. Local `main` synchronization, post-merge consistency
 verification, acceptance-record closure, and the explicit Step 8.9 `Accepted`
 transition remain required before Step 8.10 may begin.
 
+The first Step 8.9.9 post-merge run exposed a closure-contract scope defect:
+the active Step 8.9 acceptance record was being scanned as if it were prior
+Steps 8.1–8.8 closure debt. The scope was corrected without weakening the
+forbidden-marker policy.
+
+Closure-scope correction evidence:
+
+``` text
+PR #148 --- merged
+Head commit --- 7593ee6f46c8b57162d74b663360bf6c9e0236a1
+CI run --- 32232518973
+Quality checks --- Passed
+Packaging artifact verification --- Passed
+Merge commit --- 0d1fdc5a22c0de38d3b3f806a7e85197a65e2e3d
+Targeted closure-contract suite --- 29 passed
+Full regression before merge --- 1823 passed, 22 skipped, 1 deselected
+pre-commit / git diff --check --- Passed
+```
+
+Final Step 8.9.9 post-merge verification completed from synchronized `main`
+at commit `0d1fdc5a22c0de38d3b3f806a7e85197a65e2e3d`.
+
+``` text
+HEAD == main == origin/main
+Full regression --- 1823 passed, 22 skipped, 1 deselected
+Coverage --- 90.89%
+Required coverage --- 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+Working tree --- Clean
+Post-merge consistency verification --- Completed
+```
+
 Formal acceptance record:
 
 ``` text
 docs/releases/v1.0-full-release-readiness-verification-acceptance.md
 ```
 
-**Status:** In Progress — Step 8.9.9 Formal Acceptance / Post-merge Consistency
+Step 8.9 is formally Accepted. It authorizes entry into Step 8.10 but does not
+create or accept an RC.
+
+**Status:** Accepted
 
 ## Step 8.10 --- RC Acceptance
 

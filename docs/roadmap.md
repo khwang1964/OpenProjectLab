@@ -1217,8 +1217,8 @@ Planned delivery sequence：
 ``` text
 8.9.1 Governing design and verification inventory       Completed
 8.9.2 Steps 8.1–8.8 closure-contract automation          Completed
-8.9.3 Contract / policy / support consistency            In Progress
-8.9.4 Documentation / First 15 Minutes verification      Planned
+8.9.3 Contract / policy / support consistency            Completed
+8.9.4 Documentation / First 15 Minutes verification      In Progress
 8.9.5 Artifact-backed representative installed-user E2E  Planned
 8.9.6 Integrated package / release identity verification Planned
 8.9.7 Full regression and local quality gates            Planned
@@ -1249,7 +1249,13 @@ Acceptance。通過 Step 8.9 僅代表 repository 已準備進入 RC Acceptance�
 Step 8.9.2 closure-contract automation passed 28 focused tests and corrected
 the Step 8.1 release-readiness baseline status from `Proposed` to `Accepted`.
 
-**Status:** In Progress — Step 8.9.3 Contract / Policy / Support Consistency
+Step 8.9.3 combined release-readiness coverage passed 50 focused tests, and
+pre-commit passed. The active slice is now Step 8.9.4, which reuses the
+accepted Step 8.5 documentation suites and requires a current wheel for the
+First 15 Minutes installed-user path. Required wheel-backed skips do not count
+as completion evidence.
+
+**Status:** In Progress — Step 8.9.4 Documentation / First 15 Minutes Verification
 
 ## Step 8.10 --- RC Acceptance
 

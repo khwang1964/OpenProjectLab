@@ -1351,11 +1351,17 @@ Step 8.9.4 Documentation / First 15 Minutes Verification 已透過 PR #144
 執行 documentation 與 release-readiness suites，結果為 116 passed、必要
 wheel-backed skips 為 0，且 working tree clean。
 
-目前焦點已進入 **Step 8.9.5 Artifact-backed Representative Installed-user
-E2E**。此切片在 source checkout 外建立乾淨 virtual environment，只從指定
-wheel 安裝並驗證 distribution identity、實際 import location、`opl` console
-entry point、代表性 course artifact 與 invalid-command failure path。Step 8.10
-RC Acceptance 仍為 `Planned`。
+Step 8.9.5 Artifact-backed Representative Installed-user E2E 已透過 PR #145
+完成；Quality checks 與 Packaging artifact verification 均通過，squash
+merge commit 為 `e34ce0d901c2c7a214c0785cdebeee1d3c63359b`。Post-merge
+focused verification 結果為 64 passed、必要 skips 為 0，且 working tree
+clean。
+
+目前焦點已進入 **Step 8.9.6 Integrated Package / Release Identity
+Verification**，負責整合 canonical version、wheel/sdist filenames、metadata、
+console entry point、artifact set、checksums、commit 與 release source
+identity；此切片不建立 tag、GitHub Release 或 RC。Step 8.10 RC Acceptance
+仍為 `Planned`。
 
 ------------------------------------------------------------------------
 

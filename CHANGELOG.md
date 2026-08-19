@@ -96,6 +96,11 @@
     governing Step 8.9 design for closure auditing, contract/policy/documentation
     consistency, artifact-backed installed-user verification, full quality
     gates, CI evidence, and formal readiness acceptance.
+-   Added Step 8.9.2 Milestone 8 closure-contract automation covering required
+    governing documents, accepted records, unresolved placeholders, and Roadmap
+    terminal-state alignment.
+-   Added Step 8.9.3 cross-document public-contract, compatibility/deprecation,
+    support-matrix, and known-limitations consistency automation.
 
 #### Milestone 7 --- Marketplace
 
@@ -309,6 +314,11 @@
     regression, CI verification, and formal acceptance.
 -   Kept Step 8.10 RC Acceptance separate: Step 8.9 neither creates
     `v1.0.0-rc.1` nor pre-approves RC Acceptance.
+-   Completed Step 8.9.2 with 28 focused closure-contract tests and corrected
+    the Step 8.1 baseline status from `Proposed` to `Accepted`.
+-   Moved the active verification slice to Step 8.9.3 Contract / Policy /
+    Support Consistency Automation while preserving Steps 8.2, 8.6, and 8.7
+    as their respective authorities.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible

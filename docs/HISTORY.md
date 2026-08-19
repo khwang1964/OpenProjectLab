@@ -1334,8 +1334,16 @@ Planned sequence：
 8.9.9 Formal acceptance and post-merge consistency
 ```
 
-目前狀態為 **Step 8.9.1 In Progress**；Step 8.10 RC Acceptance 仍為
-`Planned`。
+Step 8.9.1 governing design 已完成。Step 8.9.2 新增 Milestone 8
+closure-contract automation，以 28 個 focused tests 驗證 Steps 8.1–8.8
+governing documents、acceptance records、closure placeholders 與 Roadmap
+terminal states，並找出及修正 Step 8.1 baseline 仍為 `Proposed` 的歷史
+狀態落差。
+
+目前焦點已進入 **Step 8.9.3 Contract / Policy / Support Consistency
+Automation**，負責聚合驗證 Step 8.2 public-contract freeze、Step 8.6
+compatibility/deprecation policy 與 Step 8.7 support matrix/known limitations，
+但不重新定義這些權威契約。Step 8.10 RC Acceptance 仍為 `Planned`。
 
 ------------------------------------------------------------------------
 

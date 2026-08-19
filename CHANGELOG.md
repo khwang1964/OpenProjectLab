@@ -133,6 +133,15 @@
     as the RC-specific coordination contract over the existing packaging,
     First 15 Minutes, installed-user E2E, and integrated release-identity
     verification layers.
+-   Added `docs/releases/v1.0-rc-creation-publication-identity.md` as the
+    Step 8.10.8 publication-identity contract for approved source SHA,
+    immutable RC tag, draft-first GitHub prerelease, exact published assets,
+    and post-publication re-verification.
+-   Added `docs/releases/v1.0-rc-acceptance-record.md` as the Step 8.10.9
+    formal RC acceptance candidate record.
+-   Added `tests/release_readiness/test_v1_rc_formal_acceptance.py` as the
+    fail-closed Step 8.10.9 automation preventing premature RC acceptance
+    while PR/CI/merge/main-sync/post-merge closure gates remain Pending.
 
 #### Milestone 7 --- Marketplace
 
@@ -449,6 +458,21 @@
 -   Moved the active Milestone 8 slice to Step 8.10.7 --- RC GitHub
     Actions / CI without creating a tag, GitHub Release, or formal RC
     acceptance.
+-   Completed Step 8.10.7 RC GitHub Actions / CI after PR #152 passed
+    both required GitHub Actions jobs and completed squash merge / main
+    synchronization.
+-   Completed Step 8.10.8 RC Creation / Publication Identity using approved
+    publication commit `b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8` and immutable RC tag `v1.0.0-rc.1`.
+-   Published the exact verified RC asset set as a GitHub prerelease:
+    `openprojectlab-1.0.0rc1-py3-none-any.whl`, `openprojectlab-1.0.0rc1.tar.gz`, and `SHA256SUMS.txt`.
+-   Verified the published wheel SHA-256 as `0dbea1bdbf972a91c25aeb84e5441cb308df866b269ab8f7feea8d099d93d337` and the published
+    sdist SHA-256 as `37e2593a4693b7f038da1b9f0b3ae83643fff2d989992a185a3cdc9022098ea2`.
+-   Verified the checksum-manifest asset SHA-256 as `0b56ca72ab9aec34afabcf3fb00d170522a923d4e0120df3bca6234061bb3c4f`.
+-   Verified the GitHub Release was draft-first, then published with
+    `draft=false`, `prerelease=true`, and target commit `b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8`.
+-   Started Step 8.10.9 Formal RC Acceptance / Post-merge with an
+    Acceptance Candidate record; formal RC acceptance remains Pending until
+    acceptance PR/CI/merge/main-sync/post-merge closure completes.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -785,6 +809,13 @@
     67.0% gate.
 -   Verified Step 8.10.6 `git diff --check`, Ruff, Ruff Format, and
     pre-commit all passed.
+-   Verified Step 8.10.7 required GitHub Actions / CI jobs passed.
+-   Verified remote annotated `v1.0.0-rc.1` peels to approved publication commit
+    `b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8`.
+-   Verified Step 8.10.8 published GitHub prerelease identity, exact asset
+    membership, final artifact digests, and post-publication identity re-read.
+-   Verified the Step 8.10.9 formal-acceptance candidate focused suite passes
+    with `41 passed`.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

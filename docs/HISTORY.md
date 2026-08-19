@@ -1496,7 +1496,9 @@ RC governing contract 固定下列核心要求：
 8.10.4 RC Build / Artifact Identity             Completed
 8.10.5 RC Artifact-backed Verification          Completed
 8.10.6 RC Full Regression / Local Quality Gates Completed
-8.10.7 RC GitHub Actions / CI                   Next
+8.10.7 RC GitHub Actions / CI                   Completed
+8.10.8 RC Creation / Publication Identity       Completed
+8.10.9 Formal RC Acceptance / Post-merge        In Progress
 ```
 
 Step 8.10.4 新增 governing design：
@@ -1603,7 +1605,100 @@ pre-commit --- Passed
 source-only success 取代 artifact-backed evidence。Step 8.10.6 完成時仍未建立
 `v1.0.0-rc.1` tag、GitHub Release 或正式 RC acceptance。
 
-下一個 active slice 為 Step 8.10.7 RC GitHub Actions / CI。
+Step 8.10.7 RC GitHub Actions / CI 已完成。PR #152 的 required GitHub
+Actions jobs：
+
+``` text
+Quality checks --- Passed
+Packaging artifact verification --- Passed
+```
+
+均通過，並完成 squash merge、main synchronization 與 lightweight
+post-merge RC consistency verification。
+
+Step 8.10.8 建立 publication governing contract：
+
+``` text
+docs/releases/v1.0-rc-creation-publication-identity.md
+```
+
+並透過 contract PR #153 完成 reviewed publication boundary。PR #153 CI
+通過後 squash merged，merge 後 synchronized `main` 的 approved publication
+commit 為：
+
+``` text
+b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8
+```
+
+從該 commit fresh rebuild final RC artifacts、通過 Twine、checksum 與
+artifact-backed publication verification後，建立 annotated tag：
+
+``` text
+v1.0.0-rc.1
+```
+
+Remote peeled tag target 驗證為：
+
+``` text
+b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8
+```
+
+因此 tag target 與 approved publication commit 一致。
+
+GitHub Release 採 draft-first 建立，draft identity 驗證完成後才發布為
+prerelease。最終 publication state：
+
+``` text
+Package version --- 1.0.0rc1
+Release tag --- v1.0.0-rc.1
+Target commit --- b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8
+Draft --- false
+Prerelease --- true
+Wheel --- openprojectlab-1.0.0rc1-py3-none-any.whl
+Wheel SHA-256 --- 0dbea1bdbf972a91c25aeb84e5441cb308df866b269ab8f7feea8d099d93d337
+sdist --- openprojectlab-1.0.0rc1.tar.gz
+sdist SHA-256 --- 37e2593a4693b7f038da1b9f0b3ae83643fff2d989992a185a3cdc9022098ea2
+SHA256SUMS.txt asset SHA-256 --- 0b56ca72ab9aec34afabcf3fb00d170522a923d4e0120df3bca6234061bb3c4f
+Post-publication identity re-read --- Passed
+```
+
+因此 Step 8.10.8 --- RC Creation / Publication Identity 已完成。Published
+`v1.0.0-rc.1` 現在是 immutable RC identity；不得 retarget tag 或在相同
+RC identity 下替換 artifact bytes。
+
+Step 8.10.9 Formal RC Acceptance / Post-merge 已啟動，新增：
+
+``` text
+docs/releases/v1.0-rc-acceptance-record.md
+tests/release_readiness/test_v1_rc_formal_acceptance.py
+```
+
+Formal-acceptance candidate focused suite：
+
+``` text
+41 passed
+```
+
+Acceptance record 目前仍為：
+
+``` text
+Status --- Acceptance Candidate
+Formal RC Acceptance --- Pending
+```
+
+且保留下列 closure gates 為 Pending：
+
+``` text
+Acceptance PR
+Acceptance PR CI
+Acceptance squash merge
+main synchronization
+post-merge consistency verification
+cross-document terminal-state alignment
+Formal RC Acceptance
+```
+
+因此 Step 8.10 尚未正式 Accepted，`v1.0.0` GA 亦維持 Not Accepted。
 
 ------------------------------------------------------------------------
 

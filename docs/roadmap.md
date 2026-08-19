@@ -1377,9 +1377,9 @@ tests/release_readiness/test_v1_rc_acceptance_contract.py
 8.10.4 RC Build / Artifact Identity            Completed
 8.10.5 RC Artifact-backed Verification         Completed
 8.10.6 RC Full Regression / Local Quality Gates Completed
-8.10.7 RC GitHub Actions / CI                  Next
-8.10.8 RC Creation / Publication Identity      Planned
-8.10.9 Formal RC Acceptance / Post-merge       Planned
+8.10.7 RC GitHub Actions / CI                  Completed
+8.10.8 RC Creation / Publication Identity      Completed
+8.10.9 Formal RC Acceptance / Post-merge       In Progress
 ```
 
 Milestone 8 completion 的 target：
@@ -1516,11 +1516,64 @@ evidence；它是在四個 RC artifact inputs 仍綁定目前 fresh RC artifact 
 Step 8.10.6 仍為 pre-publication local quality gate；沒有建立或移動
 `v1.0.0-rc.1` tag，沒有建立 GitHub Release，也沒有正式接受 RC。
 
-下一個 active slice 為：
+Step 8.10.7 RC GitHub Actions / CI 已完成；PR #152 的 required
+GitHub Actions jobs `Quality checks` 與 `Packaging artifact verification`
+均通過，並完成 squash merge / main synchronization。
+
+Step 8.10.8 RC Creation / Publication Identity 隨後完成。Publication
+contract：
 
 ``` text
-Step 8.10.7 --- RC GitHub Actions / CI
+docs/releases/v1.0-rc-creation-publication-identity.md
 ```
+
+Publication identity evidence：
+
+``` text
+Canonical package version --- 1.0.0rc1
+Canonical RC tag --- v1.0.0-rc.1
+Approved publication commit --- b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8
+Verified peeled tag target --- b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8
+Published wheel --- openprojectlab-1.0.0rc1-py3-none-any.whl
+Published wheel SHA-256 --- 0dbea1bdbf972a91c25aeb84e5441cb308df866b269ab8f7feea8d099d93d337
+Published sdist --- openprojectlab-1.0.0rc1.tar.gz
+Published sdist SHA-256 --- 37e2593a4693b7f038da1b9f0b3ae83643fff2d989992a185a3cdc9022098ea2
+Published checksum manifest --- SHA256SUMS.txt
+Checksum-manifest asset SHA-256 --- 0b56ca72ab9aec34afabcf3fb00d170522a923d4e0120df3bca6234061bb3c4f
+GitHub Release draft-first validation --- Passed
+GitHub Release published --- Yes
+GitHub Release draft --- false
+GitHub Release prerelease --- true
+Post-publication identity re-read --- Passed
+```
+
+Published `v1.0.0-rc.1` is now immutable under the accepted release contract;
+the tag must not be moved and the published artifact bytes must not be replaced
+under the same RC identity.
+
+Step 8.10.9 Formal RC Acceptance / Post-merge is now active. Formal
+acceptance candidate record：
+
+``` text
+docs/releases/v1.0-rc-acceptance-record.md
+```
+
+Formal-acceptance automation：
+
+``` text
+tests/release_readiness/test_v1_rc_formal_acceptance.py
+```
+
+Candidate focused verification：
+
+``` text
+41 passed
+```
+
+Step 8.10.9 remains fail-closed. Acceptance PR / CI / squash merge /
+synchronized-main / post-merge consistency / cross-document terminal-state
+alignment remain Pending, so Step 8.10 itself remains **In Progress** and
+`v1.0.0` GA remains unaccepted.
 
 RC validation 完成並取得正式 acceptance evidence 後，才進入獨立的：
 

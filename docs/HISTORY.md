@@ -876,8 +876,8 @@ GitHub Actions / CI --- Passed
 
 因此 Step 8.2 --- Public Contract Audit & Freeze 已正式 Accepted。這組
 1469 / 90.33% 為 Step 8.2 自己的 acceptance evidence，不重用 Milestone 7
-historical baseline。後續只需完成 squash merge、sync main 與 post-merge
-consistency verification。
+historical baseline。Acceptance merge、main synchronization 與
+post-merge consistency verification 均已完成。
 
 ------------------------------------------------------------------------
 
@@ -944,8 +944,8 @@ GitHub Actions / CI --- Passed
 ```
 
 因此 Step 8.3 --- Reliability / Regression Hardening 已正式 Accepted。
-後續只需完成 squash merge、sync main 與 post-merge consistency
-verification。
+Acceptance merge、main synchronization 與 post-merge consistency
+verification 均已完成。
 
 目前狀態：
 
@@ -1493,11 +1493,55 @@ RC governing contract 固定下列核心要求：
 8.10.1 RC Acceptance Baseline                   Completed
 8.10.2 RC Acceptance Contract                   Completed
 8.10.3 RC Contract Automation                   Completed
-8.10.4 RC Build / Artifact Identity             Next
+8.10.4 RC Build / Artifact Identity             Completed
+8.10.5 RC Artifact-backed Verification          Next
 ```
 
-目前仍未建立或正式接受 `v1.0.0-rc.1`，也未預先接受 `v1.0.0` GA。
-下一個 active slice 為 Step 8.10.4 RC Build / Artifact Identity。
+Step 8.10.4 新增 governing design：
+
+``` text
+docs/releases/v1.0-rc-build-artifact-identity.md
+```
+
+並以 focused automation：
+
+``` text
+tests/release_readiness/test_v1_rc_build_artifact_identity.py
+```
+
+固定 RC package / release identity boundary：
+
+``` text
+Python package identity  --- 1.0.0rc1
+Human-facing RC identity --- v1.0.0-rc.1
+```
+
+Minimum implementation 將 canonical `[project].version` 更新為
+`1.0.0rc1`，並使 release identity layer 將 PEP 440 RC syntax
+deterministically 映射為 `v1.0.0-rc.1`，同時保持 stable release tag mapping
+不變。
+
+Step 8.10.4 fresh artifact evidence：
+
+``` text
+Source commit --- 11a997c2b9787cdae34b15818c6170948e89b7fc
+Wheel --- openprojectlab-1.0.0rc1-py3-none-any.whl
+sdist --- openprojectlab-1.0.0rc1.tar.gz
+Twine check --- Passed
+Focused verification --- 70 passed, 0 skipped
+Wheel SHA-256 --- 5c6a968b5d4225d758ecedc8fa15441c64812cc413ee62d302cf2521eb0b1629
+sdist SHA-256 --- 34c2bcc33f0265a8f25d1770ea209472fbcdf12f803217e87574de3f08acef12
+Checksum manifest verification --- Passed
+```
+
+初次 checksum-manifest verification 曾因 Windows PowerShell 5.1
+`Set-Content -Encoding utf8` 產生 UTF-8 BOM 而失敗；改以無 BOM UTF-8
+寫入 manifest 後，exact artifact/checksum verification 通過。這是 manifest
+encoding issue，不是 artifact identity 或 checksum 計算 defect。
+
+Step 8.10.4 完成時仍未建立或正式接受 `v1.0.0-rc.1`，也未預先接受
+`v1.0.0` GA。下一個 active slice 為 Step 8.10.5 RC Artifact-backed
+Verification。
 
 ------------------------------------------------------------------------
 

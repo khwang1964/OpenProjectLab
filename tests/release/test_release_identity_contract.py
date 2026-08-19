@@ -103,7 +103,7 @@ def test_read_canonical_version_matches_pyproject(
     [
         ("0.6.0", "v0.6.0"),
         ("1.0.0", "v1.0.0"),
-        ("1.0.0rc1", "v1.0.0rc1"),
+        ("1.0.0rc1", "v1.0.0-rc.1"),
     ],
 )
 def test_expected_release_tag_is_deterministic(

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openprojectlab"
-version = "0.6.0"
+version = "1.0.0rc1"
 description = "OpenProjectLab education content generator framework"
 readme = "README.md"
 requires-python = ">=3.12"

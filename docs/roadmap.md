@@ -1215,9 +1215,9 @@ docs/releases/v1.0-full-release-readiness-verification.md
 Planned delivery sequence：
 
 ``` text
-8.9.1 Governing design and verification inventory       In Progress
-8.9.2 Steps 8.1–8.8 closure-contract automation          Planned
-8.9.3 Contract / policy / support consistency            Planned
+8.9.1 Governing design and verification inventory       Completed
+8.9.2 Steps 8.1–8.8 closure-contract automation          Completed
+8.9.3 Contract / policy / support consistency            In Progress
 8.9.4 Documentation / First 15 Minutes verification      Planned
 8.9.5 Artifact-backed representative installed-user E2E  Planned
 8.9.6 Integrated package / release identity verification Planned
@@ -1246,7 +1246,10 @@ GitHub Actions / CI
 Step 8.9 不建立或發布 `v1.0.0-rc.1`，也不預先核准 Step 8.10 RC
 Acceptance。通過 Step 8.9 僅代表 repository 已準備進入 RC Acceptance。
 
-**Status:** In Progress — Step 8.9.1 Governing Design
+Step 8.9.2 closure-contract automation passed 28 focused tests and corrected
+the Step 8.1 release-readiness baseline status from `Proposed` to `Accepted`.
+
+**Status:** In Progress — Step 8.9.3 Contract / Policy / Support Consistency
 
 ## Step 8.10 --- RC Acceptance
 

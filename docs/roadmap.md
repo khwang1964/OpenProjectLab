@@ -1375,9 +1375,9 @@ tests/release_readiness/test_v1_rc_acceptance_contract.py
 8.10.2 RC Acceptance Contract                  Completed
 8.10.3 RC Contract Automation                  Completed
 8.10.4 RC Build / Artifact Identity            Completed
-8.10.5 RC Artifact-backed Verification         Next
-8.10.6 RC Full Regression / Local Quality Gates Planned
-8.10.7 RC GitHub Actions / CI                  Planned
+8.10.5 RC Artifact-backed Verification         Completed
+8.10.6 RC Full Regression / Local Quality Gates Completed
+8.10.7 RC GitHub Actions / CI                  Next
 8.10.8 RC Creation / Publication Identity      Planned
 8.10.9 Formal RC Acceptance / Post-merge       Planned
 ```
@@ -1451,10 +1451,75 @@ Checksum manifest verification --- Passed
 Step 8.10.4 的 verification 仍為 pre-publication；沒有建立或移動 Git tag，
 沒有建立 GitHub Release，也沒有正式接受 RC。
 
+Step 8.10.5 已完成 RC Artifact-backed Verification。
+
+Governing design：
+
+``` text
+docs/releases/v1.0-rc-artifact-backed-verification.md
+```
+
+RC-specific coordination automation：
+
+``` text
+tests/release_readiness/test_v1_rc_artifact_backed_verification.py
+```
+
+Completion-state artifact-backed evidence：
+
+``` text
+Source commit --- 784a139b4afc91779d6b3c76fe35162a0e348261
+Configured wheel --- openprojectlab-1.0.0rc1-py3-none-any.whl
+Configured sdist --- openprojectlab-1.0.0rc1.tar.gz
+Installed distribution identity --- 1.0.0rc1
+Source-checkout isolation --- Passed
+Installed opl entry point --- Passed
+Packaged runtime resources --- Passed
+First 15 Minutes --- Passed
+Representative installed-user E2E --- Passed
+Integrated release identity --- Passed
+Checksum manifest verification --- Passed
+Focused completion suite --- 59 passed
+Required artifact-backed skips --- 0
+```
+
+初次 completion run 正確拒絕了 stale
+`OPL_RELEASE_COMMIT_SHA=11a997c2b9787cdae34b15818c6170948e89b7fc`，
+因其與目前 build source `HEAD=784a139b4afc91779d6b3c76fe35162a0e348261` 不一致。重新 fresh build、
+重新產生 checksum manifest 並重新綁定四個 artifact inputs 後，59 個
+artifact-backed tests 全部通過。這證明 commit-binding gate 維持
+fail-closed，而不是放寬 source/artifact identity。
+
+Step 8.10.5 仍為 pre-publication verification；沒有建立或移動
+`v1.0.0-rc.1` tag，沒有建立 GitHub Release，也沒有正式接受 RC。
+
+Step 8.10.6 已完成 RC Full Regression / Local Quality Gates。
+
+Completion-state local evidence：
+
+``` text
+Full regression --- 1881 passed, 1 deselected
+Failures / errors --- 0
+Coverage --- 90.90%
+Required coverage --- 67.0% --- Passed
+Required artifact-backed skips --- 0
+git diff --check --- Passed
+Ruff --- Passed
+Ruff Format --- Passed
+pre-commit --- Passed
+```
+
+這組 `1881 / 90.90%` 是 Step 8.10.6 completion-state 的 fresh local
+evidence；它是在四個 RC artifact inputs 仍綁定目前 fresh RC artifact set
+的狀態下取得，不沿用 Step 8.10.5 的 focused `59 passed` evidence。
+
+Step 8.10.6 仍為 pre-publication local quality gate；沒有建立或移動
+`v1.0.0-rc.1` tag，沒有建立 GitHub Release，也沒有正式接受 RC。
+
 下一個 active slice 為：
 
 ``` text
-Step 8.10.5 --- RC Artifact-backed Verification
+Step 8.10.7 --- RC GitHub Actions / CI
 ```
 
 RC validation 完成並取得正式 acceptance evidence 後，才進入獨立的：

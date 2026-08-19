@@ -1494,7 +1494,9 @@ RC governing contract 固定下列核心要求：
 8.10.2 RC Acceptance Contract                   Completed
 8.10.3 RC Contract Automation                   Completed
 8.10.4 RC Build / Artifact Identity             Completed
-8.10.5 RC Artifact-backed Verification          Next
+8.10.5 RC Artifact-backed Verification          Completed
+8.10.6 RC Full Regression / Local Quality Gates Completed
+8.10.7 RC GitHub Actions / CI                   Next
 ```
 
 Step 8.10.4 新增 governing design：
@@ -1540,8 +1542,68 @@ Checksum manifest verification --- Passed
 encoding issue，不是 artifact identity 或 checksum 計算 defect。
 
 Step 8.10.4 完成時仍未建立或正式接受 `v1.0.0-rc.1`，也未預先接受
-`v1.0.0` GA。下一個 active slice 為 Step 8.10.5 RC Artifact-backed
-Verification。
+`v1.0.0` GA。
+
+Step 8.10.5 隨後建立：
+
+``` text
+docs/releases/v1.0-rc-artifact-backed-verification.md
+tests/release_readiness/test_v1_rc_artifact_backed_verification.py
+```
+
+此 slice 重用既有 packaging、First 15 Minutes、artifact-backed
+installed-user E2E 與 integrated package/release identity suites，而不建立
+第二套 clean-install framework。
+
+Completion-state artifact-backed evidence：
+
+``` text
+Source commit --- 784a139b4afc91779d6b3c76fe35162a0e348261
+Wheel --- openprojectlab-1.0.0rc1-py3-none-any.whl
+sdist --- openprojectlab-1.0.0rc1.tar.gz
+Installed distribution identity --- 1.0.0rc1
+Source-checkout isolation --- Passed
+Installed opl entry point --- Passed
+Packaged runtime resources --- Passed
+First 15 Minutes --- Passed
+Representative installed-user E2E --- Passed
+Integrated release identity --- Passed
+Checksum manifest verification --- Passed
+Focused completion suite --- 59 passed
+Required artifact-backed skips --- 0
+```
+
+初次 completion run 因 `OPL_RELEASE_COMMIT_SHA` 仍指向 Step 8.10.4
+歷史 source commit `11a997c2b9787cdae34b15818c6170948e89b7fc`，而目前
+`HEAD` 已為 `784a139b4afc91779d6b3c76fe35162a0e348261`，因此 fail-closed identity check 正確失敗。
+重新從目前 source fresh build RC artifacts、重建無 BOM checksum manifest，
+並重新設定 `OPL_TEST_WHEEL`、`OPL_TEST_DIST_DIR`、
+`OPL_TEST_CHECKSUM_MANIFEST` 與 `OPL_RELEASE_COMMIT_SHA` 後，
+completion suite 取得 59 passed、0 required skips。
+
+因此 Step 8.10.5 --- RC Artifact-backed Verification 已完成。仍未建立
+`v1.0.0-rc.1` tag、GitHub Release 或正式 RC acceptance。
+
+Step 8.10.6 隨後完成 RC Full Regression / Local Quality Gates，從目前
+completion-state repository 取得 fresh local evidence：
+
+``` text
+Full regression --- 1881 passed, 1 deselected
+Failures / errors --- 0
+Coverage --- 90.90%
+Required coverage --- 67.0% --- Passed
+Required artifact-backed skips --- 0
+git diff --check --- Passed
+Ruff --- Passed
+Ruff Format --- Passed
+pre-commit --- Passed
+```
+
+這組 `1881 / 90.90%` 不沿用 Step 8.10.5 focused suite，也不以
+source-only success 取代 artifact-backed evidence。Step 8.10.6 完成時仍未建立
+`v1.0.0-rc.1` tag、GitHub Release 或正式 RC acceptance。
+
+下一個 active slice 為 Step 8.10.7 RC GitHub Actions / CI。
 
 ------------------------------------------------------------------------
 

@@ -126,6 +126,13 @@
 -   Added `tests/release_readiness/test_v1_rc_build_artifact_identity.py`
     for focused RC package-version, tag-mapping, artifact-metadata,
     stale-artifact, and checksum identity verification.
+-   Added `docs/releases/v1.0-rc-artifact-backed-verification.md` as the
+    Step 8.10.5 governing design for checksum-bound installed-user
+    verification of the current RC wheel.
+-   Added `tests/release_readiness/test_v1_rc_artifact_backed_verification.py`
+    as the RC-specific coordination contract over the existing packaging,
+    First 15 Minutes, installed-user E2E, and integrated release-identity
+    verification layers.
 
 #### Milestone 7 --- Marketplace
 
@@ -420,6 +427,28 @@
 -   Moved the active Milestone 8 slice to Step 8.10.5 --- RC
     Artifact-backed Verification without creating a tag, GitHub Release,
     or formal RC acceptance.
+-   Completed Step 8.10.5 RC Artifact-backed Verification against source
+    commit `784a139b4afc91779d6b3c76fe35162a0e348261` with the fresh `1.0.0rc1` wheel / sdist,
+    checksum-bound artifact identity, source-checkout isolation,
+    installed `opl`, packaged runtime resources, First 15 Minutes, and
+    representative installed-user E2E all verified.
+-   Preserved fail-closed source/artifact binding: an initial run using
+    stale `OPL_RELEASE_COMMIT_SHA=11a997c2b9787cdae34b15818c6170948e89b7fc`
+    failed against current `HEAD=784a139b4afc91779d6b3c76fe35162a0e348261`; fresh artifacts and all
+    four RC artifact inputs were then regenerated/rebound before
+    completion.
+-   Moved the active Milestone 8 slice to Step 8.10.6 --- RC Full
+    Regression / Local Quality Gates, without creating a tag, GitHub
+    Release, or formal RC acceptance.
+-   Completed Step 8.10.6 RC Full Regression / Local Quality Gates with
+    `1881 passed, 1 deselected`, zero failures/errors, zero required
+    artifact-backed skips, and 90.90% coverage against the required
+    67.0% gate.
+-   Verified `git diff --check`, Ruff, Ruff Format, and pre-commit for the
+    Step 8.10.6 completion-state repository.
+-   Moved the active Milestone 8 slice to Step 8.10.7 --- RC GitHub
+    Actions / CI without creating a tag, GitHub Release, or formal RC
+    acceptance.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -740,6 +769,22 @@
     `34c2bcc33f0265a8f25d1770ea209472fbcdf12f803217e87574de3f08acef12`.
 -   Verified the checksum manifest matches the exact current artifact
     bytes.
+-   Verified Step 8.10.5 artifact-backed completion against source commit
+    `784a139b4afc91779d6b3c76fe35162a0e348261` with `59 passed` and zero required artifact-backed
+    skips.
+-   Verified the installed RC distribution reports `1.0.0rc1`, imports
+    outside the source checkout, exposes the installed `opl` entry point,
+    consumes package-owned runtime resources, passes First 15 Minutes,
+    and passes the representative installed-user E2E.
+-   Verified the Step 8.10.5 checksum manifest and integrated
+    package/release identity against the fresh current RC artifact set.
+-   Recorded Step 8.10.6 completion-state full regression evidence:
+    `1881 passed, 1 deselected`, with zero failures/errors and zero
+    required artifact-backed skips.
+-   Verified Step 8.10.6 total coverage at 90.90%, above the required
+    67.0% gate.
+-   Verified Step 8.10.6 `git diff --check`, Ruff, Ruff Format, and
+    pre-commit all passed.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

@@ -186,11 +186,11 @@ def test_roadmap_marks_steps_8_2_through_8_8_as_accepted(step: str) -> None:
     assert _roadmap_status(roadmap, step) == "Accepted"
 
 
-def test_roadmap_marks_step_8_9_in_progress() -> None:
-    """The active full-readiness step must not appear Planned or Accepted."""
+def test_roadmap_marks_step_8_9_as_accepted() -> None:
+    """The completed full-readiness step must expose its Accepted state."""
     roadmap = _read(ROADMAP_PATH)
 
-    assert _roadmap_status(roadmap, "8.9").startswith("In Progress")
+    assert _roadmap_status(roadmap, "8.9") == "Accepted"
 
 
 def test_roadmap_keeps_step_8_10_planned() -> None:

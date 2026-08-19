@@ -1394,6 +1394,51 @@ Formal acceptance record 已建立：
 docs/releases/v1.0-full-release-readiness-verification-acceptance.md
 ```
 
+Step 8.9.9 初次 post-merge verification 發現 closure-contract scope defect：
+新建立的 Step 8.9 acceptance record 被錯誤納入 Steps 8.1–8.8 prior-release
+debt scan。修正僅調整文件選擇範圍，不弱化既有 forbidden closure markers，
+並新增 regression test 保護 Step 8.9 governing / acceptance records 不會再被
+誤判為 prior-step debt。
+
+修正證據：
+
+``` text
+PR #148 --- merged
+Head commit --- 7593ee6f46c8b57162d74b663360bf6c9e0236a1
+CI workflow --- 32232518973
+Quality checks --- Passed
+Packaging artifact verification --- Passed
+Merge commit --- 0d1fdc5a22c0de38d3b3f806a7e85197a65e2e3d
+Targeted closure-contract suite --- 29 passed
+Full regression before merge --- 1823 passed, 22 skipped, 1 deselected
+pre-commit --- Passed
+git diff --check --- Passed
+```
+
+PR #148 merge 後，已在 synchronized `main` 上完成最終 Step 8.9.9
+post-merge consistency verification。`HEAD`、local `main` 與 `origin/main`
+皆解析為 `0d1fdc5a22c0de38d3b3f806a7e85197a65e2e3d`，working tree 在驗證前後均保持 clean。
+
+最終 post-merge evidence：
+
+``` text
+Full regression --- 1823 passed, 22 skipped, 1 deselected
+Failures / errors --- 0
+Coverage --- 90.89%
+Required coverage --- 67.0% --- Passed
+git diff --check --- Passed
+Ruff / Ruff Format --- Passed
+pre-commit --- Passed
+Post-merge consistency verification --- Completed
+```
+
+Roadmap、HISTORY、CHANGELOG、governing verification record 與 formal
+acceptance record 已對齊同一 terminal state。因此 **Step 8.9 — Full
+Release-readiness Verification 已正式 Accepted**。
+
+下一個獨立 gate 為 **Step 8.10 — RC Acceptance**；Step 8.9 的 acceptance
+不建立、不發布，也不預先接受 `v1.0.0-rc.1`。
+
 ------------------------------------------------------------------------
 
 # 我們的願景

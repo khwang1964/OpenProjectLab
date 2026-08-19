@@ -365,6 +365,27 @@
 -   Advanced the active Milestone 8 slice to Step 8.9.9 Formal Acceptance /
     Post-merge Consistency. Main synchronization, post-merge verification, and
     final Step 8.9 `Accepted` status remain pending actual closure evidence.
+-   Fixed the Step 8.9.9 closure-contract document scope so the active Step 8.9
+    governing and acceptance records are excluded from the prior Steps 8.1–8.8
+    debt scan without weakening forbidden closure markers.
+-   Added regression coverage for the corrected Step 8.9 document-selection
+    boundary; the targeted closure-contract suite passed 29 tests.
+-   Recorded fresh pre-merge full-regression evidence for the closure-scope
+    correction: `1823 passed, 22 skipped, 1 deselected`, with zero failures.
+-   Verified PR #148 CI workflow `32232518973` passed both required
+    jobs and squash merged as commit `0d1fdc5a22c0de38d3b3f806a7e85197a65e2e3d`.
+-   Completed the final Step 8.9.9 synchronized-main post-merge verification
+    at `0d1fdc5a22c0de38d3b3f806a7e85197a65e2e3d` with `HEAD == main == origin/main`.
+-   Recorded the final post-merge full regression as
+    `1823 passed, 22 skipped, 1 deselected` with zero failures/errors and 90.89% coverage against
+    the required 67.0% gate.
+-   Verified `git diff --check`, Ruff, Ruff Format, pre-commit, pytest hook,
+    and clean-working-tree consistency after PR #148.
+-   Aligned Roadmap, HISTORY, CHANGELOG, the governing Step 8.9 record, and
+    the formal acceptance record to the same terminal state.
+-   Formally accepted Step 8.9 --- Full Release-readiness Verification.
+-   Made Step 8.10 --- RC Acceptance the next independent release gate without
+    creating or pre-accepting `v1.0.0-rc.1`.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -653,6 +674,25 @@
     `1777 passed, 1 deselected in 37.40s` and 90.89% coverage.
 -   Verified pre-commit and `git diff --check` passed with a clean working tree.
 -   Marked Step 8.8 --- Release Automation & Reproducibility as formally
+    Accepted.
+
+-   Verified the Step 8.9.9 closure-scope correction targeted suite passes with
+    29 tests.
+-   Recorded the closure-scope correction full regression:
+    1823 passed, 22 skipped, 1 deselected, with zero failures.
+-   Verified pre-commit and `git diff --check` passed before PR #148.
+-   Verified PR #148 GitHub Actions workflow `32232518973` passed both
+    `Quality checks` and `Packaging artifact verification`.
+-   Verified PR #148 squash merged as
+    `0d1fdc5a22c0de38d3b3f806a7e85197a65e2e3d`.
+-   Verified final synchronized-main identity after PR #148:
+    `HEAD == main == origin/main == 0d1fdc5a22c0de38d3b3f806a7e85197a65e2e3d`.
+-   Recorded final Step 8.9 post-merge regression evidence:
+    1823 passed, 22 skipped, 1 deselected, zero failures/errors, 90.89% coverage.
+-   Verified final post-merge `git diff --check`, Ruff, Ruff Format,
+    pre-commit, pytest hook, and clean working tree.
+-   Completed Step 8.9 post-merge consistency and cross-document alignment.
+-   Marked Step 8.9 --- Full Release-readiness Verification as formally
     Accepted.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation

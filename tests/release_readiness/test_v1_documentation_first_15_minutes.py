@@ -102,6 +102,9 @@ def test_governing_design_rejects_skips_as_final_evidence() -> None:
 
 
 def test_step_8_9_4_does_not_claim_rc_acceptance() -> None:
+    """Step 8.9 acceptance must not pre-approve the independent RC gate."""
     design = _read(GOVERNING_DESIGN)
+
     assert "Step 8.10 RC Acceptance" in design
-    assert "No Step 8.9 formal acceptance or Step 8.10 RC evidence is claimed here." in design
+    assert "Step 8.9 formal acceptance is complete." in design
+    assert "No Step 8.10 RC acceptance evidence is claimed here." in design

@@ -89,14 +89,21 @@ def _roadmap_status(roadmap: str, step: str) -> str:
 
 
 def _prior_release_documents() -> tuple[Path, ...]:
-    """Return release documents owned by Steps 8.1-8.8."""
-    step_8_9_documents = {
-        STEP_8_9_DESIGN,
-        STEP_8_9_ACCEPTANCE,
-    }
+    """Return authoritative release documents owned by Steps 8.1-8.8."""
+    relative_paths: set[str] = set()
+
+    for documents in GOVERNING_DOCUMENTS.values():
+        for relative_path in documents:
+            if not relative_path.startswith("../"):
+                relative_paths.add(relative_path)
+
+    relative_paths.update(ACCEPTANCE_RECORDS.values())
 
     return tuple(
-        path for path in sorted(RELEASES_DIR.glob("*.md")) if path.name not in step_8_9_documents
+        sorted(
+            (RELEASES_DIR / relative_path for relative_path in relative_paths),
+            key=lambda path: path.name,
+        )
     )
 
 
@@ -169,6 +176,34 @@ def test_step_8_9_documents_are_not_scanned_as_prior_step_debt() -> None:
 
     assert design_path not in _prior_release_documents()
     assert acceptance_path not in _prior_release_documents()
+
+
+def test_step_8_10_documents_are_not_scanned_as_prior_step_debt() -> None:
+    """Active Step 8.10 records must not be treated as Step 8.1-8.8 debt."""
+    step_8_10_documents = {
+        RELEASES_DIR / "v1.0-rc-acceptance.md",
+        RELEASES_DIR / "v1.0-rc-build-artifact-identity.md",
+        RELEASES_DIR / "v1.0-rc-artifact-backed-verification.md",
+        RELEASES_DIR / "v1.0-rc-creation-publication-identity.md",
+        RELEASES_DIR / "v1.0-rc-acceptance-record.md",
+    }
+
+    prior_documents = set(_prior_release_documents())
+
+    assert step_8_10_documents.isdisjoint(prior_documents)
+
+
+def test_prior_release_document_scope_is_explicit_and_complete() -> None:
+    """The closure scan must cover exactly the Step 8.1-8.8 release authorities."""
+    expected = {
+        RELEASES_DIR / relative_path
+        for documents in GOVERNING_DOCUMENTS.values()
+        for relative_path in documents
+        if not relative_path.startswith("../")
+    }
+    expected.update(RELEASES_DIR / filename for filename in ACCEPTANCE_RECORDS.values())
+
+    assert set(_prior_release_documents()) == expected
 
 
 def test_roadmap_marks_step_8_1_as_completed() -> None:

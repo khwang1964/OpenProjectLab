@@ -101,6 +101,10 @@
     terminal-state alignment.
 -   Added Step 8.9.3 cross-document public-contract, compatibility/deprecation,
     support-matrix, and known-limitations consistency automation.
+-   Added `tests/release_readiness/test_v1_documentation_first_15_minutes.py`
+    as the Step 8.9.4 integration contract for the accepted documentation
+    suites, 13-chapter EN/zh-TW parity, and current-wheel First 15 Minutes
+    verification.
 
 #### Milestone 7 --- Marketplace
 
@@ -319,6 +323,12 @@
 -   Moved the active verification slice to Step 8.9.3 Contract / Policy /
     Support Consistency Automation while preserving Steps 8.2, 8.6, and 8.7
     as their respective authorities.
+-   Completed Step 8.9.3 with 50 focused release-readiness tests and a passing
+    pre-commit run, then moved the active slice to Step 8.9.4 Documentation /
+    First 15 Minutes Verification.
+-   Required Step 8.9.4 final evidence to identify a current built wheel and
+    execute the wheel-backed documentation tests; required skips cannot count
+    as completion evidence.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible

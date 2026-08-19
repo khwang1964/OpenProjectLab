@@ -1340,10 +1340,16 @@ governing documents、acceptance records、closure placeholders 與 Roadmap
 terminal states，並找出及修正 Step 8.1 baseline 仍為 `Proposed` 的歷史
 狀態落差。
 
-目前焦點已進入 **Step 8.9.3 Contract / Policy / Support Consistency
-Automation**，負責聚合驗證 Step 8.2 public-contract freeze、Step 8.6
-compatibility/deprecation policy 與 Step 8.7 support matrix/known limitations，
-但不重新定義這些權威契約。Step 8.10 RC Acceptance 仍為 `Planned`。
+Step 8.9.3 Contract / Policy / Support Consistency Automation 已完成，聚合
+驗證 Step 8.2 public-contract freeze、Step 8.6 compatibility/deprecation
+policy 與 Step 8.7 support matrix/known limitations；combined focused suite
+為 50 passed，且 pre-commit passed。
+
+目前焦點已進入 **Step 8.9.4 Documentation / First 15 Minutes
+Verification**。此切片重用 Step 8.5 已接受的 structure、EN/zh-TW parity、
+functional parity 與 wheel-backed First 15 Minutes contracts，並要求最終
+驗證明確提供目前建置的 wheel；必要的 wheel-backed tests 若 skipped，不能
+計為完成證據。Step 8.10 RC Acceptance 仍為 `Planned`。
 
 ------------------------------------------------------------------------
 

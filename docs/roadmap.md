@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.10 RC Acceptance in progress**
+> **Milestone 8 --- RC Acceptance completed; next gate: v1.0.0 GA Acceptance**
 
 ------------------------------------------------------------------------
 
@@ -685,7 +685,7 @@ Completed closure gates：
 
 ------------------------------------------------------------------------
 
-# Milestone 8 --- v1.0 Stabilization & Release Readiness 🚧
+# Milestone 8 --- v1.0 Stabilization & Release Readiness ✅
 
 目標：
 
@@ -1379,7 +1379,7 @@ tests/release_readiness/test_v1_rc_acceptance_contract.py
 8.10.6 RC Full Regression / Local Quality Gates Completed
 8.10.7 RC GitHub Actions / CI                  Completed
 8.10.8 RC Creation / Publication Identity      Completed
-8.10.9 Formal RC Acceptance / Post-merge       In Progress
+8.10.9 Formal RC Acceptance / Post-merge       Completed
 ```
 
 Milestone 8 completion 的 target：
@@ -1570,10 +1570,23 @@ Candidate focused verification：
 41 passed
 ```
 
-Step 8.10.9 remains fail-closed. Acceptance PR / CI / squash merge /
-synchronized-main / post-merge consistency / cross-document terminal-state
-alignment remain Pending, so Step 8.10 itself remains **In Progress** and
-`v1.0.0` GA remains unaccepted.
+Step 8.10.9 completed through acceptance PR #154. The PR passed required
+CI, was squash merged as `d37a3d84161e66e98ebbff2aafaf1a14e27f865c`, `main` was synchronized, and
+post-merge consistency plus cross-document terminal-state alignment completed.
+
+Terminal Step 8.10 state:
+
+``` text
+RC identity --- v1.0.0-rc.1
+Published source SHA --- b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8
+Acceptance PR --- #154
+Acceptance merge SHA --- d37a3d84161e66e98ebbff2aafaf1a14e27f865c
+Formal RC Acceptance --- Accepted
+v1.0.0 GA Acceptance --- Not Accepted
+```
+
+The acceptance merge does not change the immutable published RC tag target or
+artifact identity.
 
 RC validation 完成並取得正式 acceptance evidence 後，才進入獨立的：
 
@@ -1581,7 +1594,7 @@ RC validation 完成並取得正式 acceptance evidence 後，才進入獨立的
 v1.0.0 GA
 ```
 
-**Status:** In Progress
+**Status:** Accepted
 
 ## Milestone 8 Deferred / v1.1+ Candidates
 
@@ -1594,7 +1607,7 @@ Milestone 6 deferred 的 AI Refactoring Assistant、AI CLI、evaluation、
 provenance / usage accounting、caching、streaming 與 tool calling 亦維持
 v1.1+ candidate，除非後續 release-readiness decision 明確提升其優先級。
 
-**Status:** In Progress
+**Status:** Deferred / v1.1+
 
 ------------------------------------------------------------------------
 

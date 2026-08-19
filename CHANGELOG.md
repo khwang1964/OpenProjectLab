@@ -473,6 +473,17 @@
 -   Started Step 8.10.9 Formal RC Acceptance / Post-merge with an
     Acceptance Candidate record; formal RC acceptance remains Pending until
     acceptance PR/CI/merge/main-sync/post-merge closure completes.
+-   Completed Step 8.10.9 Formal RC Acceptance / Post-merge through
+    acceptance PR #154.
+-   Verified PR #154 required CI passed and squash merged as
+    `d37a3d84161e66e98ebbff2aafaf1a14e27f865c`.
+-   Completed synchronized-main post-merge consistency and cross-document
+    terminal-state alignment.
+-   Formally accepted Step 8.10 --- RC Acceptance for `v1.0.0-rc.1`.
+-   Preserved the immutable published RC source/tag identity at
+    `b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8`; the acceptance merge does not retarget the RC.
+-   Closed Milestone 8 RC Acceptance while keeping `v1.0.0` GA Acceptance
+    explicitly Not Accepted.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -816,6 +827,12 @@
     membership, final artifact digests, and post-publication identity re-read.
 -   Verified the Step 8.10.9 formal-acceptance candidate focused suite passes
     with `41 passed`.
+-   Verified Step 8.10.9 acceptance PR #154 was squash merged as
+    `d37a3d84161e66e98ebbff2aafaf1a14e27f865c`.
+-   Verified Step 8.10 post-merge consistency and terminal document alignment
+    completed with no remaining RC acceptance closure gate Pending.
+-   Verified formal RC Acceptance is `Accepted` while `v1.0.0` GA Acceptance
+    remains `Not Accepted`.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

@@ -53,21 +53,19 @@ def _roadmap_status(roadmap: str, step: str) -> str:
 
 
 def test_rc_acceptance_governing_document_exists() -> None:
-    """Step 8.10 must have an explicit governing RC contract."""
     assert RC_CONTRACT_PATH.is_file()
 
 
-def test_rc_contract_metadata_identifies_step_8_10() -> None:
-    """The governing record must identify the correct Milestone 8 slice."""
+def test_rc_contract_metadata_identifies_terminal_step_8_10() -> None:
+    """The governing contract must expose the terminal Step 8.10 state."""
     document = _read(RC_CONTRACT_PATH)
 
     assert _metadata_value(document, "Milestone").startswith("8 ")
     assert _metadata_value(document, "Step").startswith("8.10")
-    assert _metadata_value(document, "Status").startswith("Design / Contract Definition")
+    assert _metadata_value(document, "Status") == "Accepted"
 
 
 def test_rc_contract_requires_accepted_step_8_9_predecessor() -> None:
-    """RC Acceptance must depend on the already-accepted Step 8.9 state."""
     document = _read(RC_CONTRACT_PATH)
     predecessor = _metadata_value(document, "Predecessor")
 
@@ -79,7 +77,6 @@ def test_rc_contract_requires_accepted_step_8_9_predecessor() -> None:
 
 
 def test_first_rc_identity_is_fixed() -> None:
-    """The first v1.0 RC identity must be stable and unambiguous."""
     document = _read(RC_CONTRACT_PATH)
 
     assert _metadata_value(document, "Target RC") == f"`{EXPECTED_RC_TAG}`"
@@ -87,7 +84,6 @@ def test_first_rc_identity_is_fixed() -> None:
 
 
 def test_rc_and_ga_acceptance_are_explicitly_separate() -> None:
-    """Accepting an RC must never pre-approve the v1.0 GA release."""
     document = _read(RC_CONTRACT_PATH)
 
     assert "RC Acceptance and GA Acceptance are separate decisions." in document
@@ -97,7 +93,6 @@ def test_rc_and_ga_acceptance_are_explicitly_separate() -> None:
 
 
 def test_rc_contract_is_fail_closed() -> None:
-    """Missing or contradictory evidence must block RC Acceptance."""
     document = _read(RC_CONTRACT_PATH)
 
     assert "RC Acceptance is fail-closed." in document
@@ -106,7 +101,6 @@ def test_rc_contract_is_fail_closed() -> None:
 
 
 def test_rc_contract_requires_complete_release_identity() -> None:
-    """Source, artifact, checksum, tag, and release identity must agree."""
     document = _read(RC_CONTRACT_PATH)
 
     required_phrases = (
@@ -125,7 +119,6 @@ def test_rc_contract_requires_complete_release_identity() -> None:
 
 
 def test_rc_contract_requires_artifact_backed_evidence() -> None:
-    """Source-checkout-only success cannot satisfy the final RC gate."""
     document = _read(RC_CONTRACT_PATH)
 
     assert "source-checkout-only success as installed-user evidence" in document
@@ -135,7 +128,6 @@ def test_rc_contract_requires_artifact_backed_evidence() -> None:
 
 
 def test_rc_contract_rejects_stale_and_mutated_release_identity() -> None:
-    """The same RC identity cannot be silently reused for different bytes/source."""
     document = _read(RC_CONTRACT_PATH)
 
     assert "silently reuse stale artifacts" in document
@@ -145,7 +137,6 @@ def test_rc_contract_rejects_stale_and_mutated_release_identity() -> None:
 
 
 def test_rc_contract_limits_allowed_rc_changes() -> None:
-    """RC-period work must remain inside the frozen stabilization boundary."""
     document = _read(RC_CONTRACT_PATH)
 
     required_change_classes = (
@@ -160,40 +151,35 @@ def test_rc_contract_limits_allowed_rc_changes() -> None:
 
     missing = [item for item in required_change_classes if item not in document]
     assert missing == [], f"RC allowed-change policy is incomplete: {missing}"
-
     assert "should normally move to v1.1+" in document
 
 
 def test_rc_contract_requires_real_evidence_not_placeholders() -> None:
-    """Future result values must be recorded only from actual execution."""
+    """The governing contract must preserve evidence-first semantics."""
     document = _read(RC_CONTRACT_PATH)
     normalized = " ".join(document.split())
 
     assert "must be recorded from real evidence" in normalized
     assert "must not be pre-filled" in normalized
-    assert "No tag, GitHub Release, checksum, artifact, test count" in normalized
+    assert "PR #154" in document
+    assert "d37a3d84161e66e98ebbff2aafaf1a14e27f865c" in document
 
 
 def test_roadmap_keeps_step_8_9_accepted() -> None:
-    """Entering RC Acceptance must not reopen Step 8.9."""
     roadmap = _read(ROADMAP_PATH)
-
     assert _roadmap_status(roadmap, "8.9") == "Accepted"
 
 
-def test_roadmap_does_not_preaccept_step_8_10() -> None:
-    """The governing-contract slice may start, but RC Acceptance is not complete."""
+def test_roadmap_marks_step_8_10_accepted_after_formal_closure() -> None:
     roadmap = _read(ROADMAP_PATH)
-    status = _roadmap_status(roadmap, "8.10")
-
-    assert status == "Planned" or status.startswith("In Progress")
-    assert status != "Accepted"
+    assert _roadmap_status(roadmap, "8.10") == "Accepted"
 
 
-def test_current_governing_record_does_not_claim_rc_is_accepted() -> None:
-    """Creating the Step 8.10 design must not fabricate the terminal decision."""
+def test_current_governing_record_claims_rc_accepted_but_not_ga() -> None:
+    """Terminal contract must accept the RC without fabricating GA acceptance."""
     document = _read(RC_CONTRACT_PATH)
 
-    assert "v1.0.0-rc.1                     Not yet accepted" in document
-    assert "v1.0.0 GA                       Not accepted" in document
-    assert _metadata_value(document, "Status") != "Accepted"
+    assert "v1.0.0-rc.1                     Accepted" in document
+    assert "v1.0.0 GA                       Not Accepted" in document
+    assert _metadata_value(document, "Status") == "Accepted"
+    assert "GA remains unaccepted" in document

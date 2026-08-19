@@ -31,7 +31,18 @@ EXPECTED_CHECKSUM_ASSET_SHA256 = "0b56ca72ab9aec34afabcf3fb00d170522a923d4e0120d
 FULL_SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
-PENDING_CLOSURE_MARKERS = (
+TERMINAL_CLOSURE_MARKERS = (
+    "Acceptance PR --- #154",
+    "Acceptance PR CI --- Passed",
+    "Acceptance squash merge --- Completed",
+    "Acceptance merge commit --- d37a3d84161e66e98ebbff2aafaf1a14e27f865c",
+    "main synchronization --- Completed",
+    "post-merge consistency verification --- Completed",
+    "cross-document terminal-state alignment --- Completed",
+    "Formal RC Acceptance --- Accepted",
+)
+
+FORBIDDEN_PENDING_MARKERS = (
     "Acceptance PR --- Pending",
     "Acceptance PR CI --- Pending",
     "Acceptance squash merge --- Pending",
@@ -120,24 +131,23 @@ def test_formal_rc_acceptance_record_keeps_ga_unaccepted() -> None:
     assert "ga remains a later independent gate" in normalized
 
 
-def test_acceptance_candidate_keeps_all_final_closure_gates_pending() -> None:
+def test_formal_acceptance_record_has_terminal_closure_evidence() -> None:
     record = _read(RECORD)
 
-    assert "**Status:** Acceptance Candidate" in record
-    assert "Formal RC Acceptance --- Pending" in record
+    assert "**Status:** Accepted" in record
 
-    missing = [marker for marker in PENDING_CLOSURE_MARKERS if marker not in record]
+    missing = [marker for marker in TERMINAL_CLOSURE_MARKERS if marker not in record]
     assert missing == []
 
 
-def test_acceptance_candidate_must_not_claim_formal_acceptance() -> None:
+def test_formal_acceptance_record_has_no_pending_closure_markers() -> None:
     record = _read(RECORD)
 
-    assert "**Status:** Accepted" not in record
-    assert "Formal RC Acceptance --- Accepted" not in record
+    unresolved = [marker for marker in FORBIDDEN_PENDING_MARKERS if marker in record]
+    assert unresolved == []
 
 
-def test_step_8_10_1_through_8_are_complete_and_8_10_9_is_in_progress() -> None:
+def test_step_8_10_1_through_9_are_complete() -> None:
     record = _read(RECORD)
 
     for step in (
@@ -149,7 +159,7 @@ def test_step_8_10_1_through_8_are_complete_and_8_10_9_is_in_progress() -> None:
         "8.10.6 RC Full Regression / Local Quality Gates Completed",
         "8.10.7 RC GitHub Actions / CI                   Completed",
         "8.10.8 RC Creation / Publication Identity       Completed",
-        "8.10.9 Formal RC Acceptance / Post-merge        In Progress",
+        "8.10.9 Formal RC Acceptance / Post-merge        Completed",
     ):
         assert step in record
 
@@ -161,24 +171,41 @@ def test_acceptance_record_does_not_replace_governing_contract() -> None:
     assert "governing acceptance contract remains" in normalized
 
 
-def test_current_roadmap_does_not_preaccept_rc_while_record_is_candidate() -> None:
+def test_roadmap_marks_step_8_10_as_accepted() -> None:
     roadmap = _read(ROADMAP)
 
-    # The precise formatting of the roadmap may evolve; the final-acceptance
-    # test protects the semantic boundary while closure is still pending.
     assert "Step 8.10" in roadmap
-    assert "**Status:** In Progress" in roadmap
-    assert "8.10.9" in roadmap
+    assert "**Status:** Accepted" in roadmap
+    assert "8.10.9 Formal RC Acceptance / Post-merge       Completed" in roadmap
 
 
-def test_current_history_and_changelog_do_not_need_to_claim_rc_accepted_yet() -> None:
+def test_history_and_changelog_record_terminal_rc_acceptance() -> None:
     history = _read(HISTORY)
     changelog = _read(CHANGELOG)
 
-    assert "Step 8.10" in history
-    assert "Step 8.10" in changelog
+    assert "Formal RC Acceptance --- Accepted" in history
+    assert "Formally accepted Step 8.10 --- RC Acceptance" in changelog
+    assert "d37a3d84161e66e98ebbff2aafaf1a14e27f865c" in history
+    assert "d37a3d84161e66e98ebbff2aafaf1a14e27f865c" in changelog
 
-    # The candidate-phase test intentionally does not require terminal
-    # acceptance wording before the acceptance PR/merge/post-merge gates.
+
+def test_terminal_rc_acceptance_keeps_ga_unaccepted_everywhere() -> None:
+    history = _read(HISTORY)
+    changelog = _read(CHANGELOG)
+    roadmap = _read(ROADMAP)
+
+    assert "v1.0.0 GA Acceptance --- Not Accepted" in history
+    assert "`v1.0.0` GA Acceptance" in changelog
+    assert "Not Accepted" in changelog
+    assert "v1.0.0 GA Acceptance --- Not Accepted" in roadmap
     assert "v1.0.0 GA Acceptance --- Accepted" not in history
     assert "v1.0.0 GA Acceptance --- Accepted" not in changelog
+    assert "v1.0.0 GA Acceptance --- Accepted" not in roadmap
+
+
+def test_acceptance_merge_does_not_replace_published_rc_source_identity() -> None:
+    record = _read(RECORD)
+
+    assert "b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8" in record
+    assert "d37a3d84161e66e98ebbff2aafaf1a14e27f865c" in record
+    assert "b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8" != "d37a3d84161e66e98ebbff2aafaf1a14e27f865c"

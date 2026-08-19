@@ -109,6 +109,9 @@
     as the Step 8.9.5 clean-environment contract for installed distribution
     identity, source-checkout isolation, console behavior, representative
     artifact generation, and invalid-command behavior.
+-   Added `docs/releases/v1.0-full-release-readiness-verification-acceptance.md`
+    as the Step 8.9 formal acceptance record, initially retaining post-merge
+    closure gates as Pending until synchronized-main evidence is recorded.
 
 #### Milestone 7 --- Marketplace
 
@@ -347,6 +350,21 @@
 -   Moved the active verification slice to Step 8.9.6 Integrated Package /
     Release Identity Verification without creating a tag, GitHub Release, or
     RC.
+-   Completed Step 8.9.6 integrated package / release identity verification
+    through PR #146.
+-   Completed Step 8.9.7 full regression and local quality gates with
+    `1822 passed, 22 skipped, 1 deselected`, 90.89% coverage, passing
+    pre-commit and `git diff --check`, and a clean working tree.
+-   Reviewed all 22 Step 8.9.7 skips as expected artifact-backed tests requiring
+    `OPL_TEST_WHEEL`, `OPL_TEST_DIST_DIR`, or `OPL_RELEASE_COMMIT_SHA`.
+-   Completed Step 8.9.8 GitHub Actions / CI verification for acceptance PR
+    #147; workflow run `32229975851` passed both `Quality checks` and
+    `Packaging artifact verification`.
+-   Squash merged Step 8.9 acceptance PR #147 as commit
+    `9b0566b3fc4d2b0b94ae5e775fdd3c86c0e79e03`.
+-   Advanced the active Milestone 8 slice to Step 8.9.9 Formal Acceptance /
+    Post-merge Consistency. Main synchronization, post-merge verification, and
+    final Step 8.9 `Accepted` status remain pending actual closure evidence.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible

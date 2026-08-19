@@ -1357,11 +1357,42 @@ merge commit 為 `e34ce0d901c2c7a214c0785cdebeee1d3c63359b`。Post-merge
 focused verification 結果為 64 passed、必要 skips 為 0，且 working tree
 clean。
 
-目前焦點已進入 **Step 8.9.6 Integrated Package / Release Identity
-Verification**，負責整合 canonical version、wheel/sdist filenames、metadata、
-console entry point、artifact set、checksums、commit 與 release source
-identity；此切片不建立 tag、GitHub Release 或 RC。Step 8.10 RC Acceptance
-仍為 `Planned`。
+Step 8.9.6 Integrated Package / Release Identity Verification 已透過 PR
+#146 完成，整合 canonical version、wheel/sdist filenames、metadata、console
+entry point、artifact set、checksums、commit 與 release source identity，
+且未建立 tag、GitHub Release 或 RC。
+
+Step 8.9.7 Full Regression and Local Quality Gates 取得 fresh completion-state
+evidence：
+
+``` text
+1822 passed, 22 skipped, 1 deselected
+Coverage: 90.89%
+Required coverage: 67.0% --- Passed
+pre-commit --- Passed
+git diff --check --- Passed
+working tree --- Clean
+```
+
+22 個 skipped tests 已逐項審查，全部屬於等待 packaging / artifact gate
+提供 `OPL_TEST_WHEEL`、`OPL_TEST_DIST_DIR` 或 `OPL_RELEASE_COMMIT_SHA`
+的 artifact-backed tests，並非 disabled regression 或 unresolved failure。
+
+Step 8.9.8 GitHub Actions / CI Verification 已透過 acceptance PR #147
+完成；workflow run `32229975851` 的 `Quality checks` 與
+`Packaging artifact verification` 均通過。PR #147 隨後 squash merged
+為 commit `9b0566b3fc4d2b0b94ae5e775fdd3c86c0e79e03`。
+
+目前正式進入 **Step 8.9.9 Formal Acceptance / Post-merge Consistency**。
+尚待從 synchronized `main` 取得 main/origin identity、clean working tree、
+post-merge consistency / regression 與跨文件 closure evidence，才能將
+Step 8.9 正式標記為 `Accepted` 並進入 Step 8.10 RC Acceptance。
+
+Formal acceptance record 已建立：
+
+``` text
+docs/releases/v1.0-full-release-readiness-verification-acceptance.md
+```
 
 ------------------------------------------------------------------------
 

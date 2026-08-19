@@ -121,6 +121,11 @@
     RC tag, installed-user evidence, and GitHub Release identity.
 -   Added `tests/release_readiness/test_v1_rc_acceptance_contract.py`
     to automate the Step 8.10 governing-contract boundary.
+-   Added `docs/releases/v1.0-rc-build-artifact-identity.md` as the
+    Step 8.10.4 RC Build / Artifact Identity governing design.
+-   Added `tests/release_readiness/test_v1_rc_build_artifact_identity.py`
+    for focused RC package-version, tag-mapping, artifact-metadata,
+    stale-artifact, and checksum identity verification.
 
 #### Milestone 7 --- Marketplace
 
@@ -404,6 +409,17 @@
     placeholder evidence from satisfying formal RC acceptance.
 -   Moved the active Milestone 8 slice to Step 8.10.4 --- RC Build /
     Artifact Identity without creating a tag or GitHub Release.
+-   Updated the canonical package version from `0.6.0` to `1.0.0rc1` for
+    the first v1.0 Release Candidate.
+-   Updated RC tag derivation so PEP 440 package version `1.0.0rc1`
+    deterministically maps to the human-facing release identity
+    `v1.0.0-rc.1`, while stable `vX.Y.Z` tag mapping remains unchanged.
+-   Completed Step 8.10.4 RC Build / Artifact Identity against source
+    commit `11a997c2b9787cdae34b15818c6170948e89b7fc` with fresh wheel / sdist artifacts and exact
+    checksum verification.
+-   Moved the active Milestone 8 slice to Step 8.10.5 --- RC
+    Artifact-backed Verification without creating a tag, GitHub Release,
+    or formal RC acceptance.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -712,6 +728,18 @@
 -   Completed Step 8.9 post-merge consistency and cross-document alignment.
 -   Marked Step 8.9 --- Full Release-readiness Verification as formally
     Accepted.
+-   Verified Step 8.10.4 canonical package version `1.0.0rc1` and
+    human-facing RC tag mapping `v1.0.0-rc.1`.
+-   Built fresh Step 8.10.4 artifacts:
+    `openprojectlab-1.0.0rc1-py3-none-any.whl` and `openprojectlab-1.0.0rc1.tar.gz`.
+-   Verified the Step 8.10.4 focused release / packaging / integrated
+    identity suite passes with `70 passed, 0 skipped`.
+-   Verified SHA-256 identity for the RC wheel:
+    `5c6a968b5d4225d758ecedc8fa15441c64812cc413ee62d302cf2521eb0b1629`.
+-   Verified SHA-256 identity for the RC sdist:
+    `34c2bcc33f0265a8f25d1770ea209472fbcdf12f803217e87574de3f08acef12`.
+-   Verified the checksum manifest matches the exact current artifact
+    bytes.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

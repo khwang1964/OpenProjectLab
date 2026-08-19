@@ -95,7 +95,7 @@ def test_build_github_release_spec_marks_rc_as_prerelease(
     identity = ReleaseIdentity(
         version="1.0.0rc1",
         commit_sha="a" * 40,
-        tag="v1.0.0rc1",
+        tag="v1.0.0-rc.1",
     )
     artifacts = _artifact_set(tmp_path)
 

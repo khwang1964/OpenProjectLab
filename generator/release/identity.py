@@ -86,6 +86,12 @@ def expected_release_tag(version: str) -> str:
         ReleaseIdentityError: If ``version`` is malformed.
     """
     _validate_version(version)
+
+    match = re.fullmatch(r"(\d+\.\d+\.\d+)rc(\d+)", version)
+    if match is not None:
+        base_version, rc_number = match.groups()
+        return f"v{base_version}-rc.{rc_number}"
+
     return f"v{version}"
 
 

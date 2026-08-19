@@ -1374,8 +1374,8 @@ tests/release_readiness/test_v1_rc_acceptance_contract.py
 8.10.1 RC Acceptance Baseline                  Completed
 8.10.2 RC Acceptance Contract                  Completed
 8.10.3 RC Contract Automation                  Completed
-8.10.4 RC Build / Artifact Identity            Next
-8.10.5 RC Artifact-backed Verification         Planned
+8.10.4 RC Build / Artifact Identity            Completed
+8.10.5 RC Artifact-backed Verification         Next
 8.10.6 RC Full Regression / Local Quality Gates Planned
 8.10.7 RC GitHub Actions / CI                  Planned
 8.10.8 RC Creation / Publication Identity      Planned
@@ -1419,11 +1419,42 @@ Step 8.10 governing contract 明確要求 artifact-backed evidence；source-only
 success、stale artifacts 或 required artifact-backed skips 都不能取代 RC
 acceptance evidence。
 
-目前尚未建立 `v1.0.0-rc.1` tag、GitHub Release 或正式 RC acceptance。
+Step 8.10.4 已完成 canonical RC build / artifact identity verification。
+
+Governing design：
+
+``` text
+docs/releases/v1.0-rc-build-artifact-identity.md
+```
+
+Focused automation：
+
+``` text
+tests/release_readiness/test_v1_rc_build_artifact_identity.py
+```
+
+Completion evidence：
+
+``` text
+Canonical package version --- 1.0.0rc1
+Canonical RC tag mapping --- v1.0.0-rc.1
+Source commit --- 11a997c2b9787cdae34b15818c6170948e89b7fc
+Fresh wheel --- openprojectlab-1.0.0rc1-py3-none-any.whl
+Fresh sdist --- openprojectlab-1.0.0rc1.tar.gz
+Twine check --- Passed
+Focused RC build / identity verification --- 70 passed, 0 skipped
+Wheel SHA-256 --- 5c6a968b5d4225d758ecedc8fa15441c64812cc413ee62d302cf2521eb0b1629
+sdist SHA-256 --- 34c2bcc33f0265a8f25d1770ea209472fbcdf12f803217e87574de3f08acef12
+Checksum manifest verification --- Passed
+```
+
+Step 8.10.4 的 verification 仍為 pre-publication；沒有建立或移動 Git tag，
+沒有建立 GitHub Release，也沒有正式接受 RC。
+
 下一個 active slice 為：
 
 ``` text
-Step 8.10.4 --- RC Build / Artifact Identity
+Step 8.10.5 --- RC Artifact-backed Verification
 ```
 
 RC validation 完成並取得正式 acceptance evidence 後，才進入獨立的：

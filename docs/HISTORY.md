@@ -1263,15 +1263,18 @@ Formal acceptance record 已建立：
 docs/releases/v1.0-release-automation-reproducibility-acceptance.md
 ```
 
-目前 Step 8.8 已完成 local acceptance verification。GitHub Actions / CI、
-acceptance PR squash merge、main synchronization 與 post-merge consistency
-verification 仍需完成後，才可將 Step 8.8 標示為正式 Accepted。
+Step 8.8 acceptance PR #139 已通過兩項 GitHub Actions / CI checks，並以
+commit `f7d1b5f8a24d0169ee4fb5cf7484c1101a88abf7` 完成 squash merge。
+同步 `main` 後，wheel-backed post-merge full regression 以
+`1777 passed, 1 deselected in 37.40s` 通過，coverage 為 `90.89%`；
+pre-commit、`git diff --check`、clean-working-tree 與跨文件狀態一致性
+亦完成驗證。因此 Step 8.8 已正式 Accepted。
 
 ------------------------------------------------------------------------
 
 # 下一階段
 
-先完成 Step 8.8 formal closure：
+Step 8.8 formal closure 已完成：
 
 ``` text
 acceptance commit
@@ -1289,11 +1292,13 @@ sync main
 post-merge consistency verification
 ```
 
-完成後，開發焦點轉入：
+下一個 planned gate 為：
 
 ``` text
 Step 8.9 --- Full Release-readiness Verification
 ```
+
+Step 8.9 在本次 Step 8.8 closure 中仍維持 `Planned`，尚未提前開始。
 
 ------------------------------------------------------------------------
 

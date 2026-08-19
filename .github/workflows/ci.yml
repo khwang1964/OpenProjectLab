@@ -101,3 +101,13 @@ jobs:
             tests/documentation/test_first_15_minutes.py \
             tests/release_readiness/test_v1_documentation_first_15_minutes.py \
             -v --no-cov
+
+      - name: Run artifact-backed release-readiness tests
+        env:
+          OPL_TEST_WHEEL: ${{ steps.wheel.outputs.wheel }}
+        run: |
+          python -m pytest \
+            tests/documentation/test_first_15_minutes.py \
+            tests/release_readiness/test_v1_documentation_first_15_minutes.py \
+            tests/release_readiness/test_v1_artifact_backed_installed_user_e2e.py \
+            -v --no-cov

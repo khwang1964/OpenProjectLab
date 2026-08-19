@@ -1218,8 +1218,8 @@ Planned delivery sequence：
 8.9.1 Governing design and verification inventory       Completed
 8.9.2 Steps 8.1–8.8 closure-contract automation          Completed
 8.9.3 Contract / policy / support consistency            Completed
-8.9.4 Documentation / First 15 Minutes verification      In Progress
-8.9.5 Artifact-backed representative installed-user E2E  Planned
+8.9.4 Documentation / First 15 Minutes verification      Completed
+8.9.5 Artifact-backed representative installed-user E2E  In Progress
 8.9.6 Integrated package / release identity verification Planned
 8.9.7 Full regression and local quality gates            Planned
 8.9.8 GitHub Actions / CI verification                   Planned
@@ -1255,7 +1255,17 @@ accepted Step 8.5 documentation suites and requires a current wheel for the
 First 15 Minutes installed-user path. Required wheel-backed skips do not count
 as completion evidence.
 
-**Status:** In Progress — Step 8.9.4 Documentation / First 15 Minutes Verification
+Step 8.9.4 completed through PR #144 and squash merge commit
+`234d683d9bae3a82cd2cda951d0926c1da1c9140`. The post-merge current-wheel
+documentation and release-readiness suite passed 116 tests with zero required
+skips, and the working tree was clean.
+
+Step 8.9.5 now verifies one representative installed-user journey from the
+configured wheel in a fresh environment outside the source checkout, including
+installed identity, console entry point, generated artifact, and invalid-command
+behavior.
+
+**Status:** In Progress — Step 8.9.5 Artifact-backed Installed-user E2E
 
 ## Step 8.10 --- RC Acceptance
 

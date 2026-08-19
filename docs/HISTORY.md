@@ -1345,11 +1345,17 @@ Step 8.9.3 Contract / Policy / Support Consistency Automation 已完成，聚合
 policy 與 Step 8.7 support matrix/known limitations；combined focused suite
 為 50 passed，且 pre-commit passed。
 
-目前焦點已進入 **Step 8.9.4 Documentation / First 15 Minutes
-Verification**。此切片重用 Step 8.5 已接受的 structure、EN/zh-TW parity、
-functional parity 與 wheel-backed First 15 Minutes contracts，並要求最終
-驗證明確提供目前建置的 wheel；必要的 wheel-backed tests 若 skipped，不能
-計為完成證據。Step 8.10 RC Acceptance 仍為 `Planned`。
+Step 8.9.4 Documentation / First 15 Minutes Verification 已透過 PR #144
+完成，squash merge commit 為
+`234d683d9bae3a82cd2cda951d0926c1da1c9140`。Post-merge 使用目前 wheel
+執行 documentation 與 release-readiness suites，結果為 116 passed、必要
+wheel-backed skips 為 0，且 working tree clean。
+
+目前焦點已進入 **Step 8.9.5 Artifact-backed Representative Installed-user
+E2E**。此切片在 source checkout 外建立乾淨 virtual environment，只從指定
+wheel 安裝並驗證 distribution identity、實際 import location、`opl` console
+entry point、代表性 course artifact 與 invalid-command failure path。Step 8.10
+RC Acceptance 仍為 `Planned`。
 
 ------------------------------------------------------------------------
 

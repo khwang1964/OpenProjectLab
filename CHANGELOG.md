@@ -112,6 +112,15 @@
 -   Added `docs/releases/v1.0-full-release-readiness-verification-acceptance.md`
     as the Step 8.9 formal acceptance record, initially retaining post-merge
     closure gates as Pending until synchronized-main evidence is recorded.
+-   Added `docs/releases/v1.0-rc-acceptance.md` as the governing
+    Step 8.10 RC Acceptance contract.
+-   Defined `v1.0.0-rc.1` as the first canonical RC identity while keeping
+    RC Acceptance separate from `v1.0.0` GA Acceptance.
+-   Added fail-closed RC identity requirements covering approved source
+    commit, package version, wheel / sdist metadata, artifact checksums,
+    RC tag, installed-user evidence, and GitHub Release identity.
+-   Added `tests/release_readiness/test_v1_rc_acceptance_contract.py`
+    to automate the Step 8.10 governing-contract boundary.
 
 #### Milestone 7 --- Marketplace
 
@@ -386,6 +395,15 @@
 -   Formally accepted Step 8.9 --- Full Release-readiness Verification.
 -   Made Step 8.10 --- RC Acceptance the next independent release gate without
     creating or pre-accepting `v1.0.0-rc.1`.
+-   Started Step 8.10 --- RC Acceptance after the accepted Step 8.9
+    repository baseline.
+-   Completed Step 8.10.1 RC Acceptance Baseline, Step 8.10.2 RC
+    Acceptance Contract, and Step 8.10.3 RC Contract Automation.
+-   Preserved the RC / GA acceptance boundary and prohibited source-only,
+    stale-artifact, skipped-required-gate, tag-retargeting, and unpublished
+    placeholder evidence from satisfying formal RC acceptance.
+-   Moved the active Milestone 8 slice to Step 8.10.4 --- RC Build /
+    Artifact Identity without creating a tag or GitHub Release.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible

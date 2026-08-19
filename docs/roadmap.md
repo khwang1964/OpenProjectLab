@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- Step 8.8 completion-state local verification passed; formal acceptance PR/CI pending**
+> **Milestone 8 --- Step 8.8 formally Accepted; Step 8.9 is the next planned gate**
 
 ------------------------------------------------------------------------
 
@@ -1132,7 +1132,7 @@ Step 8.8 --- Release Automation & Reproducibility.
 
 **Status:** Accepted
 
-## Step 8.8 --- Release Automation & Reproducibility 🚧
+## Step 8.8 --- Release Automation & Reproducibility ✅
 
 Step 8.8 已完成 governing design、release identity / artifact / workflow /
 GitHub Release / semantic reproducibility contracts、maintainer release
@@ -1181,12 +1181,25 @@ Formal acceptance record：
 docs/releases/v1.0-release-automation-reproducibility-acceptance.md
 ```
 
-目前 local acceptance evidence 已完成；GitHub Actions / CI、acceptance
-PR squash merge、main synchronization 與 post-merge consistency
-verification 仍屬 formal closure gate，完成前不宣稱 Step 8.8 已正式
-Accepted。
+Formal closure evidence：
 
-**Status:** Local Acceptance Passed — Formal Acceptance Pending
+``` text
+Acceptance PR --- #139 merged
+GitHub Actions / CI --- Passed (2 successful, 0 failing)
+Merge commit --- f7d1b5f8a24d0169ee4fb5cf7484c1101a88abf7
+Squash merge --- Completed
+main synchronization --- Completed
+Post-merge wheel-backed regression --- 1777 passed, 1 deselected in 37.40s
+Post-merge coverage --- 90.89%
+pre-commit --- Passed
+git diff --check --- Passed
+Post-merge consistency verification --- Completed
+```
+
+Step 8.8 已正式 Accepted。下一個 planned gate 為 Step 8.9 --- Full
+Release-readiness Verification；本次 closure 不提前宣告 Step 8.9 已開始。
+
+**Status:** Accepted
 
 ## Step 8.9 --- Full Release-readiness Verification
 

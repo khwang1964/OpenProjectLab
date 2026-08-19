@@ -292,11 +292,12 @@
     verification completed.
 -   Moved the active Milestone 8 focus to Step 8.8 --- Release Automation
     & Reproducibility.
--   Completed Step 8.8 completion-state local verification and prepared the
-    formal acceptance record.
--   Kept Step 8.8 formal acceptance gated on acceptance PR / GitHub Actions
-    CI, squash merge, main synchronization, and post-merge consistency
-    verification.
+-   Formally accepted Step 8.8 Release Automation & Reproducibility after
+    acceptance PR #139 passed both required GitHub Actions checks, was squash
+    merged as commit `f7d1b5f8a24d0169ee4fb5cf7484c1101a88abf7`, and
+    completed main synchronization and post-merge consistency verification.
+-   Kept Step 8.9 Full Release-readiness Verification as the next planned gate;
+    Step 8.8 closure does not pre-approve or start Step 8.9.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -575,8 +576,17 @@
     gate.
 -   Recorded the Step 8.8 completion-state evidence as fresh verification
     rather than reusing the Step 8.7 `1679 / 90.55%` baseline.
--   Prepared Step 8.8 formal acceptance documentation; GitHub Actions / CI
-    and post-merge closure remain pending until the acceptance PR completes.
+-   Verified Step 8.8 acceptance PR #139 passed GitHub Actions / CI with two
+    successful checks and no failures, skips, cancellations, or pending checks.
+-   Verified the Step 8.8 acceptance PR was squash merged as commit
+    `f7d1b5f8a24d0169ee4fb5cf7484c1101a88abf7`.
+-   Completed Step 8.8 main synchronization and post-merge consistency
+    verification.
+-   Re-ran the wheel-backed post-merge full regression with
+    `1777 passed, 1 deselected in 37.40s` and 90.89% coverage.
+-   Verified pre-commit and `git diff --check` passed with a clean working tree.
+-   Marked Step 8.8 --- Release Automation & Reproducibility as formally
+    Accepted.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

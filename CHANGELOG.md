@@ -25,6 +25,19 @@
     fabricated future evidence.
 -   Recorded the current governing state as `v1.1 Planning Baseline --- In
     Progress` and `Formal v1.1 Acceptance --- Not Accepted`.
+-   Verified governing baseline PR #164 passed required Quality checks and
+    Packaging artifact verification, then squash merged as
+    `33c367b989014c34c162f326ee825f3fe8f4c8e6`.
+-   Completed governing-baseline main synchronization and lightweight
+    post-merge consistency verification.
+-   Added `docs/releases/v1.1-planning-baseline-acceptance.md` and focused
+    fail-closed acceptance automation.
+-   Started `v1.1.1 Acceptance Closure --- In Progress` while preserving
+    `Formal v1.1 Planning Baseline Acceptance --- Not Accepted`, `Marketplace
+    CLI --- Not Started`, `AI CLI --- Not Started`, and `Formal v1.1 Acceptance
+    --- Not Accepted`.
+-   Kept acceptance PR CI, squash merge, main synchronization, post-merge
+    consistency, and terminal documentation alignment Pending.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

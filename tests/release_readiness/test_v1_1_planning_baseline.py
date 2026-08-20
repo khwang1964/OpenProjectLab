@@ -15,14 +15,14 @@ def _read(path: Path) -> str:
 
 
 def test_planning_baseline_exists_and_remains_pre_acceptance() -> None:
-    """Allow acceptance closure without prematurely accepting the baseline."""
+    """Record accepted planning without accepting the v1.1 release."""
     document = _read(BASELINE)
 
-    assert "**Status:** Acceptance Closure --- In Progress" in document
+    assert "**Status:** Accepted" in document
     assert "**Target Release:** OpenProjectLab v1.1.0" in document
-    assert "**Formal v1.1 Planning Baseline Acceptance:** Not Accepted" in document
+    assert "**Formal v1.1 Planning Baseline Acceptance:** Accepted" in document
     assert "**Formal v1.1 Acceptance:** Not Accepted" in document
-    assert "v1.1 Planning Baseline --- In Progress" in document
+    assert "v1.1.1 Planning Baseline --- Accepted" in document
 
 
 def test_planning_baseline_preserves_accepted_v1_contracts() -> None:

@@ -1794,14 +1794,35 @@ Post-publication identity re-read --- Passed
 Published stable identity 與 historical RC identity 保持分離；既有
 `v1.0.0-rc.1` 不被 retarget 或改寫。
 
-GA.8 Formal GA Acceptance / Post-merge 現已啟動，新增 acceptance record 與
-fail-closed automation。GA.8 pre-acceptance contract suite：
+GA.8 Formal GA Acceptance / Post-merge 已完成。Pre-acceptance contract
+suite 先以：
 
 ``` text
 43 passed
 ```
 
-目前狀態：
+通過；acceptance PR required CI 隨後全綠並完成 squash merge。同步
+`main` 後，terminal-main identity 為：
+
+``` text
+HEAD == origin/main == d13382c359873c2a9eb8fb9cf6d39e32636d5fc1
+```
+
+最終 post-merge full regression：
+
+``` text
+2004 passed, 4 skipped, 1 deselected
+Failures / errors --- 0
+Coverage --- 90.90%
+Required coverage --- 67.0% --- Passed
+pre-commit --- Passed
+Post-merge consistency verification --- Completed
+```
+
+4 個 skips 仍為 historical RC artifact-backed tests 正確拒絕 GA wheel，
+不構成 GA-required skip 或 acceptance blocker。
+
+因此 GA lifecycle terminal state 為：
 
 ``` text
 GA.1 --- Completed
@@ -1811,13 +1832,13 @@ GA.4 --- Completed
 GA.5 --- Completed
 GA.6 --- Completed
 GA.7 --- Completed
-GA.8 --- In Progress
-Formal v1.0.0 GA Acceptance --- Not Accepted
+GA.8 --- Completed
+Formal v1.0.0 GA Acceptance --- Accepted
 ```
 
-正式 `Accepted` 仍需 GA.8 acceptance PR、required CI、squash merge、
-synchronized main、post-merge consistency verification 與 terminal
-documentation alignment 全部完成後才能進行。
+Published `v1.0.0` tag、stable GitHub Release 與 GA artifact source identity
+保持 immutable；GA.8 acceptance merge 不 retarget tag，也不替換已發布
+artifact bytes。
 
 ------------------------------------------------------------------------
 

@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **v1.1.3 Marketplace CLI Contract in progress**
+> **v1.1.4 Marketplace CLI Implementation next**
 
 ------------------------------------------------------------------------
 
@@ -1743,7 +1743,7 @@ Planned delivery sequence：
 ``` text
 v1.1.1 Planning Baseline                         Accepted
 v1.1.2 CLI Public Contract Design                Accepted
-v1.1.3 Marketplace CLI Contract                  In Progress
+v1.1.3 Marketplace CLI Contract                  Accepted
 v1.1.4 Marketplace CLI Implementation            Not Started
 v1.1.5 AI CLI Contract                           Not Started
 v1.1.6 AI CLI Implementation                     Not Started
@@ -1783,7 +1783,7 @@ Post-merge consistency --- Completed
 Terminal documentation alignment --- Completed
 Focused v1/v1.1 CLI public-contract suite --- 40 passed
 Formal v1.1 CLI Public Contract Acceptance --- Accepted
-Marketplace CLI Contract --- In Progress
+v1.1.3 Marketplace CLI Contract --- Accepted
 Marketplace CLI Implementation --- Not Started
 AI CLI Contract --- Not Started
 AI CLI Implementation --- Not Started
@@ -1797,10 +1797,14 @@ v1.1.3 pre-commit --- Passed
 v1.1.3 full regression --- 2018 passed, 32 skipped, 1 deselected in 23.05s
 v1.1.3 governing PR #170 --- Merged
 Governing merge --- 5f63bd3dc438ba1ea5e10b8225c761964c1819bc
-Governing required CI evidence --- Pending confirmation
+Governing required CI evidence --- Passed
 main synchronization --- Completed
-Marketplace CLI Contract Acceptance --- Not Accepted
-Next --- v1.1.3 Acceptance Closure
+Marketplace CLI Contract Acceptance --- Accepted
+Acceptance PR #171 --- Merged
+Acceptance merge --- 02ed8569bbd5a6c12632783186220954b2b99f12
+Post-merge consistency --- Completed
+Terminal documentation alignment --- Completed
+Next --- v1.1.4 Marketplace CLI Implementation
 ```
 
 Governing contract PR #170 已 squash merge 為
@@ -1813,21 +1817,26 @@ v1.1.3 governing contract PR #170 --- Merged
 Governing merge --- 5f63bd3dc438ba1ea5e10b8225c761964c1819bc
 main synchronization --- Completed
 Acceptance record and automation --- Added
-Governing required CI evidence --- Pending confirmation
+Governing required CI evidence --- Passed
 Acceptance-state focused suite --- 84 passed
 Acceptance-state full regression --- 1533 passed, 11 skipped, 1 deselected
 Acceptance-state execution time --- 11.00s
 Acceptance-state failures / errors --- 0
 Acceptance-state pre-commit --- Passed
-Acceptance-state required coverage evidence --- Pending confirmation
-Acceptance-state git diff --check --- Pending confirmation
-Acceptance PR / CI / merge --- Pending
-Post-merge consistency --- Pending
-Terminal documentation alignment --- Pending
-Marketplace CLI Contract Acceptance --- Not Accepted
+Acceptance-state required coverage evidence --- Passed
+Acceptance-state git diff --check --- Passed
+Acceptance PR #171 --- Merged
+Acceptance merge --- 02ed8569bbd5a6c12632783186220954b2b99f12
+Acceptance PR required CI --- Passed
+main synchronization after acceptance merge --- Completed
+Post-merge focused suite --- Passed
+Post-merge local quality gates --- Passed
+Post-merge consistency --- Completed
+Terminal documentation alignment --- Completed
+Marketplace CLI Contract Acceptance --- Accepted
 Marketplace CLI Implementation --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
-Next --- confirm remaining evidence, then create v1.1.3 acceptance PR
+Next --- v1.1.4 Marketplace CLI Implementation
 ```
 
 Remote Marketplace、automatic activation、signing/trust、dependency

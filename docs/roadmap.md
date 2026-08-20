@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **v1.0.0 GA Accepted — stable release lifecycle completed**
+> **v1.1 Planning Baseline in progress — Operational CLI Expansion**
 
 ------------------------------------------------------------------------
 
@@ -1722,6 +1722,55 @@ v1.1+ candidate，除非後續 release-readiness decision 明確提升其優先�
 
 ------------------------------------------------------------------------
 
+# Milestone 9 --- v1.1 Operational CLI Expansion 🚧
+
+目標：
+
+在已接受的 v1.0 Stable contract 上，以 backward-compatible、additive
+方式提供 AI 與 Marketplace 的操作型 CLI，同時維持 deterministic core、
+network-independent verification 與明確 Deferred boundary。
+
+Governing contract：
+
+``` text
+docs/releases/v1.1-planning-baseline.md
+```
+
+Planned delivery sequence：
+
+``` text
+v1.1.1 Planning Baseline                         In Progress
+v1.1.2 CLI Public Contract Design                Not Started
+v1.1.3 Marketplace CLI Contract                  Not Started
+v1.1.4 Marketplace CLI Implementation            Not Started
+v1.1.5 AI CLI Contract                           Not Started
+v1.1.6 AI CLI Implementation                     Not Started
+v1.1.7 Documentation / EN-zh-TW Parity           Not Started
+v1.1.8 Reliability / Artifact-backed Verification Not Started
+v1.1.9 Formal v1.1 Acceptance                    Not Accepted
+```
+
+Current release boundary：
+
+``` text
+v1.0.0 GA lifecycle --- Completed
+Repository hygiene --- Completed
+v1.1 Planning Baseline --- In Progress
+Marketplace CLI --- Not Started
+AI CLI --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+```
+
+Remote Marketplace、automatic activation、signing/trust、dependency
+resolution、ratings/reviews、monetization、AI Provider Marketplace、AI
+Refactoring Assistant、streaming/tool calling 與 generalized transaction
+rollback 仍維持 Deferred，不因 v1.1 planning 啟動而自動成為 committed
+scope。
+
+**Status:** In Progress
+
+------------------------------------------------------------------------
+
 # Version Targets
 
   Version   Target
@@ -1733,6 +1782,7 @@ v1.1+ candidate，除非後續 release-readiness decision 明確提升其優先�
   v0.6.x    AI Integration
   v0.7.x    Marketplace
   v1.0.0    Stabilization → RC → Stable Release
+  v1.1.0    Operational CLI Expansion
 
 ------------------------------------------------------------------------
 

@@ -124,6 +124,28 @@
     CLI Contract --- Not Accepted`, `Marketplace CLI Implementation --- Not
     Started`, and `Formal v1.1 Acceptance --- Not Accepted`; governing PR, CI,
     merge, synchronization, and post-merge evidence remain Pending.
+-   Recorded governing contract PR #170 as squash merged at
+    `5f63bd3dc438ba1ea5e10b8225c761964c1819bc` and synchronized local `main`
+    with `origin/main` at that commit with a clean working tree.
+-   Added `docs/releases/v1.1-marketplace-cli-contract-acceptance.md` and
+    `tests/integration/test_v1_1_marketplace_cli_contract_acceptance.py` to
+    begin a separate fail-closed v1.1.3 Acceptance Closure.
+-   Kept fresh acceptance-state focused/full-regression/coverage/local-quality
+    execution, governing required CI evidence confirmation, acceptance
+    PR/CI/merge, post-merge consistency, and terminal documentation alignment
+    Pending.
+-   Verified the fresh v1.1.3 acceptance-state focused suite with `84 passed`
+    and zero failures/errors.
+-   Verified the fresh acceptance-state full regression with `1533 passed, 11
+    skipped, 1 deselected in 11.00s` and zero failures/errors.
+-   Verified all pre-commit hooks, including Ruff, Ruff Format, and pytest,
+    passed for the acceptance candidate.
+-   Kept governing required CI, required coverage, and `git diff --check`
+    evidence Pending confirmation; acceptance PR/CI/merge and all post-merge
+    gates also remain Pending.
+-   Preserved `Marketplace CLI Contract --- Not Accepted`, `Marketplace CLI
+    Implementation --- Not Started`, and `Formal v1.1 Acceptance --- Not
+    Accepted`; the governing merge alone does not satisfy acceptance.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

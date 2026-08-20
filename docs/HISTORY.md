@@ -2081,7 +2081,53 @@ Marketplace CLI Implementation --- Not Started
 AI CLI Contract --- Not Started
 AI CLI Implementation --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
-Governing PR / CI / merge --- Pending
+Governing PR #170 --- Merged
+Governing merge --- 5f63bd3dc438ba1ea5e10b8225c761964c1819bc
+Governing required CI evidence --- Pending confirmation
+main synchronization --- Completed
+Next --- v1.1.3 Acceptance Closure
+```
+
+Governing contract PR #170 隨後完成 squash merge，merge commit 為：
+
+``` text
+5f63bd3dc438ba1ea5e10b8225c761964c1819bc
+```
+
+Local `main` 與 `origin/main` 已同步至此 commit，working tree clean。專案接著
+新增 `docs/releases/v1.1-marketplace-cli-contract-acceptance.md` 與
+fail-closed acceptance automation，開始獨立的 v1.1.3 Acceptance Closure。
+
+Governing merge 不等同 contract acceptance。Fresh acceptance-state focused
+suite、full regression、coverage、local quality gates、acceptance PR/CI/merge、
+main synchronization、post-merge consistency 與 terminal documentation
+alignment 仍為 Pending；Marketplace CLI production implementation 仍為 Not
+Started。
+
+Fresh acceptance-state execution 隨後完成 focused suite `84 passed`，以及
+full regression `1533 passed, 11 skipped, 1 deselected in 11.00s`；兩者皆為
+zero failures/errors。Pre-commit 的全部 hooks（包含 Ruff、Ruff Format 與
+pytest）亦通過。
+
+目前 supplied evidence 未包含 required coverage 結果、`git diff --check`
+輸出或 PR #170 governing required CI 結果，因此三者維持 Pending
+confirmation，不由成功的 pytest 或 pre-commit 間接推定。Acceptance
+PR/CI/merge、post-merge consistency 與 terminal alignment 亦尚未完成。
+
+``` text
+v1.1.3 governing contract PR #170 --- Merged
+Governing merge --- 5f63bd3dc438ba1ea5e10b8225c761964c1819bc
+main synchronization --- Completed
+v1.1.3 Acceptance Closure --- In Progress
+Acceptance-state focused suite --- 84 passed
+Acceptance-state full regression --- 1533 passed, 11 skipped, 1 deselected
+Acceptance-state execution time --- 11.00s
+Acceptance-state pre-commit --- Passed
+Required coverage / git diff --check --- Pending confirmation
+Acceptance PR / CI / merge --- Pending
+Marketplace CLI Contract --- Not Accepted
+Marketplace CLI Implementation --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
 ```
 
 ------------------------------------------------------------------------

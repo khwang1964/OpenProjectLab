@@ -33,12 +33,14 @@ def _top_level_commands() -> frozenset[str]:
     raise AssertionError("CLI subcommand registry was not found")
 
 
-def test_marketplace_cli_contract_exists_and_remains_pre_implementation() -> None:
+def test_marketplace_cli_contract_enters_closure_before_implementation() -> None:
     contract = _read(CONTRACT)
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Contract" in contract
-    assert "**Status:** Proposed" in contract
+    assert "**Status:** Acceptance Closure --- In Progress" in contract
     assert "v1.1.3 --- Marketplace CLI Contract" in contract
+    assert "**Governing PR:** #170" in contract
+    assert "**Governing Merge Commit:** `5f63bd3dc438ba1ea5e10b8225c761964c1819bc`" in contract
     assert "**Marketplace CLI Contract:** Not Accepted" in contract
     assert "**Marketplace CLI Implementation:** Not Started" in contract
     assert "**Formal v1.1 Acceptance:** Not Accepted" in contract

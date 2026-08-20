@@ -1710,6 +1710,82 @@ Acceptance lifecycle 完成。Acceptance merge commit 只記錄正式接受證�
 
 ------------------------------------------------------------------------
 
+# v1.0 GA Acceptance
+
+Step 8.10 RC Acceptance 正式完成後，OPL 進入獨立的 `v1.0.0` GA
+Acceptance lifecycle。
+
+GA.1 已完成 acceptance baseline 與 RC evidence review。Reviewed evidence
+未發現已記錄且尚未解決的 GA blocker，也沒有目前 evidence 所要求的 GA
+correction；相關結論明確限定於 reviewed evidence，而不是 universal
+zero-defect claim。
+
+GA.3 完成 stable version / artifact identity transition：
+
+``` text
+Canonical package version --- 1.0.0
+Canonical GA tag mapping --- v1.0.0
+```
+
+Historical RC identity `1.0.0rc1 / v1.0.0-rc.1` 保持 immutable historical
+evidence，不因 GA version transition 被改寫。
+
+GA.4 Artifact-backed Verification 已完成。GA-specific coordination 與既有
+integrated package identity、installed-user E2E、First 15 Minutes 等
+artifact-backed authorities 共同驗證 stable wheel：
+
+``` text
+GA.4 focused artifact-backed suite --- 30 passed
+Required GA artifact-backed skips --- 0
+Installed distribution version --- 1.0.0
+Source-checkout isolation --- Passed
+Installed opl entry point --- Passed
+Packaged runtime resources --- Passed
+First 15 Minutes --- Passed
+Representative installed-user E2E --- Passed
+Integrated package / release identity --- Passed
+Checksum manifest verification --- Passed
+```
+
+GA.5 隨後取得 fresh full-regression evidence：
+
+``` text
+Full regression --- 1980 passed, 4 skipped, 1 deselected
+Failures / errors --- 0
+Coverage --- 90.90%
+Required coverage --- 67.0% --- Passed
+```
+
+4 個 skipped tests 全部來自 historical RC artifact-backed verification；
+目前 artifact inputs 指向 `openprojectlab-1.0.0-py3-none-any.whl`，因此這些
+RC tests 正確拒絕把 GA artifact 當成 RC evidence。它們不屬於 GA.4
+required artifact-backed skips。
+
+GA.5 的 local quality gates 隨後亦全部通過：
+
+``` text
+Required GA artifact-backed skips --- 0
+git diff --check --- Passed
+Ruff --- Passed
+Ruff Format --- Passed
+pre-commit --- Passed
+```
+
+因此 **GA.5 --- Full Regression / Local Quality Gates 已完成**。GA
+Acceptance lifecycle 現在正式進入 **GA.6 --- GitHub Actions / CI**。
+
+目前 release boundary 維持：
+
+``` text
+v1.0.0 tag --- Not Created
+GA GitHub Release --- Not Created
+Formal v1.0.0 GA Acceptance --- Not Accepted
+```
+
+GA.6 通過前不得進入 GA.7 GA Creation / Publication Identity。
+
+------------------------------------------------------------------------
+
 # 我們的願景
 
 OpenProjectLab 的目標不是建立更多程式，而是建立：

@@ -142,6 +142,17 @@
 -   Added `tests/release_readiness/test_v1_rc_formal_acceptance.py` as the
     fail-closed Step 8.10.9 automation preventing premature RC acceptance
     while PR/CI/merge/main-sync/post-merge closure gates remain Pending.
+-   Added `docs/releases/v1.0-ga-acceptance.md` as the governing
+    `v1.0.0` GA Acceptance contract.
+-   Added `docs/releases/v1.0-ga-baseline.md` and
+    `docs/releases/v1.0-ga-rc-evidence-review.md` for GA.1 baseline and
+    reviewed blocker disposition.
+-   Added `docs/releases/v1.0-ga-build-artifact-identity.md` and
+    `tests/release_readiness/test_v1_ga_build_artifact_identity.py` for
+    stable `1.0.0 / v1.0.0` version and artifact identity.
+-   Added `docs/releases/v1.0-ga-artifact-backed-verification.md` and
+    `tests/release_readiness/test_v1_ga_artifact_backed_verification.py`
+    as the GA.4 fail-closed artifact-backed coordination gate.
 
 #### Milestone 7 --- Marketplace
 
@@ -484,6 +495,25 @@
     `b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8`; the acceptance merge does not retarget the RC.
 -   Closed Milestone 8 RC Acceptance while keeping `v1.0.0` GA Acceptance
     explicitly Not Accepted.
+-   Started the independent `v1.0.0` GA Acceptance lifecycle after formal
+    RC acceptance.
+-   Completed GA.1 RC evidence review with no recorded unresolved GA blocker
+    found in the reviewed evidence and no GA correction required by that
+    evidence.
+-   Transitioned the canonical package version from `1.0.0rc1` to stable
+    `1.0.0` while preserving historical RC identity.
+-   Completed GA.4 Artifact-backed Verification with `30 passed` and zero
+    required GA artifact-backed skips.
+-   Recorded GA.5 fresh full-regression evidence with
+    `1980 passed, 4 skipped, 1 deselected` and 90.90% coverage.
+-   Classified the four GA.5 skips as historical RC artifact-backed checks
+    correctly refusing to consume GA artifacts as RC evidence.
+-   Completed GA.5 Full Regression / Local Quality Gates after the fresh
+    `1980 passed, 4 skipped, 1 deselected` regression completed with zero
+    failures/errors, 90.90% coverage, zero required GA artifact-backed skips,
+    and passing `git diff --check`, Ruff, Ruff Format, and pre-commit gates.
+-   Advanced the active GA gate to GA.6 GitHub Actions / CI while keeping
+    `v1.0.0` tag creation, GA publication, and Formal GA Acceptance pending.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -833,6 +863,21 @@
     completed with no remaining RC acceptance closure gate Pending.
 -   Verified formal RC Acceptance is `Accepted` while `v1.0.0` GA Acceptance
     remains `Not Accepted`.
+-   Verified GA.4 artifact-backed coordination passes with `30 passed`,
+    zero failures, and zero required GA artifact-backed skips.
+-   Verified the installed GA distribution reports `1.0.0`, executes outside
+    the source checkout, exposes the installed `opl` entry point, consumes
+    packaged runtime resources, passes First 15 Minutes, and passes the
+    representative installed-user E2E.
+-   Recorded GA.5 fresh full-regression evidence:
+    `1980 passed, 4 skipped, 1 deselected`, zero failures/errors, 90.90%
+    coverage, and the required 67.0% coverage gate passed.
+-   Verified the four skips are historical RC artifact-backed tests and do
+    not count as GA required artifact-backed skips.
+-   Verified GA.5 `git diff --check`, Ruff, Ruff Format, and pre-commit all
+    passed.
+-   Marked GA.5 Full Regression / Local Quality Gates as Completed and GA.6
+    GitHub Actions / CI as In Progress.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

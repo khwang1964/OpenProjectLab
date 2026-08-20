@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **v1.1.1 Planning Baseline acceptance closure in progress**
+> **v1.1.1 Planning Baseline Accepted — v1.1.2 CLI Public Contract Design next**
 
 ------------------------------------------------------------------------
 
@@ -1739,7 +1739,7 @@ docs/releases/v1.1-planning-baseline.md
 Planned delivery sequence：
 
 ``` text
-v1.1.1 Planning Baseline                         Acceptance Closure In Progress
+v1.1.1 Planning Baseline                         Accepted
 v1.1.2 CLI Public Contract Design                Not Started
 v1.1.3 Marketplace CLI Contract                  Not Started
 v1.1.4 Marketplace CLI Implementation            Not Started
@@ -1755,13 +1755,14 @@ Current release boundary：
 ``` text
 v1.0.0 GA lifecycle --- Completed
 Repository hygiene --- Completed
-v1.1 Planning Baseline --- In Progress
 v1.1 governing baseline PR #164 --- Merged
-v1.1.1 Acceptance Closure --- In Progress
-Formal v1.1 Planning Baseline Acceptance --- Not Accepted
+v1.1 acceptance PR #165 --- Merged
+v1.1.1 Planning Baseline --- Accepted
+Formal v1.1 Planning Baseline Acceptance --- Accepted
 Marketplace CLI --- Not Started
 AI CLI --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.2 CLI Public Contract Design
 ```
 
 Remote Marketplace、automatic activation、signing/trust、dependency
@@ -1772,12 +1773,14 @@ scope。
 
 PR #164 已通過 required CI 並 squash merge 為
 `33c367b989014c34c162f326ee825f3fe8f4c8e6`。同步 `main` 與
-post-merge consistency verification 完成後，v1.1.1 已進入獨立的
-acceptance closure。Acceptance PR CI、merge、main synchronization、
-post-merge consistency 與 terminal documentation alignment 仍保持 Pending；
-因此 Formal v1.1 Planning Baseline Acceptance 仍為 `Not Accepted`。
+post-merge consistency verification 完成後，v1.1.1 進入獨立的
+acceptance closure。Acceptance PR #165 required CI 通過並 squash merge 為
+`97dac1eca516e7b91e2f5bdfbe6da84b7a32215c`；main synchronization、
+post-merge focused verification 與 terminal documentation alignment 隨後
+完成。因此 Formal v1.1 Planning Baseline Acceptance 現為 `Accepted`，但
+Formal v1.1 Acceptance 仍為 `Not Accepted`。
 
-**Status:** In Progress
+**Status:** Planning Baseline Accepted
 
 ------------------------------------------------------------------------
 

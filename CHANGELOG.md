@@ -38,6 +38,17 @@
     --- Not Accepted`.
 -   Kept acceptance PR CI, squash merge, main synchronization, post-merge
     consistency, and terminal documentation alignment Pending.
+-   Verified acceptance PR #165 passed required CI and squash merged as
+    `97dac1eca516e7b91e2f5bdfbe6da84b7a32215c`.
+-   Completed acceptance main synchronization, the post-merge focused suite
+    with `15 passed`, repository consistency gates, and terminal documentation
+    alignment.
+-   Marked `v1.1.1 Planning Baseline --- Accepted` and `Formal v1.1 Planning
+    Baseline Acceptance --- Accepted` while preserving `Marketplace CLI ---
+    Not Started`, `AI CLI --- Not Started`, and `Formal v1.1 Acceptance --- Not
+    Accepted`.
+-   Moved the next active slice to `v1.1.2 CLI Public Contract Design` without
+    introducing product implementation.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

@@ -1904,6 +1904,31 @@ Acceptance PR required CI、squash merge、main synchronization、post-merge
 consistency與terminal documentation alignment仍為Pending，不得由PR #164
 或更早的passing evidence替代。
 
+Acceptance candidate 隨後透過 PR #165 完成reviewed closure。Required CI
+通過後，PR #165 squash merge commit 為：
+
+``` text
+97dac1eca516e7b91e2f5bdfbe6da84b7a32215c
+```
+
+同步 `main` 後，post-merge focused planning/acceptance suite 以 `15 passed`
+完成；`git diff --check`、pre-commit與working-tree consistency亦通過。
+Terminal documentation alignment完成後，v1.1.1 terminal state為：
+
+``` text
+v1.1 governing baseline PR #164 --- Merged
+v1.1 acceptance PR #165 --- Merged
+v1.1.1 Planning Baseline --- Accepted
+Formal v1.1 Planning Baseline Acceptance --- Accepted
+Marketplace CLI --- Not Started
+AI CLI --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.2 CLI Public Contract Design
+```
+
+Planning acceptance只接受scope、non-goals、compatibility boundary與delivery
+sequence，不代表任何CLI implementation或v1.1 release acceptance。
+
 ------------------------------------------------------------------------
 
 # 我們的願景

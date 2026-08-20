@@ -11,6 +11,8 @@ CHANGELOG = REPO_ROOT / "CHANGELOG.md"
 
 GOVERNING_PR = "#164"
 GOVERNING_MERGE = "33c367b989014c34c162f326ee825f3fe8f4c8e6"
+ACCEPTANCE_PR = "#165"
+ACCEPTANCE_MERGE = "97dac1eca516e7b91e2f5bdfbe6da84b7a32215c"
 
 
 def _read(path: Path) -> str:
@@ -24,13 +26,15 @@ def _normalized(path: Path) -> str:
 
 
 def test_acceptance_record_has_exact_governing_identity() -> None:
-    """Bind acceptance to the reviewed governing PR and merge commit."""
+    """Bind terminal acceptance to both reviewed merge identities."""
     document = _read(ACCEPTANCE)
 
-    assert "**Status:** Acceptance Closure --- In Progress" in document
+    assert "**Status:** Accepted" in document
     assert f"**Governing PR:** {GOVERNING_PR}" in document
     assert f"**Governing Merge Commit:** `{GOVERNING_MERGE}`" in document
-    assert "Formal v1.1 Planning Baseline Acceptance:** Not Accepted" in document
+    assert f"**Acceptance PR:** {ACCEPTANCE_PR}" in document
+    assert f"**Acceptance Merge Commit:** `{ACCEPTANCE_MERGE}`" in document
+    assert "Formal v1.1 Planning Baseline Acceptance:** Accepted" in document
 
 
 def test_acceptance_retains_verified_governing_evidence() -> None:
@@ -49,24 +53,25 @@ def test_acceptance_retains_verified_governing_evidence() -> None:
         assert marker in document
 
 
-def test_acceptance_is_fail_closed_until_all_gates_pass() -> None:
-    """Keep formal planning acceptance closed while gates are pending."""
+def test_acceptance_records_all_completed_closure_gates() -> None:
+    """Require complete closure evidence before terminal acceptance."""
     document = _read(ACCEPTANCE)
 
-    pending = (
-        "Focused acceptance suite --- Pending local execution",
-        "Full regression / coverage --- Pending acceptance-state execution",
-        "Local quality gates --- Pending acceptance-state execution",
-        "Acceptance PR required CI --- Pending",
-        "Acceptance squash merge --- Pending",
-        "main synchronization --- Pending",
-        "Post-merge consistency --- Pending",
-        "Terminal documentation alignment --- Pending",
+    completed = (
+        "Focused acceptance suite --- 15 passed",
+        "Full regression --- 1991 passed, 32 skipped, 1 deselected",
+        "Coverage --- 90.90% (required 67.0%) --- Passed",
+        "Local quality gates --- Passed",
+        "Acceptance PR #165 required CI --- Passed",
+        "Acceptance squash merge --- Completed",
+        "main synchronization --- Passed",
+        "Post-merge consistency --- Passed",
+        "Terminal documentation alignment --- Completed",
     )
-    for marker in pending:
+    for marker in completed:
         assert marker in document
 
-    assert "Formal v1.1 Planning Baseline Acceptance --- Not Accepted" in document
+    assert "Formal v1.1 Planning Baseline Acceptance --- Accepted" in document
 
 
 def test_product_work_and_release_acceptance_remain_unaccepted() -> None:
@@ -105,16 +110,16 @@ def test_terminal_documentation_scope_is_explicit() -> None:
         assert path in document
 
 
-def test_documents_align_to_pre_acceptance_state() -> None:
-    """Align all governing documents to the pre-acceptance state."""
+def test_documents_align_to_terminal_planning_acceptance() -> None:
+    """Align all governing documents to terminal planning acceptance."""
     for path in (BASELINE, ACCEPTANCE, ROADMAP, HISTORY, CHANGELOG):
-        document = _read(path)
-        assert "v1.1.1 Acceptance Closure --- In Progress" in document
-        assert "Formal v1.1 Planning Baseline Acceptance --- Not Accepted" in document
+        document = _normalized(path)
+        assert "v1.1.1 Planning Baseline --- Accepted" in document
+        assert "Formal v1.1 Planning Baseline Acceptance --- Accepted" in document
 
 
-def test_candidate_does_not_fabricate_acceptance_evidence() -> None:
-    """Reject terminal evidence in current candidate-state sections."""
+def test_terminal_state_does_not_accept_product_or_release() -> None:
+    """Keep product implementation and v1.1 release acceptance closed."""
     current_sections = (
         _read(BASELINE).split("## 15. Current State", maxsplit=1)[1],
         _read(ACCEPTANCE).split("## 10. Current State", maxsplit=1)[1],
@@ -124,11 +129,7 @@ def test_candidate_does_not_fabricate_acceptance_evidence() -> None:
         .split("#### v1.1 Planning Baseline", maxsplit=1)[1]
         .split("#### Milestone 8", maxsplit=1)[0],
     )
-    forbidden = (
-        "Acceptance PR required CI --- Passed",
-        "Acceptance squash merge --- Completed",
-        "Formal v1.1 Planning Baseline Acceptance --- Accepted",
-    )
+    forbidden = ("Formal v1.1 Acceptance --- Accepted",)
     for document in current_sections:
         for marker in forbidden:
             assert marker not in document

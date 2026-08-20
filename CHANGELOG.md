@@ -4,6 +4,28 @@
 
 ### Added
 
+#### v1.1 Planning Baseline
+
+-   Started the OpenProjectLab v1.1 Planning Baseline with Operational CLI
+    Expansion as the proposed release theme.
+-   Added `docs/releases/v1.1-planning-baseline.md` as the governing v1.1
+    scope, compatibility, non-goal, delivery, and acceptance contract.
+-   Preserved the accepted v1.0 Stable public-contract subset and required all
+    v1.1 evolution to remain backward compatible.
+-   Defined additive deterministic-local Marketplace CLI and
+    provider-independent AI CLI as planned contract slices; implementation
+    remains Not Started until dedicated contracts are accepted.
+-   Kept remote Marketplace, automatic activation, signing/trust, dependency
+    resolution, ratings/reviews, monetization, AI Provider Marketplace, AI
+    Refactoring Assistant, streaming/tool calling, and generalized transaction
+    rollback Deferred.
+-   Added fail-closed v1.1 planning-contract automation covering terminal
+    document alignment, compatibility preservation, explicit non-goals,
+    documentation parity, artifact-backed verification, and prohibition of
+    fabricated future evidence.
+-   Recorded the current governing state as `v1.1 Planning Baseline --- In
+    Progress` and `Formal v1.1 Acceptance --- Not Accepted`.
+
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 
 -   Added `docs/releases/v1.0-release-readiness.md` as the governing

@@ -1842,6 +1842,46 @@ artifact bytes。
 
 ------------------------------------------------------------------------
 
+# v1.1 Planning Baseline
+
+OpenProjectLab `v1.0.0` 已完成 stable publication、Formal GA Acceptance、
+post-merge consistency 與 repository branch hygiene。`v1.0.0` tag 與既有
+artifact/source identity 保持 immutable。
+
+2026-08-20，專案開始 v1.1 Planning Baseline，以 **Operational CLI
+Expansion** 作為 proposed release theme。此 baseline 僅啟動設計、文件與
+fail-closed planning automation，不宣告 AI CLI 或 Marketplace CLI 已完成。
+
+Governing contract：
+
+``` text
+docs/releases/v1.1-planning-baseline.md
+```
+
+目前狀態：
+
+``` text
+v1.0.0 GA lifecycle --- Completed
+Repository hygiene --- Completed
+v1.1 Planning Baseline --- In Progress
+Marketplace CLI --- Not Started
+AI CLI --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+```
+
+v1.1 必須維持 Step 8.2 frozen Stable subset 與 Step 8.6 compatibility /
+deprecation policy。Marketplace CLI 僅能建立於 deterministic local
+Marketplace contracts；AI CLI 僅能建立於 provider-independent AI
+boundary。Remote Marketplace、automatic activation、signing/trust、
+dependency resolution、ratings/reviews、monetization、AI Provider
+Marketplace、AI Refactoring Assistant、streaming/tool calling 與
+generalized cross-Generator rollback 繼續保持 Deferred。
+
+Planning baseline 不預填未來 test count、coverage、PR、CI、commit、tag、
+checksum、release 或 acceptance evidence。
+
+------------------------------------------------------------------------
+
 # 我們的願景
 
 OpenProjectLab 的目標不是建立更多程式，而是建立：

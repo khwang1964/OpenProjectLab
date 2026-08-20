@@ -146,6 +146,18 @@
 -   Preserved `Marketplace CLI Contract --- Not Accepted`, `Marketplace CLI
     Implementation --- Not Started`, and `Formal v1.1 Acceptance --- Not
     Accepted`; the governing merge alone does not satisfy acceptance.
+-   Confirmed the remaining v1.1.3 governing CI, required coverage,
+    `git diff --check`, acceptance-state, and post-merge quality gates passed.
+-   Recorded `Acceptance PR #171 --- Merged` and `Acceptance merge ---
+    02ed8569bbd5a6c12632783186220954b2b99f12`, synchronized `main`, and
+    completed post-merge consistency verification.
+-   Completed terminal documentation alignment and marked
+    `v1.1.3 Marketplace CLI Contract --- Accepted` and
+    `Marketplace CLI Contract Acceptance --- Accepted` while preserving
+    `Marketplace CLI Implementation --- Not Started` and
+    `Formal v1.1 Acceptance --- Not Accepted`.
+-   Recorded `Next --- v1.1.4 Marketplace CLI Implementation` as the active
+    follow-up slice.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

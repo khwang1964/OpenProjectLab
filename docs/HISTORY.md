@@ -2130,6 +2130,26 @@ Marketplace CLI Implementation --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
 ```
 
+Acceptance PR #171 subsequently passed its required CI and was squash merged
+as `02ed8569bbd5a6c12632783186220954b2b99f12`. After synchronizing `main`, the
+post-merge focused suite, local quality gates, repository consistency checks,
+and terminal documentation alignment completed successfully. No production
+Marketplace CLI implementation was introduced by this acceptance closure.
+
+The v1.1.3 terminal state is therefore:
+
+``` text
+v1.1.3 Marketplace CLI Contract --- Accepted
+Marketplace CLI Contract Acceptance --- Accepted
+Acceptance PR #171 --- Merged
+Acceptance merge --- 02ed8569bbd5a6c12632783186220954b2b99f12
+Marketplace CLI Implementation --- Not Started
+AI CLI Contract --- Not Started
+AI CLI Implementation --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.4 Marketplace CLI Implementation
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

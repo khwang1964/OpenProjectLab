@@ -1929,6 +1929,59 @@ Next --- v1.1.2 CLI Public Contract Design
 Planning acceptance只接受scope、non-goals、compatibility boundary與delivery
 sequence，不代表任何CLI implementation或v1.1 release acceptance。
 
+## v1.1.2 --- CLI Public Contract Design
+
+完成 v1.1.1 terminal alignment 後，專案開始 v1.1.2 CLI Public Contract
+Design。新增 governing design：
+
+``` text
+docs/releases/v1.1-cli-public-contract.md
+```
+
+此 slice 先固定所有後續 v1.1 CLI 共用的 compatibility 與設計邊界：既有
+10 個 reviewed v1 command、installed `opl` entry point、legacy
+`opl --list`、既有 required arguments，以及 generation commands 的
+`--dry-run`、`--force`、`--no-manifest` 均繼續受保護。
+
+`opl marketplace ...` 與 `opl ai ...` 目前僅是 reserved command-family
+identity。v1.1.2 不得把兩者註冊到 production parser；Marketplace CLI
+contract 屬於 v1.1.3、implementation 屬於 v1.1.4，AI CLI contract 屬於
+v1.1.5、implementation 屬於 v1.1.6。
+
+Exit-code design 只保留目前已驗證的 broad contract：成功為 `0`，argparse
+usage failure 或 production-handled validation/runtime/filesystem failure 為
+`2`。本階段不宣告更細的 Stable exit taxonomy、exact human-readable error
+wording 或 production `--json` schema。
+
+新增 fail-closed design automation：
+
+``` text
+tests/integration/test_v1_1_cli_public_contract.py
+```
+
+Focused v1/v1.1 CLI public-contract suite 已完成：
+
+``` text
+40 passed
+Failures / errors --- 0
+```
+
+此 focused evidence 不替代尚未執行的 full regression、coverage、local
+quality gates、PR、CI、merge、main synchronization 或 post-merge
+consistency。Current state 保持：
+
+``` text
+v1.1.1 Planning Baseline --- Accepted
+v1.1.2 CLI Public Contract Design --- In Progress
+v1.0 CLI Stable Surface --- Preserved
+Marketplace CLI Contract --- Not Started
+Marketplace CLI Implementation --- Not Started
+AI CLI Contract --- Not Started
+AI CLI Implementation --- Not Started
+Formal v1.1 CLI Public Contract Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

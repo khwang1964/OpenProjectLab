@@ -16,7 +16,7 @@ RC_CONTRACT = REPO_ROOT / "docs" / "releases" / "v1.0-rc-acceptance.md"
 RC_RECORD = REPO_ROOT / "docs" / "releases" / "v1.0-rc-acceptance-record.md"
 
 EXPECTED_RC = "v1.0.0-rc.1"
-EXPECTED_VERSION = "1.0.0rc1"
+EXPECTED_BASELINE_VERSION = "1.0.0rc1"
 
 RC_PUBLICATION_SHA = "b5958edbbf0e3279ed74fa0e3aee13e893c5dfc8"
 RC_TERMINAL_ACCEPTANCE_SHA = "0e3b31cb410fde3ebb85251e668a0c424bcfc60c"
@@ -99,8 +99,14 @@ def test_step_8_10_remains_formally_accepted() -> None:
     assert _metadata_value(rc_record, "Status") == "Accepted"
 
 
-def test_repository_remains_on_rc_version_during_ga_1() -> None:
-    assert _project_version() == EXPECTED_VERSION
+def test_ga_1_records_rc_version_at_baseline_time() -> None:
+    """GA.1 must preserve the repository version observed before GA.3."""
+    normalized = _normalized(GA_BASELINE)
+
+    assert (
+        f"Canonical repository version {EXPECTED_BASELINE_VERSION}" in normalized
+        or f"Canonical repository version --- {EXPECTED_BASELINE_VERSION}" in normalized
+    )
 
 
 def test_ga_baseline_records_all_three_provenance_shas() -> None:

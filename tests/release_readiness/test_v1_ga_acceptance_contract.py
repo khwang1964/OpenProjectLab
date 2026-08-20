@@ -14,7 +14,7 @@ GA_CONTRACT = REPO_ROOT / "docs" / "releases" / "v1.0-ga-acceptance.md"
 RC_CONTRACT = REPO_ROOT / "docs" / "releases" / "v1.0-rc-acceptance.md"
 RC_RECORD = REPO_ROOT / "docs" / "releases" / "v1.0-rc-acceptance-record.md"
 
-EXPECTED_CURRENT_VERSION = "1.0.0rc1"
+EXPECTED_PRETRANSITION_VERSION = "1.0.0rc1"
 EXPECTED_RC = "v1.0.0-rc.1"
 EXPECTED_GA = "v1.0.0"
 
@@ -90,8 +90,11 @@ def test_ga_contract_requires_accepted_rc_predecessor() -> None:
     assert _metadata_value(rc_record, "Status") == "Accepted"
 
 
-def test_current_repository_remains_on_rc_version_before_ga_version_gate() -> None:
-    assert _project_version() == EXPECTED_CURRENT_VERSION
+def test_ga_contract_records_pretransition_rc_version() -> None:
+    """The governing design must preserve the RC version that preceded GA.3."""
+    normalized = _normalized(GA_CONTRACT)
+
+    assert f"Canonical repository version --- {EXPECTED_PRETRANSITION_VERSION}" in normalized
 
 
 def test_ga_contract_keeps_rc_and_ga_identities_distinct() -> None:

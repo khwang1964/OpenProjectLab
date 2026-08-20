@@ -99,8 +99,11 @@ def test_step_8_10_remains_accepted() -> None:
     assert _metadata_value(rc_record, "Status") == "Accepted"
 
 
-def test_repository_remains_on_rc_version() -> None:
-    assert _project_version() == EXPECTED_VERSION
+def test_ga_1_review_records_rc_version_at_review_time() -> None:
+    """GA.1 evidence must preserve the pre-GA.3 repository version."""
+    normalized = _normalized(GA_REVIEW)
+
+    assert "Canonical repository version --- 1.0.0rc1" in normalized
 
 
 def test_review_records_release_and_governance_provenance() -> None:

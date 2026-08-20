@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **v1.1.2 CLI Public Contract Design in progress**
+> **v1.1.3 Marketplace CLI Contract in progress**
 
 ------------------------------------------------------------------------
 
@@ -1743,7 +1743,7 @@ Planned delivery sequence：
 ``` text
 v1.1.1 Planning Baseline                         Accepted
 v1.1.2 CLI Public Contract Design                Accepted
-v1.1.3 Marketplace CLI Contract                  Not Started
+v1.1.3 Marketplace CLI Contract                  In Progress
 v1.1.4 Marketplace CLI Implementation            Not Started
 v1.1.5 AI CLI Contract                           Not Started
 v1.1.6 AI CLI Implementation                     Not Started
@@ -1783,14 +1783,21 @@ Post-merge consistency --- Completed
 Terminal documentation alignment --- Completed
 Focused v1/v1.1 CLI public-contract suite --- 40 passed
 Formal v1.1 CLI Public Contract Acceptance --- Accepted
-Marketplace CLI Contract --- Not Started
+Marketplace CLI Contract --- In Progress
 Marketplace CLI Implementation --- Not Started
 AI CLI Contract --- Not Started
 AI CLI Implementation --- Not Started
 Marketplace CLI --- Not Started
 AI CLI --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
-Next --- v1.1.3 Marketplace CLI Contract
+v1.1.3 governing contract document --- Added
+v1.1.3 fail-closed contract automation --- Added
+Focused Marketplace contract suite --- 35 passed
+v1.1.3 pre-commit --- Passed
+v1.1.3 full regression --- 2018 passed, 32 skipped, 1 deselected in 23.05s
+v1.1.3 governing PR / CI / merge --- Pending
+Marketplace CLI Contract Acceptance --- Not Accepted
+Next --- v1.1.3 governing contract PR
 ```
 
 Remote Marketplace、automatic activation、signing/trust、dependency

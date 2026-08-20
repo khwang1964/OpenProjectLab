@@ -2036,6 +2036,54 @@ Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.3 Marketplace CLI Contract
 ```
 
+## v1.1.3 --- Marketplace CLI Contract
+
+完成 v1.1.2 terminal alignment 後，專案開始 v1.1.3 Marketplace CLI
+Contract。新增 governing design：
+
+``` text
+docs/releases/v1.1-marketplace-cli-contract.md
+```
+
+此 slice 僅設計 deterministic、local-first Marketplace CLI contract。
+Proposed command surface 為 `versions`、`inspect`、`verify` 與 `install`；既有
+repository 沒有全域列舉能力，因此本階段不虛構 `opl marketplace list`。
+
+Catalog 與 payload 均由明確本機路徑提供。Artifact 使用 exact
+`namespace/name@MAJOR.MINOR.PATCH` coordinate；verification pipeline 固定為
+exact repository lookup、local acquisition 與 SHA-256 integrity
+verification。Installation 維持 in-memory、non-activating、non-persistent；
+`--dry-run` 不呼叫 installer。Remote access、dependency resolution、automatic
+activation、trust/signing、ratings/reviews 與 monetization 仍為 Deferred。
+
+新增 fail-closed contract automation：
+
+``` text
+tests/integration/test_v1_1_marketplace_cli_contract.py
+```
+
+Local verification 已完成：
+
+``` text
+Focused Marketplace contract suite --- 35 passed
+Pre-commit --- Passed
+Full regression --- 2018 passed, 32 skipped, 1 deselected in 23.05s
+Failures / errors --- 0
+```
+
+上述證據允許建立 governing contract PR，但不等同 contract acceptance 或
+implementation。Current state 保持：
+
+``` text
+v1.1.3 Marketplace CLI Contract --- In Progress
+Marketplace CLI Contract --- Not Accepted
+Marketplace CLI Implementation --- Not Started
+AI CLI Contract --- Not Started
+AI CLI Implementation --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Governing PR / CI / merge --- Pending
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

@@ -10,19 +10,23 @@ CHANGELOG = REPO_ROOT / "CHANGELOG.md"
 
 
 def _read(path: Path) -> str:
+    """Read one planning document as UTF-8 text."""
     return path.read_text(encoding="utf-8")
 
 
 def test_planning_baseline_exists_and_remains_pre_acceptance() -> None:
+    """Allow acceptance closure without prematurely accepting the baseline."""
     document = _read(BASELINE)
 
-    assert "**Status:** Proposed" in document
+    assert "**Status:** Acceptance Closure --- In Progress" in document
     assert "**Target Release:** OpenProjectLab v1.1.0" in document
+    assert "**Formal v1.1 Planning Baseline Acceptance:** Not Accepted" in document
     assert "**Formal v1.1 Acceptance:** Not Accepted" in document
     assert "v1.1 Planning Baseline --- In Progress" in document
 
 
 def test_planning_baseline_preserves_accepted_v1_contracts() -> None:
+    """Preserve the accepted v1 contract and version-policy boundaries."""
     document = _read(BASELINE)
 
     required_contracts = (
@@ -42,6 +46,7 @@ def test_planning_baseline_preserves_accepted_v1_contracts() -> None:
 
 
 def test_ai_and_marketplace_implementation_remain_not_started() -> None:
+    """Keep product implementation unstarted during planning closure."""
     document = _read(BASELINE)
 
     assert "Marketplace CLI --- Not Started" in document
@@ -51,6 +56,7 @@ def test_ai_and_marketplace_implementation_remain_not_started() -> None:
 
 
 def test_deferred_scope_remains_explicit() -> None:
+    """Keep every explicit v1.1 non-goal Deferred."""
     document = _read(BASELINE)
 
     required_non_goals = (
@@ -68,6 +74,7 @@ def test_deferred_scope_remains_explicit() -> None:
 
 
 def test_documentation_and_artifact_backed_gates_are_required() -> None:
+    """Require bilingual documentation and artifact-backed verification."""
     document = _read(BASELINE)
 
     assert "English and Traditional Chinese (Taiwan) functional parity" in document
@@ -77,6 +84,7 @@ def test_documentation_and_artifact_backed_gates_are_required() -> None:
 
 
 def test_terminal_documents_align_to_planning_state() -> None:
+    """Align terminal documents to the current planning lifecycle."""
     for path in (ROADMAP, HISTORY, CHANGELOG):
         document = _read(path)
         assert "v1.1 Planning Baseline" in document
@@ -84,6 +92,7 @@ def test_terminal_documents_align_to_planning_state() -> None:
 
 
 def test_planning_documents_do_not_fabricate_future_evidence() -> None:
+    """Reject fabricated release or terminal acceptance evidence."""
     planning_sections = (
         _read(BASELINE),
         _read(ROADMAP).split("# Milestone 9 --- v1.1", maxsplit=1)[1],

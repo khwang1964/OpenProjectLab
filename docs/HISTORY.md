@@ -1880,6 +1880,30 @@ generalized cross-Generator rollback 繼續保持 Deferred。
 Planning baseline 不預填未來 test count、coverage、PR、CI、commit、tag、
 checksum、release 或 acceptance evidence。
 
+Governing baseline 隨後透過 PR #164 完成reviewed integration。Required
+Quality checks 與 Packaging artifact verification 均通過，PR #164 squash
+merge commit 為：
+
+``` text
+33c367b989014c34c162f326ee825f3fe8f4c8e6
+```
+
+同步 `main` 並完成lightweight post-merge consistency verification後，
+專案開始獨立的v1.1.1 Planning Baseline acceptance closure：
+
+``` text
+v1.1 Planning Baseline --- In Progress
+v1.1.1 Acceptance Closure --- In Progress
+Formal v1.1 Planning Baseline Acceptance --- Not Accepted
+Marketplace CLI --- Not Started
+AI CLI --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+```
+
+Acceptance PR required CI、squash merge、main synchronization、post-merge
+consistency與terminal documentation alignment仍為Pending，不得由PR #164
+或更早的passing evidence替代。
+
 ------------------------------------------------------------------------
 
 # 我們的願景

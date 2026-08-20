@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **v1.1 Planning Baseline in progress — Operational CLI Expansion**
+> **v1.1.1 Planning Baseline acceptance closure in progress**
 
 ------------------------------------------------------------------------
 
@@ -1739,7 +1739,7 @@ docs/releases/v1.1-planning-baseline.md
 Planned delivery sequence：
 
 ``` text
-v1.1.1 Planning Baseline                         In Progress
+v1.1.1 Planning Baseline                         Acceptance Closure In Progress
 v1.1.2 CLI Public Contract Design                Not Started
 v1.1.3 Marketplace CLI Contract                  Not Started
 v1.1.4 Marketplace CLI Implementation            Not Started
@@ -1756,6 +1756,9 @@ Current release boundary：
 v1.0.0 GA lifecycle --- Completed
 Repository hygiene --- Completed
 v1.1 Planning Baseline --- In Progress
+v1.1 governing baseline PR #164 --- Merged
+v1.1.1 Acceptance Closure --- In Progress
+Formal v1.1 Planning Baseline Acceptance --- Not Accepted
 Marketplace CLI --- Not Started
 AI CLI --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
@@ -1766,6 +1769,13 @@ resolution、ratings/reviews、monetization、AI Provider Marketplace、AI
 Refactoring Assistant、streaming/tool calling 與 generalized transaction
 rollback 仍維持 Deferred，不因 v1.1 planning 啟動而自動成為 committed
 scope。
+
+PR #164 已通過 required CI 並 squash merge 為
+`33c367b989014c34c162f326ee825f3fe8f4c8e6`。同步 `main` 與
+post-merge consistency verification 完成後，v1.1.1 已進入獨立的
+acceptance closure。Acceptance PR CI、merge、main synchronization、
+post-merge consistency 與 terminal documentation alignment 仍保持 Pending；
+因此 Formal v1.1 Planning Baseline Acceptance 仍為 `Not Accepted`。
 
 **Status:** In Progress
 

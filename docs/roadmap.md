@@ -1795,9 +1795,39 @@ v1.1.3 fail-closed contract automation --- Added
 Focused Marketplace contract suite --- 35 passed
 v1.1.3 pre-commit --- Passed
 v1.1.3 full regression --- 2018 passed, 32 skipped, 1 deselected in 23.05s
-v1.1.3 governing PR / CI / merge --- Pending
+v1.1.3 governing PR #170 --- Merged
+Governing merge --- 5f63bd3dc438ba1ea5e10b8225c761964c1819bc
+Governing required CI evidence --- Pending confirmation
+main synchronization --- Completed
 Marketplace CLI Contract Acceptance --- Not Accepted
-Next --- v1.1.3 governing contract PR
+Next --- v1.1.3 Acceptance Closure
+```
+
+Governing contract PR #170 已 squash merge 為
+`5f63bd3dc438ba1ea5e10b8225c761964c1819bc`，local `main` 與
+`origin/main` 已同步，working tree clean。v1.1.3 現進入獨立的 Acceptance
+Closure；此狀態不代表 production implementation 或 formal acceptance。
+
+``` text
+v1.1.3 governing contract PR #170 --- Merged
+Governing merge --- 5f63bd3dc438ba1ea5e10b8225c761964c1819bc
+main synchronization --- Completed
+Acceptance record and automation --- Added
+Governing required CI evidence --- Pending confirmation
+Acceptance-state focused suite --- 84 passed
+Acceptance-state full regression --- 1533 passed, 11 skipped, 1 deselected
+Acceptance-state execution time --- 11.00s
+Acceptance-state failures / errors --- 0
+Acceptance-state pre-commit --- Passed
+Acceptance-state required coverage evidence --- Pending confirmation
+Acceptance-state git diff --check --- Pending confirmation
+Acceptance PR / CI / merge --- Pending
+Post-merge consistency --- Pending
+Terminal documentation alignment --- Pending
+Marketplace CLI Contract Acceptance --- Not Accepted
+Marketplace CLI Implementation --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- confirm remaining evidence, then create v1.1.3 acceptance PR
 ```
 
 Remote Marketplace、automatic activation、signing/trust、dependency

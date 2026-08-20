@@ -77,6 +77,31 @@
 -   Kept acceptance-state execution, acceptance PR/CI/merge, main
     synchronization, post-merge consistency, terminal alignment, and Formal
     v1.1 CLI Public Contract Acceptance Pending / Not Accepted.
+-   Completed acceptance-state focused verification with `48 passed` and full
+    regression with `2008 passed, 32 skipped, 1 deselected in 22.37s`; the
+    required 67.0% coverage gate, `git diff --check`, and pre-commit passed.
+-   Verified acceptance PR #168 passed required CI run `32362619408` and
+    squash merged as `044e80ae39b01b5006663e44ea4db0f4a98a8482`.
+-   Kept main synchronization, post-merge consistency, terminal alignment,
+    and Formal v1.1 CLI Public Contract Acceptance Pending / Not Accepted
+    until synchronized-main evidence is supplied.
+-   Synchronized local `main` with `origin/main` at
+    `044e80ae39b01b5006663e44ea4db0f4a98a8482`, confirmed a clean working tree,
+    and preserved the immutable `v1.0.0` tag target at
+    `d469b41b898d80811a14a423d08b09d0b51bc189`.
+-   Advanced the remaining closure gate to post-merge focused and local
+    consistency verification; terminal alignment remains Pending.
+-   Verified the synchronized-main post-merge focused CLI acceptance suite
+    with `48 passed in 0.22s`; post-merge local quality and clean-tree gates
+    remain Pending.
+-   Verified final post-merge `git diff --check`, pre-commit, pytest hook, and
+    clean-working-tree consistency passed on synchronized `main`.
+-   Completed terminal documentation alignment and marked `v1.1.2 CLI Public
+    Contract Design --- Accepted` and `Formal v1.1 CLI Public Contract
+    Acceptance --- Accepted` while preserving `Formal v1.1 Acceptance --- Not
+    Accepted`.
+-   Moved the next active slice to `v1.1.3 Marketplace CLI Contract`; no
+    Marketplace CLI or AI CLI implementation was introduced by acceptance.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

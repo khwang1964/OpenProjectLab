@@ -31,6 +31,11 @@ def _read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _normalized(text: str) -> str:
+    """Collapse Markdown wrapping so contract checks remain semantic."""
+    return " ".join(text.split())
+
+
 def _command_choices() -> frozenset[str]:
     parser = build_parser()
 
@@ -42,15 +47,15 @@ def _command_choices() -> frozenset[str]:
     raise AssertionError("CLI subcommand registry was not found")
 
 
-def test_v1_1_cli_design_exists_and_remains_pre_acceptance() -> None:
+def test_v1_1_cli_design_is_formally_accepted() -> None:
     design = _read(DESIGN)
 
     assert "# OpenProjectLab v1.1 CLI Public Contract Design" in design
-    assert "**Status:** Proposed" in design
+    assert "**Status:** Accepted" in design
     assert "v1.1.2 --- CLI Public Contract Design" in design
     assert "**Marketplace CLI:** Not Started" in design
     assert "**AI CLI:** Not Started" in design
-    assert "**Formal v1.1 CLI Public Contract Acceptance:** Not Accepted" in design
+    assert "**Formal v1.1 CLI Public Contract Acceptance:** Accepted" in design
     assert "**Formal v1.1 Acceptance:** Not Accepted" in design
 
 
@@ -87,23 +92,24 @@ def test_v1_1_design_keeps_cli_evolution_additive_and_deprecation_governed() -> 
 
 def test_v1_1_design_does_not_overclaim_exit_or_json_contracts() -> None:
     design = _read(DESIGN)
+    prose = _normalized(design)
 
     assert "| `0` | Successful reviewed operation | Stable |" in design
     assert "| `2` | argparse usage failure" in design
-    assert "No finer taxonomy is claimed" in design
-    assert "does not claim a production `--json` option" in design
-    assert "Exact human-readable error text" in design
-    assert "is not Stable unless a later contract explicitly freezes it" in design
+    assert "No finer taxonomy is claimed" in prose
+    assert "does not claim a production `--json` option" in prose
+    assert "Exact human-readable error text is not Stable" in prose
 
 
 def test_v1_1_design_defines_stream_and_failure_before_side_effect_rules() -> None:
     design = _read(DESIGN)
+    prose = _normalized(design)
 
-    assert "successful human-readable results are written to stdout" in design
-    assert "diagnostics and handled operational errors are written to stderr" in design
-    assert "before irreversible\nside effects" in design
-    assert "must not leave partial Marketplace installation" in design
-    assert "without production filesystem mutation" in design
+    assert "successful human-readable results are written to stdout" in prose
+    assert "diagnostics and handled operational errors are written to stderr" in prose
+    assert "before irreversible side effects" in prose
+    assert "must not leave partial Marketplace installation" in prose
+    assert "without production filesystem mutation" in prose
 
 
 def test_v1_1_marketplace_boundary_remains_local_and_non_activating() -> None:
@@ -122,13 +128,14 @@ def test_v1_1_marketplace_boundary_remains_local_and_non_activating() -> None:
 
 def test_v1_1_ai_boundary_remains_provider_independent_and_offline_testable() -> None:
     design = _read(DESIGN)
+    prose = _normalized(design)
 
-    assert "provider-independent request" in design
-    assert "credential-free" in design
-    assert "network-independent" in design
-    assert "fake-provider boundary" in design
-    assert "Live-provider use\nremains Experimental and opt-in" in design
-    assert "streaming, and tool calling must not leak" in design
+    assert "provider-independent request" in prose
+    assert "credential-free" in prose
+    assert "network-independent" in prose
+    assert "fake-provider boundary" in prose
+    assert "Live-provider use remains Experimental and opt-in" in prose
+    assert "streaming, and tool calling must not leak" in prose
 
 
 def test_v1_1_design_requires_bilingual_and_artifact_backed_acceptance() -> None:

@@ -1997,6 +1997,45 @@ synchronization、post-merge consistency 與 terminal documentation alignment
 仍為 Pending；Formal v1.1 CLI Public Contract Acceptance 與 Formal v1.1
 Acceptance 均保持 `Not Accepted`。
 
+Acceptance-state focused suite 隨後以 `48 passed` 完成；full regression 為
+`2008 passed, 32 skipped, 1 deselected in 22.37s`，required 67.0% coverage
+gate、`git diff --check` 與 pre-commit 均通過。Acceptance PR #168 required
+CI run `32362619408` 成功，並於 2026-08-20T11:13:17Z squash merge 為：
+
+``` text
+044e80ae39b01b5006663e44ea4db0f4a98a8482
+```
+
+此時仍須同步 `main`、完成 post-merge focused/quality consistency 與 clean
+working-tree verification，之後才能執行 terminal documentation alignment。
+因此 Formal v1.1 CLI Public Contract Acceptance 目前仍為 `Not Accepted`。
+
+Local `main` 隨後與 `origin/main` 同步至 acceptance merge
+`044e80ae39b01b5006663e44ea4db0f4a98a8482`，working tree clean；已發布
+`v1.0.0` tag target 仍為
+`d469b41b898d80811a14a423d08b09d0b51bc189`。Main synchronization gate 已
+完成，剩餘 gate 為 post-merge focused/local consistency 與 terminal
+documentation alignment。
+
+Synchronized-main post-merge focused CLI acceptance suite 隨後以
+`48 passed in 0.22s` 通過。Post-merge local quality gates 與最終 clean-tree
+consistency 尚待確認，因此 terminal Accepted alignment 仍未開始。
+
+最終 `git diff --check`、pre-commit、pytest hook 與 clean working tree 均
+通過，完成 post-merge consistency 與 terminal documentation alignment。
+v1.1.2 terminal state 為：
+
+``` text
+v1.1.2 CLI Public Contract Design --- Accepted
+Formal v1.1 CLI Public Contract Acceptance --- Accepted
+Marketplace CLI Contract --- Not Started
+Marketplace CLI Implementation --- Not Started
+AI CLI Contract --- Not Started
+AI CLI Implementation --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.3 Marketplace CLI Contract
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

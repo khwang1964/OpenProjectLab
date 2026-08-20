@@ -102,6 +102,28 @@
     Accepted`.
 -   Moved the next active slice to `v1.1.3 Marketplace CLI Contract`; no
     Marketplace CLI or AI CLI implementation was introduced by acceptance.
+-   Added `docs/releases/v1.1-marketplace-cli-contract.md` as the governing
+    v1.1.3 design for deterministic local catalog discovery, exact artifact
+    inspection, payload verification, and non-activating installation.
+-   Added `tests/integration/test_v1_1_marketplace_cli_contract.py` as
+    fail-closed contract automation that prevents premature production parser
+    registration or implementation claims.
+-   Defined the proposed `opl marketplace versions`, `inspect`, `verify`, and
+    `install` command surface while explicitly excluding a fabricated global
+    `list` operation from the existing repository contract.
+-   Preserved local-only catalog and payload resolution, exact coordinates,
+    SHA-256 integrity verification, failure-before-side-effect behavior,
+    non-persistent installation, and explicit `--dry-run` and `--json`
+    boundaries.
+-   Kept remote Marketplace access, activation, dependency resolution,
+    publisher trust/signing, ratings/reviews, and monetization Deferred.
+-   Verified the focused Marketplace contract suite with `35 passed`, all
+    pre-commit hooks, and the full regression suite with `2018 passed, 32
+    skipped, 1 deselected in 23.05s`.
+-   Recorded `v1.1.3 Marketplace CLI Contract --- In Progress`, `Marketplace
+    CLI Contract --- Not Accepted`, `Marketplace CLI Implementation --- Not
+    Started`, and `Formal v1.1 Acceptance --- Not Accepted`; governing PR, CI,
+    merge, synchronization, and post-merge evidence remain Pending.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

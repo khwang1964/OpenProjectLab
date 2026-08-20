@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 import re
-import tomllib
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
-PYPROJECT = REPO_ROOT / "pyproject.toml"
 ROADMAP = REPO_ROOT / "docs" / "roadmap.md"
 HISTORY = REPO_ROOT / "docs" / "HISTORY.md"
 CHANGELOG = REPO_ROOT / "CHANGELOG.md"
@@ -62,23 +60,16 @@ def _normalized(path: Path) -> str:
     return " ".join(_read(path).split())
 
 
-def _project() -> dict[str, object]:
-    parsed = tomllib.loads(_read(PYPROJECT))
-    project = parsed["project"]
-    assert isinstance(project, dict)
-    return project
-
-
 def test_formal_rc_acceptance_record_exists() -> None:
     assert GOVERNING.is_file()
     assert PUBLICATION.is_file()
     assert RECORD.is_file()
 
 
-def test_formal_rc_acceptance_record_keeps_canonical_identity() -> None:
+def test_formal_rc_acceptance_record_keeps_historical_rc_identity() -> None:
+    """Accepted RC evidence must remain historical after the repository enters GA."""
     record = _read(RECORD)
 
-    assert _project()["version"] == EXPECTED_VERSION
     assert EXPECTED_VERSION in record
     assert EXPECTED_TAG in record
 

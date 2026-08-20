@@ -20,12 +20,10 @@ from generator.release.artifacts import (
 from generator.release.identity import (
     ReleaseIdentity,
     expected_release_tag,
-    read_canonical_version,
     validate_release_identity,
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PYPROJECT_PATH = REPO_ROOT / "pyproject.toml"
 DESIGN_PATH = REPO_ROOT / "docs" / "releases" / "v1.0-rc-build-artifact-identity.md"
 
 EXPECTED_PROJECT = "openprojectlab"
@@ -58,9 +56,12 @@ def test_rc_build_artifact_identity_design_exists() -> None:
     assert DESIGN_PATH.is_file()
 
 
-def test_canonical_repository_version_is_first_rc_package_version() -> None:
-    """The reviewable repository version must identify the first RC."""
-    assert read_canonical_version(PYPROJECT_PATH) == EXPECTED_PACKAGE_VERSION
+def test_rc_design_records_first_rc_package_version() -> None:
+    """Historical RC design must preserve the first RC package identity."""
+    design = DESIGN_PATH.read_text(encoding="utf-8")
+
+    assert EXPECTED_PACKAGE_VERSION in design
+    assert EXPECTED_RC_TAG in design
 
 
 def test_first_rc_package_version_maps_to_human_facing_rc_tag() -> None:

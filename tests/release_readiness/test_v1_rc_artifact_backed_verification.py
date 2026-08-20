@@ -5,13 +5,11 @@ from __future__ import annotations
 import hashlib
 import os
 import re
-import tomllib
 from pathlib import Path
 
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-PYPROJECT = REPO_ROOT / "pyproject.toml"
 DESIGN = REPO_ROOT / "docs" / "releases" / "v1.0-rc-artifact-backed-verification.md"
 
 EXPECTED_PROJECT = "openprojectlab"
@@ -79,20 +77,27 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _require_rc_artifact_context() -> None:
+    """Skip historical RC artifact checks when env vars point at another release."""
+    raw_wheel = os.environ.get(WHEEL_ENV)
+    if not raw_wheel:
+        pytest.skip(f"{WHEEL_ENV} is not set; the RC artifact gate supplies this input")
+
+    wheel = Path(raw_wheel).expanduser().resolve()
+    if wheel.name != "openprojectlab-1.0.0rc1-py3-none-any.whl":
+        pytest.skip(f"Configured artifact inputs are not RC evidence; got {wheel.name!r}")
+
+
 def test_rc_artifact_backed_governing_design_exists() -> None:
     """Step 8.10.5 must have an explicit governing design."""
     assert DESIGN.is_file()
 
 
 def test_rc_artifact_backed_contract_keeps_expected_identity() -> None:
-    """The RC artifact gate must remain bound to the first RC identity."""
-    project = tomllib.loads(_read(PYPROJECT))["project"]
-
-    assert isinstance(project, dict)
-    assert project["name"] == EXPECTED_PROJECT
-    assert project["version"] == EXPECTED_VERSION
-
+    """Historical RC evidence must remain bound to the first RC identity."""
     design = _read(DESIGN)
+
+    assert EXPECTED_PROJECT in design.lower()
     assert EXPECTED_VERSION in design
     assert EXPECTED_RC_TAG in design
 
@@ -132,6 +137,7 @@ def test_contract_remains_prepublication() -> None:
 
 def test_configured_rc_wheel_belongs_to_configured_dist_directory() -> None:
     """The installed wheel must be one exact artifact from the RC build set."""
+    _require_rc_artifact_context()
     wheel = _required_path(WHEEL_ENV)
     dist = _required_path(DIST_ENV, directory=True)
 
@@ -141,6 +147,7 @@ def test_configured_rc_wheel_belongs_to_configured_dist_directory() -> None:
 
 def test_configured_dist_contains_exact_current_rc_distributions() -> None:
     """The RC dist directory must expose one current wheel and one current sdist."""
+    _require_rc_artifact_context()
     dist = _required_path(DIST_ENV, directory=True)
 
     distributions = sorted(
@@ -157,6 +164,7 @@ def test_configured_dist_contains_exact_current_rc_distributions() -> None:
 
 def test_configured_checksum_manifest_matches_exact_rc_artifact_bytes() -> None:
     """The configured manifest must bind the exact current wheel and sdist bytes."""
+    _require_rc_artifact_context()
     dist = _required_path(DIST_ENV, directory=True)
     recorded = _manifest()
 
@@ -181,6 +189,7 @@ def test_configured_checksum_manifest_matches_exact_rc_artifact_bytes() -> None:
 
 def test_configured_release_source_sha_is_full_immutable_identity() -> None:
     """The artifact-backed gate requires one full immutable source SHA."""
+    _require_rc_artifact_context()
     commit_sha = os.environ.get(COMMIT_ENV)
     if not commit_sha:
         pytest.skip(f"{COMMIT_ENV} is not set; the RC artifact gate supplies this input")

@@ -26,8 +26,10 @@ TERMINAL_DOCUMENTS = (
 )
 
 REQUIRED_CLOSURE_GATES = (
-    "GA.8 acceptance PR --- Merged",
-    "GA.8 PR required CI --- Passed",
+    "GA.8 acceptance record and automation --- Completed",
+    "GA.8 local contract / consistency tests --- Passed",
+    "GA.8 acceptance PR required CI --- Passed",
+    "GA.8 acceptance squash merge --- Completed",
     "main synchronized with origin/main --- Passed",
     "post-merge consistency verification --- Passed",
     "terminal documentation alignment --- Completed",
@@ -69,19 +71,17 @@ def test_ga_8_records_exact_stable_publication_identity() -> None:
     assert FULL_SHA_RE.fullmatch(EXPECTED_PUBLICATION_COMMIT)
 
 
-def test_ga_1_through_ga_7_are_completed_and_ga_8_is_in_progress() -> None:
+def test_ga_1_through_ga_8_are_completed() -> None:
     normalized = _normalized()
 
-    for step in range(1, 8):
+    for step in range(1, 9):
         assert f"GA.{step} --- Completed" in normalized
 
-    assert "GA.8 --- In Progress" in normalized
 
-
-def test_ga_8_does_not_preaccept_formal_ga() -> None:
+def test_ga_8_records_terminal_formal_ga_acceptance() -> None:
     document = _read()
 
-    assert _metadata_value(document, "Formal v1.0.0 GA Acceptance") == "Not Accepted"
+    assert _metadata_value(document, "Formal v1.0.0 GA Acceptance") == "Accepted"
 
     current_state = document.split("## 14. Current State", maxsplit=1)[1]
     current_state = current_state.split(
@@ -89,7 +89,8 @@ def test_ga_8_does_not_preaccept_formal_ga() -> None:
         maxsplit=1,
     )[0]
 
-    assert "Formal v1.0.0 GA Acceptance --- Not Accepted" in current_state
+    assert "GA.8 --- Completed" in current_state
+    assert "Formal v1.0.0 GA Acceptance --- Accepted" in current_state
 
 
 def test_ga_8_retains_ga_4_artifact_backed_evidence() -> None:
@@ -155,21 +156,21 @@ def test_ga_8_declares_terminal_documentation_scope() -> None:
         assert relative_path in normalized
 
 
-def test_ga_8_terminal_acceptance_is_only_a_future_transition() -> None:
-    document = _read()
+def test_ga_8_terminal_acceptance_transition_has_occurred() -> None:
     normalized = _normalized()
 
-    assert "This section describes the allowed future transition" in document
-    assert "it does not assert that the transition has already occurred" in normalized
-    assert "Only after every GA.8 closure gate passes" in normalized
+    assert "The allowed transition has now occurred" in normalized
+    assert "GA.8 --- Completed" in normalized
     assert "Formal v1.0.0 GA Acceptance --- Accepted" in normalized
+    assert "does not mutate the already-published GA release identity" in normalized
 
 
-def test_ga_8_is_fail_closed_on_unresolved_closure() -> None:
+def test_ga_8_fail_closed_policy_is_retained_as_historical_safety_contract() -> None:
     normalized = _normalized()
 
-    assert "Formal GA Acceptance must remain `Not Accepted`" in normalized
+    assert "GA.8 remained fail-closed until every required closure gate completed" in normalized
     assert "acceptance PR not merged" in normalized
     assert "required PR CI not green" in normalized
     assert "post-merge consistency test failure" in normalized
     assert "unresolved acceptance closure marker" in normalized
+    assert "All required blockers have now been resolved" in normalized

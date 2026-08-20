@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import re
+import tomllib
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
+PYPROJECT = REPO_ROOT / "pyproject.toml"
 ROADMAP = REPO_ROOT / "docs" / "roadmap.md"
 HISTORY = REPO_ROOT / "docs" / "HISTORY.md"
 CHANGELOG = REPO_ROOT / "CHANGELOG.md"
@@ -60,6 +62,13 @@ def _normalized(path: Path) -> str:
     return " ".join(_read(path).split())
 
 
+def _project() -> dict[str, object]:
+    parsed = tomllib.loads(_read(PYPROJECT))
+    project = parsed["project"]
+    assert isinstance(project, dict)
+    return project
+
+
 def test_formal_rc_acceptance_record_exists() -> None:
     assert GOVERNING.is_file()
     assert PUBLICATION.is_file()
@@ -67,9 +76,13 @@ def test_formal_rc_acceptance_record_exists() -> None:
 
 
 def test_formal_rc_acceptance_record_keeps_historical_rc_identity() -> None:
-    """Accepted RC evidence must remain historical after the repository enters GA."""
+    """The RC record remains immutable even after the repository advances to GA."""
     record = _read(RECORD)
 
+    # Current repository state may advance beyond the accepted RC.
+    assert _project()["version"] == "1.0.0"
+
+    # Historical RC acceptance evidence must remain unchanged.
     assert EXPECTED_VERSION in record
     assert EXPECTED_TAG in record
 
@@ -180,18 +193,23 @@ def test_history_and_changelog_record_terminal_rc_acceptance() -> None:
     assert "d37a3d84161e66e98ebbff2aafaf1a14e27f865c" in changelog
 
 
-def test_terminal_rc_acceptance_keeps_ga_unaccepted_everywhere() -> None:
+def test_terminal_rc_acceptance_preserves_historical_ga_boundary() -> None:
+    """RC acceptance must not itself pre-accept GA, even though GA may later close."""
+    record = _read(RECORD)
     history = _read(HISTORY)
     changelog = _read(CHANGELOG)
     roadmap = _read(ROADMAP)
 
-    assert "v1.0.0 GA Acceptance --- Not Accepted" in history
-    assert "`v1.0.0` GA Acceptance" in changelog
-    assert "Not Accepted" in changelog
-    assert "v1.0.0 GA Acceptance --- Not Accepted" in roadmap
-    assert "v1.0.0 GA Acceptance --- Accepted" not in history
-    assert "v1.0.0 GA Acceptance --- Accepted" not in changelog
-    assert "v1.0.0 GA Acceptance --- Accepted" not in roadmap
+    # The RC acceptance record must preserve the historical boundary that
+    # v1.0.0 GA was not accepted as part of Step 8.10.
+    assert "v1.0.0 GA Acceptance --- Not Accepted" in record
+
+    # Later GA.8 terminal closure is allowed to move the current project state
+    # to Accepted without rewriting the historical RC acceptance record.
+    assert "Formal v1.0.0 GA Acceptance --- Accepted" in history
+    assert "Formal `v1.0.0` GA Acceptance" in changelog
+    assert "Accepted" in changelog
+    assert "Formal v1.0.0 GA Acceptance --- Accepted" in roadmap
 
 
 def test_acceptance_merge_does_not_replace_published_rc_source_identity() -> None:

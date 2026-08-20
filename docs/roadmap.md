@@ -1,6 +1,6 @@
 # OpenProjectLab Roadmap
 
-> Status: Active Last Updated: 2026-08-19
+> Status: Active Last Updated: 2026-08-20
 
 ------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **v1.0.0 GA Acceptance in progress — GA.8 Formal GA Acceptance / Post-merge active**
+> **v1.0.0 GA Accepted — stable release lifecycle completed**
 
 ------------------------------------------------------------------------
 
@@ -1612,7 +1612,7 @@ GA.4  GA Artifact-backed Verification                 Completed
 GA.5  Full Regression / Local Quality Gates           Completed
 GA.6  GitHub Actions / CI                             Completed
 GA.7  GA Creation / Publication Identity              Completed
-GA.8  Formal GA Acceptance / Post-merge               In Progress
+GA.8  Formal GA Acceptance / Post-merge               Completed
 ```
 
 GA.3 established the stable package identity:
@@ -1656,7 +1656,7 @@ Current release boundary:
 v1.0.0 tag --- Published
 GA GitHub Release --- Published stable / non-prerelease
 GA.7 publication identity --- Completed
-Formal v1.0.0 GA Acceptance --- Not Accepted
+Formal v1.0.0 GA Acceptance --- Accepted
 ```
 
 GA.5 Full Regression / Local Quality Gates is complete. Fresh completion-state
@@ -1681,12 +1681,31 @@ GA.7 GA Creation / Publication Identity completed with stable `v1.0.0`,
 draft-first non-prerelease GitHub Release validation, stable publication, and
 post-publication identity re-read.
 
-GA.8 Formal GA Acceptance / Post-merge is now active. Its pre-acceptance
-contract suite passes with `43 passed`, but Formal GA Acceptance remains
-`Not Accepted` until acceptance PR/CI/merge/main-sync/post-merge consistency
-and terminal documentation alignment complete.
+GA.8 Formal GA Acceptance / Post-merge completed after the pre-acceptance
+contract suite passed with `43 passed`, required CI passed, the acceptance
+change was squash merged, and synchronized `main` reached:
 
-**Status:** In Progress
+``` text
+HEAD == origin/main == d13382c359873c2a9eb8fb9cf6d39e32636d5fc1
+```
+
+Final post-merge verification:
+
+``` text
+2004 passed, 4 skipped, 1 deselected
+Failures / errors --- 0
+Coverage --- 90.90%
+Required coverage --- 67.0% --- Passed
+pre-commit --- Passed
+Post-merge consistency verification --- Completed
+```
+
+The four skips are historical RC artifact-backed checks rejecting the GA wheel
+and are not GA-required skips.
+
+Formal `v1.0.0` GA Acceptance is now **Accepted**.
+
+**Status:** Accepted
 
 ## Milestone 8 Deferred / v1.1+ Candidates
 

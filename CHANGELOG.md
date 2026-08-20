@@ -528,6 +528,14 @@
 -   Started GA.8 Formal GA Acceptance / Post-merge with an acceptance record
     and fail-closed contract automation; Formal `v1.0.0` GA Acceptance
     remains Not Accepted until PR/CI/merge/main-sync/post-merge closure.
+-   Completed GA.8 Formal GA Acceptance / Post-merge after required CI,
+    squash merge, synchronized `main`, clean-working-tree verification,
+    post-merge regression, local quality gates, and terminal documentation
+    alignment all passed.
+-   Recorded the GA.8 acceptance merge / terminal-main SHA as
+    `d13382c359873c2a9eb8fb9cf6d39e32636d5fc1`.
+-   Formally accepted OpenProjectLab `v1.0.0` GA while preserving the
+    immutable published `v1.0.0` tag and artifact source identity.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -900,6 +908,16 @@
 -   Kept Formal `v1.0.0` GA Acceptance at `Not Accepted` pending GA.8
     acceptance PR, required CI, squash merge, synchronized main, post-merge
     consistency, and terminal documentation alignment.
+-   Verified GA.8 post-merge `HEAD == origin/main ==
+    d13382c359873c2a9eb8fb9cf6d39e32636d5fc1`.
+-   Recorded final GA.8 post-merge full-regression evidence:
+    `2004 passed, 4 skipped, 1 deselected`, zero failures, and 90.90%
+    coverage against the required 67.0% gate.
+-   Verified the four skips remain historical RC artifact-backed checks
+    rejecting the configured GA wheel and are not GA-required skips.
+-   Verified final pre-commit and repository consistency gates passed.
+-   Marked GA.8 as Completed and Formal `v1.0.0` GA Acceptance as
+    `Accepted`.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

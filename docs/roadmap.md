@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **Milestone 8 --- RC Acceptance completed; next gate: v1.0.0 GA Acceptance**
+> **v1.0.0 GA Acceptance in progress — GA.6 GitHub Actions / CI active**
 
 ------------------------------------------------------------------------
 
@@ -1595,6 +1595,88 @@ v1.0.0 GA
 ```
 
 **Status:** Accepted
+
+
+## v1.0.0 GA Acceptance 🚧
+
+The independent GA acceptance lifecycle is now active after accepted
+`v1.0.0-rc.1`.
+
+Current delivery sequence:
+
+``` text
+GA.1  GA Acceptance Baseline / RC Evidence Review     Completed
+GA.2  GA Acceptance Contract + Automation             Completed
+GA.3  GA Version / Artifact Identity                  Completed
+GA.4  GA Artifact-backed Verification                 Completed
+GA.5  Full Regression / Local Quality Gates           Completed
+GA.6  GitHub Actions / CI                             In Progress
+GA.7  GA Creation / Publication Identity              Planned
+GA.8  Formal GA Acceptance / Post-merge               Planned
+```
+
+GA.3 established the stable package identity:
+
+``` text
+Package version --- 1.0.0
+GA tag mapping --- v1.0.0
+```
+
+GA.4 completion evidence:
+
+``` text
+Focused artifact-backed suite --- 30 passed
+Required GA artifact-backed skips --- 0
+Installed distribution version --- 1.0.0
+Source-checkout isolation --- Passed
+Installed opl entry point --- Passed
+Runtime resources --- Passed
+First 15 Minutes --- Passed
+Representative installed-user E2E --- Passed
+Integrated package / release identity --- Passed
+Checksum manifest verification --- Passed
+```
+
+GA.5 fresh full-regression evidence:
+
+``` text
+1980 passed, 4 skipped, 1 deselected
+Failures / errors --- 0
+Coverage --- 90.90%
+Required coverage --- 67.0% --- Passed
+```
+
+The four skips are historical RC artifact-backed tests that correctly refuse
+to interpret the configured GA wheel as RC evidence. They are not GA required
+artifact-backed skips.
+
+Current release boundary:
+
+``` text
+v1.0.0 tag --- Not Created
+GA GitHub Release --- Not Created
+Formal v1.0.0 GA Acceptance --- Not Accepted
+```
+
+GA.5 Full Regression / Local Quality Gates is complete. Fresh completion-state
+evidence includes:
+
+``` text
+Full regression --- 1980 passed, 4 skipped, 1 deselected
+Failures / errors --- 0
+Coverage --- 90.90%
+Required coverage --- 67.0% --- Passed
+Required GA artifact-backed skips --- 0
+git diff --check --- Passed
+Ruff --- Passed
+Ruff Format --- Passed
+pre-commit --- Passed
+```
+
+GA.6 GitHub Actions / CI is now active. GA.6 must verify the required CI jobs
+before GA.7 GA Creation / Publication Identity may begin.
+
+**Status:** In Progress
 
 ## Milestone 8 Deferred / v1.1+ Candidates
 

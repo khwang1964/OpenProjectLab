@@ -1771,18 +1771,53 @@ Ruff Format --- Passed
 pre-commit --- Passed
 ```
 
-因此 **GA.5 --- Full Regression / Local Quality Gates 已完成**。GA
-Acceptance lifecycle 現在正式進入 **GA.6 --- GitHub Actions / CI**。
+因此 **GA.5 --- Full Regression / Local Quality Gates 已完成**。
 
-目前 release boundary 維持：
+GA.6 GitHub Actions / CI 隨後完成，required jobs 均通過：
 
 ``` text
-v1.0.0 tag --- Not Created
-GA GitHub Release --- Not Created
+Quality checks --- Passed
+Packaging artifact verification --- Passed
+```
+
+GA.7 GA Creation / Publication Identity 亦已完成。Stable publication identity：
+
+``` text
+Canonical package version --- 1.0.0
+Published tag --- v1.0.0
+GitHub Release draft --- false
+GitHub Release prerelease --- false
+Draft-first verification --- Passed
+Post-publication identity re-read --- Passed
+```
+
+Published stable identity 與 historical RC identity 保持分離；既有
+`v1.0.0-rc.1` 不被 retarget 或改寫。
+
+GA.8 Formal GA Acceptance / Post-merge 現已啟動，新增 acceptance record 與
+fail-closed automation。GA.8 pre-acceptance contract suite：
+
+``` text
+43 passed
+```
+
+目前狀態：
+
+``` text
+GA.1 --- Completed
+GA.2 --- Completed
+GA.3 --- Completed
+GA.4 --- Completed
+GA.5 --- Completed
+GA.6 --- Completed
+GA.7 --- Completed
+GA.8 --- In Progress
 Formal v1.0.0 GA Acceptance --- Not Accepted
 ```
 
-GA.6 通過前不得進入 GA.7 GA Creation / Publication Identity。
+正式 `Accepted` 仍需 GA.8 acceptance PR、required CI、squash merge、
+synchronized main、post-merge consistency verification 與 terminal
+documentation alignment 全部完成後才能進行。
 
 ------------------------------------------------------------------------
 

@@ -61,7 +61,7 @@ CI: Passed
 
 目前焦點：
 
-> **v1.0.0 GA Acceptance in progress — GA.6 GitHub Actions / CI active**
+> **v1.0.0 GA Acceptance in progress — GA.8 Formal GA Acceptance / Post-merge active**
 
 ------------------------------------------------------------------------
 
@@ -1610,9 +1610,9 @@ GA.2  GA Acceptance Contract + Automation             Completed
 GA.3  GA Version / Artifact Identity                  Completed
 GA.4  GA Artifact-backed Verification                 Completed
 GA.5  Full Regression / Local Quality Gates           Completed
-GA.6  GitHub Actions / CI                             In Progress
-GA.7  GA Creation / Publication Identity              Planned
-GA.8  Formal GA Acceptance / Post-merge               Planned
+GA.6  GitHub Actions / CI                             Completed
+GA.7  GA Creation / Publication Identity              Completed
+GA.8  Formal GA Acceptance / Post-merge               In Progress
 ```
 
 GA.3 established the stable package identity:
@@ -1653,8 +1653,9 @@ artifact-backed skips.
 Current release boundary:
 
 ``` text
-v1.0.0 tag --- Not Created
-GA GitHub Release --- Not Created
+v1.0.0 tag --- Published
+GA GitHub Release --- Published stable / non-prerelease
+GA.7 publication identity --- Completed
 Formal v1.0.0 GA Acceptance --- Not Accepted
 ```
 
@@ -1673,8 +1674,17 @@ Ruff Format --- Passed
 pre-commit --- Passed
 ```
 
-GA.6 GitHub Actions / CI is now active. GA.6 must verify the required CI jobs
-before GA.7 GA Creation / Publication Identity may begin.
+GA.6 GitHub Actions / CI completed with the required Quality checks and
+Packaging artifact verification jobs passing.
+
+GA.7 GA Creation / Publication Identity completed with stable `v1.0.0`,
+draft-first non-prerelease GitHub Release validation, stable publication, and
+post-publication identity re-read.
+
+GA.8 Formal GA Acceptance / Post-merge is now active. Its pre-acceptance
+contract suite passes with `43 passed`, but Formal GA Acceptance remains
+`Not Accepted` until acceptance PR/CI/merge/main-sync/post-merge consistency
+and terminal documentation alignment complete.
 
 **Status:** In Progress
 

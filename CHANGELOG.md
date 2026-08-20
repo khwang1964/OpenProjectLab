@@ -49,6 +49,25 @@
     Accepted`.
 -   Moved the next active slice to `v1.1.2 CLI Public Contract Design` without
     introducing product implementation.
+-   Added `docs/releases/v1.1-cli-public-contract.md` as the governing v1.1.2
+    design for additive command families, v1.0 CLI compatibility, exit and
+    stream behavior, machine-readable output, and failure-before-side-effect
+    boundaries.
+-   Added `tests/integration/test_v1_1_cli_public_contract.py` as fail-closed
+    design automation preserving the reviewed v1 command inventory while
+    preventing premature `marketplace` or `ai` production registration.
+-   Defined `opl marketplace ...` and `opl ai ...` only as reserved command
+    families for their dedicated later contract slices; both implementations
+    remain `Not Started`.
+-   Preserved the existing broad Stable exit behavior (`0` for success and `2`
+    for reviewed usage or handled operational failure) without claiming a
+    finer taxonomy, exact human-readable messages, or a production `--json`
+    contract.
+-   Verified the focused v1/v1.1 CLI public-contract suite with `40 passed`.
+-   Recorded `v1.1.2 CLI Public Contract Design --- In Progress`, `Formal v1.1
+    CLI Public Contract Acceptance --- Not Accepted`, and `Formal v1.1
+    Acceptance --- Not Accepted`; full regression, coverage, local quality
+    gates, PR, CI, merge, and post-merge evidence remain unrecorded until run.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

@@ -1982,6 +1982,21 @@ Formal v1.1 CLI Public Contract Acceptance --- Not Accepted
 Formal v1.1 Acceptance --- Not Accepted
 ```
 
+Governing design 隨後透過 PR #167 完成 reviewed integration。Required CI
+run `32360278259` 成功，PR #167 squash merge commit 為：
+
+``` text
+2727bba27a1438b949870f9dee7df4aa16d43244
+```
+
+此 merge 只完成 governing design，不等同 formal acceptance。專案接著建立
+`docs/releases/v1.1-cli-public-contract-acceptance.md` 與 fail-closed
+acceptance automation，開始 v1.1.2 acceptance closure。Acceptance-state
+focused/full-regression/quality execution、acceptance PR/CI/merge、main
+synchronization、post-merge consistency 與 terminal documentation alignment
+仍為 Pending；Formal v1.1 CLI Public Contract Acceptance 與 Formal v1.1
+Acceptance 均保持 `Not Accepted`。
+
 ------------------------------------------------------------------------
 
 # 我們的願景

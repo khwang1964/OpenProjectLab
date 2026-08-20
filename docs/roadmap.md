@@ -1735,6 +1735,7 @@ Governing contract：
 ``` text
 docs/releases/v1.1-planning-baseline.md
 docs/releases/v1.1-cli-public-contract.md
+docs/releases/v1.1-cli-public-contract-acceptance.md
 ```
 
 Planned delivery sequence：
@@ -1762,6 +1763,9 @@ v1.1.1 Planning Baseline --- Accepted
 Formal v1.1 Planning Baseline Acceptance --- Accepted
 v1.0 CLI Stable Surface --- Preserved
 v1.1.2 CLI Public Contract Design --- In Progress
+v1.1.2 governing design PR #167 --- Merged
+v1.1.2 governing CI --- Passed
+v1.1.2 Acceptance Closure --- In Progress
 Focused v1/v1.1 CLI public-contract suite --- 40 passed
 Formal v1.1 CLI Public Contract Acceptance --- Not Accepted
 Marketplace CLI Contract --- Not Started
@@ -1771,7 +1775,7 @@ AI CLI Implementation --- Not Started
 Marketplace CLI --- Not Started
 AI CLI --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
-Next gate --- Full regression / coverage and local quality gates
+Next gate --- Acceptance-state focused/full regression and local quality gates
 ```
 
 Remote Marketplace、automatic activation、signing/trust、dependency
@@ -1799,6 +1803,12 @@ failure-before-side-effect boundary。Focused v1/v1.1 CLI public-contract suite
 merge、main synchronization 或 post-merge evidence。
 
 **Status:** v1.1.2 CLI Public Contract Design In Progress
+
+PR #167 已通過 required CI run `32360278259`，並 squash merge 為
+`2727bba27a1438b949870f9dee7df4aa16d43244`。目前進入獨立的 v1.1.2
+acceptance closure；acceptance PR/CI/merge、main synchronization、post-merge
+consistency 與 terminal alignment 尚未完成，因此 Formal v1.1 CLI Public
+Contract Acceptance 仍為 `Not Accepted`。
 
 ------------------------------------------------------------------------
 

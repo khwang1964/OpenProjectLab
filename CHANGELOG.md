@@ -68,6 +68,15 @@
     CLI Public Contract Acceptance --- Not Accepted`, and `Formal v1.1
     Acceptance --- Not Accepted`; full regression, coverage, local quality
     gates, PR, CI, merge, and post-merge evidence remain unrecorded until run.
+-   Verified governing design PR #167 passed required CI and squash merged as
+    `2727bba27a1438b949870f9dee7df4aa16d43244` without registering the
+    reserved `marketplace` or `ai` command families.
+-   Added `docs/releases/v1.1-cli-public-contract-acceptance.md` and
+    `tests/integration/test_v1_1_cli_public_contract_acceptance.py` to start
+    fail-closed v1.1.2 acceptance closure.
+-   Kept acceptance-state execution, acceptance PR/CI/merge, main
+    synchronization, post-merge consistency, terminal alignment, and Formal
+    v1.1 CLI Public Contract Acceptance Pending / Not Accepted.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

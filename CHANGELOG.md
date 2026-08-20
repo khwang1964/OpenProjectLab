@@ -153,6 +153,12 @@
 -   Added `docs/releases/v1.0-ga-artifact-backed-verification.md` and
     `tests/release_readiness/test_v1_ga_artifact_backed_verification.py`
     as the GA.4 fail-closed artifact-backed coordination gate.
+-   Added `docs/releases/v1.0-ga-creation-publication-identity.md` and
+    `tests/release_readiness/test_v1_ga_creation_publication_identity.py`
+    for GA.7 stable tag / GitHub Release publication identity.
+-   Added `docs/releases/v1.0-ga-acceptance-record.md` and
+    `tests/release_readiness/test_v1_ga_formal_acceptance.py` for GA.8
+    fail-closed Formal GA Acceptance / Post-merge closure.
 
 #### Milestone 7 --- Marketplace
 
@@ -514,6 +520,14 @@
     and passing `git diff --check`, Ruff, Ruff Format, and pre-commit gates.
 -   Advanced the active GA gate to GA.6 GitHub Actions / CI while keeping
     `v1.0.0` tag creation, GA publication, and Formal GA Acceptance pending.
+-   Completed GA.6 GitHub Actions / CI with both required jobs passing.
+-   Completed GA.7 GA Creation / Publication Identity using stable
+    `v1.0.0`, with annotated tag target bound to the approved publication
+    commit, draft-first non-prerelease GitHub Release validation, stable
+    publication, and post-publication identity re-read.
+-   Started GA.8 Formal GA Acceptance / Post-merge with an acceptance record
+    and fail-closed contract automation; Formal `v1.0.0` GA Acceptance
+    remains Not Accepted until PR/CI/merge/main-sync/post-merge closure.
 
 -   Established the v1 compatibility rule: `1.0.x` for
     compatibility-preserving fixes, `1.x` for backward-compatible
@@ -878,6 +892,14 @@
     passed.
 -   Marked GA.5 Full Regression / Local Quality Gates as Completed and GA.6
     GitHub Actions / CI as In Progress.
+-   Verified GA.6 required GitHub Actions / CI jobs passed.
+-   Verified GA.7 stable publication identity for `v1.0.0`, including
+    draft-first validation, non-prerelease classification, exact stable asset
+    membership, and post-publication identity re-read.
+-   Verified GA.8 pre-acceptance contract suite passes with `43 passed`.
+-   Kept Formal `v1.0.0` GA Acceptance at `Not Accepted` pending GA.8
+    acceptance PR, required CI, squash merge, synchronized main, post-merge
+    consistency, and terminal documentation alignment.
 
 -   Verified PR #122 merged the v1.0 compatibility and deprecation
     governing policy.

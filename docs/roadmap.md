@@ -1742,7 +1742,7 @@ Planned delivery sequence：
 
 ``` text
 v1.1.1 Planning Baseline                         Accepted
-v1.1.2 CLI Public Contract Design                In Progress
+v1.1.2 CLI Public Contract Design                Accepted
 v1.1.3 Marketplace CLI Contract                  Not Started
 v1.1.4 Marketplace CLI Implementation            Not Started
 v1.1.5 AI CLI Contract                           Not Started
@@ -1762,12 +1762,27 @@ v1.1 acceptance PR #165 --- Merged
 v1.1.1 Planning Baseline --- Accepted
 Formal v1.1 Planning Baseline Acceptance --- Accepted
 v1.0 CLI Stable Surface --- Preserved
-v1.1.2 CLI Public Contract Design --- In Progress
+v1.1.2 CLI Public Contract Design --- Accepted
 v1.1.2 governing design PR #167 --- Merged
 v1.1.2 governing CI --- Passed
-v1.1.2 Acceptance Closure --- In Progress
+v1.1.2 Acceptance Closure --- Completed
+Acceptance-state focused suite --- 48 passed
+Acceptance-state full regression --- 2008 passed, 32 skipped, 1 deselected
+Required coverage --- 67.0% --- Passed
+Acceptance-state local quality gates --- Passed
+Acceptance PR #168 --- Merged
+Acceptance CI run 32362619408 --- Passed
+Acceptance merge --- 044e80ae39b01b5006663e44ea4db0f4a98a8482
+main synchronization --- Completed
+Synchronized main SHA --- 044e80ae39b01b5006663e44ea4db0f4a98a8482
+Working tree --- Clean
+v1.0.0 tag target --- d469b41b898d80811a14a423d08b09d0b51bc189
+Post-merge focused suite --- 48 passed in 0.22s
+Post-merge local quality gates --- Passed
+Post-merge consistency --- Completed
+Terminal documentation alignment --- Completed
 Focused v1/v1.1 CLI public-contract suite --- 40 passed
-Formal v1.1 CLI Public Contract Acceptance --- Not Accepted
+Formal v1.1 CLI Public Contract Acceptance --- Accepted
 Marketplace CLI Contract --- Not Started
 Marketplace CLI Implementation --- Not Started
 AI CLI Contract --- Not Started
@@ -1775,7 +1790,7 @@ AI CLI Implementation --- Not Started
 Marketplace CLI --- Not Started
 AI CLI --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
-Next gate --- Acceptance-state focused/full regression and local quality gates
+Next --- v1.1.3 Marketplace CLI Contract
 ```
 
 Remote Marketplace、automatic activation、signing/trust、dependency
@@ -1802,13 +1817,25 @@ failure-before-side-effect boundary。Focused v1/v1.1 CLI public-contract suite
 此結果不預先宣告 full regression、coverage、local quality gates、PR、CI、
 merge、main synchronization 或 post-merge evidence。
 
-**Status:** v1.1.2 CLI Public Contract Design In Progress
+**Status:** v1.1.2 CLI Public Contract Design Accepted
 
 PR #167 已通過 required CI run `32360278259`，並 squash merge 為
 `2727bba27a1438b949870f9dee7df4aa16d43244`。目前進入獨立的 v1.1.2
 acceptance closure；acceptance PR/CI/merge、main synchronization、post-merge
 consistency 與 terminal alignment 尚未完成，因此 Formal v1.1 CLI Public
 Contract Acceptance 仍為 `Not Accepted`。
+
+Acceptance-state focused/full-regression/local-quality gates 已通過。
+Acceptance PR #168 required CI run `32362619408` 通過，並 squash merge 為
+`044e80ae39b01b5006663e44ea4db0f4a98a8482`。Main synchronization、
+post-merge consistency 與 terminal alignment 仍為 Pending，因此 Formal
+v1.1 CLI Public Contract Acceptance 尚未 Accepted。
+
+Local `main` 與 `origin/main` 已同步至
+`044e80ae39b01b5006663e44ea4db0f4a98a8482`，working tree clean，且
+`v1.0.0` tag target 保持
+`d469b41b898d80811a14a423d08b09d0b51bc189`。下一個 gate 為 post-merge
+focused/local consistency verification。
 
 ------------------------------------------------------------------------
 

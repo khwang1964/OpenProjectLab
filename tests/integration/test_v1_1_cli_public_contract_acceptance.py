@@ -23,12 +23,12 @@ def _normalized(path: Path) -> str:
     return " ".join(_read(path).split())
 
 
-def test_acceptance_record_exists_and_remains_fail_closed() -> None:
+def test_acceptance_record_is_terminal_and_release_acceptance_stays_separate() -> None:
     record = _read(ACCEPTANCE)
 
     assert "# OpenProjectLab v1.1 CLI Public Contract Acceptance" in record
-    assert "**Status:** Acceptance Closure --- In Progress" in record
-    assert "**Formal v1.1 CLI Public Contract Acceptance:** Not Accepted" in record
+    assert "**Status:** Accepted" in record
+    assert "**Formal v1.1 CLI Public Contract Acceptance:** Accepted" in record
     assert "**Formal v1.1 Acceptance:** Not Accepted" in record
 
 
@@ -51,18 +51,27 @@ def test_acceptance_records_only_available_local_evidence() -> None:
     assert "pre-commit --- Passed" in record
 
 
-def test_acceptance_keeps_unresolved_closure_gates_pending() -> None:
+def test_acceptance_records_all_closure_gates_completed() -> None:
     record = _read(ACCEPTANCE)
 
     for gate in (
-        "Acceptance-state focused suite --- Pending local execution",
-        "Acceptance-state full regression / coverage --- Pending local execution",
-        "Acceptance-state local quality gates --- Pending local execution",
-        "Acceptance PR required CI --- Pending",
-        "Acceptance squash merge --- Pending",
-        "main synchronization --- Pending",
-        "Post-merge consistency --- Pending",
-        "Terminal documentation alignment --- Pending",
+        "Acceptance-state focused suite --- 48 passed",
+        "Acceptance-state full regression / coverage --- Passed",
+        "Acceptance-state local quality gates --- Passed",
+    ):
+        assert gate in record
+
+    assert "Full regression --- 2008 passed, 32 skipped, 1 deselected" in record
+    assert "Execution time --- 22.37s" in record
+    assert "Required coverage --- 67.0% --- Passed" in record
+    assert "No v1.1 CLI acceptance test was skipped" in record
+
+    for gate in (
+        "Acceptance PR #168 required CI --- Passed",
+        "Acceptance squash merge --- Completed",
+        "main synchronization --- Completed",
+        "Post-merge consistency --- Completed",
+        "Terminal documentation alignment --- Completed",
     ):
         assert gate in record
 
@@ -83,18 +92,19 @@ def test_acceptance_preserves_deferred_and_experimental_boundaries() -> None:
     assert "no production `--json` schema or finer Stable exit taxonomy" in prose
 
 
-def test_trackers_agree_on_acceptance_closure_state() -> None:
+def test_trackers_agree_on_terminal_acceptance_state() -> None:
     for tracker in (ROADMAP, HISTORY, CHANGELOG):
         prose = _normalized(tracker)
         assert "#167" in prose
         assert GOVERNING_MERGE in prose
-        assert "acceptance closure" in prose.lower()
-        assert "Not Accepted" in prose
+        assert "Formal v1.1 CLI Public Contract Acceptance --- Accepted" in prose
+        assert "Formal v1.1 Acceptance --- Not Accepted" in prose
 
 
-def test_terminal_state_remains_future_only() -> None:
+def test_terminal_state_advances_only_to_marketplace_contract() -> None:
     record = _read(ACCEPTANCE)
 
-    assert "Only after every closure gate passes" in record
+    assert "v1.1.2 CLI Public Contract Design --- Accepted" in record
+    assert "Formal v1.1 CLI Public Contract Acceptance --- Accepted" in record
     assert "Next --- v1.1.3 Marketplace CLI Contract" in record
     assert "No earlier passing result substitutes" in record

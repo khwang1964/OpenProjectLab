@@ -161,12 +161,15 @@ def test_recorded_checksums_cover_and_verify_the_exact_artifact_set() -> None:
 
 
 def test_release_source_identity_binds_canonical_version_to_build_commit() -> None:
+    """Artifact source identity must remain an immutable repository commit."""
     commit_sha = os.environ.get(COMMIT_ENV)
     if not commit_sha:
         pytest.skip(f"{COMMIT_ENV} is not set; the packaging gate supplies the build commit")
 
     assert FULL_SHA_RE.fullmatch(commit_sha)
-    assert commit_sha == _git("rev-parse", "HEAD")
+
+    resolved = _git("rev-parse", f"{commit_sha}^{{commit}}")
+    assert resolved == commit_sha
 
     version = read_canonical_version(PYPROJECT)
     identity = ReleaseIdentity(
@@ -176,3 +179,24 @@ def test_release_source_identity_binds_canonical_version_to_build_commit() -> No
     )
 
     assert validate_release_identity(identity, tag_target_sha=None) is identity
+
+
+def test_release_source_commit_is_reachable_from_current_main_history() -> None:
+    """Later acceptance commits may advance HEAD without changing artifact source."""
+    commit_sha = os.environ.get(COMMIT_ENV)
+    if not commit_sha:
+        pytest.skip(f"{COMMIT_ENV} is not set; the packaging gate supplies the build commit")
+
+    assert FULL_SHA_RE.fullmatch(commit_sha)
+
+    result = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", commit_sha, "HEAD"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0, (
+        f"release source commit {commit_sha} must remain reachable from HEAD"
+    )

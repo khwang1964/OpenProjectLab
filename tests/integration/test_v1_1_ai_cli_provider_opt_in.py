@@ -94,3 +94,27 @@ def test_production_ai_parser_remains_unregistered() -> None:
     parser = build_parser()
     choices = parser._subparsers._group_actions[0].choices
     assert "ai" not in choices
+
+
+def test_provider_opt_in_terminal_alignment_records_accepted_evidence() -> None:
+    expected = (
+        "v1.1.6.7 Experimental Provider Opt-in Boundary --- Accepted",
+        "Implementation PR #204 --- Merged",
+        "ac8f88ce8ab0cdb708671411459910a57c7fa1d2",
+        "Post-merge focused verification --- 78 passed",
+        "Provider Handler Wiring --- Not Started",
+        "AI CLI Production Registration --- Not Started",
+        "Formal v1.1 Acceptance --- Not Accepted",
+        "Next --- v1.1.6.8 Provider Handler Wiring",
+    )
+    trackers = (
+        ROOT / "CHANGELOG.md",
+        ROOT / "docs" / "HISTORY.md",
+        ROOT / "docs" / "roadmap.md",
+        ROOT / "docs" / "releases" / "v1.1-ai-cli-implementation.md",
+    )
+
+    for tracker in trackers:
+        prose = tracker.read_text(encoding="utf-8")
+        for statement in expected:
+            assert statement in prose

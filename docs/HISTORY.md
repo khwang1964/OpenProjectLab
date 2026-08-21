@@ -2611,3 +2611,21 @@ Next --- v1.1.6.7 Implementation Verification / PR / CI
 The candidate introduces an explicit, fail-closed provider resolver. Unknown
 providers, absent client factories, and absent API keys fail before client
 construction. Existing deterministic local-response handlers remain unchanged.
+
+<!-- v1.1.6.7-provider-opt-in-terminal-alignment-pr204 -->
+
+## v1.1.6.7 Experimental Provider Opt-in Boundary Terminal Alignment
+
+v1.1.6.7 Experimental Provider Opt-in Boundary --- Accepted
+Implementation PR #204 --- Merged
+Implementation merge --- ac8f88ce8ab0cdb708671411459910a57c7fa1d2
+Post-merge focused verification --- 78 passed
+Provider Resolution --- Injection Only
+Provider Handler Wiring --- Not Started
+AI CLI Production Registration --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.8 Provider Handler Wiring
+
+The accepted boundary supports only explicit provider selection through an
+injected client factory. It does not own SDK import, environment lookup,
+automatic fallback, handler wiring, or production parser registration.

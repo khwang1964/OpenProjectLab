@@ -39,11 +39,12 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Baseline" in baseline
     assert "v1.1.4 --- Marketplace CLI Implementation" in baseline
-    assert "**Implementation:** Internal Adapters Complete" in baseline
+    assert "**Implementation:** versions / inspect In Progress" in baseline
     assert "**Production Parser Registration:** Not Started" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert "v1.1.4.1 Implementation Baseline / Architecture        Complete" in baseline
     assert "v1.1.4.2 Internal Catalog and Parsing Adapters          Complete" in baseline
+    assert "v1.1.4.3 versions / inspect                             In Progress" in baseline
     assert "marketplace" not in _top_level_commands()
 
 

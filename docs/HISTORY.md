@@ -2188,6 +2188,12 @@ registering the production parser, adding command handlers, or expanding the
 accepted command inventory. The next active slice is v1.1.4.3 `versions /
 inspect`.
 
+The project subsequently started v1.1.4.3 with internal `versions` and
+`inspect` query services only. They reuse strict v1.1.4.2 parsing and the
+existing repository operations, do not use global enumeration, and do not
+acquire, verify, install, render final output, or register the production
+parser. Current state is `v1.1.4.3 versions / inspect --- In Progress`.
+
 ------------------------------------------------------------------------
 
 # 我們的願景

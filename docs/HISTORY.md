@@ -2256,6 +2256,13 @@ Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.4.6 Deterministic JSON and Diagnostics
 ```
 
+The project subsequently started v1.1.4.6 with internal rendering and
+diagnostic adapters only. Successful human output is isolated to stdout;
+handled diagnostics are isolated to stderr with exit code `2`. JSON success
+uses one compact, deterministic UTF-8 schema-version-1 object and handled
+failures emit no success JSON document. Production parser registration remains
+outside this slice.
+
 ------------------------------------------------------------------------
 
 # 我們的願景

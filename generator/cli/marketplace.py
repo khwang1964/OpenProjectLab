@@ -56,6 +56,25 @@ class MarketplacePayloadError(MarketplaceCliAdapterError):
 
 
 @dataclass(frozen=True, slots=True)
+class MarketplaceCliOutput:
+    """Deterministic process-boundary output for one Marketplace operation."""
+
+    stdout: str
+    stderr: str
+    exit_code: int
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.stdout, str) or not isinstance(self.stderr, str):
+            raise TypeError("Marketplace CLI streams must be strings")
+        if self.exit_code not in {0, 2}:
+            raise ValueError("Marketplace CLI exit code must be 0 or 2")
+        if self.exit_code == 0 and self.stderr:
+            raise ValueError("successful Marketplace output must not use stderr")
+        if self.exit_code == 2 and self.stdout:
+            raise ValueError("failed Marketplace output must not use stdout")
+
+
+@dataclass(frozen=True, slots=True)
 class VerifiedMarketplacePayload:
     """Immutable result of safe local acquisition and integrity verification."""
 
@@ -246,6 +265,134 @@ def install_marketplace_artifact(
         installation=installation,
         dry_run=False,
     )
+
+
+def render_marketplace_versions(
+    identity: ArtifactIdentity,
+    versions: tuple[ArtifactVersion, ...],
+    *,
+    json_output: bool = False,
+) -> MarketplaceCliOutput:
+    """Render deterministic versions output without accessing Marketplace state."""
+    _require_json_output_flag(json_output)
+    if not isinstance(identity, ArtifactIdentity):
+        raise TypeError("identity must be an ArtifactIdentity")
+    if not isinstance(versions, tuple) or not all(
+        isinstance(version, ArtifactVersion) for version in versions
+    ):
+        raise TypeError("versions must be a tuple of ArtifactVersion values")
+
+    ordered = tuple(sorted(versions))
+    if json_output:
+        return _success_json(
+            {
+                "command": "versions",
+                "identity": str(identity),
+                "schema_version": 1,
+                "versions": [str(version) for version in ordered],
+            }
+        )
+    rendered = "\n".join(str(version) for version in ordered)
+    return _success_text(f"{rendered}\n" if rendered else "")
+
+
+def render_marketplace_inspect(
+    artifact: MarketplaceArtifact,
+    *,
+    json_output: bool = False,
+) -> MarketplaceCliOutput:
+    """Render canonical metadata for one exact Marketplace artifact."""
+    _require_json_output_flag(json_output)
+    if not isinstance(artifact, MarketplaceArtifact):
+        raise TypeError("artifact must be a MarketplaceArtifact")
+
+    fields = _artifact_output_fields(artifact)
+    if json_output:
+        return _success_json({"command": "inspect", "schema_version": 1, **fields})
+    return _success_text("\n".join(f"{key}: {value}" for key, value in fields.items()) + "\n")
+
+
+def render_marketplace_verify(
+    verified: VerifiedMarketplacePayload,
+    *,
+    json_output: bool = False,
+) -> MarketplaceCliOutput:
+    """Render verified digest and size without exposing payload bytes."""
+    _require_json_output_flag(json_output)
+    if not isinstance(verified, VerifiedMarketplacePayload):
+        raise TypeError("verified must be a VerifiedMarketplacePayload")
+
+    fields = {
+        "coordinate": str(verified.artifact.coordinate),
+        "digest": verified.digest,
+        "payload_size": verified.payload_size,
+        "verified": True,
+    }
+    if json_output:
+        return _success_json({"command": "verify", "schema_version": 1, **fields})
+    return _success_text("\n".join(f"{key}: {value}" for key, value in fields.items()) + "\n")
+
+
+def render_marketplace_install(
+    outcome: MarketplaceInstallOutcome,
+    *,
+    json_output: bool = False,
+) -> MarketplaceCliOutput:
+    """Render an installed or verified-only dry-run outcome."""
+    _require_json_output_flag(json_output)
+    if not isinstance(outcome, MarketplaceInstallOutcome):
+        raise TypeError("outcome must be a MarketplaceInstallOutcome")
+
+    fields = {
+        "coordinate": str(outcome.verified.artifact.coordinate),
+        "digest": outcome.verified.digest,
+        "dry_run": outcome.dry_run,
+        "payload_size": outcome.verified.payload_size,
+        "status": "verified" if outcome.dry_run else "installed",
+    }
+    if json_output:
+        return _success_json({"command": "install", "schema_version": 1, **fields})
+    return _success_text("\n".join(f"{key}: {value}" for key, value in fields.items()) + "\n")
+
+
+def render_marketplace_failure(error: Exception) -> MarketplaceCliOutput:
+    """Render one handled diagnostic with no success output document."""
+    if not isinstance(error, Exception):
+        raise TypeError("error must be an Exception")
+    message = str(error).strip() or error.__class__.__name__
+    return MarketplaceCliOutput(stdout="", stderr=f"error: {message}\n", exit_code=2)
+
+
+def _artifact_output_fields(artifact: MarketplaceArtifact) -> dict[str, object]:
+    return {
+        "artifact_type": str(artifact.artifact_type),
+        "compatibility": str(artifact.compatibility),
+        "coordinate": str(artifact.coordinate),
+        "description": artifact.description,
+        "distribution_kind": artifact.distribution.kind,
+        "distribution_reference": artifact.distribution.reference,
+        "integrity_algorithm": artifact.integrity.algorithm,
+        "integrity_digest": artifact.integrity.digest,
+    }
+
+
+def _require_json_output_flag(json_output: bool) -> None:
+    if not isinstance(json_output, bool):
+        raise TypeError("json_output must be a bool")
+
+
+def _success_json(document: Mapping[str, object]) -> MarketplaceCliOutput:
+    rendered = json.dumps(
+        document,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    )
+    return MarketplaceCliOutput(stdout=f"{rendered}\n", stderr="", exit_code=0)
+
+
+def _success_text(rendered: str) -> MarketplaceCliOutput:
+    return MarketplaceCliOutput(stdout=rendered, stderr="", exit_code=0)
 
 
 def _resolve_safe_payload_path(payload_root: Path, reference: str) -> Path:

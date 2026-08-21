@@ -39,7 +39,7 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Baseline" in baseline
     assert "v1.1.4 --- Marketplace CLI Implementation" in baseline
-    assert "**Implementation:** Deterministic JSON and Diagnostics Not Started" in baseline
+    assert "**Implementation:** Deterministic JSON and Diagnostics In Progress" in baseline
     assert "**Production Parser Registration:** Not Started" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert "v1.1.4.1 Implementation Baseline / Architecture        Complete" in baseline
@@ -47,6 +47,7 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
     assert "v1.1.4.3 versions / inspect                             Complete" in baseline
     assert "v1.1.4.4 verify / Safe Payload Acquisition              Complete" in baseline
     assert "v1.1.4.5 install / dry-run / No-partial-state           Complete" in baseline
+    assert "v1.1.4.6 Deterministic JSON and Diagnostics             In Progress" in baseline
     assert "marketplace" not in _top_level_commands()
 
 

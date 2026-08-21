@@ -1671,3 +1671,25 @@ Next --- v1.1.6 AI CLI Implementation
     AI CLI Production Registration --- Not Started
     Formal v1.1 Acceptance --- Not Accepted
     Next --- v1.1.6.5 document handler
+
+------------------------------------------------------------------------
+
+## v1.1.6.5 AI CLI Document Handler
+
+    v1.1.6.4 review handler --- Accepted
+    v1.1.6.5 document handler --- In Progress
+    document service --- AIDocumentationService.generate(request)
+    document JSON projection --- Deterministic / non-persistent
+    AI CLI template handler --- Not Started
+    AI CLI Production Registration --- Not Started
+    Formal v1.1 Acceptance --- Not Accepted
+    Next --- v1.1.6.6 template handler
+
+### Code Review Checklist
+
+- Existing AIDocumentationService and mapper remain authoritative.
+- Title, format, and content projection is deterministic.
+- Handler returns content but never writes a documentation file.
+- Failure emits no success output.
+- No filesystem mutation, credentials, or network access is introduced.
+- The production ai parser remains unregistered.

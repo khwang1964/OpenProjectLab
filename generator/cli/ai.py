@@ -6,6 +6,8 @@ import argparse
 import json
 from pathlib import Path
 
+from generator.ai.documentation import AIDocumentDraft
+from generator.ai.documentation_service import AIDocumentationService
 from generator.ai.models import AIRequest, AIResponse
 from generator.ai.review import AIReviewResult
 from generator.ai.review_service import AIReviewService
@@ -182,4 +184,44 @@ def _handle_ai_review(args: argparse.Namespace) -> int:
         print(f"  {index}. [{finding.severity}] {finding.category}")
         print(f"     訊息：{finding.message}")
         print(f"     建議：{finding.recommendation}")
+    return 0
+
+
+def _document_result(draft: AIDocumentDraft) -> dict[str, object]:
+    return {
+        "title": draft.title,
+        "format": draft.format,
+        "content": draft.content,
+    }
+
+
+def _handle_ai_document(args: argparse.Namespace) -> int:
+    """Run the deterministic local-response documentation service."""
+    request = _load_ai_request(args.request, command="document")
+    response = _load_local_response(args.response)
+    provider = _LocalResponseProvider(response=response)
+    draft = AIDocumentationService(provider=provider).generate(request)
+    result = _document_result(draft)
+
+    if args.json:
+        document = {
+            "schema_version": 1,
+            "command": "document",
+            "source": "local-response",
+            "result": result,
+        }
+        print(
+            json.dumps(
+                document,
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            )
+        )
+        return 0
+
+    print(f"文件：{draft.title}")
+    print(f"格式：{draft.format}")
+    print("內容：")
+    print(draft.content)
     return 0

@@ -39,8 +39,9 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Baseline" in baseline
     assert "v1.1.4 --- Marketplace CLI Implementation" in baseline
-    assert "**Implementation:** Full Regression / CI / Formal Acceptance In Progress" in baseline
+    assert "**Implementation:** Complete" in baseline
     assert "**Production Parser Registration:** Complete" in baseline
+    assert "**Marketplace CLI Implementation Acceptance:** Accepted" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert "v1.1.4.1 Implementation Baseline / Architecture        Complete" in baseline
     assert "v1.1.4.2 Internal Catalog and Parsing Adapters          Complete" in baseline
@@ -66,6 +67,24 @@ def test_formal_acceptance_slice_starts_fail_closed() -> None:
         assert "160 passed, 1 skipped" in lower_prose
         assert "formal v1.1 acceptance" in lower_prose
         assert "not accepted" in lower_prose
+
+
+def test_formal_acceptance_terminal_alignment_records_closure() -> None:
+    merge_sha = "a89d0d4e7b8fd068c1c4e2b841489bf211efbf28"
+
+    for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
+        prose = _normalized(tracker)
+        lower_prose = prose.lower()
+        assert "acceptance pr #188" in lower_prose
+        assert merge_sha in prose
+        assert "2158 passed, 33 skipped, 1 deselected" in lower_prose
+        assert "90.74%" in prose
+        assert "formal v1.1 acceptance" in lower_prose
+        assert "marketplace cli implementation acceptance" in lower_prose
+        assert "accepted" in lower_prose
+        assert "formal v1.1 acceptance" in lower_prose
+        assert "not accepted" in lower_prose
+        assert "v1.1.5 ai cli contract" in lower_prose
 
 
 def test_baseline_preserves_exact_accepted_command_inventory() -> None:
@@ -166,13 +185,14 @@ def test_bilingual_manual_and_canonical_demo_obligations_are_explicit() -> None:
     assert "does not create a separate demo repository" in prose
 
 
-def test_trackers_start_v1_1_4_without_claiming_implementation() -> None:
+def test_trackers_record_completed_marketplace_implementation() -> None:
     for tracker in (ROADMAP, HISTORY, CHANGELOG):
         prose = _normalized(tracker).lower()
         assert "v1.1.4 marketplace cli implementation" in prose
-        assert "in progress" in prose
+        assert "complete" in prose
         assert "production parser registration" in prose
-        assert "not started" in prose
+        assert "marketplace cli implementation acceptance" in prose
+        assert "accepted" in prose
         assert "formal v1.1 acceptance" in prose
         assert "not accepted" in prose
 
@@ -261,11 +281,11 @@ def test_json_diagnostics_terminal_alignment_records_merged_evidence() -> None:
         assert "v1.1.4.7 production parser registration" in lower_prose
 
 
-def test_production_registration_starts_without_claiming_acceptance() -> None:
+def test_production_registration_is_complete_without_overclaiming_v1_1() -> None:
     for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
         prose = _normalized(tracker).lower()
         assert "v1.1.4.7 production parser registration" in prose
-        assert "in progress" in prose
+        assert "complete" in prose
         assert "formal v1.1 acceptance" in prose
         assert "not accepted" in prose
 
@@ -288,11 +308,11 @@ def test_production_registration_terminal_alignment_records_merge() -> None:
         assert "v1.1.4.8 en / zh-tw user manual updates" in lower_prose
 
 
-def test_bilingual_manual_slice_starts_without_claiming_acceptance() -> None:
+def test_bilingual_manual_slice_is_complete_without_overclaiming_v1_1() -> None:
     for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
         prose = _normalized(tracker).lower()
         assert "v1.1.4.8 en / zh-tw user manual updates" in prose
-        assert "in progress" in prose
+        assert "complete" in prose
         assert "formal v1.1 acceptance" in prose
         assert "not accepted" in prose
 

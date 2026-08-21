@@ -14,6 +14,7 @@ HISTORY = ROOT / "docs" / "HISTORY.md"
 CHANGELOG = ROOT / "CHANGELOG.md"
 
 BASELINE_SHA = "f7910d51c49c74614381491458414739c47d5d74"
+ACCEPTANCE_MERGE = "a89d0d4e7b8fd068c1c4e2b841489bf211efbf28"
 
 
 def _read(path: Path) -> str:
@@ -33,13 +34,16 @@ def _top_level_commands() -> frozenset[str]:
     raise AssertionError("CLI subcommand registry was not found")
 
 
-def test_acceptance_record_is_a_fail_closed_candidate() -> None:
+def test_marketplace_implementation_record_is_terminally_accepted() -> None:
     record = _read(RECORD)
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Acceptance" in record
-    assert "**Status:** Proposed --- Acceptance Candidate In Progress" in record
-    assert "v1.1.4.9 --- Full Regression / CI / Formal Acceptance" in record
+    assert "**Status:** Accepted" in record
+    assert "v1.1.4.9 --- Full Regression / CI / Implementation Acceptance" in record
     assert f"**Acceptance Baseline Commit:** `{BASELINE_SHA}`" in record
+    assert "**Acceptance PR:** #188 --- Merged" in record
+    assert f"**Acceptance Merge Commit:** `{ACCEPTANCE_MERGE}`" in record
+    assert "**Marketplace CLI Implementation Acceptance:** Accepted" in record
     assert "**Formal v1.1 Acceptance:** Not Accepted" in record
 
 
@@ -76,23 +80,26 @@ def test_candidate_preserves_safety_and_side_effect_boundaries() -> None:
     assert "AI CLI commands" in prose
 
 
-def test_every_post_candidate_closure_gate_remains_pending() -> None:
+def test_every_post_candidate_closure_gate_is_complete() -> None:
     record = _read(RECORD)
 
     for gate in (
-        "Acceptance PR --- Pending",
-        "Acceptance PR required CI --- Pending",
-        "Acceptance squash merge --- Pending",
-        "main synchronization after acceptance merge --- Pending",
-        "Post-merge full regression / focused verification --- Pending",
-        "Post-merge local quality gates --- Pending",
-        "Terminal documentation alignment --- Pending",
+        "Acceptance PR #188 --- Merged",
+        "Acceptance PR required CI --- Passed",
+        "Acceptance squash merge --- Completed",
+        "main synchronization after acceptance merge --- Completed",
+        "Post-merge focused verification --- 56 passed in 0.30s",
+        "Post-merge full regression --- 2158 passed, 33 skipped, 1 deselected",
+        "Post-merge local quality gates --- Passed",
+        "Terminal documentation alignment --- Completed",
     ):
         assert gate in record
     assert "must remain `Not Accepted`" in record
+    assert "v1.1.5 AI CLI Contract --- Not Started" in record
+    assert "v1.1.9 Formal v1.1 Acceptance --- Not Accepted" in record
 
 
-def test_trackers_align_without_claiming_formal_acceptance() -> None:
+def test_trackers_accept_marketplace_without_overclaiming_v1_1() -> None:
     for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
         prose = _normalized(tracker)
         lower_prose = prose.lower()
@@ -101,14 +108,17 @@ def test_trackers_align_without_claiming_formal_acceptance() -> None:
         assert "2150 passed, 33 skipped, 1 deselected" in lower_prose
         assert "90.74%" in prose
         assert "160 passed, 1 skipped" in lower_prose
+        assert "marketplace cli implementation acceptance" in lower_prose
+        assert "accepted" in lower_prose
         assert "formal v1.1 acceptance" in lower_prose
         assert "not accepted" in lower_prose
+        assert ACCEPTANCE_MERGE in prose
 
 
-def test_next_action_is_acceptance_pr_required_ci() -> None:
+def test_next_action_is_ai_cli_contract() -> None:
     record = _read(RECORD)
     prose = _normalized(RECORD)
 
-    assert "Next --- acceptance PR / required CI" in record
-    assert "Only after required CI, squash merge, synchronized `main`," in prose
-    assert "terminal documentation alignment may Formal v1.1 Acceptance become Accepted" in prose
+    assert "Next --- v1.1.5 AI CLI Contract" in record
+    assert "under the existing v1.1 governing sequence" in prose
+    assert "does not replace the remaining v1.1 acceptance stages" in prose

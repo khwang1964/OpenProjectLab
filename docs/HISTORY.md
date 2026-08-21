@@ -2150,6 +2150,33 @@ Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.4 Marketplace CLI Implementation
 ```
 
+## v1.1.4 --- Marketplace CLI Implementation
+
+After v1.1.3 terminal alignment, the project started v1.1.4 with a Design
+First implementation baseline. This initial slice introduces no production
+parser registration or command handler. It records the exact adapter
+architecture, implementation sequence, test matrix, bilingual documentation
+impact, executable-demo boundary, and Code Review Checklist before product
+code is allowed to begin.
+
+The production audit confirmed that `MarketplaceRepository` has an internal
+deterministic `list_artifacts()` operation. The accepted CLI contract remains
+narrower: it exposes only `versions`, `inspect`, `verify`, and `install`.
+Therefore internal global enumeration does not authorize or imply an
+`opl marketplace list` command.
+
+``` text
+v1.1.3 Marketplace CLI Contract --- Accepted
+v1.1.4 Marketplace CLI Implementation --- In Progress
+Implementation baseline / architecture --- In Progress
+Production parser registration --- Not Started
+Marketplace CLI command handlers --- Not Started
+EN / zh-TW Marketplace CLI manuals --- Not Started
+Canonical executable use-case demo extension --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.4.1 baseline design PR
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

@@ -71,10 +71,13 @@ def test_contract_preserves_existing_marketplace_evidence() -> None:
 
 def test_contract_defines_exact_proposed_command_inventory() -> None:
     contract = _read(CONTRACT)
+    prose = _normalized(CONTRACT)
 
     for subcommand in EXPECTED_SUBCOMMANDS:
         assert f"opl marketplace {subcommand} " in contract
-    assert "this contract does not invent `opl marketplace list`" in contract
+    assert "this contract does not invent `opl marketplace list`" in prose
+    assert "`list_artifacts()`" in prose
+    assert "does not expose that internal capability" in prose
     assert "No aliases or short options are part of the contract" in contract
 
 

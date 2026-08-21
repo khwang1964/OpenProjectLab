@@ -1744,7 +1744,7 @@ Planned delivery sequence：
 v1.1.1 Planning Baseline                         Accepted
 v1.1.2 CLI Public Contract Design                Accepted
 v1.1.3 Marketplace CLI Contract                  Accepted
-v1.1.4 Marketplace CLI Implementation            Not Started
+v1.1.4 Marketplace CLI Implementation            In Progress
 v1.1.5 AI CLI Contract                           Not Started
 v1.1.6 AI CLI Implementation                     Not Started
 v1.1.7 Documentation / EN-zh-TW Parity           Not Started
@@ -1805,6 +1805,27 @@ Acceptance merge --- 02ed8569bbd5a6c12632783186220954b2b99f12
 Post-merge consistency --- Completed
 Terminal documentation alignment --- Completed
 Next --- v1.1.4 Marketplace CLI Implementation
+```
+
+v1.1.4 has started with an implementation baseline only. Production
+`marketplace` registration and command handlers remain Not Started. The
+accepted command inventory remains exactly `versions`, `inspect`, `verify`,
+and `install`; internal `list_artifacts()` does not authorize an
+`opl marketplace list` command.
+
+``` text
+v1.1.4.1 Implementation Baseline / Architecture        In Progress
+v1.1.4.2 Internal Catalog and Parsing Adapters          Not Started
+v1.1.4.3 versions / inspect                             Not Started
+v1.1.4.4 verify / Safe Payload Acquisition              Not Started
+v1.1.4.5 install / dry-run / No-partial-state           Not Started
+v1.1.4.6 Deterministic JSON and Diagnostics             Not Started
+v1.1.4.7 Production Parser Registration                 Not Started
+v1.1.4.8 EN / zh-TW User Manual Updates                 Not Started
+v1.1.4.9 Full Regression / CI / Formal Acceptance       Not Accepted
+Marketplace CLI Implementation                         In Progress
+Formal v1.1 Acceptance                                  Not Accepted
+Next --- v1.1.4.1 baseline design PR
 ```
 
 Governing contract PR #170 已 squash merge 為

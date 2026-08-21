@@ -12,6 +12,8 @@ from generator.ai.models import AIRequest, AIResponse
 from generator.ai.review import AIReviewResult
 from generator.ai.review_service import AIReviewService
 from generator.ai.service import AICourseGenerationService
+from generator.ai.template_completion import AITemplateCompletionResult
+from generator.ai.template_completion_service import AITemplateCompletionService
 from generator.courseware.models import Course
 
 _TASK_BY_COMMAND = {
@@ -224,4 +226,46 @@ def _handle_ai_document(args: argparse.Namespace) -> int:
     print(f"格式：{draft.format}")
     print("內容：")
     print(draft.content)
+    return 0
+
+
+def _template_result(result: AITemplateCompletionResult) -> dict[str, object]:
+    return {
+        "template_name": result.template_name,
+        "content": result.content,
+        "context_keys": list(result.context_keys),
+    }
+
+
+def _handle_ai_template(args: argparse.Namespace) -> int:
+    """Run the deterministic local-response template completion service."""
+    request = _load_ai_request(args.request, command="template")
+    response = _load_local_response(args.response)
+    provider = _LocalResponseProvider(response=response)
+    completion = AITemplateCompletionService(provider=provider).complete(request)
+    result = _template_result(completion)
+
+    if args.json:
+        document = {
+            "schema_version": 1,
+            "command": "template",
+            "source": "local-response",
+            "result": result,
+        }
+        print(
+            json.dumps(
+                document,
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            )
+        )
+        return 0
+
+    print(f"模板：{completion.template_name}")
+    print("內容：")
+    print(completion.content)
+    print("Context keys：")
+    for key in completion.context_keys:
+        print(f"  - {key}")
     return 0

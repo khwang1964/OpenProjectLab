@@ -185,5 +185,5 @@ def test_verify_rejects_invalid_coordinate_before_payload_access(tmp_path: Path)
     assert payload_path.read_bytes() == payload
 
 
-def test_safe_verify_does_not_register_production_parser() -> None:
-    assert "marketplace" not in _top_level_commands()
+def test_safe_verify_remains_available_after_production_registration() -> None:
+    assert "marketplace" in _top_level_commands()

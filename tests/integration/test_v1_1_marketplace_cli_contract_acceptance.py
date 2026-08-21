@@ -81,10 +81,10 @@ def test_fresh_acceptance_state_evidence_and_closure_are_recorded() -> None:
     assert "Acceptance-state git diff --check --- Passed" in record
 
 
-def test_marketplace_remains_unregistered_during_acceptance_closure() -> None:
+def test_historical_acceptance_record_precedes_later_registration() -> None:
     record = _read(ACCEPTANCE)
 
-    assert "marketplace" not in _top_level_commands()
+    assert "marketplace" in _top_level_commands()
     assert "`marketplace` remains absent from the production parser" in record
     assert "v1.1.4 Marketplace CLI Implementation remains Not Started" in record
     assert "Marketplace CLI Implementation remains Not Started" in record

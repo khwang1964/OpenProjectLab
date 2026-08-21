@@ -158,5 +158,5 @@ def test_versions_and_inspect_do_not_use_internal_global_enumeration() -> None:
     assert all(call[0] != "list_artifacts" for call in repository.calls)
 
 
-def test_internal_query_services_do_not_register_production_parser() -> None:
-    assert "marketplace" not in _top_level_commands()
+def test_internal_query_services_remain_available_after_registration() -> None:
+    assert "marketplace" in _top_level_commands()

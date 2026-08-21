@@ -24,7 +24,8 @@ EXPECTED_V1_COMMANDS = frozenset(
         "week",
     }
 )
-RESERVED_V1_1_COMMANDS = frozenset({"ai", "marketplace"})
+IMPLEMENTED_V1_1_COMMANDS = frozenset({"marketplace"})
+RESERVED_V1_1_COMMANDS = frozenset({"ai"})
 
 
 def _read(path: Path) -> str:
@@ -62,17 +63,18 @@ def test_v1_1_cli_design_is_formally_accepted() -> None:
 def test_v1_1_design_preserves_the_exact_reviewed_v1_command_inventory() -> None:
     design = _read(DESIGN)
 
-    assert _command_choices() == EXPECTED_V1_COMMANDS
+    assert _command_choices() == EXPECTED_V1_COMMANDS | IMPLEMENTED_V1_1_COMMANDS
     assert V1_TEST.is_file()
     for command in EXPECTED_V1_COMMANDS:
         assert f"\n{command}\n" in design
 
 
-def test_v1_1_reserved_command_families_are_not_registered_early() -> None:
+def test_v1_1_registration_follows_the_reviewed_delivery_sequence() -> None:
     design = _read(DESIGN)
     production_commands = _command_choices()
 
     assert RESERVED_V1_1_COMMANDS.isdisjoint(production_commands)
+    assert IMPLEMENTED_V1_1_COMMANDS.issubset(production_commands)
     assert "opl marketplace ..." in design
     assert "opl ai ..." in design
     assert "Production registration is prohibited during v1.1.2" in design

@@ -171,5 +171,5 @@ def test_load_catalog_rejects_duplicate_exact_coordinates(tmp_path: Path) -> Non
         load_marketplace_catalog(_write_catalog(tmp_path, catalog))
 
 
-def test_internal_adapters_do_not_register_production_marketplace_parser() -> None:
-    assert "marketplace" not in _top_level_commands()
+def test_internal_adapters_remain_available_after_production_registration() -> None:
+    assert "marketplace" in _top_level_commands()

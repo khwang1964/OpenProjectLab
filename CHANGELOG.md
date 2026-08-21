@@ -230,6 +230,14 @@
     `Formal v1.1 Acceptance --- Not Accepted`.
 -   Moved the next active implementation slice to
     `v1.1.4.7 Production Parser Registration`.
+-   Started `v1.1.4.7 Production Parser Registration --- In Progress` by
+    registering exactly `versions`, `inspect`, `verify`, and `install`, wiring
+    the accepted local catalog/payload services and deterministic renderers,
+    and preserving the prohibition on `opl marketplace list`.
+-   Replaced historical parser-absence assertions with exact additive
+    inventory, v1 preservation, stdout/stderr, exit `0`/`2`, and production
+    handler integration assertions; AI CLI and Formal v1.1 Acceptance remain
+    Not Started / Not Accepted.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

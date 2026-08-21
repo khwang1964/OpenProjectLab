@@ -2279,6 +2279,14 @@ Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.4.7 Production Parser Registration
 ```
 
+The project subsequently started v1.1.4.7 and registered the accepted
+deterministic-local Marketplace command family in the production parser. The
+inventory is exactly `versions`, `inspect`, `verify`, and `install`; no global
+Marketplace `list` command exists. Handlers reuse the reviewed catalog,
+query, safe verification, installation, JSON, and diagnostic adapters while
+preserving every v1 command and legacy `opl --list` behavior. This slice does
+not add activation, persistence, remote access, or AI CLI behavior.
+
 ------------------------------------------------------------------------
 
 # 我們的願景

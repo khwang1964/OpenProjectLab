@@ -2397,3 +2397,16 @@ v1.1.6 AI CLI Implementation --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.6 AI CLI Implementation
 ```
+
+------------------------------------------------------------------------
+
+## v1.1.6 AI CLI Implementation Baseline
+
+    v1.1.5 AI CLI Contract --- Accepted
+    v1.1.6 AI CLI Implementation --- In Progress
+    v1.1.6.1 Implementation Baseline --- In Progress
+    generator/cli/ai.py --- Not Implemented
+    AI CLI Shared Infrastructure --- Not Started
+    AI CLI Production Registration --- Not Started
+    Formal v1.1 Acceptance --- Not Accepted
+    Next --- v1.1.6.2 Shared Request / Local-response Infrastructure

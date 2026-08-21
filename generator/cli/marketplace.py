@@ -25,6 +25,7 @@ from generator.marketplace.models import (
 from generator.marketplace.repository import (
     ArtifactAlreadyExistsError,
     InMemoryMarketplaceRepository,
+    MarketplaceRepository,
 )
 
 
@@ -109,6 +110,27 @@ def load_marketplace_catalog(path: Path) -> InMemoryMarketplaceRepository:
         return InMemoryMarketplaceRepository(artifacts)
     except ArtifactAlreadyExistsError as exc:
         raise MarketplaceCatalogError("catalog contains a duplicate artifact coordinate") from exc
+
+
+def get_marketplace_versions(
+    repository: MarketplaceRepository,
+    identity: str,
+) -> tuple[ArtifactVersion, ...]:
+    """Return deterministic versions for one validated Marketplace identity."""
+    parsed_identity = parse_artifact_identity(identity)
+    return repository.available_versions(parsed_identity)
+
+
+def inspect_marketplace_artifact(
+    repository: MarketplaceRepository,
+    coordinate: str,
+) -> MarketplaceArtifact:
+    """Return the artifact at one validated exact Marketplace coordinate."""
+    parsed_coordinate = parse_artifact_coordinate(coordinate)
+    return repository.find(
+        parsed_coordinate.identity,
+        parsed_coordinate.version,
+    )
 
 
 def _parse_catalog_artifact(raw_artifact: object, *, index: int) -> MarketplaceArtifact:

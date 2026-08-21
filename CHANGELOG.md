@@ -181,6 +181,9 @@
     `Production Parser Registration --- Not Started`, `Marketplace CLI Command
     Handlers --- Not Started`, and `Formal v1.1 Acceptance --- Not Accepted`.
 -   Moved the next active implementation slice to `v1.1.4.3 versions / inspect`.
+-   Started `v1.1.4.3 versions / inspect --- In Progress` with internal,
+    side-effect-free query services over the accepted repository boundary;
+    production parser registration remains Not Started.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

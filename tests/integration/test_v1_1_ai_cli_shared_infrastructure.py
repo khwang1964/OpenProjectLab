@@ -123,3 +123,26 @@ def test_shared_infrastructure_remains_unregistered() -> None:
     )
     assert "ai" not in choices
     assert AIResponse is not None
+
+
+_TERMINAL_ROOT = Path(__file__).resolve().parents[2]
+_TERMINAL_SOURCES = (
+    _TERMINAL_ROOT / "CHANGELOG.md",
+    _TERMINAL_ROOT / "docs" / "HISTORY.md",
+    _TERMINAL_ROOT / "docs" / "roadmap.md",
+    _TERMINAL_ROOT / "docs" / "releases" / "v1.1-ai-cli-implementation.md",
+)
+
+
+def test_shared_infrastructure_terminal_alignment_is_closed() -> None:
+    for source in _TERMINAL_SOURCES:
+        prose = " ".join(source.read_text(encoding="utf-8").split()).lower()
+        assert "v1.1.6.2 shared request / local-response infrastructure --- accepted" in prose
+        assert "implementation pr #194 --- merged" in prose
+        assert "746bff69df824a6fa56051ccd80beb43acf93e73" in prose
+        assert "post-merge verification --- 91 passed" in prose
+        assert "v1.1.6 ai cli implementation --- in progress" in prose
+        assert "ai cli course handler --- not started" in prose
+        assert "ai cli production registration --- not started" in prose
+        assert "formal v1.1 acceptance --- not accepted" in prose
+        assert "next --- v1.1.6.3 course handler" in prose

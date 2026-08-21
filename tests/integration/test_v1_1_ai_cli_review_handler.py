@@ -103,3 +103,26 @@ def test_review_handler_remains_unregistered() -> None:
         if isinstance(getattr(action, "choices", None), dict) and "list" in action.choices
     )
     assert "ai" not in choices
+
+
+_REVIEW_TERMINAL_ROOT = Path(__file__).resolve().parents[2]
+_REVIEW_TERMINAL_SOURCES = (
+    _REVIEW_TERMINAL_ROOT / "CHANGELOG.md",
+    _REVIEW_TERMINAL_ROOT / "docs" / "HISTORY.md",
+    _REVIEW_TERMINAL_ROOT / "docs" / "roadmap.md",
+    _REVIEW_TERMINAL_ROOT / "docs" / "releases" / "v1.1-ai-cli-implementation.md",
+)
+
+
+def test_review_handler_terminal_alignment_is_closed() -> None:
+    for source in _REVIEW_TERMINAL_SOURCES:
+        prose = " ".join(source.read_text(encoding="utf-8").split()).lower()
+        assert "v1.1.6.4 review handler --- accepted" in prose
+        assert "implementation pr #198 --- merged" in prose
+        assert "b78d68b86f7829c48c4bdc696d09a721bdcb35c5" in prose
+        assert "post-merge verification --- 113 passed" in prose
+        assert "v1.1.6 ai cli implementation --- in progress" in prose
+        assert "ai cli document handler --- not started" in prose
+        assert "ai cli production registration --- not started" in prose
+        assert "formal v1.1 acceptance --- not accepted" in prose
+        assert "next --- v1.1.6.5 document handler" in prose

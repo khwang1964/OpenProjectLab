@@ -2303,6 +2303,13 @@ Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.4.8 EN / zh-TW User Manual Updates
 ```
 
+The project subsequently started v1.1.4.8 with functional EN / zh-TW
+Marketplace CLI documentation parity. Both manuals cover the exact production
+inventory, identity/coordinate syntax, explicit local catalog and payload-root
+inputs, deterministic JSON, dry-run, failure-before-side-effect behavior,
+non-activation, and Deferred remote/trust/dependency capabilities. Executable
+documentation automation keeps the examples aligned with production behavior.
+
 ------------------------------------------------------------------------
 
 # 我們的願景

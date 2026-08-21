@@ -440,6 +440,17 @@ scripts 與 CI 應：
 - installed-user workflow 不依賴 repository checkout；
 - 將 JSON input files 視為對應 Generator contract 的 versioned inputs。
 
+## 18. Marketplace 命令
+
+additive `marketplace` family 僅提供 `versions`、`inspect`、`verify` 與
+`install`。它使用 explicit local `--catalog` 與 `--payload-root` inputs、
+支援 deterministic `--json` success output，並可透過 `--dry-run` 預覽
+installation。
+
+它不新增 `opl marketplace list`、remote access、automatic activation 或
+persistent package installation。完整 command shapes、catalog 範例、安全規則與
+failure boundaries 請閱讀 [Marketplace CLI](marketplace.md)。
+
 ## 下一步
 
 繼續閱讀 [Generators](generators.md)，了解這些 commands 背後的 generation model。

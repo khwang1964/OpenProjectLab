@@ -2410,3 +2410,16 @@ Next --- v1.1.6 AI CLI Implementation
     AI CLI Production Registration --- Not Started
     Formal v1.1 Acceptance --- Not Accepted
     Next --- v1.1.6.2 Shared Request / Local-response Infrastructure
+------------------------------------------------------------------------
+
+## v1.1.6.1 AI CLI Implementation Baseline Terminal Alignment
+
+    v1.1.6.1 Implementation Baseline --- Accepted
+    Baseline PR #192 --- Merged
+    Baseline merge --- 7520da65963d935257f476ea5e0bdd79bd519e3f
+    Post-merge verification --- 75 passed
+    v1.1.6 AI CLI Implementation --- In Progress
+    AI CLI Shared Infrastructure --- Not Started
+    AI CLI Production Registration --- Not Started
+    Formal v1.1 Acceptance --- Not Accepted
+    Next --- v1.1.6.2 Shared Request / Local-response Infrastructure

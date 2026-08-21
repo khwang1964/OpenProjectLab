@@ -40,8 +40,11 @@ def _commands() -> frozenset[str]:
 
 def test_baseline_precedes_product_implementation() -> None:
     baseline = _read(BASELINE)
-    assert "**Status:** Proposed --- Implementation In Progress" in baseline
+    assert "**Status:** Accepted --- Baseline Complete" in baseline
     assert "v1.1.6.1 --- Implementation Baseline / Executable Design Tests" in baseline
+    assert "Baseline PR #192 --- Merged" in baseline
+    assert "7520da65963d935257f476ea5e0bdd79bd519e3f" in baseline
+    assert "Post-merge verification --- 75 passed" in baseline
     assert "**AI CLI Production Registration:** Not Started" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert not PRODUCTION_MODULE.exists()
@@ -84,7 +87,10 @@ def test_trackers_start_v1_1_6_without_claiming_registration() -> None:
     for tracker in TRACKERS:
         prose = _normalized(tracker).lower()
         assert "v1.1.6 ai cli implementation --- in progress" in prose
-        assert "v1.1.6.1 implementation baseline --- in progress" in prose
+        assert "v1.1.6.1 implementation baseline --- accepted" in prose
+        assert "baseline pr #192 --- merged" in prose
+        assert "7520da65963d935257f476ea5e0bdd79bd519e3f" in prose
+        assert "post-merge verification --- 75 passed" in prose
         assert "ai cli production registration --- not started" in prose
         assert "formal v1.1 acceptance --- not accepted" in prose
         assert "next --- v1.1.6.2 shared request / local-response infrastructure" in prose

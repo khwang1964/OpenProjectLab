@@ -39,8 +39,8 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Baseline" in baseline
     assert "v1.1.4 --- Marketplace CLI Implementation" in baseline
-    assert "**Implementation:** Production Parser Registration In Progress" in baseline
-    assert "**Production Parser Registration:** In Progress" in baseline
+    assert "**Implementation:** EN / zh-TW User Manual Updates Not Started" in baseline
+    assert "**Production Parser Registration:** Complete" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert "v1.1.4.1 Implementation Baseline / Architecture        Complete" in baseline
     assert "v1.1.4.2 Internal Catalog and Parsing Adapters          Complete" in baseline
@@ -48,7 +48,7 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
     assert "v1.1.4.4 verify / Safe Payload Acquisition              Complete" in baseline
     assert "v1.1.4.5 install / dry-run / No-partial-state           Complete" in baseline
     assert "v1.1.4.6 Deterministic JSON and Diagnostics             Complete" in baseline
-    assert "v1.1.4.7 Production Parser Registration                 In Progress" in baseline
+    assert "v1.1.4.7 Production Parser Registration                 Complete" in baseline
     assert "marketplace" in _top_level_commands()
 
 
@@ -254,6 +254,22 @@ def test_production_registration_starts_without_claiming_acceptance() -> None:
         assert "not accepted" in prose
 
     assert "marketplace" in _top_level_commands()
+
+
+def test_production_registration_terminal_alignment_records_merge() -> None:
+    merge_sha = "85f8ec822270fd3c993fc0b23fa70367681bcb0c"
+
+    for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
+        prose = _normalized(tracker)
+        lower_prose = prose.lower()
+        assert "implementation pr #184" in lower_prose
+        assert merge_sha in prose
+        assert "v1.1.4.7 production parser registration" in lower_prose
+        assert "complete" in lower_prose
+        assert "marketplace cli command handlers" in lower_prose
+        assert "formal v1.1 acceptance" in lower_prose
+        assert "not accepted" in lower_prose
+        assert "v1.1.4.8 en / zh-tw user manual updates" in lower_prose
 
 
 def test_code_review_and_acceptance_gates_are_complete() -> None:

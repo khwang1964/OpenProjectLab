@@ -2287,6 +2287,22 @@ query, safe verification, installation, JSON, and diagnostic adapters while
 preserving every v1 command and legacy `opl --list` behavior. This slice does
 not add activation, persistence, remote access, or AI CLI behavior.
 
+Implementation PR #184 subsequently passed required CI and was squash merged
+as `85f8ec822270fd3c993fc0b23fa70367681bcb0c`. After synchronizing `main`, the
+production parser and documentation functional-parity smoke completed with `33
+passed`; the working tree and repository consistency gates remained clean.
+Terminal documentation alignment completes v1.1.4.7 with this state:
+
+``` text
+v1.1.4 Marketplace CLI Implementation --- In Progress
+v1.1.4.7 Production Parser Registration --- Complete
+Implementation PR #184 --- Merged
+Implementation merge --- 85f8ec822270fd3c993fc0b23fa70367681bcb0c
+Marketplace CLI Command Handlers --- Complete
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.4.8 EN / zh-TW User Manual Updates
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

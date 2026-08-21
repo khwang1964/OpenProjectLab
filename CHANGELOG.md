@@ -197,6 +197,14 @@
     file-only local containment, SHA-256 verification, and explicit
     failure-before-installation boundaries; production parser registration
     remains Not Started.
+-   Verified implementation PR #178 passed required CI and squash merged as
+    `ec0a77cd19d8783e2877228ece0a9e006579436e`; synchronized `main` and
+    completed post-merge safe-verification checks.
+-   Completed `v1.1.4.4 verify / Safe Payload Acquisition` terminal alignment
+    while preserving installation and production parser registration as Not
+    Started and `Formal v1.1 Acceptance --- Not Accepted`.
+-   Moved the next active slice to
+    `v1.1.4.5 install / dry-run / No-partial-state`.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
 from generator.ai.models import AIRequest, AIResponse
+from generator.ai.service import AICourseGenerationService
+from generator.courseware.models import Course
 
 _TASK_BY_COMMAND = {
     "course": "courseware.generate",
@@ -88,3 +91,46 @@ class _LocalResponseProvider:
     def generate(self, request: AIRequest) -> AIResponse:
         self._requests.append(request)
         return self._response
+
+
+def _course_result(course: Course) -> dict[str, object]:
+    return {
+        "course_id": course.course_id,
+        "title": course.title,
+        "language": course.language,
+        "weeks": [{"number": week.number, "title": week.title} for week in course.weeks],
+    }
+
+
+def _handle_ai_course(args: argparse.Namespace) -> int:
+    """Run the deterministic local-response course application service."""
+    request = _load_ai_request(args.request, command="course")
+    response = _load_local_response(args.response)
+    provider = _LocalResponseProvider(response=response)
+    course = AICourseGenerationService(provider=provider).generate_course(request)
+    result = _course_result(course)
+
+    if args.json:
+        document = {
+            "schema_version": 1,
+            "command": "course",
+            "source": "local-response",
+            "result": result,
+        }
+        print(
+            json.dumps(
+                document,
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            )
+        )
+        return 0
+
+    print(f"課程：{course.title}")
+    print(f"課程代號：{course.course_id}")
+    print(f"語言：{course.language}")
+    print("週次：")
+    for week in course.weeks:
+        print(f"  {week.number}. {week.title}")
+    return 0

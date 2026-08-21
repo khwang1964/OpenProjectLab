@@ -2310,6 +2310,22 @@ inputs, deterministic JSON, dry-run, failure-before-side-effect behavior,
 non-activation, and Deferred remote/trust/dependency capabilities. Executable
 documentation automation keeps the examples aligned with production behavior.
 
+Documentation PR #186 subsequently passed required CI and was squash merged
+as `6a3a98d22ed2e2a995bb8d497ae5f7ff5607a0b4`. After synchronizing `main`, the
+bilingual structure, parity, functional-parity, executable-documentation, and
+production-parser smoke remained green. Terminal documentation alignment
+completes v1.1.4.8 with this state:
+
+``` text
+v1.1.4 Marketplace CLI Implementation --- In Progress
+v1.1.4.8 EN / zh-TW User Manual Updates --- Complete
+Documentation PR #186 --- Merged
+Documentation merge --- 6a3a98d22ed2e2a995bb8d497ae5f7ff5607a0b4
+EN / zh-TW Marketplace CLI Manuals --- Complete
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.4.9 Full Regression / CI / Formal Acceptance
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

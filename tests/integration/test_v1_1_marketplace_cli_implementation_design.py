@@ -39,11 +39,11 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Baseline" in baseline
     assert "v1.1.4 --- Marketplace CLI Implementation" in baseline
-    assert "**Implementation:** Internal Adapters In Progress" in baseline
+    assert "**Implementation:** Internal Adapters Complete" in baseline
     assert "**Production Parser Registration:** Not Started" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert "v1.1.4.1 Implementation Baseline / Architecture        Complete" in baseline
-    assert "v1.1.4.2 Internal Catalog and Parsing Adapters          In Progress" in baseline
+    assert "v1.1.4.2 Internal Catalog and Parsing Adapters          Complete" in baseline
     assert "marketplace" not in _top_level_commands()
 
 
@@ -154,6 +154,21 @@ def test_trackers_start_v1_1_4_without_claiming_implementation() -> None:
         assert "not started" in prose
         assert "formal v1.1 acceptance" in prose
         assert "not accepted" in prose
+
+
+def test_internal_adapter_terminal_alignment_records_merged_evidence() -> None:
+    merge_sha = "0ac32017b1420464c7c52a2b63993fc4e27a63b4"
+
+    for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
+        prose = _normalized(tracker)
+        lower_prose = prose.lower()
+        assert "implementation pr #174" in lower_prose
+        assert merge_sha in prose
+        assert "production parser registration" in lower_prose
+        assert "not started" in lower_prose
+        assert "formal v1.1 acceptance" in lower_prose
+        assert "not accepted" in lower_prose
+        assert "v1.1.4.3 versions / inspect" in lower_prose
 
 
 def test_code_review_and_acceptance_gates_are_complete() -> None:

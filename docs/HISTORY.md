@@ -2168,14 +2168,25 @@ Therefore internal global enumeration does not authorize or imply an
 ``` text
 v1.1.3 Marketplace CLI Contract --- Accepted
 v1.1.4 Marketplace CLI Implementation --- In Progress
-Implementation baseline / architecture --- In Progress
+Implementation baseline / architecture --- Complete
+Internal catalog and parsing adapters --- Complete
+Implementation PR #174 --- Merged
+Implementation merge --- 0ac32017b1420464c7c52a2b63993fc4e27a63b4
 Production parser registration --- Not Started
 Marketplace CLI command handlers --- Not Started
 EN / zh-TW Marketplace CLI manuals --- Not Started
 Canonical executable use-case demo extension --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
-Next --- v1.1.4.1 baseline design PR
+Next --- v1.1.4.3 versions / inspect
 ```
+
+Implementation PR #174 passed required CI and was squash merged as
+`0ac32017b1420464c7c52a2b63993fc4e27a63b4`. After synchronizing `main`, the
+focused post-merge adapter verification and repository consistency gates
+passed. Terminal documentation alignment therefore completes v1.1.4.2 without
+registering the production parser, adding command handlers, or expanding the
+accepted command inventory. The next active slice is v1.1.4.3 `versions /
+inspect`.
 
 ------------------------------------------------------------------------
 

@@ -2198,3 +2198,20 @@ Next --- v1.1.6.7 Experimental Provider Opt-in Boundary
 The template handler remains unregistered production infrastructure. The
 terminal alignment does not register the i parser, resolve a live provider,
 apply generated template content, or mutate the filesystem through AI output.
+
+<!-- v1.1.6.7-experimental-provider-opt-in-boundary -->
+
+## v1.1.6.7 Experimental Provider Opt-in Boundary
+
+v1.1.6.7 Experimental Provider Opt-in Boundary --- In Progress
+Provider Resolution --- Injection Only
+Supported Experimental Provider --- openai
+SDK Import / Environment Lookup --- Deferred to Composition Root
+Provider Handler Wiring --- Not Started
+AI CLI Production Registration --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.7 Implementation Verification / PR / CI
+
+The candidate introduces an explicit, fail-closed provider resolver. Unknown
+providers, absent client factories, and absent API keys fail before client
+construction. Existing deterministic local-response handlers remain unchanged.

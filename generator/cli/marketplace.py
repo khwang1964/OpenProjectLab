@@ -7,17 +7,25 @@ schema-version-1 local catalog loader over the existing Marketplace models.
 
 from __future__ import annotations
 
+import argparse
 import json
-from collections.abc import Mapping
+import sys
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import NoReturn
 
 from generator.marketplace.installation import (
+    ArtifactInstallationError,
     ArtifactInstallationResult,
     ArtifactInstaller,
+    InMemoryArtifactInstaller,
 )
-from generator.marketplace.integrity import sha256_digest, verify_integrity
+from generator.marketplace.integrity import (
+    ArtifactIntegrityError,
+    sha256_digest,
+    verify_integrity,
+)
 from generator.marketplace.models import (
     ArtifactCoordinate,
     ArtifactIdentity,
@@ -32,6 +40,7 @@ from generator.marketplace.repository import (
     ArtifactAlreadyExistsError,
     InMemoryMarketplaceRepository,
     MarketplaceRepository,
+    MarketplaceRepositoryError,
 )
 
 
@@ -116,6 +125,58 @@ class MarketplaceInstallOutcome:
                 raise ValueError("installation artifact must match verified artifact")
             if self.installation.payload_size != self.verified.payload_size:
                 raise ValueError("installation payload size must match verified payload size")
+
+
+def add_marketplace_parser(subparsers: argparse._SubParsersAction) -> None:
+    """Register the exact accepted Marketplace command family."""
+    marketplace = subparsers.add_parser(
+        "marketplace",
+        help="查詢、驗證及非啟用式安裝本機 Marketplace artifact",
+    )
+    commands = marketplace.add_subparsers(dest="marketplace_command", required=True)
+
+    versions = commands.add_parser("versions", help="列出 artifact 的可用版本")
+    versions.add_argument("identity", metavar="IDENTITY")
+    _add_catalog_option(versions)
+    _add_json_option(versions)
+    versions.set_defaults(command_handler=_handle_marketplace_versions)
+
+    inspect = commands.add_parser("inspect", help="檢視精確 artifact metadata")
+    inspect.add_argument("coordinate", metavar="COORDINATE")
+    _add_catalog_option(inspect)
+    _add_json_option(inspect)
+    inspect.set_defaults(command_handler=_handle_marketplace_inspect)
+
+    verify = commands.add_parser("verify", help="安全取得並驗證本機 payload")
+    verify.add_argument("coordinate", metavar="COORDINATE")
+    _add_catalog_option(verify)
+    _add_payload_root_option(verify)
+    _add_json_option(verify)
+    verify.set_defaults(command_handler=_handle_marketplace_verify)
+
+    install = commands.add_parser("install", help="驗證後執行非啟用式安裝")
+    install.add_argument("coordinate", metavar="COORDINATE")
+    _add_catalog_option(install)
+    _add_payload_root_option(install)
+    install.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="完成驗證但不呼叫 installer",
+    )
+    _add_json_option(install)
+    install.set_defaults(command_handler=_handle_marketplace_install)
+
+
+def _add_catalog_option(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--catalog", type=Path, required=True, metavar="FILE")
+
+
+def _add_payload_root_option(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--payload-root", type=Path, required=True, metavar="DIR")
+
+
+def _add_json_option(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--json", dest="json_output", action="store_true")
 
 
 def parse_artifact_identity(value: str) -> ArtifactIdentity:
@@ -265,6 +326,77 @@ def install_marketplace_artifact(
         installation=installation,
         dry_run=False,
     )
+
+
+def _handle_marketplace_versions(args: argparse.Namespace) -> int:
+    return _run_marketplace_handler(
+        lambda: render_marketplace_versions(
+            parse_artifact_identity(args.identity),
+            get_marketplace_versions(load_marketplace_catalog(args.catalog), args.identity),
+            json_output=args.json_output,
+        )
+    )
+
+
+def _handle_marketplace_inspect(args: argparse.Namespace) -> int:
+    return _run_marketplace_handler(
+        lambda: render_marketplace_inspect(
+            inspect_marketplace_artifact(
+                load_marketplace_catalog(args.catalog),
+                args.coordinate,
+            ),
+            json_output=args.json_output,
+        )
+    )
+
+
+def _handle_marketplace_verify(args: argparse.Namespace) -> int:
+    return _run_marketplace_handler(
+        lambda: render_marketplace_verify(
+            verify_marketplace_artifact(
+                load_marketplace_catalog(args.catalog),
+                args.coordinate,
+                args.payload_root,
+            ),
+            json_output=args.json_output,
+        )
+    )
+
+
+def _handle_marketplace_install(args: argparse.Namespace) -> int:
+    return _run_marketplace_handler(
+        lambda: render_marketplace_install(
+            install_marketplace_artifact(
+                load_marketplace_catalog(args.catalog),
+                InMemoryArtifactInstaller(),
+                args.coordinate,
+                args.payload_root,
+                dry_run=args.dry_run,
+            ),
+            json_output=args.json_output,
+        )
+    )
+
+
+def _run_marketplace_handler(operation: Callable[[], MarketplaceCliOutput]) -> int:
+    try:
+        output = operation()
+    except (
+        ArtifactInstallationError,
+        ArtifactIntegrityError,
+        MarketplaceRepositoryError,
+        OSError,
+        TypeError,
+        ValueError,
+    ) as exc:
+        output = render_marketplace_failure(exc)
+    return _emit_marketplace_output(output)
+
+
+def _emit_marketplace_output(output: MarketplaceCliOutput) -> int:
+    sys.stdout.write(output.stdout)
+    sys.stderr.write(output.stderr)
+    return output.exit_code
 
 
 def render_marketplace_versions(

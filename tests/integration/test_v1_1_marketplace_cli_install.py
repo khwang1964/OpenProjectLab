@@ -244,5 +244,5 @@ def test_install_requires_boolean_dry_run_before_any_side_effect(tmp_path: Path)
     assert installer.calls == []
 
 
-def test_install_service_does_not_register_production_parser() -> None:
-    assert "marketplace" not in _top_level_commands()
+def test_install_service_remains_available_after_production_registration() -> None:
+    assert "marketplace" in _top_level_commands()

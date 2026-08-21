@@ -46,10 +46,10 @@ def test_marketplace_cli_contract_is_accepted_before_implementation() -> None:
     assert "**Formal v1.1 Acceptance:** Not Accepted" in contract
 
 
-def test_marketplace_command_is_not_registered_during_contract_design() -> None:
+def test_marketplace_command_registers_only_after_the_accepted_contract() -> None:
     contract = _read(CONTRACT)
 
-    assert "marketplace" not in _top_level_commands()
+    assert "marketplace" in _top_level_commands()
     assert "must not register `marketplace` until v1.1.4" in _normalized(CONTRACT)
     assert "contract design and fail-closed automation only" in contract
 

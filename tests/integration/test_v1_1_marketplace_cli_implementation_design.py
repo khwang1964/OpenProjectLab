@@ -39,8 +39,8 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Baseline" in baseline
     assert "v1.1.4 --- Marketplace CLI Implementation" in baseline
-    assert "**Implementation:** Production Parser Registration Not Started" in baseline
-    assert "**Production Parser Registration:** Not Started" in baseline
+    assert "**Implementation:** Production Parser Registration In Progress" in baseline
+    assert "**Production Parser Registration:** In Progress" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert "v1.1.4.1 Implementation Baseline / Architecture        Complete" in baseline
     assert "v1.1.4.2 Internal Catalog and Parsing Adapters          Complete" in baseline
@@ -48,7 +48,8 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
     assert "v1.1.4.4 verify / Safe Payload Acquisition              Complete" in baseline
     assert "v1.1.4.5 install / dry-run / No-partial-state           Complete" in baseline
     assert "v1.1.4.6 Deterministic JSON and Diagnostics             Complete" in baseline
-    assert "marketplace" not in _top_level_commands()
+    assert "v1.1.4.7 Production Parser Registration                 In Progress" in baseline
+    assert "marketplace" in _top_level_commands()
 
 
 def test_baseline_preserves_exact_accepted_command_inventory() -> None:
@@ -242,6 +243,17 @@ def test_json_diagnostics_terminal_alignment_records_merged_evidence() -> None:
         assert "formal v1.1 acceptance" in lower_prose
         assert "not accepted" in lower_prose
         assert "v1.1.4.7 production parser registration" in lower_prose
+
+
+def test_production_registration_starts_without_claiming_acceptance() -> None:
+    for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
+        prose = _normalized(tracker).lower()
+        assert "v1.1.4.7 production parser registration" in prose
+        assert "in progress" in prose
+        assert "formal v1.1 acceptance" in prose
+        assert "not accepted" in prose
+
+    assert "marketplace" in _top_level_commands()
 
 
 def test_code_review_and_acceptance_gates_are_complete() -> None:

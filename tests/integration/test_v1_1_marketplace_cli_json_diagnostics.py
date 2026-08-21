@@ -200,5 +200,5 @@ def test_output_invariants_reject_mixed_or_unknown_process_states() -> None:
         MarketplaceCliOutput("", "", 1)
 
 
-def test_rendering_slice_does_not_register_production_parser() -> None:
-    assert "marketplace" not in _top_level_commands()
+def test_rendering_is_used_after_production_registration() -> None:
+    assert "marketplace" in _top_level_commands()

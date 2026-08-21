@@ -22,6 +22,7 @@ EXPECTED_V1_COMMANDS = frozenset(
         "week",
     }
 )
+EXPECTED_ADDITIVE_COMMANDS = frozenset({"marketplace"})
 
 VALID_V1_COMMAND_LINES: tuple[tuple[str, ...], ...] = (
     ("list",),
@@ -156,9 +157,9 @@ def _parse(argv: Sequence[str]):
     return build_parser().parse_args(argv)
 
 
-def test_v1_cli_command_inventory_is_exact() -> None:
-    """Freeze the exact reviewed v1 top-level command inventory."""
-    assert _command_choices() == EXPECTED_V1_COMMANDS
+def test_v1_cli_command_inventory_is_preserved_with_reviewed_additions() -> None:
+    """Preserve every v1 command while allowing reviewed additive families."""
+    assert _command_choices() == EXPECTED_V1_COMMANDS | EXPECTED_ADDITIVE_COMMANDS
 
 
 @pytest.mark.parametrize("argv", VALID_V1_COMMAND_LINES)

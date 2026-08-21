@@ -37,6 +37,7 @@ MAJOR_CLI_COMMANDS = frozenset(
         "upgrade",
     }
 )
+REVIEWED_V1_1_ADDITIVE_COMMANDS = frozenset({"marketplace"})
 
 GENERATOR_IDENTITIES = frozenset(
     {
@@ -132,12 +133,12 @@ def _assert_terms_present(
     assert missing == [], f"{language} {chapter} is missing {contract_name}: {missing}"
 
 
-def test_production_cli_major_command_contract_matches_v1_manual_contract() -> None:
-    """The documented major command set must equal the production CLI surface."""
+def test_production_cli_preserves_v1_manual_contract_with_reviewed_additions() -> None:
+    """Preserve the v1 manual command set while allowing reviewed additions."""
     parser = build_parser()
     actual_commands = frozenset(_subparser_choices(parser))
 
-    assert actual_commands == MAJOR_CLI_COMMANDS
+    assert actual_commands == MAJOR_CLI_COMMANDS | REVIEWED_V1_1_ADDITIVE_COMMANDS
 
 
 @pytest.mark.parametrize(
@@ -151,7 +152,7 @@ def test_bilingual_cli_manual_documents_all_major_commands(
     language: str,
     language_root: Path,
 ) -> None:
-    """Both CLI manuals must document every major production command."""
+    """Both frozen v1.0 CLI manuals must document every v1 major command."""
     text = _read_manual(language_root, "cli.md")
 
     _assert_terms_present(

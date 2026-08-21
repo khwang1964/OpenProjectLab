@@ -184,6 +184,15 @@
 -   Started `v1.1.4.3 versions / inspect --- In Progress` with internal,
     side-effect-free query services over the accepted repository boundary;
     production parser registration remains Not Started.
+-   Verified implementation PR #176 passed required CI and squash merged as
+    `d1fbfbbd60c9d7ae14efdff443ff550032f279c2`; synchronized `main` and
+    completed post-merge versions/inspect verification.
+-   Completed `v1.1.4.3 versions / inspect` terminal documentation alignment
+    while preserving production parser registration and all later Marketplace
+    CLI implementation slices as Not Started.
+-   Moved the next active slice to
+    `v1.1.4.4 verify / Safe Payload Acquisition` while preserving
+    `Formal v1.1 Acceptance --- Not Accepted`.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

@@ -2194,6 +2194,22 @@ existing repository operations, do not use global enumeration, and do not
 acquire, verify, install, render final output, or register the production
 parser. Current state is `v1.1.4.3 versions / inspect --- In Progress`.
 
+Implementation PR #176 subsequently passed required CI and was squash merged
+as `d1fbfbbd60c9d7ae14efdff443ff550032f279c2`. After synchronizing `main`, the
+focused versions/inspect suite, Marketplace regression, production-parser
+absence check, and repository consistency gates passed. Terminal documentation
+alignment completes v1.1.4.3 with this state:
+
+``` text
+v1.1.4 Marketplace CLI Implementation --- In Progress
+v1.1.4.3 versions / inspect --- Complete
+Implementation PR #176 --- Merged
+Implementation merge --- d1fbfbbd60c9d7ae14efdff443ff550032f279c2
+Production Parser Registration --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.4.4 verify / Safe Payload Acquisition
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

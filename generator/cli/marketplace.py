@@ -13,6 +13,10 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import NoReturn
 
+from generator.marketplace.installation import (
+    ArtifactInstallationResult,
+    ArtifactInstaller,
+)
 from generator.marketplace.integrity import sha256_digest, verify_integrity
 from generator.marketplace.models import (
     ArtifactCoordinate,
@@ -69,6 +73,30 @@ class VerifiedMarketplacePayload:
             raise TypeError("digest must be a string")
         if self.payload_size != len(self.payload):
             raise ValueError("payload_size must equal the payload byte length")
+
+
+@dataclass(frozen=True, slots=True)
+class MarketplaceInstallOutcome:
+    """Immutable result of verified installation or a verified dry run."""
+
+    verified: VerifiedMarketplacePayload
+    installation: ArtifactInstallationResult | None
+    dry_run: bool
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.verified, VerifiedMarketplacePayload):
+            raise TypeError("verified must be a VerifiedMarketplacePayload")
+        if not isinstance(self.dry_run, bool):
+            raise TypeError("dry_run must be a bool")
+        if self.dry_run and self.installation is not None:
+            raise ValueError("dry-run outcome must not contain an installation result")
+        if not self.dry_run and self.installation is None:
+            raise ValueError("non-dry-run outcome requires an installation result")
+        if self.installation is not None:
+            if self.installation.artifact != self.verified.artifact:
+                raise ValueError("installation artifact must match verified artifact")
+            if self.installation.payload_size != self.verified.payload_size:
+                raise ValueError("installation payload size must match verified payload size")
 
 
 def parse_artifact_identity(value: str) -> ArtifactIdentity:
@@ -189,6 +217,34 @@ def verify_marketplace_artifact(
         payload=payload,
         digest=sha256_digest(payload),
         payload_size=len(payload),
+    )
+
+
+def install_marketplace_artifact(
+    repository: MarketplaceRepository,
+    installer: ArtifactInstaller,
+    coordinate: str,
+    payload_root: Path,
+    *,
+    dry_run: bool = False,
+) -> MarketplaceInstallOutcome:
+    """Verify before installing, or return verified evidence for a dry run."""
+    if not isinstance(dry_run, bool):
+        raise TypeError("dry_run must be a bool")
+
+    verified = verify_marketplace_artifact(repository, coordinate, payload_root)
+    if dry_run:
+        return MarketplaceInstallOutcome(
+            verified=verified,
+            installation=None,
+            dry_run=True,
+        )
+
+    installation = installer.install(verified.artifact, verified.payload)
+    return MarketplaceInstallOutcome(
+        verified=verified,
+        installation=installation,
+        dry_run=False,
     )
 
 

@@ -205,6 +205,10 @@
     Started and `Formal v1.1 Acceptance --- Not Accepted`.
 -   Moved the next active slice to
     `v1.1.4.5 install / dry-run / No-partial-state`.
+-   Started `v1.1.4.5 install / dry-run / No-partial-state --- In Progress`
+    with verification-before-installation orchestration, immutable outcomes,
+    dry-run no-install behavior, and duplicate-installation preservation;
+    production parser registration remains Not Started.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

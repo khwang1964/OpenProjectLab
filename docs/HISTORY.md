@@ -2233,6 +2233,13 @@ Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.4.5 install / dry-run / No-partial-state
 ```
 
+The project subsequently started v1.1.4.5 with internal installation
+orchestration only. Lookup, safe acquisition, and integrity verification must
+complete before the existing installer is called. Dry-run returns verified
+evidence without installation, and all earlier failure paths leave installer
+state unchanged. Activation, persistence, final rendering, and production
+parser registration remain outside this slice.
+
 ------------------------------------------------------------------------
 
 # 我們的願景

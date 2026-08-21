@@ -238,6 +238,15 @@
     inventory, v1 preservation, stdout/stderr, exit `0`/`2`, and production
     handler integration assertions; AI CLI and Formal v1.1 Acceptance remain
     Not Started / Not Accepted.
+-   Verified implementation PR #184 passed required CI and squash merged as
+    `85f8ec822270fd3c993fc0b23fa70367681bcb0c`; synchronized `main` and
+    completed the post-merge production parser and documentation-parity smoke.
+-   Completed `v1.1.4.7 Production Parser Registration` terminal alignment,
+    including the exact four-command inventory and completed production
+    Marketplace handlers, while preserving Formal v1.1 Acceptance as Not
+    Accepted.
+-   Moved the next active slice to
+    `v1.1.4.8 EN / zh-TW User Manual Updates`.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

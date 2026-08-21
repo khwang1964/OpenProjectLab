@@ -1820,7 +1820,7 @@ v1.1.4.3 versions / inspect                             Complete
 v1.1.4.4 verify / Safe Payload Acquisition              Complete
 v1.1.4.5 install / dry-run / No-partial-state           Complete
 v1.1.4.6 Deterministic JSON and Diagnostics             Complete
-v1.1.4.7 Production Parser Registration                 In Progress
+v1.1.4.7 Production Parser Registration                 Complete
 v1.1.4.8 EN / zh-TW User Manual Updates                 Not Started
 v1.1.4.9 Full Regression / CI / Formal Acceptance       Not Accepted
 Marketplace CLI Implementation                         In Progress
@@ -1835,10 +1835,12 @@ Implementation PR #180                                  Merged
 Implementation merge                                    4de1347edc09d959cd8b00d6acc6f459defd938e
 Implementation PR #182                                  Merged
 Implementation merge                                    b415f7f02f9c81d92341a010c449ff619d97b8cd
-Production Parser Registration                          In Progress
-Marketplace CLI Command Handlers                        In Progress
+Implementation PR #184                                  Merged
+Implementation merge                                    85f8ec822270fd3c993fc0b23fa70367681bcb0c
+Production Parser Registration                          Complete
+Marketplace CLI Command Handlers                        Complete
 Formal v1.1 Acceptance                                  Not Accepted
-Next --- v1.1.4.7 production parser registration implementation PR
+Next --- v1.1.4.8 EN / zh-TW User Manual Updates
 ```
 
 Governing contract PR #170 已 squash merge 為

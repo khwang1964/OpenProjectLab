@@ -32,11 +32,11 @@ def _top_level_commands() -> frozenset[str]:
     raise AssertionError("CLI subcommand registry was not found")
 
 
-def test_contract_is_proposed_without_production_registration() -> None:
+def test_contract_is_accepted_without_production_registration() -> None:
     contract = _read(CONTRACT)
 
     assert "# OpenProjectLab v1.1 AI CLI Contract" in contract
-    assert "**Status:** Proposed --- Contract In Progress" in contract
+    assert "**Status:** Accepted --- Contract Complete" in contract
     assert "v1.1.5 --- AI CLI Contract" in contract
     assert "**AI CLI Production Registration:** Not Started" in contract
     assert "**AI CLI Implementation:** Not Started" in contract
@@ -133,12 +133,14 @@ def test_deferred_capabilities_do_not_leak_into_v1_1_contract() -> None:
         assert boundary in prose
 
 
-def test_trackers_start_ai_contract_without_claiming_implementation() -> None:
+def test_trackers_accept_ai_contract_without_claiming_implementation() -> None:
     for tracker in (ROADMAP, HISTORY, CHANGELOG):
         prose = _normalized(tracker).lower()
-        assert "v1.1.5 ai cli contract" in prose
-        assert "in progress" in prose
-        assert "ai cli implementation" in prose
-        assert "not started" in prose
-        assert "formal v1.1 acceptance" in prose
-        assert "not accepted" in prose
+        assert "v1.1.5 ai cli contract --- accepted" in prose
+        assert "contract pr #190 --- merged" in prose
+        assert "cf3da5a937bda4a478b5530660cfc0054e2e42c2" in prose
+        assert "post-merge contract verification --- 70 passed" in prose
+        assert "ai cli production registration --- not started" in prose
+        assert "v1.1.6 ai cli implementation --- not started" in prose
+        assert "formal v1.1 acceptance --- not accepted" in prose
+        assert "next --- v1.1.6 ai cli implementation" in prose

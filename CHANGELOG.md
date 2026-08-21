@@ -158,6 +158,19 @@
     `Formal v1.1 Acceptance --- Not Accepted`.
 -   Recorded `Next --- v1.1.4 Marketplace CLI Implementation` as the active
     follow-up slice.
+-   Started `v1.1.4 Marketplace CLI Implementation --- In Progress` with a
+    Design First implementation baseline; production parser registration and
+    command handlers remain Not Started.
+-   Clarified that internal `MarketplaceRepository.list_artifacts()` exists
+    but remains intentionally outside the accepted Marketplace CLI surface;
+    v1.1.4 does not add `opl marketplace list`.
+-   Defined the implementation sequence for internal parsing/catalog adapters,
+    `versions`/`inspect`, safe `verify`, non-activating `install`, deterministic
+    JSON/diagnostics, production registration, bilingual manuals, and formal
+    implementation acceptance.
+-   Added fail-closed design automation requiring architecture, tests,
+    EN/zh-TW functional parity, executable documentation, and the canonical
+    in-repository use-case demo boundary before implementation can be accepted.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

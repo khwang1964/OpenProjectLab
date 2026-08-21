@@ -1818,7 +1818,7 @@ v1.1.4.1 Implementation Baseline / Architecture        Complete
 v1.1.4.2 Internal Catalog and Parsing Adapters          Complete
 v1.1.4.3 versions / inspect                             Complete
 v1.1.4.4 verify / Safe Payload Acquisition              Complete
-v1.1.4.5 install / dry-run / No-partial-state           In Progress
+v1.1.4.5 install / dry-run / No-partial-state           Complete
 v1.1.4.6 Deterministic JSON and Diagnostics             Not Started
 v1.1.4.7 Production Parser Registration                 Not Started
 v1.1.4.8 EN / zh-TW User Manual Updates                 Not Started
@@ -1831,9 +1831,12 @@ Implementation PR #176                                  Merged
 Implementation merge                                    d1fbfbbd60c9d7ae14efdff443ff550032f279c2
 Implementation PR #178                                  Merged
 Implementation merge                                    ec0a77cd19d8783e2877228ece0a9e006579436e
+Implementation PR #180                                  Merged
+Implementation merge                                    4de1347edc09d959cd8b00d6acc6f459defd938e
 Production Parser Registration                          Not Started
 Marketplace CLI Command Handlers                        Not Started
-Next --- v1.1.4.5 install / dry-run implementation PR
+Formal v1.1 Acceptance                                  Not Accepted
+Next --- v1.1.4.6 Deterministic JSON and Diagnostics
 ```
 
 Governing contract PR #170 已 squash merge 為

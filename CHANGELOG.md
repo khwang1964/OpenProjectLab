@@ -209,6 +209,14 @@
     with verification-before-installation orchestration, immutable outcomes,
     dry-run no-install behavior, and duplicate-installation preservation;
     production parser registration remains Not Started.
+-   Verified implementation PR #180 passed required CI and squash merged as
+    `4de1347edc09d959cd8b00d6acc6f459defd938e`; synchronized `main` and
+    completed focused post-merge install/dry-run verification.
+-   Completed `v1.1.4.5 install / dry-run / No-partial-state` terminal
+    alignment while preserving production parser registration as Not Started
+    and `Formal v1.1 Acceptance --- Not Accepted`.
+-   Moved the next active slice to
+    `v1.1.4.6 Deterministic JSON and Diagnostics`.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

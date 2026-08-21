@@ -193,6 +193,10 @@
 -   Moved the next active slice to
     `v1.1.4.4 verify / Safe Payload Acquisition` while preserving
     `Formal v1.1 Acceptance --- Not Accepted`.
+-   Started `v1.1.4.4 verify / Safe Payload Acquisition --- In Progress` with
+    file-only local containment, SHA-256 verification, and explicit
+    failure-before-installation boundaries; production parser registration
+    remains Not Started.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

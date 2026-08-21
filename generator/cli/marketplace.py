@@ -9,9 +9,11 @@ from __future__ import annotations
 
 import json
 from collections.abc import Mapping
-from pathlib import Path
+from dataclasses import dataclass
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import NoReturn
 
+from generator.marketplace.integrity import sha256_digest, verify_integrity
 from generator.marketplace.models import (
     ArtifactCoordinate,
     ArtifactIdentity,
@@ -43,6 +45,30 @@ class MarketplaceCoordinateParseError(MarketplaceCliAdapterError):
 
 class MarketplaceCatalogError(MarketplaceCliAdapterError):
     """Raised when a local Marketplace catalog cannot be loaded safely."""
+
+
+class MarketplacePayloadError(MarketplaceCliAdapterError):
+    """Raised when a local Marketplace payload cannot be acquired safely."""
+
+
+@dataclass(frozen=True, slots=True)
+class VerifiedMarketplacePayload:
+    """Immutable result of safe local acquisition and integrity verification."""
+
+    artifact: MarketplaceArtifact
+    payload: bytes
+    digest: str
+    payload_size: int
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.artifact, MarketplaceArtifact):
+            raise TypeError("artifact must be a MarketplaceArtifact")
+        if not isinstance(self.payload, bytes):
+            raise TypeError("payload must be bytes")
+        if not isinstance(self.digest, str):
+            raise TypeError("digest must be a string")
+        if self.payload_size != len(self.payload):
+            raise ValueError("payload_size must equal the payload byte length")
 
 
 def parse_artifact_identity(value: str) -> ArtifactIdentity:
@@ -131,6 +157,69 @@ def inspect_marketplace_artifact(
         parsed_coordinate.identity,
         parsed_coordinate.version,
     )
+
+
+def verify_marketplace_artifact(
+    repository: MarketplaceRepository,
+    coordinate: str,
+    payload_root: Path,
+) -> VerifiedMarketplacePayload:
+    """Safely acquire and verify one exact local-file Marketplace artifact."""
+    if not isinstance(payload_root, Path):
+        raise TypeError("payload_root must be a pathlib.Path")
+
+    artifact = inspect_marketplace_artifact(repository, coordinate)
+    if artifact.distribution.kind != "file":
+        raise MarketplacePayloadError("Marketplace verify requires a file distribution")
+
+    payload_path = _resolve_safe_payload_path(
+        payload_root,
+        artifact.distribution.reference,
+    )
+    try:
+        payload = payload_path.read_bytes()
+    except OSError as exc:
+        raise MarketplacePayloadError(
+            f"unable to read Marketplace payload: {artifact.coordinate}"
+        ) from exc
+
+    verify_integrity(payload, artifact.integrity)
+    return VerifiedMarketplacePayload(
+        artifact=artifact,
+        payload=payload,
+        digest=sha256_digest(payload),
+        payload_size=len(payload),
+    )
+
+
+def _resolve_safe_payload_path(payload_root: Path, reference: str) -> Path:
+    windows_reference = PureWindowsPath(reference)
+    normalized_reference = reference.replace("\\", "/")
+    posix_reference = PurePosixPath(normalized_reference)
+
+    if windows_reference.drive or windows_reference.is_absolute() or posix_reference.is_absolute():
+        raise MarketplacePayloadError("Marketplace payload reference must be relative")
+    if ".." in posix_reference.parts:
+        raise MarketplacePayloadError("Marketplace payload reference must not traverse parents")
+
+    try:
+        resolved_root = payload_root.resolve(strict=True)
+    except OSError as exc:
+        raise MarketplacePayloadError("Marketplace payload root is unavailable") from exc
+    if not resolved_root.is_dir():
+        raise MarketplacePayloadError("Marketplace payload root must be a directory")
+
+    try:
+        resolved_payload = (resolved_root / Path(*posix_reference.parts)).resolve(strict=True)
+        resolved_payload.relative_to(resolved_root)
+    except (OSError, ValueError) as exc:
+        raise MarketplacePayloadError(
+            "Marketplace payload is missing or escapes the payload root"
+        ) from exc
+
+    if not resolved_payload.is_file():
+        raise MarketplacePayloadError("Marketplace payload must be a regular file")
+    return resolved_payload
 
 
 def _parse_catalog_artifact(raw_artifact: object, *, index: int) -> MarketplaceArtifact:

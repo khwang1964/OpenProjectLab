@@ -1636,3 +1636,24 @@ Next --- v1.1.6 AI CLI Implementation
     AI CLI Production Registration --- Not Started
     Formal v1.1 Acceptance --- Not Accepted
     Next --- v1.1.6.4 review handler
+
+------------------------------------------------------------------------
+
+## v1.1.6.4 AI CLI Review Handler
+
+    v1.1.6.3 course handler --- Accepted
+    v1.1.6.4 review handler --- In Progress
+    review service --- AIReviewService.review(request)
+    review JSON projection --- Deterministic / ordered
+    AI CLI document handler --- Not Started
+    AI CLI Production Registration --- Not Started
+    Formal v1.1 Acceptance --- Not Accepted
+    Next --- v1.1.6.5 document handler
+
+### Code Review Checklist
+
+- Existing AIReviewService and mapper remain authoritative.
+- Finding order and JSON keys are deterministic.
+- Failure emits no success output.
+- No filesystem mutation, credentials, or network access is introduced.
+- The production ai parser remains unregistered.

@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 
 from generator.ai.models import AIRequest, AIResponse
+from generator.ai.review import AIReviewResult
+from generator.ai.review_service import AIReviewService
 from generator.ai.service import AICourseGenerationService
 from generator.courseware.models import Course
 
@@ -133,4 +135,51 @@ def _handle_ai_course(args: argparse.Namespace) -> int:
     print("週次：")
     for week in course.weeks:
         print(f"  {week.number}. {week.title}")
+    return 0
+
+
+def _review_result(result: AIReviewResult) -> dict[str, object]:
+    return {
+        "findings": [
+            {
+                "category": finding.category,
+                "severity": finding.severity,
+                "message": finding.message,
+                "recommendation": finding.recommendation,
+            }
+            for finding in result.findings
+        ]
+    }
+
+
+def _handle_ai_review(args: argparse.Namespace) -> int:
+    """Run the deterministic local-response review application service."""
+    request = _load_ai_request(args.request, command="review")
+    response = _load_local_response(args.response)
+    provider = _LocalResponseProvider(response=response)
+    review = AIReviewService(provider=provider).review(request)
+    result = _review_result(review)
+
+    if args.json:
+        document = {
+            "schema_version": 1,
+            "command": "review",
+            "source": "local-response",
+            "result": result,
+        }
+        print(
+            json.dumps(
+                document,
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            )
+        )
+        return 0
+
+    print(f"檢閱發現：{len(review.findings)}")
+    for index, finding in enumerate(review.findings, start=1):
+        print(f"  {index}. [{finding.severity}] {finding.category}")
+        print(f"     訊息：{finding.message}")
+        print(f"     建議：{finding.recommendation}")
     return 0

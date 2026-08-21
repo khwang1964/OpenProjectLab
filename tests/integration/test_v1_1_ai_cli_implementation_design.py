@@ -47,7 +47,7 @@ def test_baseline_precedes_product_implementation() -> None:
     assert "Post-merge verification --- 75 passed" in baseline
     assert "**AI CLI Production Registration:** Not Started" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
-    assert not PRODUCTION_MODULE.exists()
+    assert PRODUCTION_MODULE.is_file()
     assert "ai" not in _commands()
 
 

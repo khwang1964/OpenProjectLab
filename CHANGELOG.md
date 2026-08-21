@@ -247,6 +247,14 @@
     Accepted.
 -   Moved the next active slice to
     `v1.1.4.8 EN / zh-TW User Manual Updates`.
+-   Started `v1.1.4.8 EN / zh-TW User Manual Updates --- In Progress` with
+    functionally equivalent Marketplace CLI chapters documenting the exact
+    four-command inventory, local catalog/payload workflow, dry-run, JSON,
+    stream/exit behavior, non-activation, and Deferred capabilities.
+-   Added bilingual CLI chapter links and executable documentation automation
+    that runs a documented Marketplace command against a local fixture while
+    preserving the frozen v1.0 manual contract and Formal v1.1 Acceptance as
+    Not Accepted.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

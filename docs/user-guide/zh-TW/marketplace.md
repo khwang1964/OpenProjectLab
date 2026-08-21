@@ -1,78 +1,159 @@
-# Marketplace
+# Marketplace CLI
 
-OpenProjectLab 的 Marketplace layer 定義 versioned artifact metadata、acquisition、integrity verification 與 installation 的 deterministic contracts。它刻意比 hosted public marketplace service 更窄。
+OpenProjectLab 提供 deterministic、local-only 的 Marketplace CLI，用於檢視
+versioned artifacts、驗證 exact payload bytes，以及執行 process-local、
+non-activating installation。
 
-## Domain scope
+## 命令清單
 
-Marketplace domain 包含 `ArtifactIdentity`、`ArtifactVersion`、`ArtifactCoordinate`、`ArtifactType`、`CompatibilityRequirement`、`DistributionMetadata`、`IntegrityMetadata`、`MarketplaceArtifact`。
-
-exact coordinate 識別 exact versioned artifact，有利於 deterministic lookup 與 tests。
-
-## Pipeline boundaries
-
-以下 stages 必須分離：
+production command family 僅包含：
 
 ```text
-metadata lookup
-→ acquire exact payload bytes
-→ verify integrity
-→ install validated payload
+opl marketplace versions IDENTITY --catalog FILE [--json]
+opl marketplace inspect COORDINATE --catalog FILE [--json]
+opl marketplace verify COORDINATE --catalog FILE --payload-root DIR [--json]
+opl marketplace install COORDINATE --catalog FILE --payload-root DIR [--dry-run] [--json]
 ```
 
-metadata lookup 不等於 acquisition；acquisition 不等於 verification；verification 不等於 installation 或 activation。
+`IDENTITY` 格式為 `namespace/name`；`COORDINATE` 格式為
+`namespace/name@MAJOR.MINOR.PATCH`。
 
-## Acquisition
+沒有 `opl marketplace list` 命令。若要查詢版本，請針對一個 exact
+identity 使用 `versions`。
 
-`ArtifactAcquirer.acquire(MarketplaceArtifact) -> bytes` 回傳 payload bytes。baseline in-memory acquirer 不執行 integrity verification、installation、activation、plugin registration、Generator execution、filesystem mutation 或 network access。
+## 本機 catalog
 
-## Integrity
+每個命令都必須明確指定一份 UTF-8 JSON catalog。最小範例如下：
 
-目前 verifier 支援依 `IntegrityMetadata` 做 deterministic SHA-256 digest checking。digest mismatch 產生 integrity error；unsupported algorithm 產生獨立 error。
+```json
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "schema_version": 1,
+      "identity": {
+        "namespace": "community",
+        "name": "demo"
+      },
+      "version": "1.2.3",
+      "artifact_type": "template",
+      "description": "Local demo artifact",
+      "compatibility": ">=1.0,<2.0",
+      "distribution": {
+        "kind": "file",
+        "reference": "packages/demo.opl"
+      },
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "<64 lowercase hexadecimal characters>"
+      }
+    }
+  ]
+}
+```
 
-digest integrity 只證明 bytes 與 declared digest 相符，**不**建立 publisher identity、provenance、trust 或 authenticity。
+若 UTF-8 JSON malformed、schema version 不支援、field type 錯誤、出現
+unknown field、identity／coordinate 無效，或 exact coordinate 重複，catalog
+parsing 會 fail closed。
 
-## Installation
+## Payload root 與安全性
 
-`ArtifactInstaller` 安裝 artifact payload 並回傳 `ArtifactInstallationResult`。目前 in-memory implementation 記錄 bytes/metadata、回報 `installed`，並拒絕同一 exact coordinate 重複安裝。
+`verify` 與 `install` 必須指定 `--payload-root DIR`。artifact 的
+`distribution.reference` 只能在此 root 下解析。
 
-installation 刻意與 activation 分離：
+CLI 會拒絕 absolute path、drive-prefixed path、parent traversal、missing
+file、directory、escaping symlink、unsupported distribution kind，以及任何
+network fallback。Lookup、containment、acquisition 與 SHA-256 verification
+必須在 installation 之前完成。
+
+## 操作範例
+
+列出 deterministic semantic versions：
+
+```powershell
+python -m generator.cli.main marketplace versions community/demo `
+  --catalog .\examples\marketplace\catalog.json
+```
+
+以 JSON 檢視一個 exact artifact：
+
+```powershell
+python -m generator.cli.main marketplace inspect community/demo@1.2.3 `
+  --catalog .\examples\marketplace\catalog.json `
+  --json
+```
+
+驗證本機 payload bytes，但不安裝：
+
+```powershell
+python -m generator.cli.main marketplace verify community/demo@1.2.3 `
+  --catalog .\examples\marketplace\catalog.json `
+  --payload-root .\examples\marketplace\payloads `
+  --json
+```
+
+不呼叫 installer，先預覽 installation：
+
+```powershell
+python -m generator.cli.main marketplace install community/demo@1.2.3 `
+  --catalog .\examples\marketplace\catalog.json `
+  --payload-root .\examples\marketplace\payloads `
+  --dry-run `
+  --json
+```
+
+執行 process-local installation：
+
+```powershell
+python -m generator.cli.main marketplace install community/demo@1.2.3 `
+  --catalog .\examples\marketplace\catalog.json `
+  --payload-root .\examples\marketplace\payloads
+```
+
+## 輸出與失敗
+
+human-readable success output 寫入 stdout。使用 `--json` 時，成功只輸出一個
+compact UTF-8 JSON object，且包含 `schema_version: 1`。diagnostic 寫入
+stderr。
+
+broad exit contract：
+
+- `0`：Marketplace operation 成功；
+- `2`：usage error，或 handled catalog、lookup、payload、integrity、
+  installation、filesystem failure。
+
+handled failure 不會輸出 success JSON document；若 failure 發生於
+installation 之前，installer state 必須保持不變。
+
+## Installation 不等於 activation
+
+Marketplace installation 是 process-local、non-persistent、
+non-activating：
 
 ```text
-artifact installed ≠ artifact activated
+artifact installed != artifact activated
 ```
 
-installer 不會 access package manager/network、discover Entry Points、register plugins、execute Generators 或 write Courseware output。
+它不會 register plugin、execute Generator、write Courseware output，或修改
+package manager environment。
 
-## Plugins
+## Deferred 功能
 
-Marketplace 與 Plugin SDK 負責不同 stages：
+目前 CLI 不提供 remote Marketplace access、implicit network fallback、
+global browsing/search、dependency resolution、lockfile、cache、publisher
+signing/trust、ratings/reviews、payment、automatic activation、plugin
+execution 或 AI CLI behavior。
 
-```text
-Marketplace → metadata / bytes / integrity / installation
-Plugin SDK  → Entry Point discovery / validation / registry
-```
+## 檢查清單
 
-因此 plugin artifact installed 不代表其 Generator 已 registered。
-
-## Public API boundary
-
-Marketplace models 不會因 modules 已存在就自動成為 `generator.sdk`。長期 public compatibility 是獨立 release decision。
-
-## v1.0 不承諾的功能
-
-目前 Marketplace domain 不建立 public remote marketplace、browsing/search UI、publisher accounts、ratings/reviews、payments、automatic dependency resolution、package-manager installation、plugin activation、Generator execution、publisher-signature trust infrastructure 或 baseline network acquisition。
-
-### Checklist
-
-- resolve exact versioned artifact。
-- metadata lookup 與 payload acquisition 分離。
-- acquired bytes 在 integrity checking 成功前視為 unverified。
-- 不把 SHA-256 integrity 當成 publisher authenticity。
-- 只安裝原本要驗證的 payload。
-- 不假設 installation 會 activate plugins 或 execute Generators。
-- 不假設 baseline Marketplace components 使用 network。
-- hosted marketplace features 除非明確文件化，否則不屬於 v1.0。
+- 使用 exact identity 或 coordinate。
+- 明確指定 local catalog。
+- `verify` 與 `install` 明確指定 payload root。
+- 使用 `--dry-run` 驗證 installation inputs，且不產生 installer effects。
+- 使用 `--json` 取得 deterministic machine-readable success output。
+- SHA-256 integrity 只代表 bytes 相符，不代表 publisher authenticity。
+- 不假設 installation 會 activate 或 persist artifact。
 
 ## 下一步
 
-繼續閱讀 [Troubleshooting](troubleshooting.md)。
+繼續閱讀 [疑難排解](troubleshooting.md)。

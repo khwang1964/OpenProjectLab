@@ -454,6 +454,18 @@ For scripts and CI:
 - treat JSON input files as versioned inputs to the corresponding Generator
   contract.
 
+## 18. Marketplace Commands
+
+The additive `marketplace` family provides exactly `versions`, `inspect`,
+`verify`, and `install`. It uses explicit local `--catalog` and
+`--payload-root` inputs, supports deterministic `--json` success output, and
+supports installation preview through `--dry-run`.
+
+It does not add `opl marketplace list`, remote access, automatic activation,
+or persistent package installation. See [Marketplace CLI](marketplace.md) for
+the complete command shapes, catalog example, safety rules, and failure
+boundaries.
+
 ## Next Step
 
 Continue with [Generators](generators.md) for the generation model behind these

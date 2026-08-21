@@ -1,77 +1,157 @@
-# Marketplace
+# Marketplace CLI
 
-OpenProjectLab's Marketplace layer defines deterministic contracts for versioned artifact metadata, acquisition, integrity verification, and installation. It is intentionally narrower than a hosted public marketplace service.
+OpenProjectLab provides a deterministic, local-only Marketplace CLI for
+inspecting versioned artifacts, verifying exact payload bytes, and performing a
+process-local, non-activating installation.
 
-## Domain scope
+## Command inventory
 
-The Marketplace domain includes `ArtifactIdentity`, `ArtifactVersion`, `ArtifactCoordinate`, `ArtifactType`, `CompatibilityRequirement`, `DistributionMetadata`, `IntegrityMetadata`, and `MarketplaceArtifact`.
-
-Exact coordinates identify exact versioned artifacts, supporting deterministic lookup and tests.
-
-## Pipeline boundaries
-
-Keep these stages distinct:
+The exact production command family is:
 
 ```text
-metadata lookup
-→ acquire exact payload bytes
-→ verify integrity
-→ install validated payload
+opl marketplace versions IDENTITY --catalog FILE [--json]
+opl marketplace inspect COORDINATE --catalog FILE [--json]
+opl marketplace verify COORDINATE --catalog FILE --payload-root DIR [--json]
+opl marketplace install COORDINATE --catalog FILE --payload-root DIR [--dry-run] [--json]
 ```
 
-Metadata lookup does not imply acquisition; acquisition does not imply verification; verification does not imply installation or activation.
+`IDENTITY` is `namespace/name`. `COORDINATE` is
+`namespace/name@MAJOR.MINOR.PATCH`.
 
-## Acquisition
+There is no `opl marketplace list` command. Use `versions` for one exact
+identity.
 
-`ArtifactAcquirer.acquire(MarketplaceArtifact) -> bytes` returns payload bytes. The baseline in-memory acquirer performs no integrity verification, installation, activation, plugin registration, Generator execution, filesystem mutation, or network access.
+## Local catalog
 
-## Integrity
+Every command requires one explicit UTF-8 JSON catalog. A minimal catalog is:
 
-The current verifier supports deterministic SHA-256 digest checking against `IntegrityMetadata`. A mismatch raises an integrity error; an unsupported algorithm raises a distinct error.
+```json
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "schema_version": 1,
+      "identity": {
+        "namespace": "community",
+        "name": "demo"
+      },
+      "version": "1.2.3",
+      "artifact_type": "template",
+      "description": "Local demo artifact",
+      "compatibility": ">=1.0,<2.0",
+      "distribution": {
+        "kind": "file",
+        "reference": "packages/demo.opl"
+      },
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "<64 lowercase hexadecimal characters>"
+      }
+    }
+  ]
+}
+```
 
-Digest integrity proves that bytes match the declared digest. It does **not** establish publisher identity, provenance, trust, or authenticity.
+Catalog parsing fails closed on malformed UTF-8 JSON, unsupported schema
+versions, wrong field types, unknown fields, invalid identities or coordinates,
+and duplicate exact coordinates.
 
-## Installation
+## Payload root and safety
 
-`ArtifactInstaller` installs an artifact payload and returns `ArtifactInstallationResult`. The current in-memory implementation records bytes/metadata, reports `installed`, and rejects duplicate installation of the same exact coordinate.
+`verify` and `install` require `--payload-root DIR`. The artifact
+`distribution.reference` is resolved below this root.
 
-Installation is intentionally separate from activation:
+The CLI rejects absolute paths, drive-prefixed paths, parent traversal, missing
+files, directories, escaping symlinks, unsupported distribution kinds, and any
+network fallback. Lookup, containment, acquisition, and SHA-256 verification
+complete before installation.
+
+## Examples
+
+List deterministic semantic versions:
+
+```powershell
+python -m generator.cli.main marketplace versions community/demo `
+  --catalog .\examples\marketplace\catalog.json
+```
+
+Inspect one exact artifact as JSON:
+
+```powershell
+python -m generator.cli.main marketplace inspect community/demo@1.2.3 `
+  --catalog .\examples\marketplace\catalog.json `
+  --json
+```
+
+Verify local payload bytes without installation:
+
+```powershell
+python -m generator.cli.main marketplace verify community/demo@1.2.3 `
+  --catalog .\examples\marketplace\catalog.json `
+  --payload-root .\examples\marketplace\payloads `
+  --json
+```
+
+Preview installation without calling the installer:
+
+```powershell
+python -m generator.cli.main marketplace install community/demo@1.2.3 `
+  --catalog .\examples\marketplace\catalog.json `
+  --payload-root .\examples\marketplace\payloads `
+  --dry-run `
+  --json
+```
+
+Perform process-local installation:
+
+```powershell
+python -m generator.cli.main marketplace install community/demo@1.2.3 `
+  --catalog .\examples\marketplace\catalog.json `
+  --payload-root .\examples\marketplace\payloads
+```
+
+## Output and failures
+
+Human-readable success output is written to stdout. With `--json`, success
+emits exactly one compact UTF-8 JSON object with `schema_version: 1`.
+Diagnostics are written to stderr.
+
+The broad exit contract is:
+
+- `0`: successful Marketplace operation;
+- `2`: usage error or handled catalog, lookup, payload, integrity,
+  installation, or filesystem failure.
+
+A handled failure emits no success JSON document and leaves installer state
+unchanged when failure occurs before installation.
+
+## Installation is not activation
+
+Marketplace installation is process-local, non-persistent, and non-activating:
 
 ```text
-artifact installed ≠ artifact activated
+artifact installed != artifact activated
 ```
 
-The installer does not access a package manager or network, discover Entry Points, register plugins, execute Generators, or write Courseware output.
+It does not register plugins, execute Generators, write Courseware output, or
+modify a package manager environment.
 
-## Plugins
+## Deferred capabilities
 
-Marketplace and Plugin SDK cover different stages:
+The current CLI does not provide remote Marketplace access, implicit network
+fallback, global browsing/search, dependency resolution, lockfiles, caches,
+publisher signing or trust, ratings/reviews, payments, automatic activation,
+plugin execution, or AI CLI behavior.
 
-```text
-Marketplace → metadata / bytes / integrity / installation
-Plugin SDK  → Entry Point discovery / validation / registry
-```
+## Checklist
 
-A plugin artifact being installed therefore does not mean its Generator is registered.
-
-## Public API boundary
-
-Marketplace models are intentionally not part of `generator.sdk` merely because the modules exist. Their long-term public compatibility is a separate release decision.
-
-## What v1.0 does not promise
-
-The current Marketplace domain does not establish a public remote marketplace, browsing/search UI, publisher accounts, ratings/reviews, payments, automatic dependency resolution, package-manager installation, plugin activation, Generator execution, publisher-signature trust infrastructure, or baseline network acquisition.
-
-### Checklist
-
-- Resolve an exact versioned artifact.
-- Keep metadata lookup and payload acquisition separate.
-- Treat acquired bytes as unverified until integrity checking succeeds.
-- Do not confuse SHA-256 integrity with publisher authenticity.
-- Install only the payload you intended to verify.
-- Do not assume installation activates plugins or executes Generators.
-- Do not assume baseline Marketplace components use the network.
-- Treat hosted marketplace features as outside v1.0 unless explicitly documented.
+- Use an exact identity or coordinate.
+- Supply an explicit local catalog.
+- Supply an explicit payload root for `verify` and `install`.
+- Use `--dry-run` to verify installation inputs without installer effects.
+- Use `--json` for deterministic machine-readable success output.
+- Treat SHA-256 integrity as byte matching, not publisher authenticity.
+- Do not assume installation activates or persists an artifact.
 
 ## Next step
 

@@ -1816,7 +1816,7 @@ and `install`; internal `list_artifacts()` does not authorize an
 ``` text
 v1.1.4.1 Implementation Baseline / Architecture        Complete
 v1.1.4.2 Internal Catalog and Parsing Adapters          Complete
-v1.1.4.3 versions / inspect                             In Progress
+v1.1.4.3 versions / inspect                             Complete
 v1.1.4.4 verify / Safe Payload Acquisition              Not Started
 v1.1.4.5 install / dry-run / No-partial-state           Not Started
 v1.1.4.6 Deterministic JSON and Diagnostics             Not Started
@@ -1827,9 +1827,11 @@ Marketplace CLI Implementation                         In Progress
 Formal v1.1 Acceptance                                  Not Accepted
 Implementation PR #174                                  Merged
 Implementation merge                                    0ac32017b1420464c7c52a2b63993fc4e27a63b4
+Implementation PR #176                                  Merged
+Implementation merge                                    d1fbfbbd60c9d7ae14efdff443ff550032f279c2
 Production Parser Registration                          Not Started
 Marketplace CLI Command Handlers                        Not Started
-Next --- v1.1.4.3 versions / inspect implementation PR
+Next --- v1.1.4.4 verify / Safe Payload Acquisition
 ```
 
 Governing contract PR #170 已 squash merge 為

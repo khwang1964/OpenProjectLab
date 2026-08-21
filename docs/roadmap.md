@@ -1822,7 +1822,7 @@ v1.1.4.5 install / dry-run / No-partial-state           Complete
 v1.1.4.6 Deterministic JSON and Diagnostics             Complete
 v1.1.4.7 Production Parser Registration                 Complete
 v1.1.4.8 EN / zh-TW User Manual Updates                 Complete
-v1.1.4.9 Full Regression / CI / Formal Acceptance       Not Accepted
+v1.1.4.9 Full Regression / CI / Formal Acceptance       In Progress
 Marketplace CLI Implementation                         In Progress
 Formal v1.1 Acceptance                                  Not Accepted
 Implementation PR #174                                  Merged
@@ -1843,7 +1843,12 @@ Formal v1.1 Acceptance                                  Not Accepted
 Documentation PR #186                                  Merged
 Documentation merge                                    6a3a98d22ed2e2a995bb8d497ae5f7ff5607a0b4
 EN / zh-TW Marketplace CLI Manuals                     Complete
-Next --- v1.1.4.9 Full Regression / CI / Formal Acceptance
+Acceptance baseline                                    f7910d51c49c74614381491458414739c47d5d74
+Acceptance-candidate full regression                   2150 passed, 33 skipped, 1 deselected
+Acceptance-candidate total coverage                    90.74%
+Acceptance-candidate Marketplace-focused regression    160 passed, 1 skipped
+Formal v1.1 Acceptance                                  Not Accepted
+Next --- v1.1.4.9 acceptance PR / required CI
 ```
 
 Governing contract PR #170 已 squash merge 為

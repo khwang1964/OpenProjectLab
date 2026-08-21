@@ -2326,6 +2326,19 @@ Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.4.9 Full Regression / CI / Formal Acceptance
 ```
 
+The project subsequently started v1.1.4.9 from synchronized `main` at
+`f7910d51c49c74614381491458414739c47d5d74`. The acceptance-candidate full
+regression completed with `2150 passed, 33 skipped, 1 deselected` in 23.77s
+and 90.74% total coverage; the Marketplace-focused regression completed with
+`160 passed, 1 skipped` in 1.07s. The skips are explicit platform or
+artifact-gate conditions rather than failures.
+
+The Formal v1.1 acceptance record and fail-closed automation are now proposed
+for review. This evidence establishes acceptance-candidate readiness only;
+Formal v1.1 Acceptance remains Not Accepted until the acceptance PR, required
+CI, squash merge, synchronized `main`, post-merge verification, and terminal
+documentation alignment are complete.
+
 ------------------------------------------------------------------------
 
 # 我們的願景

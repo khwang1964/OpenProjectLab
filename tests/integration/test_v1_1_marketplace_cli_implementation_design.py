@@ -39,7 +39,7 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Baseline" in baseline
     assert "v1.1.4 --- Marketplace CLI Implementation" in baseline
-    assert "**Implementation:** EN / zh-TW User Manual Updates Complete" in baseline
+    assert "**Implementation:** Full Regression / CI / Formal Acceptance In Progress" in baseline
     assert "**Production Parser Registration:** Complete" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert "v1.1.4.1 Implementation Baseline / Architecture        Complete" in baseline
@@ -51,6 +51,21 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
     assert "v1.1.4.7 Production Parser Registration                 Complete" in baseline
     assert "v1.1.4.8 EN / zh-TW User Manual Updates                 Complete" in baseline
     assert "marketplace" in _top_level_commands()
+
+
+def test_formal_acceptance_slice_starts_fail_closed() -> None:
+    baseline_sha = "f7910d51c49c74614381491458414739c47d5d74"
+
+    for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
+        prose = _normalized(tracker)
+        lower_prose = prose.lower()
+        assert "v1.1.4.9 full regression / ci / formal acceptance" in lower_prose
+        assert baseline_sha in prose
+        assert "2150 passed, 33 skipped, 1 deselected" in lower_prose
+        assert "90.74%" in prose
+        assert "160 passed, 1 skipped" in lower_prose
+        assert "formal v1.1 acceptance" in lower_prose
+        assert "not accepted" in lower_prose
 
 
 def test_baseline_preserves_exact_accepted_command_inventory() -> None:

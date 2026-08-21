@@ -263,6 +263,16 @@
     `Formal v1.1 Acceptance --- Not Accepted`.
 -   Moved the next active slice to
     `v1.1.4.9 Full Regression / CI / Formal Acceptance`.
+-   Started `v1.1.4.9 Full Regression / CI / Formal Acceptance --- In
+    Progress` from synchronized `main` at
+    `f7910d51c49c74614381491458414739c47d5d74`.
+-   Recorded the acceptance-candidate full regression as `2150 passed, 33
+    skipped, 1 deselected` in 23.77s with 90.74% total coverage, and the
+    Marketplace-focused regression as `160 passed, 1 skipped` in 1.07s.
+-   Added the Formal v1.1 acceptance candidate record and fail-closed
+    automation. Formal v1.1 Acceptance remains Not Accepted until the
+    acceptance PR, required CI, squash merge, synchronized `main`, post-merge
+    verification, and terminal documentation alignment are complete.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

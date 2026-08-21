@@ -2263,6 +2263,22 @@ uses one compact, deterministic UTF-8 schema-version-1 object and handled
 failures emit no success JSON document. Production parser registration remains
 outside this slice.
 
+Implementation PR #182 subsequently passed required CI and was squash merged
+as `b415f7f02f9c81d92341a010c449ff619d97b8cd`. After synchronizing `main`, the
+focused JSON/diagnostics and Marketplace implementation checks passed, and the
+production-parser absence check remained `False`. Terminal documentation
+alignment completes v1.1.4.6 with this state:
+
+``` text
+v1.1.4 Marketplace CLI Implementation --- In Progress
+v1.1.4.6 Deterministic JSON and Diagnostics --- Complete
+Implementation PR #182 --- Merged
+Implementation merge --- b415f7f02f9c81d92341a010c449ff619d97b8cd
+Production Parser Registration --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.4.7 Production Parser Registration
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

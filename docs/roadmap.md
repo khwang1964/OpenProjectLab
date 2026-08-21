@@ -1745,7 +1745,7 @@ v1.1.1 Planning Baseline                         Accepted
 v1.1.2 CLI Public Contract Design                Accepted
 v1.1.3 Marketplace CLI Contract                  Accepted
 v1.1.4 Marketplace CLI Implementation            Complete
-v1.1.5 AI CLI Contract                           Not Started
+v1.1.5 AI CLI Contract                           In Progress
 v1.1.6 AI CLI Implementation                     Not Started
 v1.1.7 Documentation / EN-zh-TW Parity           Not Started
 v1.1.8 Reliability / Artifact-backed Verification Not Started
@@ -1855,6 +1855,19 @@ Post-merge total coverage                               90.74%
 Marketplace CLI Implementation Acceptance               Accepted
 Formal v1.1 Acceptance                                  Not Accepted
 Next --- v1.1.5 AI CLI Contract
+```
+
+v1.1.5 contract state:
+
+``` text
+v1.1.5 AI CLI Contract                           In Progress
+Proposed AI command inventory                    course / review / document / template
+AI CLI Production Registration                  Not Started
+AI CLI Implementation                           Not Started
+Live-provider invocation                        Experimental / opt-in
+Deterministic local response-file path           Proposed Stable core
+Formal v1.1 Acceptance                           Not Accepted
+Next --- v1.1.5 governing contract PR
 ```
 
 Governing contract PR #170 已 squash merge 為

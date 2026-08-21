@@ -2361,6 +2361,19 @@ Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.5 AI CLI Contract
 ```
 
+The project subsequently started v1.1.5 as a design-only AI CLI contract.
+The proposed surface maps exactly to the existing course generation, review,
+documentation, and template-completion application services. Each workflow
+accepts one explicit UTF-8 JSON request and requires exactly one execution
+source: a deterministic local response file or an explicitly selected live
+provider. Local response-file execution is the Stable core path; live-provider
+invocation remains Experimental, opt-in, credential-isolated, and outside
+normal deterministic CI.
+
+No `ai` parser registration, handler, provider registry, credential schema,
+filesystem mutation, chat workflow, refactoring assistant, streaming, tool
+calling, or autonomous action is implemented by this contract slice.
+
 ------------------------------------------------------------------------
 
 # 我們的願景

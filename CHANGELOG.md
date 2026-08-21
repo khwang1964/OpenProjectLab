@@ -282,6 +282,13 @@
     `Marketplace CLI Implementation Acceptance --- Accepted` without
     overclaiming Formal v1.1 Acceptance. The next governed slice is
     `v1.1.5 AI CLI Contract`.
+-   Started `v1.1.5 AI CLI Contract --- In Progress` as a design-only slice
+    over the existing provider-independent AI services. Proposed commands are
+    exactly `course`, `review`, `document`, and `template`; production parser
+    registration and AI CLI implementation remain Not Started.
+-   Defined deterministic local response-file execution as the Stable core
+    path and explicit live-provider invocation as Experimental and opt-in.
+    Normal tests and required CI remain credential-free and network-independent.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

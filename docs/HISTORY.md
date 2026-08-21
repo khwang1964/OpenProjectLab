@@ -2339,6 +2339,28 @@ Formal v1.1 Acceptance remains Not Accepted until the acceptance PR, required
 CI, squash merge, synchronized `main`, post-merge verification, and terminal
 documentation alignment are complete.
 
+Acceptance PR #188 subsequently passed required CI and was squash merged as
+`a89d0d4e7b8fd068c1c4e2b841489bf211efbf28`. After synchronizing `main`, the
+post-merge focused verification completed with `56 passed` in 0.30s and the
+full regression completed with `2158 passed, 33 skipped, 1 deselected` in
+23.41s with 90.74% total coverage. The exact Marketplace inventory remained
+`versions`, `inspect`, `verify`, and `install`; local quality and working-tree
+consistency gates remained clean.
+
+Terminal documentation alignment therefore completes v1.1.4.9 and closes the
+Marketplace CLI implementation acceptance sequence without skipping the
+remaining v1.1 delivery stages:
+
+``` text
+v1.1.4 Marketplace CLI Implementation --- Complete
+v1.1.4.9 Full Regression / CI / Formal Acceptance --- Complete
+Marketplace CLI Acceptance PR #188 --- Merged
+Acceptance merge --- a89d0d4e7b8fd068c1c4e2b841489bf211efbf28
+Marketplace CLI Implementation Acceptance --- Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.5 AI CLI Contract
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

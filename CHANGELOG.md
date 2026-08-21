@@ -273,6 +273,15 @@
     automation. Formal v1.1 Acceptance remains Not Accepted until the
     acceptance PR, required CI, squash merge, synchronized `main`, post-merge
     verification, and terminal documentation alignment are complete.
+-   Verified acceptance PR #188 passed required CI and squash merged as
+    `a89d0d4e7b8fd068c1c4e2b841489bf211efbf28`; synchronized `main` and
+    completed post-merge verification with `56 passed` focused, `2158 passed,
+    33 skipped, 1 deselected` full regression, and 90.74% total coverage.
+-   Completed v1.1.4.9 terminal documentation alignment and accepted the
+    deterministic-local Marketplace CLI implementation as
+    `Marketplace CLI Implementation Acceptance --- Accepted` without
+    overclaiming Formal v1.1 Acceptance. The next governed slice is
+    `v1.1.5 AI CLI Contract`.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

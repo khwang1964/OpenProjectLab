@@ -1744,7 +1744,7 @@ Planned delivery sequence：
 v1.1.1 Planning Baseline                         Accepted
 v1.1.2 CLI Public Contract Design                Accepted
 v1.1.3 Marketplace CLI Contract                  Accepted
-v1.1.4 Marketplace CLI Implementation            In Progress
+v1.1.4 Marketplace CLI Implementation            Complete
 v1.1.5 AI CLI Contract                           Not Started
 v1.1.6 AI CLI Implementation                     Not Started
 v1.1.7 Documentation / EN-zh-TW Parity           Not Started
@@ -1822,8 +1822,8 @@ v1.1.4.5 install / dry-run / No-partial-state           Complete
 v1.1.4.6 Deterministic JSON and Diagnostics             Complete
 v1.1.4.7 Production Parser Registration                 Complete
 v1.1.4.8 EN / zh-TW User Manual Updates                 Complete
-v1.1.4.9 Full Regression / CI / Formal Acceptance       In Progress
-Marketplace CLI Implementation                         In Progress
+v1.1.4.9 Full Regression / CI / Formal Acceptance       Complete
+Marketplace CLI Implementation                         Complete
 Formal v1.1 Acceptance                                  Not Accepted
 Implementation PR #174                                  Merged
 Implementation merge                                    0ac32017b1420464c7c52a2b63993fc4e27a63b4
@@ -1839,7 +1839,7 @@ Implementation PR #184                                  Merged
 Implementation merge                                    85f8ec822270fd3c993fc0b23fa70367681bcb0c
 Production Parser Registration                          Complete
 Marketplace CLI Command Handlers                        Complete
-Formal v1.1 Acceptance                                  Not Accepted
+Marketplace CLI Implementation Acceptance               Accepted
 Documentation PR #186                                  Merged
 Documentation merge                                    6a3a98d22ed2e2a995bb8d497ae5f7ff5607a0b4
 EN / zh-TW Marketplace CLI Manuals                     Complete
@@ -1847,8 +1847,14 @@ Acceptance baseline                                    f7910d51c49c7461438149145
 Acceptance-candidate full regression                   2150 passed, 33 skipped, 1 deselected
 Acceptance-candidate total coverage                    90.74%
 Acceptance-candidate Marketplace-focused regression    160 passed, 1 skipped
+Acceptance PR #188                                      Merged
+Acceptance merge                                        a89d0d4e7b8fd068c1c4e2b841489bf211efbf28
+Post-merge focused verification                         56 passed
+Post-merge full regression                              2158 passed, 33 skipped, 1 deselected
+Post-merge total coverage                               90.74%
+Marketplace CLI Implementation Acceptance               Accepted
 Formal v1.1 Acceptance                                  Not Accepted
-Next --- v1.1.4.9 acceptance PR / required CI
+Next --- v1.1.5 AI CLI Contract
 ```
 
 Governing contract PR #170 已 squash merge 為

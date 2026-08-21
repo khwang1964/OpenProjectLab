@@ -2210,6 +2210,12 @@ Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.4.4 verify / Safe Payload Acquisition
 ```
 
+The project subsequently started v1.1.4.4 with safe local payload acquisition
+and SHA-256 verification only. Absolute, drive-prefixed, traversing, missing,
+directory, and root-escaping references fail before installation. Network
+fallback, installation, activation, final rendering, and production parser
+registration remain outside this slice.
+
 ------------------------------------------------------------------------
 
 # 我們的願景

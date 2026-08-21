@@ -96,3 +96,29 @@ def test_template_handler_remains_unregistered() -> None:
         if isinstance(getattr(action, "choices", None), dict) and "list" in action.choices
     )
     assert "ai" not in choices
+
+
+def test_template_handler_terminal_alignment_records_post_merge_evidence() -> None:
+    root = Path(__file__).parents[2]
+    expected = (
+        "v1.1.6.6 Template Handler --- Accepted",
+        "Implementation PR #202 --- Merged",
+        "1ecf3c0b843385c2deee3e849e8f1b9fbd6463bf",
+        "Post-merge focused verification --- 123 passed",
+        "v1.1.6 AI CLI Implementation --- In Progress",
+        "Experimental Provider Opt-in Boundary --- Not Started",
+        "AI CLI Production Registration --- Not Started",
+        "Formal v1.1 Acceptance --- Not Accepted",
+        "Next --- v1.1.6.7 Experimental Provider Opt-in Boundary",
+    )
+    trackers = (
+        root / "CHANGELOG.md",
+        root / "docs" / "HISTORY.md",
+        root / "docs" / "roadmap.md",
+        root / "docs" / "releases" / "v1.1-ai-cli-implementation.md",
+    )
+
+    for tracker in trackers:
+        prose = tracker.read_text(encoding="utf-8")
+        for statement in expected:
+            assert statement in prose

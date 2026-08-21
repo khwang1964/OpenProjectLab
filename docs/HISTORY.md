@@ -2216,6 +2216,23 @@ directory, and root-escaping references fail before installation. Network
 fallback, installation, activation, final rendering, and production parser
 registration remain outside this slice.
 
+Implementation PR #178 subsequently passed required CI and was squash merged
+as `ec0a77cd19d8783e2877228ece0a9e006579436e`. After synchronizing `main`, the
+focused safe-verification suite, Marketplace regression, production-parser
+absence check, and repository consistency gates passed. Terminal documentation
+alignment completes v1.1.4.4 with this state:
+
+``` text
+v1.1.4 Marketplace CLI Implementation --- In Progress
+v1.1.4.4 verify / Safe Payload Acquisition --- Complete
+Implementation PR #178 --- Merged
+Implementation merge --- ec0a77cd19d8783e2877228ece0a9e006579436e
+Installation --- Not Started
+Production Parser Registration --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.4.5 install / dry-run / No-partial-state
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

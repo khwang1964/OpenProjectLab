@@ -39,13 +39,13 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Baseline" in baseline
     assert "v1.1.4 --- Marketplace CLI Implementation" in baseline
-    assert "**Implementation:** verify / Safe Payload Acquisition In Progress" in baseline
+    assert "**Implementation:** verify / Safe Payload Acquisition Complete" in baseline
     assert "**Production Parser Registration:** Not Started" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert "v1.1.4.1 Implementation Baseline / Architecture        Complete" in baseline
     assert "v1.1.4.2 Internal Catalog and Parsing Adapters          Complete" in baseline
     assert "v1.1.4.3 versions / inspect                             Complete" in baseline
-    assert "v1.1.4.4 verify / Safe Payload Acquisition              In Progress" in baseline
+    assert "v1.1.4.4 verify / Safe Payload Acquisition              Complete" in baseline
     assert "marketplace" not in _top_level_commands()
 
 
@@ -188,6 +188,24 @@ def test_versions_inspect_terminal_alignment_records_merged_evidence() -> None:
         assert "formal v1.1 acceptance" in lower_prose
         assert "not accepted" in lower_prose
         assert "v1.1.4.4 verify / safe payload acquisition" in lower_prose
+
+
+def test_safe_verify_terminal_alignment_records_merged_evidence() -> None:
+    merge_sha = "ec0a77cd19d8783e2877228ece0a9e006579436e"
+
+    for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
+        prose = _normalized(tracker)
+        lower_prose = prose.lower()
+        assert "implementation pr #178" in lower_prose
+        assert merge_sha in prose
+        assert "v1.1.4.4 verify / safe payload acquisition" in lower_prose
+        assert "complete" in lower_prose
+        assert "installation" in lower_prose
+        assert "not started" in lower_prose
+        assert "production parser registration" in lower_prose
+        assert "formal v1.1 acceptance" in lower_prose
+        assert "not accepted" in lower_prose
+        assert "v1.1.4.5 install / dry-run / no-partial-state" in lower_prose
 
 
 def test_code_review_and_acceptance_gates_are_complete() -> None:

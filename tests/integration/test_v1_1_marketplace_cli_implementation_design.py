@@ -39,14 +39,14 @@ def test_implementation_baseline_starts_without_product_registration() -> None:
 
     assert "# OpenProjectLab v1.1 Marketplace CLI Implementation Baseline" in baseline
     assert "v1.1.4 --- Marketplace CLI Implementation" in baseline
-    assert "**Implementation:** install / dry-run In Progress" in baseline
+    assert "**Implementation:** Deterministic JSON and Diagnostics Not Started" in baseline
     assert "**Production Parser Registration:** Not Started" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert "v1.1.4.1 Implementation Baseline / Architecture        Complete" in baseline
     assert "v1.1.4.2 Internal Catalog and Parsing Adapters          Complete" in baseline
     assert "v1.1.4.3 versions / inspect                             Complete" in baseline
     assert "v1.1.4.4 verify / Safe Payload Acquisition              Complete" in baseline
-    assert "v1.1.4.5 install / dry-run / No-partial-state           In Progress" in baseline
+    assert "v1.1.4.5 install / dry-run / No-partial-state           Complete" in baseline
     assert "marketplace" not in _top_level_commands()
 
 
@@ -207,6 +207,23 @@ def test_safe_verify_terminal_alignment_records_merged_evidence() -> None:
         assert "formal v1.1 acceptance" in lower_prose
         assert "not accepted" in lower_prose
         assert "v1.1.4.5 install / dry-run / no-partial-state" in lower_prose
+
+
+def test_install_terminal_alignment_records_merged_evidence() -> None:
+    merge_sha = "4de1347edc09d959cd8b00d6acc6f459defd938e"
+
+    for tracker in (ROADMAP, HISTORY, CHANGELOG, BASELINE):
+        prose = _normalized(tracker)
+        lower_prose = prose.lower()
+        assert "implementation pr #180" in lower_prose
+        assert merge_sha in prose
+        assert "v1.1.4.5 install / dry-run / no-partial-state" in lower_prose
+        assert "complete" in lower_prose
+        assert "production parser registration" in lower_prose
+        assert "not started" in lower_prose
+        assert "formal v1.1 acceptance" in lower_prose
+        assert "not accepted" in lower_prose
+        assert "v1.1.4.6 deterministic json and diagnostics" in lower_prose
 
 
 def test_code_review_and_acceptance_gates_are_complete() -> None:

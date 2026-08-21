@@ -2240,6 +2240,22 @@ evidence without installation, and all earlier failure paths leave installer
 state unchanged. Activation, persistence, final rendering, and production
 parser registration remain outside this slice.
 
+Implementation PR #180 subsequently passed required CI and was squash merged
+as `4de1347edc09d959cd8b00d6acc6f459defd938e`. After synchronizing `main`, the
+focused Marketplace implementation suite completed with `83 passed, 1
+skipped`; the production-parser absence check remained `False`. Terminal
+documentation alignment completes v1.1.4.5 with this state:
+
+``` text
+v1.1.4 Marketplace CLI Implementation --- In Progress
+v1.1.4.5 install / dry-run / No-partial-state --- Complete
+Implementation PR #180 --- Merged
+Implementation merge --- 4de1347edc09d959cd8b00d6acc6f459defd938e
+Production Parser Registration --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.4.6 Deterministic JSON and Diagnostics
+```
+
 ------------------------------------------------------------------------
 
 # 我們的願景

@@ -217,6 +217,11 @@
     and `Formal v1.1 Acceptance --- Not Accepted`.
 -   Moved the next active slice to
     `v1.1.4.6 Deterministic JSON and Diagnostics`.
+-   Started `v1.1.4.6 Deterministic JSON and Diagnostics --- In Progress` with
+    command-specific schema-version-1 JSON documents, deterministic compact
+    encoding, human stdout rendering, handled diagnostics on stderr, and the
+    existing broad `0`/`2` exit boundary; production parser registration
+    remains Not Started.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

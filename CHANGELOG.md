@@ -255,6 +255,14 @@
     that runs a documented Marketplace command against a local fixture while
     preserving the frozen v1.0 manual contract and Formal v1.1 Acceptance as
     Not Accepted.
+-   Verified documentation PR #186 passed required CI and squash merged as
+    `6a3a98d22ed2e2a995bb8d497ae5f7ff5607a0b4`; synchronized `main` and
+    completed the post-merge bilingual documentation and parser smoke.
+-   Completed `v1.1.4.8 EN / zh-TW User Manual Updates` terminal alignment
+    with `EN / zh-TW Marketplace CLI Manuals --- Complete`, while preserving
+    `Formal v1.1 Acceptance --- Not Accepted`.
+-   Moved the next active slice to
+    `v1.1.4.9 Full Regression / CI / Formal Acceptance`.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

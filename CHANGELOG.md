@@ -171,6 +171,16 @@
 -   Added fail-closed design automation requiring architecture, tests,
     EN/zh-TW functional parity, executable documentation, and the canonical
     in-repository use-case demo boundary before implementation can be accepted.
+-   Completed the v1.1.4.1 implementation baseline and implemented the
+    v1.1.4.2 internal identity, coordinate, and strict UTF-8 JSON catalog
+    adapters without registering the production `marketplace` parser.
+-   Verified implementation PR #174 passed required CI and squash merged as
+    `0ac32017b1420464c7c52a2b63993fc4e27a63b4`; synchronized `main` and
+    completed focused post-merge adapter verification.
+-   Completed v1.1.4.2 terminal documentation alignment while preserving
+    `Production Parser Registration --- Not Started`, `Marketplace CLI Command
+    Handlers --- Not Started`, and `Formal v1.1 Acceptance --- Not Accepted`.
+-   Moved the next active implementation slice to `v1.1.4.3 versions / inspect`.
 
 #### Milestone 8 --- v1.0 Stabilization & Release Readiness
 

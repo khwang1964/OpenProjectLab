@@ -123,3 +123,26 @@ def test_ai_parser_remains_unregistered() -> None:
     parser = build_parser()
     choices = parser._subparsers._group_actions[0].choices
     assert "ai" not in choices
+
+
+def test_provider_handler_wiring_terminal_alignment_records_evidence() -> None:
+    root = Path(__file__).parents[2]
+    expected = (
+        "v1.1.6.8 Provider Handler Wiring --- Accepted",
+        "Implementation PR #206 --- Merged",
+        "70ac918d139b0ac010eae400935ec2f4979e67de",
+        "Post-merge focused verification --- 76 passed",
+        "AI CLI Production Registration --- Not Started",
+        "Formal v1.1 Acceptance --- Not Accepted",
+        "Next --- v1.1.6.9 Production Parser Registration",
+    )
+    trackers = (
+        root / "CHANGELOG.md",
+        root / "docs" / "HISTORY.md",
+        root / "docs" / "roadmap.md",
+        root / "docs" / "releases" / "v1.1-ai-cli-implementation.md",
+    )
+    for tracker in trackers:
+        content = tracker.read_text(encoding="utf-8")
+        for statement in expected:
+            assert statement in content

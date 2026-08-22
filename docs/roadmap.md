@@ -2245,3 +2245,17 @@ SDK Import / Environment Lookup --- Not Owned
 AI CLI Production Registration --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.6.8 Implementation Verification / PR / CI
+
+<!-- v1.1.6.8-provider-handler-terminal-alignment-pr206 -->
+
+## v1.1.6.8 Provider Handler Wiring Terminal Alignment
+
+v1.1.6.8 Provider Handler Wiring --- Accepted
+Implementation PR #206 --- Merged
+Implementation merge --- 70ac918d139b0ac010eae400935ec2f4979e67de
+Post-merge focused verification --- 76 passed
+Provider Source Selection --- Fail Closed
+Provider Text Normalization --- Strict JSON Object
+AI CLI Production Registration --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.9 Production Parser Registration

@@ -119,10 +119,10 @@ def test_provider_output_fails_before_success_output(
     assert captured.err == ""
 
 
-def test_ai_parser_remains_unregistered() -> None:
+def test_ai_parser_is_registered_after_handler_wiring_acceptance() -> None:
     parser = build_parser()
     choices = parser._subparsers._group_actions[0].choices
-    assert "ai" not in choices
+    assert "ai" in choices
 
 
 def test_provider_handler_wiring_terminal_alignment_records_evidence() -> None:

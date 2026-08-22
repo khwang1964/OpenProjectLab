@@ -24,8 +24,8 @@ EXPECTED_V1_COMMANDS = frozenset(
         "week",
     }
 )
-IMPLEMENTED_V1_1_COMMANDS = frozenset({"marketplace"})
-RESERVED_V1_1_COMMANDS = frozenset({"ai"})
+IMPLEMENTED_V1_1_COMMANDS = frozenset({"ai", "marketplace"})
+RESERVED_V1_1_COMMANDS = frozenset()
 
 
 def _read(path: Path) -> str:

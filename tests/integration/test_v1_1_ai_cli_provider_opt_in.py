@@ -88,12 +88,12 @@ def test_provider_boundary_has_no_sdk_environment_or_test_double_ownership() -> 
     assert "FakeAIProvider" not in source
 
 
-def test_production_ai_parser_remains_unregistered() -> None:
+def test_production_ai_parser_is_registered() -> None:
     from generator.cli.main import build_parser
 
     parser = build_parser()
     choices = parser._subparsers._group_actions[0].choices
-    assert "ai" not in choices
+    assert "ai" in choices
 
 
 def test_provider_opt_in_terminal_alignment_records_accepted_evidence() -> None:

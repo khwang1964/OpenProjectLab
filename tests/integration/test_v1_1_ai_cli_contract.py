@@ -41,7 +41,7 @@ def test_contract_is_accepted_without_production_registration() -> None:
     assert "**AI CLI Production Registration:** Not Started" in contract
     assert "**AI CLI Implementation:** Not Started" in contract
     assert "**Formal v1.1 Acceptance:** Not Accepted" in contract
-    assert "ai" not in _top_level_commands()
+    assert "ai" in _top_level_commands()
 
 
 def test_contract_defines_exact_proposed_command_inventory() -> None:

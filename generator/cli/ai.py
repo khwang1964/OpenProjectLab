@@ -339,3 +339,45 @@ def _handle_ai_template(
     for key in completion.context_keys:
         print(f"  - {key}")
     return 0
+
+
+def add_ai_parser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    """Register the exact v1.1 AI CLI command inventory."""
+    ai_parser = subparsers.add_parser(
+        "ai",
+        help="執行明確、非持久化的 AI 應用服務",
+    )
+    commands = ai_parser.add_subparsers(dest="ai_command", required=True)
+    specifications = (
+        ("course", "產生課程結構", _handle_ai_course),
+        ("review", "檢閱結構化內容", _handle_ai_review),
+        ("document", "產生文件草稿", _handle_ai_document),
+        ("template", "完成模板內容", _handle_ai_template),
+    )
+    for name, help_text, handler in specifications:
+        command = commands.add_parser(name, help=help_text)
+        command.add_argument(
+            "--request",
+            type=Path,
+            required=True,
+            metavar="FILE",
+            help="AI request JSON 檔案",
+        )
+        source = command.add_mutually_exclusive_group(required=True)
+        source.add_argument(
+            "--response",
+            type=Path,
+            metavar="FILE",
+            help="本機 deterministic response JSON 檔案",
+        )
+        source.add_argument(
+            "--provider",
+            metavar="NAME",
+            help="明確選用 Experimental live provider",
+        )
+        command.add_argument(
+            "--json",
+            action="store_true",
+            help="輸出單一 deterministic JSON object",
+        )
+        command.set_defaults(handler=handler)

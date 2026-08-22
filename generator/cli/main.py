@@ -9,6 +9,7 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
+from generator.cli.ai import add_ai_parser
 from generator.cli.marketplace import add_marketplace_parser
 from generator.cli.upgrade import add_upgrade_parser
 from generator.core.config import ProjectConfig
@@ -71,6 +72,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command")
     add_upgrade_parser(subparsers)
     add_marketplace_parser(subparsers)
+    add_ai_parser(subparsers)
 
     list_parser = subparsers.add_parser("list", help="列出可用產生器")
     list_parser.set_defaults(handler=_handle_list)

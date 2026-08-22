@@ -48,7 +48,7 @@ def test_baseline_precedes_product_implementation() -> None:
     assert "**AI CLI Production Registration:** Not Started" in baseline
     assert "**Formal v1.1 Acceptance:** Not Accepted" in baseline
     assert PRODUCTION_MODULE.is_file()
-    assert "ai" not in _commands()
+    assert "ai" in _commands()
 
 
 def test_exact_existing_service_methods_are_reused() -> None:

@@ -37,7 +37,7 @@ MAJOR_CLI_COMMANDS = frozenset(
         "upgrade",
     }
 )
-REVIEWED_V1_1_ADDITIVE_COMMANDS = frozenset({"marketplace"})
+REVIEWED_V1_1_ADDITIVE_COMMANDS = frozenset({"ai", "marketplace"})
 
 GENERATOR_IDENTITIES = frozenset(
     {

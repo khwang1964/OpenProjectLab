@@ -88,14 +88,14 @@ def test_template_handler_fails_before_success_output(
     assert captured.err == ""
 
 
-def test_template_handler_remains_unregistered() -> None:
+def test_template_handler_is_registered_after_slice_acceptance() -> None:
     parser = build_parser()
     choices = next(
         action.choices
         for action in parser._actions
         if isinstance(getattr(action, "choices", None), dict) and "list" in action.choices
     )
-    assert "ai" not in choices
+    assert "ai" in choices
 
 
 def test_template_handler_terminal_alignment_records_post_merge_evidence() -> None:

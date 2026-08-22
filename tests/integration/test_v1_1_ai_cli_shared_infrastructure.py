@@ -114,14 +114,14 @@ def test_local_response_provider_is_deterministic_and_protocol_compatible(
     assert response.metadata == {"source": "local-response"}
 
 
-def test_shared_infrastructure_remains_unregistered() -> None:
+def test_shared_infrastructure_is_registered_after_slice_acceptance() -> None:
     parser = build_parser()
     choices = next(
         action.choices
         for action in parser._actions
         if isinstance(getattr(action, "choices", None), dict) and "list" in action.choices
     )
-    assert "ai" not in choices
+    assert "ai" in choices
     assert AIResponse is not None
 
 

@@ -2259,3 +2259,23 @@ Provider Text Normalization --- Strict JSON Object
 AI CLI Production Registration --- Not Started
 Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.6.9 Production Parser Registration
+
+<!-- v1.1.6.9-production-parser-registration -->
+
+## v1.1.6.9 AI CLI Production Parser Registration
+
+v1.1.6.8 Provider Handler Wiring --- Accepted
+v1.1.6.9 Production Parser Registration --- In Progress
+Exact AI Command Inventory --- course / review / document / template
+Stable Local-response Execution --- Registered
+Experimental Provider Composition --- Fail Closed / Injection Required
+SDK Import / Environment Lookup --- Not Owned
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.9 Implementation Verification / PR / CI
+
+This candidate registers the exact four-command AI parser in the production
+composition root. It preserves deterministic local-response execution and
+the existing exit-2 diagnostic boundary. Provider execution remains an
+explicit Experimental path and cannot acquire credentials, import an SDK,
+select a provider, or initiate fallback implicitly.

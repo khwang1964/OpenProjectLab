@@ -4,17 +4,21 @@ from __future__ import annotations
 
 import argparse
 import json
+from dataclasses import dataclass
 from pathlib import Path
 
 from generator.ai.documentation import AIDocumentDraft
 from generator.ai.documentation_service import AIDocumentationService
 from generator.ai.models import AIRequest, AIResponse
+from generator.ai.protocols import AIProvider
 from generator.ai.review import AIReviewResult
 from generator.ai.review_service import AIReviewService
 from generator.ai.service import AICourseGenerationService
 from generator.ai.template_completion import AITemplateCompletionResult
 from generator.ai.template_completion_service import AITemplateCompletionService
 from generator.courseware.models import Course
+
+from .ai_provider import ClientFactory, resolve_experimental_provider
 
 _TASK_BY_COMMAND = {
     "course": "courseware.generate",
@@ -99,6 +103,60 @@ class _LocalResponseProvider:
         return self._response
 
 
+@dataclass(frozen=True, slots=True)
+class ExperimentalProviderOptions:
+    """Injected configuration for one explicitly selected live provider."""
+
+    client_factory: ClientFactory | None
+    api_key: str | None
+    model: str
+    timeout_seconds: float
+
+
+class _JsonObjectProvider:
+    """Normalize provider text into the structured mapping required by services."""
+
+    def __init__(self, *, provider: AIProvider) -> None:
+        self._provider = provider
+
+    def generate(self, request: AIRequest) -> AIResponse:
+        response = self._provider.generate(request)
+        content = response.content
+        if isinstance(content, str):
+            try:
+                content = json.loads(content)
+            except json.JSONDecodeError as exc:
+                raise ValueError("provider response must contain valid JSON") from exc
+        if not isinstance(content, dict):
+            raise ValueError("provider response JSON root must be an object")
+        return AIResponse(content=content, metadata=response.metadata)
+
+
+def _provider_for_args(
+    args: argparse.Namespace,
+    *,
+    experimental_options: ExperimentalProviderOptions | None,
+) -> tuple[AIProvider, str]:
+    response_path = getattr(args, "response", None)
+    provider_name = getattr(args, "provider", None)
+    if (response_path is None) == (provider_name is None):
+        raise ValueError("exactly one of response or provider must be selected")
+    if response_path is not None:
+        response = _load_local_response(response_path)
+        return _LocalResponseProvider(response=response), "local-response"
+    if experimental_options is None:
+        raise ValueError("experimental provider options are required")
+    provider = resolve_experimental_provider(
+        name=provider_name,
+        client_factory=experimental_options.client_factory,
+        api_key=experimental_options.api_key,
+        model=experimental_options.model,
+        timeout_seconds=experimental_options.timeout_seconds,
+    )
+    normalized_name = provider_name.strip().lower()
+    return _JsonObjectProvider(provider=provider), f"provider:{normalized_name}"
+
+
 def _course_result(course: Course) -> dict[str, object]:
     return {
         "course_id": course.course_id,
@@ -108,11 +166,14 @@ def _course_result(course: Course) -> dict[str, object]:
     }
 
 
-def _handle_ai_course(args: argparse.Namespace) -> int:
+def _handle_ai_course(
+    args: argparse.Namespace,
+    *,
+    experimental_options: ExperimentalProviderOptions | None = None,
+) -> int:
     """Run the deterministic local-response course application service."""
     request = _load_ai_request(args.request, command="course")
-    response = _load_local_response(args.response)
-    provider = _LocalResponseProvider(response=response)
+    provider, source = _provider_for_args(args, experimental_options=experimental_options)
     course = AICourseGenerationService(provider=provider).generate_course(request)
     result = _course_result(course)
 
@@ -120,7 +181,7 @@ def _handle_ai_course(args: argparse.Namespace) -> int:
         document = {
             "schema_version": 1,
             "command": "course",
-            "source": "local-response",
+            "source": source,
             "result": result,
         }
         print(
@@ -156,11 +217,14 @@ def _review_result(result: AIReviewResult) -> dict[str, object]:
     }
 
 
-def _handle_ai_review(args: argparse.Namespace) -> int:
+def _handle_ai_review(
+    args: argparse.Namespace,
+    *,
+    experimental_options: ExperimentalProviderOptions | None = None,
+) -> int:
     """Run the deterministic local-response review application service."""
     request = _load_ai_request(args.request, command="review")
-    response = _load_local_response(args.response)
-    provider = _LocalResponseProvider(response=response)
+    provider, source = _provider_for_args(args, experimental_options=experimental_options)
     review = AIReviewService(provider=provider).review(request)
     result = _review_result(review)
 
@@ -168,7 +232,7 @@ def _handle_ai_review(args: argparse.Namespace) -> int:
         document = {
             "schema_version": 1,
             "command": "review",
-            "source": "local-response",
+            "source": source,
             "result": result,
         }
         print(
@@ -197,11 +261,14 @@ def _document_result(draft: AIDocumentDraft) -> dict[str, object]:
     }
 
 
-def _handle_ai_document(args: argparse.Namespace) -> int:
+def _handle_ai_document(
+    args: argparse.Namespace,
+    *,
+    experimental_options: ExperimentalProviderOptions | None = None,
+) -> int:
     """Run the deterministic local-response documentation service."""
     request = _load_ai_request(args.request, command="document")
-    response = _load_local_response(args.response)
-    provider = _LocalResponseProvider(response=response)
+    provider, source = _provider_for_args(args, experimental_options=experimental_options)
     draft = AIDocumentationService(provider=provider).generate(request)
     result = _document_result(draft)
 
@@ -209,7 +276,7 @@ def _handle_ai_document(args: argparse.Namespace) -> int:
         document = {
             "schema_version": 1,
             "command": "document",
-            "source": "local-response",
+            "source": source,
             "result": result,
         }
         print(
@@ -237,11 +304,14 @@ def _template_result(result: AITemplateCompletionResult) -> dict[str, object]:
     }
 
 
-def _handle_ai_template(args: argparse.Namespace) -> int:
+def _handle_ai_template(
+    args: argparse.Namespace,
+    *,
+    experimental_options: ExperimentalProviderOptions | None = None,
+) -> int:
     """Run the deterministic local-response template completion service."""
     request = _load_ai_request(args.request, command="template")
-    response = _load_local_response(args.response)
-    provider = _LocalResponseProvider(response=response)
+    provider, source = _provider_for_args(args, experimental_options=experimental_options)
     completion = AITemplateCompletionService(provider=provider).complete(request)
     result = _template_result(completion)
 
@@ -249,7 +319,7 @@ def _handle_ai_template(args: argparse.Namespace) -> int:
         document = {
             "schema_version": 1,
             "command": "template",
-            "source": "local-response",
+            "source": source,
             "result": result,
         }
         print(

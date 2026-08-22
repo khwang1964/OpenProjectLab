@@ -1782,3 +1782,15 @@ Next --- v1.1.6.8 Provider Handler Wiring
 The accepted boundary supports only explicit provider selection through an
 injected client factory. It does not own SDK import, environment lookup,
 automatic fallback, handler wiring, or production parser registration.
+
+<!-- v1.1.6.8-provider-handler-wiring -->
+
+## v1.1.6.8 Provider Handler Wiring
+
+v1.1.6.8 Provider Handler Wiring --- In Progress
+Provider Source Selection --- Fail Closed
+Provider Text Normalization --- Strict JSON Object
+SDK Import / Environment Lookup --- Not Owned
+AI CLI Production Registration --- Not Started
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.8 Implementation Verification / PR / CI

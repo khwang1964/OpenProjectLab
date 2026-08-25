@@ -632,6 +632,15 @@
 
 ### Changed
 
+-   Accepted v1.1.7 Documentation / EN-zh-TW Parity after PR #214 passed
+    required CI and squash merged as `eafc65cd849ffbe546e2228e1027cca4863452a7`.
+-   Re-ran synchronized-main post-merge focused documentation verification
+    (`60 passed in 0.21s`) and the complete documentation suite
+    (`97 passed, 3 skipped in 0.60s`), with `git diff --check` and pre-commit Passed.
+-   Advanced the release sequence to v1.1.8 Reliability / Artifact-backed
+    Verification while keeping Formal v1.1 Acceptance at `Not Accepted`.
+
+
 -   Started v1.1.7 Documentation / EN-zh-TW Parity release-level coordination.
 -   Added a fail-closed release documentation parity contract covering the
     bilingual chapter structure, Marketplace CLI, AI CLI, and First 15 Minutes

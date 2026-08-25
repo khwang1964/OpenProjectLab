@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+-   Started v1.1.9 Formal v1.1 Acceptance pre-acceptance closure.
+-   Recorded focused formal-acceptance verification `35 passed, 20 skipped in 0.12s`.
+-   Recorded full regression `2312 passed, 53 skipped, 1 deselected` with total coverage
+    `91.17%`; required coverage threshold `67.0%` passed.
+-   Recorded `git diff --check` and pre-commit as Passed.
+-   Kept Formal v1.1 Acceptance at `Not Accepted`; PR CI, squash merge,
+    main synchronization, post-merge consistency, and terminal acceptance
+    alignment remain Pending.
+
+
 -   Accepted v1.1.8 Reliability / Artifact-backed Verification after PR #216
     passed required CI and squash merged as `19103257e7fe405f8d38ad4e43fd549e78867bde`.
 -   Preserved repository canonical identity `1.0.0` while verifying the

@@ -147,12 +147,21 @@ def _git(*args: str) -> str:
     return completed.stdout.strip()
 
 
-def test_v1_1_8_governing_design_exists_and_is_not_preaccepted() -> None:
+def test_v1_1_8_governing_design_is_terminally_accepted_without_accepting_v1_1() -> None:
     text = _read(DESIGN)
 
     assert "v1.1.8 --- Reliability / Artifact-backed Verification" in text
-    assert "v1.1.8 Reliability / Artifact-backed Verification --- In Progress" in text
-    assert "> **Formal v1.1 Acceptance:** Not Accepted" in text
+    assert "v1.1.8 Reliability / Artifact-backed Verification --- Accepted" in text
+    assert "Implementation / Evidence PR #216 --- Merged" in text
+    assert ("Implementation merge --- 19103257e7fe405f8d38ad4e43fd549e78867bde") in text
+
+    assert "Candidate build boundary --- Passed" in text
+    assert "Artifact identity verification --- Passed" in text
+    assert "Clean-installed user verification --- Passed" in text
+    assert "Post-merge consistency verification --- Passed" in text
+
+    assert "Formal v1.1 Acceptance --- Not Accepted" in text
+    assert "Next --- v1.1.9 Formal v1.1 Acceptance" in text
 
 
 def test_v1_1_7_documentation_predecessor_is_accepted() -> None:

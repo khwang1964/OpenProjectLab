@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+-   Accepted v1.1.8 Reliability / Artifact-backed Verification after PR #216
+    passed required CI and squash merged as `19103257e7fe405f8d38ad4e43fd549e78867bde`.
+-   Preserved repository canonical identity `1.0.0` while verifying the
+    temporary-build candidate identity `1.1.0rc1` / `v1.1.0-rc.1`.
+-   Verified candidate build evidence, wheel/sdist identity, checksums,
+    clean-installed CLI behavior, Marketplace and AI Stable installed-user
+    surfaces, First 15 Minutes onboarding, full regression, required coverage,
+    `git diff --check`, pre-commit, and post-merge consistency.
+-   Marked v1.1.8 `Accepted` while keeping Formal v1.1 Acceptance
+    `Not Accepted`; next gate is v1.1.9 Formal v1.1 Acceptance.
+
+
 ### Added
 
 #### v1.1 Planning Baseline

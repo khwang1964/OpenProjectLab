@@ -2928,3 +2928,66 @@ Next --- v1.1.8 Reliability / Artifact-backed Verification
 The release-level bilingual documentation contract is terminally aligned with
 the merged implementation and existing structural, functional, Marketplace,
 AI CLI, and First 15 Minutes / onboarding authorities.
+
+------------------------------------------------------------------------
+
+<!-- v1.1.8-reliability-artifact-backed-terminal-alignment -->
+
+## v1.1.8 Reliability / Artifact-backed Verification Terminal Alignment
+
+``` text
+v1.1.8 Reliability / Artifact-backed Verification --- Accepted
+Implementation / Evidence PR #216 --- Merged
+Implementation merge --- 19103257e7fe405f8d38ad4e43fd549e78867bde
+Required CI --- Passed
+main synchronization --- Completed
+Repository canonical identity --- 1.0.0
+v1.1 candidate identity --- 1.1.0rc1
+v1.1 candidate tag --- v1.1.0-rc.1
+Candidate build source SHA --- 19103257e7fe405f8d38ad4e43fd549e78867bde
+Candidate build boundary --- Passed
+Artifact identity verification --- Passed
+Checksum verification --- Passed
+Clean-installed user verification --- Passed
+Marketplace installed-user verification --- Passed
+AI Stable installed-user verification --- Passed
+First 15 Minutes installed-wheel verification --- Passed
+Full regression --- Passed
+Required coverage --- Passed
+git diff --check --- Passed
+pre-commit --- Passed
+Post-merge consistency verification --- Passed
+Terminal documentation alignment --- Completed
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.9 Formal v1.1 Acceptance
+```
+
+The repository keeps the immutable v1.0 canonical identity (`1.0.0`).
+The v1.1 release candidate is produced only through the temporary candidate
+build boundary as `1.1.0rc1`; the repository source identity itself is not
+mutated.
+
+PR #216 passed required CI, squash merged, and was followed by synchronized-main
+artifact identity, clean-install, installed-user, First 15 Minutes, full
+regression, coverage, and local quality verification.
+
+This terminal closure accepts v1.1.8 only. Formal v1.1 Acceptance remains a
+separate v1.1.9 gate.
+
+### Code Review Checklist
+
+- [x] PR #216 merge identity is recorded.
+- [x] Repository canonical identity remains `1.0.0`.
+- [x] Candidate identity remains `1.1.0rc1`.
+- [x] Candidate tag remains `v1.1.0-rc.1`.
+- [x] Candidate source SHA matches the PR #216 merge baseline.
+- [x] Candidate build uses the temporary build boundary.
+- [x] Wheel / sdist identity and checksums passed.
+- [x] Clean-installed `opl` behavior passed.
+- [x] Marketplace installed-user verification passed.
+- [x] AI Stable installed-user verification passed.
+- [x] First 15 Minutes installed-wheel verification passed.
+- [x] Full regression / required coverage passed.
+- [x] `git diff --check` / pre-commit passed.
+- [x] Formal v1.1 Acceptance remains Not Accepted.
+- [x] Next gate is v1.1.9 Formal v1.1 Acceptance.

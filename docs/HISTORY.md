@@ -2754,3 +2754,37 @@ Next --- v1.1.6.10 PR / CI / Post-merge Acceptance
 This is pre-acceptance evidence only. PR / CI / squash merge / synchronized
 main / post-merge consistency / terminal alignment remain required before
 v1.1.6.10 can transition to Accepted.
+
+------------------------------------------------------------------------
+
+<!-- v1.1.6.10-ai-cli-user-manual-parity-terminal-alignment -->
+
+## v1.1.6.10 AI CLI EN / zh-TW User Manual Parity Terminal Alignment
+
+Documentation PR #210 passed required CI and was squash merged as:
+
+``` text
+e982c0cad94511a649e0701ec0682855cd3db8ea
+```
+
+After synchronizing `main` with `origin/main`, the bilingual documentation
+suite passed 80 tests and pre-commit passed again. The terminal state is:
+
+``` text
+v1.1.6.9 Production Parser Registration --- Accepted
+v1.1.6.10 EN / zh-TW User Manual Parity --- Accepted
+Documentation PR #210 --- Merged
+Documentation merge --- e982c0cad94511a649e0701ec0682855cd3db8ea
+Documentation required CI --- Passed
+Post-merge documentation verification --- 80 passed
+Post-merge pre-commit --- Passed
+Post-merge consistency verification --- Passed
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.11 Full Regression / AI CLI Implementation Acceptance
+```
+
+The accepted bilingual manuals preserve the exact AI CLI command inventory,
+Stable local-response path, Experimental provider boundary, failure semantics,
+and non-mutating behavior. They do not expand the production runtime surface
+and do not pre-accept the broader AI CLI implementation or v1.1 release.

@@ -470,3 +470,41 @@ boundaries.
 
 Continue with [Generators](generators.md) for the generation model behind these
 commands.
+
+## 19. AI CLI
+
+The production `ai` command family exposes exactly four governed subcommands:
+
+```text
+opl ai course
+opl ai review
+opl ai document
+opl ai template
+```
+
+The **Stable** execution path is deterministic `local-response` execution. It
+does not require a network connection, credential, paid account, provider SDK,
+or provider client.
+
+The **Experimental** provider path is explicit, injection-only, and fail-closed.
+Provider execution requires explicit provider selection together with an
+injected client factory. The AI CLI does not perform automatic SDK import,
+does not perform automatic credential lookup, does not perform implicit provider selection,
+and does not perform network fallback.
+
+Validation and failure handling preserve the established CLI boundary. A
+handled AI CLI failure uses exit code 2, writes its diagnostic to stderr, and
+produces no success output on stdout.
+
+AI CLI behavior is non-mutating with respect to the filesystem and repository.
+The `course`, `review`, `document`, and `template` handlers return projected
+content/results but do not write generated AI output into the project,
+repository, manifests, registries, or Marketplace state.
+
+This documentation does not mark the broader implementation or release as
+accepted:
+
+```text
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+```

@@ -454,3 +454,38 @@ failure boundaries 請閱讀 [Marketplace CLI](marketplace.md)。
 ## 下一步
 
 繼續閱讀 [Generators](generators.md)，了解這些 commands 背後的 generation model。
+
+## 19. AI CLI
+
+Production `ai` command family 精確提供四個受治理的 subcommands：
+
+```text
+opl ai course
+opl ai review
+opl ai document
+opl ai template
+```
+
+**Stable** execution path 是 deterministic `local-response` execution。此路徑
+不需要 network connection、credential、paid account、provider SDK 或
+provider client。
+
+**Experimental** provider path 必須 explicit、injection-only 且 fail-closed。
+Provider execution 需要 explicit provider selection 與 injected client factory。
+AI CLI 不會執行 automatic SDK import、不會執行 automatic credential lookup、
+不會執行 implicit provider selection，也不會執行 network fallback。
+
+Validation 與 failure handling 保留既有 CLI boundary。已處理的 AI CLI failure
+使用 exit code 2，diagnostic 寫到 stderr，且不輸出成功內容到 stdout。
+
+AI CLI 對 filesystem 與 repository 維持 non-mutating behavior。`course`、
+`review`、`document`、`template` handlers 只回傳 projected content/results，
+不會把 AI output 寫入 project、repository、manifest、registry 或 Marketplace
+state。
+
+本節不會提前接受較大的 implementation 或 release：
+
+```text
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+```

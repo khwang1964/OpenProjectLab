@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+<!-- v1.2-planning-baseline-changelog -->
+
+-   Started the v1.2 Planning Baseline from accepted predecessor merge
+    `55781b43f7b661a48338601cb22a4d69a120c584`.
+-   Prioritized Bootstrap Framework maturity first, followed by
+    Developer/Release Automation, AI-assisted generation, and Marketplace
+    production workflow.
+-   Proposed `v1.2.1 --- Bootstrap Framework Design Baseline` as the first
+    implementation slice.
+-   Kept `v1.2 Planning Baseline` at `Not Accepted`.
+-   Kept `v1.2 Implementation` at `Not Started`.
+-   Preserved Design First / Documentation First / Automation First boundaries.
+
+
 -   Accepted Post-v1.1 Roadmap Planning after PR #220 passed required CI and squash merged as `8459d3f42a08dc4364624215a77ec58c04b7539f`.
 -   Completed main synchronization and post-merge planning consistency verification.
 -   Recorded focused post-merge verification `10 passed`.

@@ -3157,3 +3157,35 @@ Next --- v1.2 Design Baseline / Workstream Prioritization
 ```
 
 This closes the Post-v1.1 planning cycle and formally selects v1.2 as the next backward-compatible feature-release boundary. Implementation remains blocked pending the next Design First contract.
+
+------------------------------------------------------------------------
+
+<!-- v1.2-planning-baseline-history -->
+
+# v1.2 Planning Baseline
+
+Following acceptance of Post-v1.1 Roadmap Planning, OpenProjectLab entered
+the v1.2 planning-baseline phase from merge `55781b43f7b661a48338601cb22a4d69a120c584`.
+
+The planning priority is:
+
+1. Bootstrap Framework maturity;
+2. Developer / Release Automation;
+3. AI-assisted Project / Course Generation;
+4. Marketplace Production Workflow.
+
+The proposed first implementation slice is
+`v1.2.1 --- Bootstrap Framework Design Baseline`.
+
+This is a planning decision only.
+
+``` text
+v1.2 Planning Baseline --- In Progress
+Workstream Priority --- Proposed
+First Implementation Slice --- Proposed: v1.2.1 Bootstrap Framework Design Baseline
+v1.2 Planning Baseline --- Not Accepted
+v1.2 Implementation --- Not Started
+```
+
+No v1.2 implementation is authorized until planning acceptance and a
+separate Design First contract are complete.

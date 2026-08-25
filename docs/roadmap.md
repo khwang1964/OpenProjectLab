@@ -2733,3 +2733,68 @@ Next --- v1.2 Design Baseline / Workstream Prioritization
 ```
 
 This closes the Post-v1.1 planning cycle and formally selects v1.2 as the next backward-compatible feature-release boundary. Implementation remains blocked pending the next Design First contract.
+
+------------------------------------------------------------------------
+
+<!-- v1.2-planning-baseline-roadmap -->
+
+# v1.2 Planning Baseline
+
+> **Status:** Design / Planning Baseline --- In Progress
+> **Predecessor:** Post-v1.1 Roadmap Planning --- Accepted
+> **Predecessor Merge:** `55781b43f7b661a48338601cb22a4d69a120c584`
+> **Target Version:** v1.2
+> **Release Type:** Backward-compatible feature release
+> **v1.2 Planning Baseline:** Not Accepted
+> **v1.2 Implementation:** Not Started
+
+Priority order:
+
+``` text
+1. Bootstrap Framework maturity
+2. Developer / Release Automation
+3. AI-assisted Project / Course Generation
+4. Marketplace Production Workflow
+```
+
+Proposed first slice:
+
+``` text
+v1.2.1 --- Bootstrap Framework Design Baseline
+```
+
+This selection is planning-only. Implementation remains blocked until the
+v1.2 Planning Baseline is formally accepted and the v1.2.1 Design First
+contract is approved.
+
+## Planning Boundary
+
+``` text
+Post-v1.1 Roadmap Planning --- Accepted
+        ↓
+v1.2 Planning Baseline --- In Progress
+        ↓
+Workstream Priority --- Proposed
+        ↓
+First Implementation Slice --- Proposed
+        ↓
+Planning PR / CI / merge
+        ↓
+Post-merge consistency
+        ↓
+Planning acceptance closure
+        ↓
+Only then may v1.2 implementation begin
+```
+
+## Code Review Checklist
+
+- [ ] Post-v1.1 Roadmap Planning remains Accepted.
+- [ ] Bootstrap Framework maturity is Priority 1.
+- [ ] Developer / Release Automation is Priority 2.
+- [ ] AI-assisted generation is Priority 3.
+- [ ] Marketplace production workflow is Priority 4.
+- [ ] v1.2.1 is proposed as a Design Baseline only.
+- [ ] v1.2 Planning Baseline remains Not Accepted.
+- [ ] v1.2 Implementation remains Not Started.
+- [ ] no implementation is introduced.

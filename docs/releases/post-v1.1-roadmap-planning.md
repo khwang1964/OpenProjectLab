@@ -1,9 +1,9 @@
 # OpenProjectLab Post-v1.1 Roadmap Planning
 
-> **Status:** Design / Planning Baseline --- In Progress
+> **Status:** Accepted --- Terminally Closed
 > **Predecessor:** OpenProjectLab v1.1 --- Terminally Accepted
 > **Predecessor Merge:** 9997e9d85ed3672451c6c538d464d07a93d3d9cb
-> **Next Version Decision:** Not Yet Accepted
+> **Next Version Decision:** Accepted
 > **Implementation:** Not Started
 
 ------------------------------------------------------------------------
@@ -190,23 +190,25 @@ The Post-v1.1 Roadmap Planning baseline remains unaccepted until:
 ``` text
 Governing design --- Defined
 Fail-closed planning tests --- Added
-Next-version decision --- Pending
-In-scope workstreams --- Pending
+Next-version decision --- Accepted
+In-scope workstreams --- Accepted for v1.2 planning
 Explicit non-goals --- Defined
 Architecture decision requirements --- Defined
-Roadmap alignment --- Pending
-HISTORY alignment --- Pending
-CHANGELOG alignment --- Pending
-Focused planning tests --- Pending
-Full regression / coverage --- Pending
-git diff --check --- Pending
-pre-commit --- Pending
-Planning PR required CI --- Pending
-Planning PR squash merge --- Pending
-main synchronization --- Pending
-Post-merge consistency verification --- Pending
-Terminal planning acceptance --- Pending
-Next Version Decision --- Not Yet Accepted
+Roadmap alignment --- Completed
+HISTORY alignment --- Completed
+CHANGELOG alignment --- Completed
+Focused planning tests --- Passed
+Full regression --- 2322 passed, 56 skipped, 1 deselected
+Total coverage --- 91.17%
+Required coverage --- 67.0% --- Passed
+git diff --check --- Passed
+pre-commit --- Passed
+Planning PR #220 required CI --- Passed
+Planning PR #220 squash merge --- Completed
+main synchronization --- Completed
+Post-merge consistency verification --- Passed
+Terminal planning acceptance --- Completed
+Next Version Decision --- Accepted
 Implementation --- Not Started
 ```
 
@@ -243,8 +245,20 @@ Implementation --- Not Started
 
 ``` text
 v1.1 --- Terminally Accepted
-Post-v1.1 Roadmap Planning --- In Progress
-Next Version Decision --- Not Yet Accepted
-Implementation --- Not Started
-Next --- Evaluate candidate workstreams and select the next version boundary
+Post-v1.1 Roadmap Planning --- Accepted
+Planning PR #220 --- Merged
+Planning merge --- 8459d3f42a08dc4364624215a77ec58c04b7539f
+Planning PR required CI --- Passed
+main synchronization --- Completed
+Post-merge consistency verification --- Passed
+Focused post-merge verification --- 10 passed
+Full regression --- 2322 passed, 56 skipped, 1 deselected
+Total coverage --- 91.17%
+Required coverage --- 67.0% --- Passed
+Next Version Boundary --- v1.2
+Release Type --- Backward-compatible feature release
+Next Version Decision --- Accepted
+v1.2 Planning Baseline --- Accepted
+v1.2 Implementation --- Not Started
+Next --- v1.2 Design Baseline / Workstream Prioritization
 ```

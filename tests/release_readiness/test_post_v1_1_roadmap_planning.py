@@ -21,8 +21,8 @@ def test_post_v1_1_planning_document_exists_and_is_not_preaccepted() -> None:
     text = _read(PLAN)
 
     assert "Post-v1.1 Roadmap Planning" in text
-    assert "**Status:** Design / Planning Baseline --- In Progress" in text
-    assert "**Next Version Decision:** Not Yet Accepted" in text
+    assert "**Status:** Accepted --- Terminally Closed" in text
+    assert "**Next Version Decision:** Accepted" in text
     assert "**Implementation:** Not Started" in text
 
 
@@ -97,22 +97,31 @@ def test_architecture_requirements_are_documentation_first() -> None:
         assert marker in text
 
 
-def test_planning_closure_gates_are_fail_closed() -> None:
+def test_planning_closure_gates_are_terminally_accepted() -> None:
     text = _read(PLAN)
 
-    for marker in (
-        "Next-version decision --- Pending",
-        "Roadmap alignment --- Pending",
-        "HISTORY alignment --- Pending",
-        "CHANGELOG alignment --- Pending",
-        "Focused planning tests --- Pending",
-        "Full regression / coverage --- Pending",
-        "Planning PR required CI --- Pending",
-        "Post-merge consistency verification --- Pending",
-        "Terminal planning acceptance --- Pending",
-        "Next Version Decision --- Not Yet Accepted",
+    required = (
+        "Next-version decision --- Accepted",
+        "In-scope workstreams --- Accepted for v1.2 planning",
+        "Roadmap alignment --- Completed",
+        "HISTORY alignment --- Completed",
+        "CHANGELOG alignment --- Completed",
+        "Focused planning tests --- Passed",
+        "Full regression --- 2322 passed, 56 skipped, 1 deselected",
+        "Total coverage --- 91.17%",
+        "Required coverage --- 67.0% --- Passed",
+        "git diff --check --- Passed",
+        "pre-commit --- Passed",
+        "Planning PR #220 required CI --- Passed",
+        "Planning PR #220 squash merge --- Completed",
+        "main synchronization --- Completed",
+        "Post-merge consistency verification --- Passed",
+        "Terminal planning acceptance --- Completed",
+        "Next Version Decision --- Accepted",
         "Implementation --- Not Started",
-    ):
+    )
+
+    for marker in required:
         assert marker in text
 
 
@@ -138,6 +147,25 @@ def test_lifecycle_documents_select_v1_2_without_preaccepting_it() -> None:
 
     planning = _read(PLAN)
 
-    assert "Next Version Decision --- Not Yet Accepted" in planning
+    assert "Next Version Decision --- Accepted" in planning
     assert "Implementation --- Not Started" in planning
     assert "v1.2 --- Accepted" not in planning
+
+
+def test_post_v1_1_acceptance_closure_evidence() -> None:
+    text = _read(PLAN)
+
+    assert "Post-v1.1 Roadmap Planning --- Accepted" in text
+    assert "Planning PR #220 --- Merged" in text
+    assert "Planning merge --- 8459d3f42a08dc4364624215a77ec58c04b7539f" in text
+    assert "Planning PR required CI --- Passed" in text
+    assert "main synchronization --- Completed" in text
+    assert "Post-merge consistency verification --- Passed" in text
+    assert "Focused post-merge verification --- 10 passed" in text
+    assert "Full regression --- 2322 passed, 56 skipped, 1 deselected" in text
+    assert "Total coverage --- 91.17%" in text
+    assert "Required coverage --- 67.0% --- Passed" in text
+    assert "Next Version Boundary --- v1.2" in text
+    assert "Next Version Decision --- Accepted" in text
+    assert "v1.2 Planning Baseline --- Accepted" in text
+    assert "v1.2 Implementation --- Not Started" in text

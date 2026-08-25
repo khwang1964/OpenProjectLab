@@ -22,11 +22,17 @@ def _read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def test_acceptance_record_exists_and_is_not_preaccepted() -> None:
+def test_acceptance_record_is_terminally_accepted_without_accepting_v1_1() -> None:
     text = _read(ACCEPTANCE)
+
     assert "v1.1.6.11 --- Full Regression / AI CLI Implementation Acceptance" in text
-    assert "AI CLI Implementation Acceptance:** Not Accepted" in text
-    assert "Formal v1.1 Acceptance:** Not Accepted" in text
+    assert "> **Status:** Accepted --- Terminally Closed" in text
+    assert "> **AI CLI Implementation Acceptance:** Accepted" in text
+    assert "> **Formal v1.1 Acceptance:** Not Accepted" in text
+
+    assert "v1.1.6.11 Full Regression / AI CLI Implementation Acceptance --- Accepted" in text
+    assert "AI CLI Implementation Acceptance --- Accepted" in text
+    assert "Formal v1.1 Acceptance --- Not Accepted" in text
 
 
 def test_all_prior_ai_cli_slices_are_accepted() -> None:
@@ -85,15 +91,16 @@ def test_production_ai_parser_exposes_exact_four_commands(
         assert captured.err == ""
 
 
-def test_acceptance_record_declares_fail_closed_closure_gates() -> None:
+def test_acceptance_record_declares_completed_terminal_closure_gates() -> None:
     text = _read(ACCEPTANCE)
+
     for gate in (
-        "Acceptance PR required CI --- Pending",
-        "Acceptance squash merge --- Pending",
-        "main synchronization after acceptance merge --- Pending",
-        "Post-merge consistency verification --- Pending",
-        "Terminal documentation alignment --- Pending",
-        "AI CLI Implementation Acceptance --- Not Accepted",
+        "Acceptance PR #212 --- Merged",
+        "Acceptance PR required CI --- Passed",
+        "main synchronization after acceptance merge --- Completed",
+        "Post-merge consistency verification --- Passed",
+        "Terminal documentation alignment --- Completed",
+        "AI CLI Implementation Acceptance --- Accepted",
         "Formal v1.1 Acceptance --- Not Accepted",
     ):
         assert gate in text

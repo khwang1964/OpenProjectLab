@@ -2354,3 +2354,31 @@ AI CLI Implementation Acceptance --- Not Accepted
 Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.6.11 Acceptance PR / CI / Post-merge Closure
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.1.6.11-terminal-alignment -->
+
+## v1.1.6.11 AI CLI Implementation Acceptance Terminal Alignment
+
+``` text
+v1.1.6.10 EN / zh-TW User Manual Parity --- Accepted
+v1.1.6.11 Full Regression / AI CLI Implementation Acceptance --- Accepted
+Acceptance PR #212 --- Merged
+Acceptance merge --- a6f2161d0affba59cae19cbe4deb5f7b6cd91b84
+Acceptance PR required CI --- Passed
+main synchronization after acceptance merge --- Completed
+Post-merge focused verification --- ============================= 47 passed in 1.06s ==============================
+Post-merge full regression --- =============== 2277 passed, 33 skipped, 1 deselected in 27.57s ===============
+Post-merge total coverage --- 91.17%
+Required coverage threshold --- 67.0% --- Passed
+Post-merge local quality gates --- Passed
+Post-merge consistency verification --- Passed
+Terminal documentation alignment --- Completed
+AI CLI Implementation Acceptance --- Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- next v1.1 roadmap slice
+```
+
+This terminal alignment records closure evidence only. It adds no runtime
+behavior and does not constitute Formal v1.1 Acceptance.

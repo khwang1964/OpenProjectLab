@@ -632,6 +632,21 @@
 
 ### Changed
 
+-   Completed v1.1.6.9 AI CLI Production Parser Registration through
+    PR #208, squash merged as
+    `2befa064c8172fe2dab05c06d3737935d38642be`.
+-   Registered the exact `course`, `review`, `document`, and `template`
+    AI subcommand inventory in the production parser.
+-   Preserved deterministic stable local-response execution and the existing
+    exit-2 / stderr diagnostic boundary.
+-   Preserved Experimental provider execution as explicit, injection-only,
+    and fail-closed; parser registration does not own SDK import, credential
+    lookup, implicit provider selection, or network fallback.
+-   Marked v1.1.6.9 Production Parser Registration as Accepted while keeping
+    AI CLI Implementation Acceptance and Formal v1.1 Acceptance Not Accepted.
+-   Advanced the next AI CLI slice to v1.1.6.10 EN / zh-TW User Manual
+    Parity.
+
 -   Completed Step 8.7 support-matrix and known-limitations governing
     design through PR #128.
 -   Completed Step 8.7 focused support-contract automation through PR

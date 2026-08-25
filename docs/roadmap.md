@@ -2265,17 +2265,29 @@ Next --- v1.1.6.9 Production Parser Registration
 ## v1.1.6.9 AI CLI Production Parser Registration
 
 v1.1.6.8 Provider Handler Wiring --- Accepted
-v1.1.6.9 Production Parser Registration --- In Progress
+v1.1.6.9 Production Parser Registration --- Accepted
 Exact AI Command Inventory --- course / review / document / template
 Stable Local-response Execution --- Registered
 Experimental Provider Composition --- Fail Closed / Injection Required
 SDK Import / Environment Lookup --- Not Owned
+Implementation PR #208 --- Merged
+Implementation merge --- 2befa064c8172fe2dab05c06d3737935d38642be
+Post-merge consistency verification --- Passed
 AI CLI Implementation Acceptance --- Not Accepted
 Formal v1.1 Acceptance --- Not Accepted
-Next --- v1.1.6.9 Implementation Verification / PR / CI
+Next --- v1.1.6.10 EN / zh-TW User Manual Parity
 
-This candidate registers the exact four-command AI parser in the production
-composition root. It preserves deterministic local-response execution and
-the existing exit-2 diagnostic boundary. Provider execution remains an
-explicit Experimental path and cannot acquire credentials, import an SDK,
-select a provider, or initiate fallback implicitly.
+Production parser registration is now terminally aligned with merged
+implementation evidence. The exact four-command surface is available through
+the production parser, while provider execution remains an explicit,
+fail-closed Experimental composition path.
+
+<!-- v1.1.6.10-ai-cli-user-manual-parity -->
+
+## v1.1.6.10 AI CLI EN / zh-TW User Manual Parity
+
+v1.1.6.9 Production Parser Registration --- Accepted
+v1.1.6.10 EN / zh-TW User Manual Parity --- Not Started
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.10 Documentation Design / Parity Automation

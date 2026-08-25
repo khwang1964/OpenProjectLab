@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+-   Terminally accepted OpenProjectLab v1.1 after Formal Acceptance PR #218
+    passed required CI and squash merged as `c740613f5ac29d696962545afb2ee0f5b0c8c630`.
+-   Completed main synchronization and post-merge formal-acceptance consistency.
+-   Recorded full regression `2312 passed, 53 skipped, 1 deselected` and total
+    coverage `91.17%` against the required `67.0%` threshold.
+-   Preserved repository historical identity `1.0.0` and v1.1 candidate
+    identity `1.1.0rc1` / `v1.1.0-rc.1`.
+-   Marked Formal v1.1 Acceptance and v1.1 as terminally Accepted.
+
+
 -   Started v1.1.9 Formal v1.1 Acceptance pre-acceptance closure.
 -   Recorded focused formal-acceptance verification `35 passed, 20 skipped in 0.12s`.
 -   Recorded full regression `2312 passed, 53 skipped, 1 deselected` with total coverage

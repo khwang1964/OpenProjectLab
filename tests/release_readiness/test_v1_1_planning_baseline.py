@@ -91,13 +91,10 @@ def test_terminal_documents_align_to_planning_state() -> None:
         assert "Formal v1.1 Acceptance --- Not Accepted" in document
 
 
-def test_planning_documents_do_not_fabricate_future_evidence() -> None:
-    """Reject fabricated release or terminal acceptance evidence."""
-    planning_sections = (
-        _read(BASELINE),
-        _read(ROADMAP).split("# Milestone 9 --- v1.1", maxsplit=1)[1],
-        _read(HISTORY).split("# v1.1 Planning Baseline", maxsplit=1)[1],
-    )
+def test_planning_baseline_does_not_fabricate_future_evidence() -> None:
+    """Keep the immutable planning-baseline record free of future evidence."""
+    baseline = _read(BASELINE)
+
     forbidden = (
         "v1.1 CI --- Passed",
         "v1.1 acceptance PR --- Merged",
@@ -105,6 +102,15 @@ def test_planning_documents_do_not_fabricate_future_evidence() -> None:
         "v1.1.0 tag --- Published",
     )
 
-    for document in planning_sections:
-        for marker in forbidden:
-            assert marker not in document
+    for marker in forbidden:
+        assert marker not in baseline
+
+
+def test_terminal_documents_record_real_later_v1_1_acceptance() -> None:
+    """Forward-growing lifecycle records may contain verified later closure."""
+    for path in (ROADMAP, HISTORY):
+        document = _read(path)
+
+        assert "Formal v1.1 Acceptance --- Not Accepted" in document
+        assert "Formal v1.1 Acceptance --- Accepted" in document
+        assert "v1.1 --- Terminally Accepted" in document

@@ -632,6 +632,20 @@
 
 ### Changed
 
+-   Added v1.1.6.10 AI CLI EN / zh-TW User Manual Parity documentation and
+    fail-closed parity automation.
+-   Documented the exact `course`, `review`, `document`, and `template` AI CLI
+    command inventory in both formal User Manuals.
+-   Aligned Stable deterministic local-response behavior, Experimental
+    explicit/injection-only/fail-closed provider behavior, exit-code 2 /
+    stderr / no-success-output failure semantics, and non-mutating boundaries.
+-   Explicitly rejected automatic SDK import, automatic credential lookup,
+    implicit provider selection, and network fallback in both manuals.
+-   Recorded local documentation verification at `80 passed` with pre-commit
+    Passed while keeping AI CLI Implementation Acceptance and Formal v1.1
+    Acceptance at `Not Accepted`.
+
+
 -   Completed v1.1.6.9 AI CLI Production Parser Registration through
     PR #208, squash merged as
     `2befa064c8172fe2dab05c06d3737935d38642be`.

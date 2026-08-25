@@ -2711,3 +2711,46 @@ lookup, SDK import, implicit provider selection, or network fallback.
 The next slice is documentation-only parity work for the English and
 Traditional Chinese (Taiwan) User Manuals. Full AI CLI implementation
 acceptance remains a later independent gate.
+
+------------------------------------------------------------------------
+
+<!-- v1.1.6.10-ai-cli-user-manual-parity-pre-acceptance -->
+
+## v1.1.6.10 AI CLI EN / zh-TW User Manual Parity — Pre-acceptance
+
+After v1.1.6.9 Production Parser Registration reached Accepted, the project
+started the bilingual AI CLI documentation gate.
+
+The English and Traditional Chinese (Taiwan) CLI manuals now document the same
+governed surface:
+
+``` text
+opl ai course
+opl ai review
+opl ai document
+opl ai template
+```
+
+Both manuals preserve the same Stable / Experimental boundary: deterministic
+local-response execution is Stable; provider execution is explicit,
+injection-only, and fail-closed. They also align exit-code 2 / stderr /
+no-success-output semantics, non-mutating filesystem/repository behavior, and
+explicitly reject automatic SDK import, automatic credential lookup, implicit
+provider selection, and network fallback.
+
+Local evidence:
+
+``` text
+v1.1.6.10 EN / zh-TW User Manual Parity --- In Progress
+Documentation parity implementation --- Completed
+Parity automation --- Passed
+Focused documentation verification --- 80 passed
+pre-commit --- Passed
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.10 PR / CI / Post-merge Acceptance
+```
+
+This is pre-acceptance evidence only. PR / CI / squash merge / synchronized
+main / post-merge consistency / terminal alignment remain required before
+v1.1.6.10 can transition to Accepted.

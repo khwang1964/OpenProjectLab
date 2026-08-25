@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+-   Accepted Post-v1.1 Roadmap Planning after PR #220 passed required CI and squash merged as `8459d3f42a08dc4364624215a77ec58c04b7539f`.
+-   Completed main synchronization and post-merge planning consistency verification.
+-   Recorded focused post-merge verification `10 passed`.
+-   Recorded full regression `2322 passed, 56 skipped, 1 deselected` with total coverage `91.17%` against required `67.0%`.
+-   Formally selected `v1.2` as the next backward-compatible feature-release boundary.
+-   Marked `Next Version Decision` and `v1.2 Planning Baseline` as Accepted.
+-   Kept `v1.2 Implementation` at `Not Started` pending the next Design First contract.
+
+
 <!-- post-v1.1-roadmap-planning-changelog -->
 
 -   Entered Post-v1.1 Roadmap Planning after terminal acceptance of v1.1 at

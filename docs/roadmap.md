@@ -2707,3 +2707,29 @@ Only then may v1.2 implementation begin
 - [ ] Automation First remains mandatory.
 - [ ] human merge approval remains mandatory.
 - [ ] v1.2 implementation remains Not Started.
+------------------------------------------------------------------------
+
+<!-- post-v1.1-roadmap-planning-acceptance -->
+
+## Post-v1.1 Roadmap Planning Acceptance
+
+``` text
+Post-v1.1 Roadmap Planning --- Accepted
+Planning PR #220 --- Merged
+Planning merge --- 8459d3f42a08dc4364624215a77ec58c04b7539f
+Planning PR required CI --- Passed
+main synchronization --- Completed
+Post-merge consistency verification --- Passed
+Focused post-merge verification --- 10 passed
+Full regression --- 2322 passed, 56 skipped, 1 deselected
+Total coverage --- 91.17%
+Required coverage --- 67.0% --- Passed
+Next Version Boundary --- v1.2
+Release Type --- Backward-compatible feature release
+Next Version Decision --- Accepted
+v1.2 Planning Baseline --- Accepted
+v1.2 Implementation --- Not Started
+Next --- v1.2 Design Baseline / Workstream Prioritization
+```
+
+This closes the Post-v1.1 planning cycle and formally selects v1.2 as the next backward-compatible feature-release boundary. Implementation remains blocked pending the next Design First contract.

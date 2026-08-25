@@ -2422,3 +2422,29 @@ mandatory before v1.1.7 can become Accepted.
 - [x] `git diff --check` passes.
 - [x] pre-commit passes.
 - [x] Formal v1.1 Acceptance remains Not Accepted.
+
+------------------------------------------------------------------------
+
+<!-- v1.1.7-documentation-parity-terminal-alignment -->
+
+## v1.1.7 Documentation / EN-zh-TW Parity Terminal Alignment
+
+``` text
+v1.1.7 Documentation / EN-zh-TW Parity --- Accepted
+Documentation PR #214 --- Merged
+Documentation merge --- eafc65cd849ffbe546e2228e1027cca4863452a7
+Documentation PR required CI --- Passed
+main synchronization after documentation merge --- Completed
+Post-merge focused documentation verification --- 60 passed in 0.21s
+Post-merge documentation regression --- 97 passed, 3 skipped in 0.60s
+Post-merge git diff --check --- Passed
+Post-merge pre-commit --- Passed
+Post-merge consistency verification --- Passed
+Terminal documentation alignment --- Completed
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.8 Reliability / Artifact-backed Verification
+```
+
+The release-level bilingual documentation contract is terminally aligned with
+the merged implementation and existing structural, functional, Marketplace,
+AI CLI, and First 15 Minutes / onboarding authorities.

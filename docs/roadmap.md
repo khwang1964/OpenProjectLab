@@ -2287,17 +2287,20 @@ fail-closed Experimental composition path.
 ## v1.1.6.10 AI CLI EN / zh-TW User Manual Parity
 
 v1.1.6.9 Production Parser Registration --- Accepted
-v1.1.6.10 EN / zh-TW User Manual Parity --- In Progress
+v1.1.6.10 EN / zh-TW User Manual Parity --- Accepted
 Documentation parity implementation --- Completed
 Parity automation --- Passed
-Focused documentation verification --- 80 passed
-pre-commit --- Passed
+Documentation PR #210 --- Merged
+Documentation merge --- e982c0cad94511a649e0701ec0682855cd3db8ea
+Documentation required CI --- Passed
+Post-merge documentation verification --- 80 passed
+Post-merge pre-commit --- Passed
+Post-merge consistency verification --- Passed
 AI CLI Implementation Acceptance --- Not Accepted
 Formal v1.1 Acceptance --- Not Accepted
-Next --- v1.1.6.10 PR / CI / Post-merge Acceptance
+Next --- v1.1.6.11 Full Regression / AI CLI Implementation Acceptance
 
-The bilingual CLI manuals now cover the exact four-command AI CLI inventory,
-Stable local-response semantics, Experimental fail-closed provider boundaries,
-failure behavior, and non-mutating behavior. Local documentation verification
-is green, but terminal acceptance still requires PR / CI / merge / synchronized
-main / post-merge consistency before v1.1.6.10 can become Accepted.
+The bilingual AI CLI manuals and parity automation are terminally aligned with
+the merged production documentation. This slice changes documentation and
+automation only; broader AI CLI implementation acceptance remains a separate
+fail-closed gate.

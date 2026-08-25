@@ -632,6 +632,17 @@
 
 ### Changed
 
+-   Accepted v1.1.6.10 AI CLI EN / zh-TW User Manual Parity after
+    Documentation PR #210 passed required CI and squash merged as
+    `e982c0cad94511a649e0701ec0682855cd3db8ea`.
+-   Re-verified the bilingual documentation contract from synchronized `main`
+    with `80 passed` and pre-commit Passed.
+-   Recorded post-merge consistency verification as Passed and advanced the
+    next gate to v1.1.6.11 Full Regression / AI CLI Implementation Acceptance.
+-   Kept AI CLI Implementation Acceptance and Formal v1.1 Acceptance at
+    `Not Accepted`.
+
+
 -   Added v1.1.6.10 AI CLI EN / zh-TW User Manual Parity documentation and
     fail-closed parity automation.
 -   Documented the exact `course`, `review`, `document`, and `template` AI CLI

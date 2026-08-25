@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+<!-- post-v1.1-roadmap-planning-changelog -->
+
+-   Entered Post-v1.1 Roadmap Planning after terminal acceptance of v1.1 at
+    `9997e9d85ed3672451c6c538d464d07a93d3d9cb`.
+-   Selected `v1.2` as the current next-version planning boundary and
+    classified it as a backward-compatible feature release.
+-   Established Bootstrap Framework maturity, AI-assisted project/course
+    generation, Marketplace production workflow, and developer/release
+    automation as candidate workstreams.
+-   Kept `Next Version Decision` at `Not Yet Accepted`; this planning slice
+    does not accept v1.2.
+-   Kept `v1.2 Implementation` at `Not Started` pending planning acceptance,
+    Design First architecture contracts, executable tests, and required
+    governance/CI closure.
+-   Kept v2.0 out of scope unless a future architecture decision proves that
+    an intentional Stable-contract break is necessary.
+
+
 -   Terminally accepted OpenProjectLab v1.1 after Formal Acceptance PR #218
     passed required CI and squash merged as `c740613f5ac29d696962545afb2ee0f5b0c8c630`.
 -   Completed main synchronization and post-merge formal-acceptance consistency.

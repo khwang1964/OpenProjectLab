@@ -3065,3 +3065,69 @@ v1.1 candidate tag --- v1.1.0-rc.1
 v1.1 --- Terminally Accepted
 Next --- Post-v1.1 Roadmap Planning
 ```
+
+------------------------------------------------------------------------
+
+<!-- post-v1.1-roadmap-planning-history -->
+
+# Post-v1.1 Roadmap Planning
+
+Following terminal acceptance of OpenProjectLab v1.1 at merge
+`9997e9d85ed3672451c6c538d464d07a93d3d9cb`, the project entered its next-version planning cycle.
+
+The planning process currently selects **v1.2** as the next version boundary
+because the candidate workstreams are expected to evolve existing Stable v1.x
+contracts without requiring an intentional breaking release.
+
+This selection establishes a planning boundary only. It does not accept v1.2
+and does not authorize implementation.
+
+## Candidate Workstreams
+
+- Bootstrap Framework maturity;
+- AI-assisted project and course generation;
+- Marketplace production workflow;
+- Developer and release automation.
+
+## Planning Boundary
+
+``` text
+v1.1 --- Terminally Accepted
+        ↓
+Post-v1.1 Roadmap Planning --- In Progress
+        ↓
+Next Version Boundary --- v1.2
+        ↓
+Next Version Decision --- Not Yet Accepted
+        ↓
+v1.2 Implementation --- Not Started
+```
+
+v2.0 remains out of scope unless a future architecture decision demonstrates
+that a Stable-contract break is necessary and cannot be avoided through
+backward-compatible v1.x evolution.
+
+## Acceptance Boundary
+
+The next-version decision remains fail closed until:
+
+- governing planning design is reviewed;
+- planning tests pass;
+- roadmap / HISTORY / CHANGELOG alignment passes;
+- focused planning verification passes;
+- full regression / required coverage passes;
+- required CI passes;
+- planning PR squash merge completes;
+- main synchronization completes;
+- post-merge consistency verification passes;
+- terminal planning acceptance completes.
+
+Current state:
+
+``` text
+Next Version Boundary --- v1.2
+Release Type --- Backward-compatible feature release
+Next Version Decision --- Not Yet Accepted
+v1.2 Planning Baseline --- In Progress
+v1.2 Implementation --- Not Started
+```

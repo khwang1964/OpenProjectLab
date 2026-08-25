@@ -2829,3 +2829,36 @@ AI CLI Implementation Acceptance --- Not Accepted
 Formal v1.1 Acceptance --- Not Accepted
 Next --- v1.1.6.11 Acceptance PR / CI / Post-merge Closure
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.1.6.11-terminal-alignment -->
+
+## v1.1.6.11 AI CLI Implementation Acceptance Terminal Alignment
+
+PR #212 passed required CI and was squash merged as:
+
+``` text
+a6f2161d0affba59cae19cbe4deb5f7b6cd91b84
+```
+
+Fresh synchronized-main post-merge evidence:
+
+``` text
+Focused verification --- ============================= 47 passed in 1.06s ==============================
+Full regression --- =============== 2277 passed, 33 skipped, 1 deselected in 27.57s ===============
+Total coverage --- 91.17%
+Required coverage --- 67.0% --- Passed
+git diff --check --- Passed
+pre-commit --- Passed
+Post-merge consistency verification --- Passed
+```
+
+Terminal state:
+
+``` text
+v1.1.6.11 Full Regression / AI CLI Implementation Acceptance --- Accepted
+AI CLI Implementation Acceptance --- Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- next v1.1 roadmap slice
+```

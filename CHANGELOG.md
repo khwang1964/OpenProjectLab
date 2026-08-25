@@ -632,6 +632,16 @@
 
 ### Changed
 
+-   Started v1.1.7 Documentation / EN-zh-TW Parity release-level coordination.
+-   Added a fail-closed release documentation parity contract covering the
+    bilingual chapter structure, Marketplace CLI, AI CLI, and First 15 Minutes
+    / onboarding authorities.
+-   Verified the documentation suite with `97 passed, 3 skipped in 0.43s`, plus
+    `git diff --check` and pre-commit Passed.
+-   Kept v1.1.7 at `In Progress` and Formal v1.1 Acceptance at
+    `Not Accepted` pending PR / CI / merge / post-merge closure.
+
+
 -   Accepted v1.1.6.11 AI CLI Implementation after PR #212 passed required CI
     and squash merged as `a6f2161d0affba59cae19cbe4deb5f7b6cd91b84`.
 -   Re-ran synchronized-main post-merge focused verification

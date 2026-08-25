@@ -1,6 +1,6 @@
 # OpenProjectLab Roadmap
 
-> Status: Active Last Updated: 2026-08-20
+> Status: Active Last Updated: 2026-08-25
 
 ------------------------------------------------------------------------
 
@@ -61,7 +61,21 @@ CI: Passed
 
 目前焦點：
 
-> **v1.1.4 Marketplace CLI Implementation next**
+> **Post-v1.1 Roadmap Planning / next-version boundary selection**
+
+目前 release lifecycle：
+
+``` text
+v1.1 --- Terminally Accepted
+    ↓
+Post-v1.1 Roadmap Planning --- In Progress
+    ↓
+Next Version Boundary --- v1.2 (planning selection)
+    ↓
+Next Version Decision --- Not Yet Accepted
+    ↓
+v1.2 Implementation --- Not Started
+```
 
 ------------------------------------------------------------------------
 
@@ -2585,3 +2599,111 @@ v1.1 candidate tag --- v1.1.0-rc.1
 v1.1 --- Terminally Accepted
 Next --- Post-v1.1 Roadmap Planning
 ```
+
+------------------------------------------------------------------------
+
+<!-- post-v1.1-roadmap-planning -->
+
+# Post-v1.1 Roadmap Planning
+
+> **Status:** Planning Baseline --- In Progress
+> **Predecessor:** v1.1 --- Terminally Accepted
+> **Predecessor Merge:** `9997e9d85ed3672451c6c538d464d07a93d3d9cb`
+> **Next Version Boundary:** v1.2
+> **Release Type:** Backward-compatible feature release
+> **Next Version Decision:** Not Yet Accepted
+> **v1.2 Implementation:** Not Started
+
+OpenProjectLab 在 v1.1 terminal acceptance 後進入下一版本規劃階段。
+
+目前選擇 **v1.2** 作為下一個版本邊界，原因是候選工作皆可在既有
+v1.x Stable contract 上進行 backward-compatible evolution；目前沒有
+足以要求 v2.0 的 Stable-contract breaking change。
+
+這項決定目前只建立 planning boundary，不代表 v1.2 已被正式接受，
+也不授權任何 v1.2 implementation。
+
+## Candidate v1.2 Workstreams
+
+### 1. Bootstrap Framework maturity
+
+- stronger project bootstrap orchestration
+- deterministic multi-step bootstrap plans
+- explicit dry-run / apply boundaries
+- generated-project validation
+- resumable / inspectable bootstrap state where justified
+
+### 2. AI-assisted project and course generation
+
+- higher-level AI-assisted workflows built on existing Stable AI contracts
+- deterministic local-response workflows remain first-class
+- live-provider access remains explicit / opt-in unless separately promoted
+- generated changes remain inspectable before mutation
+
+### 3. Marketplace production workflow
+
+- richer local discovery / inspection
+- stronger installation planning and provenance visibility
+- improved no-partial-state guarantees
+- explicit trust boundary before any remote service
+- no implicit activation
+
+### 4. Developer and release automation
+
+- reduce manual release / acceptance bookkeeping
+- strengthen candidate-build reproducibility
+- automate governance consistency checks
+- preserve explicit human merge approval
+
+## Explicit Non-goals
+
+The planning baseline does not approve:
+
+- remote Marketplace service
+- ratings / reviews / monetization
+- automatic plugin or generator activation
+- generalized dependency resolution
+- artifact signing / trust infrastructure without a dedicated design
+- silent network access
+- implicit AI provider selection
+- automatic credential discovery in Stable local workflows
+- arbitrary repository mutation by AI
+- generalized streaming / tool-calling guarantees
+- generalized cross-generator rollback
+- v2.0 without explicit breaking-contract justification
+- implementation before planning acceptance
+
+## Planning / Acceptance Boundary
+
+``` text
+v1.1 --- Terminally Accepted
+        ↓
+Post-v1.1 Roadmap Planning --- In Progress
+        ↓
+Next Version Boundary --- v1.2
+        ↓
+Next Version Decision --- Not Yet Accepted
+        ↓
+Planning PR / CI / merge
+        ↓
+Post-merge consistency
+        ↓
+Planning acceptance closure
+        ↓
+Only then may v1.2 implementation begin
+```
+
+## Code Review Checklist
+
+- [ ] v1.1 terminal acceptance remains immutable.
+- [ ] v1.2 is selected only as the next version boundary.
+- [ ] v1.2 is not preaccepted.
+- [ ] v2.0 remains out of scope without a breaking-contract justification.
+- [ ] candidate workstreams are explicit.
+- [ ] non-goals prevent scope creep.
+- [ ] architecture is required before implementation.
+- [ ] tests encode the planning contract.
+- [ ] Documentation First remains mandatory.
+- [ ] Automation First remains mandatory.
+- [ ] human merge approval remains mandatory.
+- [ ] v1.2 implementation remains Not Started.

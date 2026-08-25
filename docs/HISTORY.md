@@ -2991,3 +2991,52 @@ separate v1.1.9 gate.
 - [x] `git diff --check` / pre-commit passed.
 - [x] Formal v1.1 Acceptance remains Not Accepted.
 - [x] Next gate is v1.1.9 Formal v1.1 Acceptance.
+
+------------------------------------------------------------------------
+
+<!-- v1.1.9-formal-acceptance-pre-acceptance -->
+
+## v1.1.9 Formal v1.1 Acceptance — Pre-acceptance
+
+``` text
+v1.1.8 Reliability / Artifact-backed Verification --- Accepted
+v1.1.9 Formal v1.1 Acceptance --- In Progress
+Acceptance record / automation --- Defined
+Focused formal-acceptance verification --- 35 passed, 20 skipped in 0.12s
+Full regression --- 2312 passed, 53 skipped, 1 deselected
+Total coverage --- 91.17%
+Required coverage threshold --- 67.0% --- Passed
+git diff --check --- Passed
+pre-commit --- Passed
+Acceptance PR required CI --- Pending
+Acceptance squash merge --- Pending
+main synchronization --- Pending
+Post-merge consistency verification --- Pending
+Terminal acceptance alignment --- Pending
+Formal v1.1 Acceptance --- Not Accepted
+Next --- Formal Acceptance PR / CI
+```
+
+The local formal-acceptance gates have passed. This pre-acceptance alignment
+does not itself accept v1.1.
+
+Required PR CI, squash merge, synchronized-main verification, post-merge
+consistency, and terminal acceptance alignment remain mandatory before Formal
+v1.1 Acceptance may transition to Accepted.
+
+### Code Review Checklist
+
+- [x] v1.1.8 predecessor remains Accepted.
+- [x] Formal acceptance record exists and remains fail closed.
+- [x] Focused formal-acceptance verification passes.
+- [x] Full regression passes with `2312 passed, 53 skipped, 1 deselected`.
+- [x] Total coverage is `91.17%`.
+- [x] Required coverage threshold `67.0%` passes.
+- [x] `git diff --check` passes.
+- [x] pre-commit passes.
+- [ ] Formal Acceptance PR required CI passes.
+- [ ] Acceptance PR squash merge completes.
+- [ ] main synchronization completes.
+- [ ] Post-merge consistency verification passes.
+- [ ] Terminal acceptance alignment completes.
+- [ ] Formal v1.1 Acceptance transitions to Accepted.

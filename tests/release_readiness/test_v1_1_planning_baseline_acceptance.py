@@ -118,18 +118,28 @@ def test_documents_align_to_terminal_planning_acceptance() -> None:
         assert "Formal v1.1 Planning Baseline Acceptance --- Accepted" in document
 
 
-def test_terminal_state_does_not_accept_product_or_release() -> None:
-    """Keep product implementation and v1.1 release acceptance closed."""
-    current_sections = (
+def test_planning_acceptance_history_remains_pre_release() -> None:
+    """Keep the immutable planning acceptance record at its historical state."""
+    historical_sections = (
         _read(BASELINE).split("## 15. Current State", maxsplit=1)[1],
         _read(ACCEPTANCE).split("## 10. Current State", maxsplit=1)[1],
-        _read(ROADMAP).split("Current release boundary", maxsplit=1)[1],
-        _read(HISTORY).split("# v1.1 Planning Baseline", maxsplit=1)[1],
-        _read(CHANGELOG)
-        .split("#### v1.1 Planning Baseline", maxsplit=1)[1]
-        .split("#### Milestone 8", maxsplit=1)[0],
     )
-    forbidden = ("Formal v1.1 Acceptance --- Accepted",)
-    for document in current_sections:
-        for marker in forbidden:
-            assert marker not in document
+
+    for document in historical_sections:
+        assert "Formal v1.1 Acceptance --- Not Accepted" in document
+        assert "Formal v1.1 Acceptance --- Accepted" not in document
+
+
+def test_lifecycle_documents_record_terminal_v1_1_acceptance() -> None:
+    """Later lifecycle records may now contain verified terminal acceptance."""
+    for path in (ROADMAP, HISTORY):
+        document = _read(path)
+
+        assert "Formal v1.1 Acceptance --- Accepted" in document
+        assert "v1.1 --- Terminally Accepted" in document
+
+    changelog = _read(CHANGELOG)
+
+    assert "Terminally accepted OpenProjectLab v1.1" in changelog
+    assert "Formal Acceptance PR #218" in changelog
+    assert "c740613f5ac29d696962545afb2ee0f5b0c8c630" in changelog

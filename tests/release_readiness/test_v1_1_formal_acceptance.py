@@ -30,8 +30,8 @@ def test_formal_acceptance_record_exists_and_is_not_preaccepted() -> None:
     text = _read(RECORD)
 
     assert "v1.1.9 --- Formal v1.1 Acceptance" in text
-    assert "> **Formal v1.1 Acceptance:** Not Accepted" in text
-    assert "v1.1.9 Formal v1.1 Acceptance --- In Progress" in text
+    assert "> **Formal v1.1 Acceptance:** Accepted" in text
+    assert "v1.1.9 Formal v1.1 Acceptance --- Accepted" in text
 
 
 def test_v1_1_8_predecessor_is_terminally_accepted() -> None:
@@ -92,14 +92,33 @@ def test_formal_acceptance_declares_local_passed_and_remote_pending_gates() -> N
         assert gate in text
 
 
-def test_formal_acceptance_is_fail_closed_before_terminal_closure() -> None:
+def test_formal_acceptance_is_terminally_closed() -> None:
     text = _read(RECORD)
 
-    assert "Formal v1.1 Acceptance --- Accepted" not in text
-    assert "> **Formal v1.1 Acceptance:** Accepted" not in text
+    assert "v1.1.9 Formal v1.1 Acceptance --- Accepted" in text
+    assert "Formal v1.1 Acceptance --- Accepted" in text
+    assert "> **Formal v1.1 Acceptance:** Accepted" in text
+    assert "Acceptance PR #218 --- Merged" in text
+    assert ("Acceptance merge --- c740613f5ac29d696962545afb2ee0f5b0c8c630") in text
+    assert "Post-merge consistency verification --- Passed" in text
+    assert "Terminal acceptance alignment --- Completed" in text
+    assert "v1.1 --- Terminally Accepted" in text
 
 
-def test_roadmap_and_history_do_not_preaccept_v1_1() -> None:
+def test_roadmap_and_history_record_terminal_v1_1_acceptance() -> None:
     for path in (ROADMAP, HISTORY):
         text = _read(path)
-        assert "Formal v1.1 Acceptance --- Accepted" not in text
+        assert "Formal v1.1 Acceptance --- Accepted" in text
+        assert "v1.1 --- Terminally Accepted" in text
+
+
+def test_formal_acceptance_terminal_closure_evidence() -> None:
+    text = _read(RECORD)
+
+    assert "Acceptance PR #218 --- Merged" in text
+    assert "Acceptance merge --- c740613f5ac29d696962545afb2ee0f5b0c8c630" in text
+    assert "Acceptance PR required CI --- Passed" in text
+    assert "main synchronization --- Completed" in text
+    assert "Post-merge consistency verification --- Passed" in text
+    assert "Terminal acceptance alignment --- Completed" in text
+    assert "v1.1 --- Terminally Accepted" in text

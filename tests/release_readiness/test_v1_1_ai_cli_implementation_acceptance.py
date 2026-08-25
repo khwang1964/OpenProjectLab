@@ -106,7 +106,10 @@ def test_acceptance_record_declares_completed_terminal_closure_gates() -> None:
         assert gate in text
 
 
-def test_roadmap_keeps_formal_v1_1_unaccepted() -> None:
-    text = _read(ROADMAP)
-    assert "Formal v1.1 Acceptance --- Not Accepted" in text
-    assert "Formal v1.1 Acceptance --- Accepted" not in text
+def test_ai_acceptance_history_remains_closed_and_roadmap_records_terminal_v1_1() -> None:
+    acceptance = _read(ACCEPTANCE)
+    roadmap = _read(ROADMAP)
+
+    assert "Formal v1.1 Acceptance --- Not Accepted" in acceptance
+    assert "Formal v1.1 Acceptance --- Accepted" in roadmap
+    assert "v1.1 --- Terminally Accepted" in roadmap

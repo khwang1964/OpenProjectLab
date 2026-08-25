@@ -2382,3 +2382,43 @@ Next --- next v1.1 roadmap slice
 
 This terminal alignment records closure evidence only. It adds no runtime
 behavior and does not constitute Formal v1.1 Acceptance.
+
+------------------------------------------------------------------------
+
+<!-- v1.1.7-documentation-parity-pre-acceptance -->
+
+## v1.1.7 Documentation / EN-zh-TW Parity — Pre-acceptance
+
+``` text
+v1.1.6 AI CLI Implementation --- Accepted
+v1.1.7 Documentation / EN-zh-TW Parity --- In Progress
+Release-level parity design --- Defined
+Release-level parity automation --- Added
+Documentation regression --- 97 passed, 3 skipped in 0.43s
+git diff --check --- Passed
+pre-commit --- Passed
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.7 PR / CI / Post-merge Acceptance
+```
+
+The release-level documentation gate coordinates the existing bilingual User
+Manual structural parity, functional parity, Marketplace CLI documentation,
+AI CLI parity, and First 15 Minutes / onboarding authorities.
+
+This is pre-acceptance evidence only. Required CI, squash merge, synchronized
+main, post-merge consistency verification, and terminal alignment remain
+mandatory before v1.1.7 can become Accepted.
+
+### Code Review Checklist
+
+- [x] EN / zh-TW top-level chapter sets match.
+- [x] Stable v1 CLI inventory remains symmetric.
+- [x] Marketplace command inventory remains symmetric.
+- [x] `opl marketplace list` is explicitly rejected in both languages.
+- [x] AI command inventory remains symmetric.
+- [x] Existing structural / functional parity authorities remain present.
+- [x] First 15 Minutes / onboarding authority remains present.
+- [x] Documentation regression passes.
+- [x] `git diff --check` passes.
+- [x] pre-commit passes.
+- [x] Formal v1.1 Acceptance remains Not Accepted.

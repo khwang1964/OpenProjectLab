@@ -2304,3 +2304,53 @@ The bilingual AI CLI manuals and parity automation are terminally aligned with
 the merged production documentation. This slice changes documentation and
 automation only; broader AI CLI implementation acceptance remains a separate
 fail-closed gate.
+
+------------------------------------------------------------------------
+
+<!-- v1.1.6.11-ai-cli-implementation-acceptance -->
+
+## v1.1.6.11 Full Regression / AI CLI Implementation Acceptance
+
+v1.1.6.10 EN / zh-TW User Manual Parity --- Accepted
+v1.1.6.11 Full Regression / AI CLI Implementation Acceptance --- In Progress
+Acceptance record --- Added
+Fail-closed acceptance automation --- Added
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.11 Fresh Local Verification / PR / CI
+
+This gate performs fresh focused AI CLI verification, full regression,
+coverage, and local-quality checks before reviewed acceptance. No runtime
+feature is added in this slice.
+
+### Code Review Checklist
+
+- [ ] All v1.1.6.1-v1.1.6.10 slices remain Accepted.
+- [ ] Exact four-command AI inventory is preserved.
+- [ ] Stable local-response behavior remains deterministic.
+- [ ] Experimental provider execution remains explicit and fail-closed.
+- [ ] Failure remains exit-2 / stderr / no-success-output.
+- [ ] AI CLI remains non-mutating.
+- [ ] EN / zh-TW manuals remain aligned.
+- [ ] Fresh focused/full regression and coverage pass.
+- [ ] pre-commit and git diff --check pass.
+- [ ] AI CLI Implementation Acceptance remains Not Accepted before terminal closure.
+- [ ] Formal v1.1 Acceptance remains Not Accepted.
+
+------------------------------------------------------------------------
+
+<!-- v1.1.6.11-local-evidence -->
+
+## v1.1.6.11 Fresh Local Acceptance Evidence
+
+``` text
+Focused AI CLI / acceptance verification --- ============================= 118 passed in 1.11s =============================
+Full regression --- =============== 2277 passed, 33 skipped, 1 deselected in 27.11s ===============
+Total coverage --- 91.17%
+Required coverage threshold --- 67.0% --- Passed
+pre-commit --- Passed
+git diff --check --- Passed
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.11 Acceptance PR / CI / Post-merge Closure
+```

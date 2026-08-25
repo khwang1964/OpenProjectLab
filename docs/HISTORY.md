@@ -2675,3 +2675,39 @@ composition root. It preserves deterministic local-response execution and
 the existing exit-2 diagnostic boundary. Provider execution remains an
 explicit Experimental path and cannot acquire credentials, import an SDK,
 select a provider, or initiate fallback implicitly.
+------------------------------------------------------------------------
+
+<!-- v1.1.6.9-parser-registration-terminal-alignment -->
+
+## v1.1.6.9 AI CLI Production Parser Registration Terminal Alignment
+
+PR #208 completed production registration of the governed AI CLI parser and
+was squash merged as:
+
+``` text
+2befa064c8172fe2dab05c06d3737935d38642be
+```
+
+Terminal state:
+
+``` text
+v1.1.6.8 Provider Handler Wiring --- Accepted
+v1.1.6.9 Production Parser Registration --- Accepted
+Exact AI Command Inventory --- course / review / document / template
+Stable Local-response Execution --- Registered
+Experimental Provider Composition --- Fail Closed / Injection Required
+SDK Import / Environment Lookup --- Not Owned
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.10 EN / zh-TW User Manual Parity
+```
+
+The merge exposes the exact four AI subcommands through the production parser
+without changing the accepted execution boundaries. Local-response execution
+remains deterministic. Experimental provider execution remains explicit,
+injection-only, and fail-closed; parser registration does not own credential
+lookup, SDK import, implicit provider selection, or network fallback.
+
+The next slice is documentation-only parity work for the English and
+Traditional Chinese (Taiwan) User Manuals. Full AI CLI implementation
+acceptance remains a later independent gate.

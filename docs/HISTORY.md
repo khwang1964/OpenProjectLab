@@ -2788,3 +2788,44 @@ The accepted bilingual manuals preserve the exact AI CLI command inventory,
 Stable local-response path, Experimental provider boundary, failure semantics,
 and non-mutating behavior. They do not expand the production runtime surface
 and do not pre-accept the broader AI CLI implementation or v1.1 release.
+
+------------------------------------------------------------------------
+
+<!-- v1.1.6.11-ai-cli-implementation-acceptance-candidate -->
+
+## v1.1.6.11 AI CLI Implementation Acceptance Candidate
+
+The acceptance candidate starts from synchronized `main` at:
+
+``` text
+4dc6070158290be72d9dbfb6d6008a65d9dd1965
+```
+
+All implementation slices v1.1.6.1 through v1.1.6.10 are already Accepted.
+This slice adds the formal acceptance record and fail-closed automation, then
+requires fresh focused/full regression, coverage, local quality gates, PR/CI,
+merge, synchronized-main verification, and terminal alignment.
+
+``` text
+v1.1.6.11 Full Regression / AI CLI Implementation Acceptance --- In Progress
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+```
+
+------------------------------------------------------------------------
+
+<!-- v1.1.6.11-local-evidence -->
+
+## v1.1.6.11 Fresh Local Acceptance Evidence
+
+``` text
+Focused AI CLI / acceptance verification --- ============================= 118 passed in 1.11s =============================
+Full regression --- =============== 2277 passed, 33 skipped, 1 deselected in 27.11s ===============
+Total coverage --- 91.17%
+Required coverage threshold --- 67.0% --- Passed
+pre-commit --- Passed
+git diff --check --- Passed
+AI CLI Implementation Acceptance --- Not Accepted
+Formal v1.1 Acceptance --- Not Accepted
+Next --- v1.1.6.11 Acceptance PR / CI / Post-merge Closure
+```

@@ -632,6 +632,16 @@
 
 ### Changed
 
+-   Started v1.1.6.11 Full Regression / AI CLI Implementation Acceptance from
+    the accepted v1.1.6.10 terminal baseline.
+-   Added a fail-closed AI CLI implementation acceptance record and automation
+    covering the exact four-command inventory, Stable local-response behavior,
+    Experimental provider boundaries, failure semantics, non-mutating behavior,
+    and EN / zh-TW parity.
+-   Kept AI CLI Implementation Acceptance and Formal v1.1 Acceptance at
+    `Not Accepted` until PR/CI/merge/post-merge/terminal closure completes.
+
+
 -   Accepted v1.1.6.10 AI CLI EN / zh-TW User Manual Parity after
     Documentation PR #210 passed required CI and squash merged as
     `e982c0cad94511a649e0701ec0682855cd3db8ea`.

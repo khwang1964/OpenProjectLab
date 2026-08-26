@@ -3488,3 +3488,13 @@ ordered inspection-only checks, severity-derived validity, and fail-closed
 completed evidence. Post-merge focused verification passed with 20 tests.
 Repair, rollback, checkpoint/resume, parallel validation, and Stable CLI syntax
 remain outside this slice.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.6-bootstrap-runtime-integration-design-history -->
+
+# v1.2.6 Bootstrap Runtime Integration Design First
+
+Defined explicit runtime modes, exactly-once planning, authoritative plan reuse,
+ordered fail-closed phases, and closed CLI/SDK/repair/rollback surfaces.

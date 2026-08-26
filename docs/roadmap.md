@@ -2819,3 +2819,76 @@ Next --- v1.2.1 Bootstrap Framework Design Baseline
 This acceptance authorizes the next Design First slice only. Bootstrap Framework
 implementation remains blocked until the v1.2.1 design contract is separately
 accepted.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.1-bootstrap-framework-design-roadmap -->
+
+## v1.2.1 --- Bootstrap Framework Design Baseline 🚧
+
+**Status:** In Progress
+
+v1.2 Planning Baseline 已完成 acceptance。第一個 Design First slice
+正式進入 Bootstrap Framework architecture / contract definition。
+
+Current design state:
+
+``` text
+Bootstrap Framework maturity --- Priority 1
+Architecture Contract --- Defined
+BootstrapPlan / BootstrapStep / BootstrapResult --- Proposed
+plan / dry-run / apply semantics --- Defined
+Filesystem Boundary --- Defined
+Generator Composition Boundary --- Defined
+Failure Semantics --- Defined
+Validation Semantics --- Defined
+Checkpoint / Resume --- Deferred
+CLI Boundary --- Not Accepted
+v1.2.1 Bootstrap Framework Design Baseline --- Not Accepted
+v1.2 Implementation --- Not Started
+```
+
+Governing documents:
+
+- `docs/releases/v1.2.1-bootstrap-framework-design.md`
+- `docs/architecture/bootstrap-framework.md`
+- `tests/release_readiness/test_v1_2_1_bootstrap_framework_design.py`
+
+Design boundary:
+
+- reuse the existing Generator lifecycle;
+- reuse the existing filesystem abstraction;
+- `plan` and `dry-run` remain mutation-free;
+- `apply` is the explicit mutation phase;
+- validation remains inspection-only;
+- validation failure does not imply automatic rollback;
+- generalized rollback remains out of scope;
+- checkpoint/resume remains Deferred;
+- no Stable Bootstrap CLI syntax is accepted.
+
+Next:
+
+``` text
+Focused design verification
+    ↓
+Full regression / quality gates
+    ↓
+v1.2.1 Design PR / CI
+    ↓
+Post-merge consistency verification
+    ↓
+Separate terminal design acceptance
+```
+
+### Code Review Checklist
+
+- [ ] BootstrapPlan / BootstrapStep / BootstrapResult remain design-only.
+- [ ] Existing Generator lifecycle remains authoritative.
+- [ ] Existing filesystem abstraction remains authoritative.
+- [ ] No parallel mutation pipeline is introduced.
+- [ ] `plan` and `dry-run` remain mutation-free.
+- [ ] `apply` remains the explicit mutation phase.
+- [ ] Validation remains inspection-only.
+- [ ] Checkpoint / Resume remains Deferred.
+- [ ] CLI Boundary remains Not Accepted.
+- [ ] v1.2 implementation remains Not Started.

@@ -3214,3 +3214,21 @@ Post-merge focused verification --- 9 passed
 Production Implementation --- Not Started
 Next --- v1.2.5 Bootstrap Validation Runtime minimum implementation slice
 ```
+
+
+<!-- v1.2.5-bootstrap-validation-runtime-terminal-roadmap -->
+
+## v1.2.5 Bootstrap Validation Runtime Implementation
+
+``` text
+v1.2.5 Design Contract --- Accepted
+Minimum Implementation --- Completed
+Implementation PR #240 --- Merged
+Implementation merge --- 902256c2dbb7ec384abe31decdeeb555240a85ce
+Post-merge focused verification --- 20 passed
+Inspection-only deterministic validation --- Verified
+Fail-closed completed evidence --- Verified
+Repair / rollback / checkpoint-resume / parallel validation --- Deferred
+CLI Boundary --- Not Accepted
+Next --- v1.2.6 Bootstrap Runtime Integration Design First slice
+```

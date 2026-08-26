@@ -2146,3 +2146,15 @@ select a provider, or initiate fallback implicitly.
   passed required CI and squash merged as `eadc9b96a0a7f4231331da162ee9c586cd9613e6`.
 - Recorded post-merge focused verification at `9 passed` and kept production
   implementation at `Not Started` pending the separate minimum slice.
+
+
+<!-- v1.2.5-bootstrap-validation-runtime-terminal-changelog -->
+
+- Completed the v1.2.5 minimum Bootstrap Validation Runtime implementation in
+  PR #240, squash merged as `902256c2dbb7ec384abe31decdeeb555240a85ce`.
+- Added immutable validation requests, findings, results, ordered injected
+  checks, severity-derived validity, and fail-closed completed evidence.
+- Recorded post-merge focused verification at `20 passed`, full regression at
+  `2430 passed, 56 skipped, 1 deselected`, and coverage at `91.04%`.
+- Kept repair, rollback, checkpoint/resume, parallel validation, and Stable CLI
+  syntax outside the implementation slice.

@@ -7,6 +7,7 @@ DESIGN = ROOT / "docs" / "releases" / "v1.2.5-bootstrap-validation-runtime.md"
 ARCHITECTURE = ROOT / "docs" / "architecture" / "bootstrap-validation-runtime.md"
 PREDECESSOR = ROOT / "docs" / "releases" / "v1.2.4-bootstrap-apply-execution.md"
 ACCEPTANCE = ROOT / "docs" / "releases" / "v1.2.5-bootstrap-validation-runtime-acceptance.md"
+PRODUCTION = ROOT / "generator" / "core" / "bootstrap_validation.py"
 
 
 def _read(path: Path) -> str:
@@ -129,3 +130,25 @@ def test_v1_2_5_acceptance_record_preserves_runtime_boundary() -> None:
         "Next --- v1.2.5 Bootstrap Validation Runtime minimum implementation slice",
     ):
         assert marker in text
+
+
+def test_v1_2_5_minimum_implementation_evidence() -> None:
+    design = _read(DESIGN)
+    production = _read(PRODUCTION)
+    for expected in (
+        "Implementation PR #240 --- Merged",
+        "Implementation merge --- 902256c2dbb7ec384abe31decdeeb555240a85ce",
+        "Post-merge focused verification --- 20 passed",
+        "Production Implementation Slice --- Completed",
+        "CLI Boundary --- Not Accepted",
+    ):
+        assert expected in design
+    for expected in (
+        "class BootstrapValidationRequest",
+        "class BootstrapValidationFinding",
+        "class BootstrapValidationResult",
+        "class BootstrapValidationError",
+        "class BootstrapValidator",
+        "def validate(self, request: BootstrapValidationRequest)",
+    ):
+        assert expected in production

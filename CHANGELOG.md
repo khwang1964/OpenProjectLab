@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+<!-- v1.2-planning-baseline-acceptance-changelog -->
+
+- Accepted the v1.2 Planning Baseline after PR #222 merged as
+  `cc710f57141f7766acbb4e1ff3feb1884549ea2e`.
+- Recorded post-merge focused verification at `10 passed`.
+- Accepted `v1.2.1 --- Bootstrap Framework Design Baseline` as the next
+  Design First slice.
+- Kept `v1.2 Implementation` at `Not Started`.
+
 <!-- v1.2-planning-baseline-changelog -->
 
 -   Started the v1.2 Planning Baseline from accepted predecessor merge

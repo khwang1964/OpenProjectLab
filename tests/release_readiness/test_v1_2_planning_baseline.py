@@ -17,13 +17,13 @@ def _read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def test_v1_2_planning_document_exists_and_is_not_preaccepted() -> None:
+def test_v1_2_planning_document_is_terminally_accepted() -> None:
     text = _read(PLAN)
 
     assert "OpenProjectLab v1.2 Planning Baseline" in text
-    assert "**Status:** Design / Planning Baseline --- In Progress" in text
+    assert "**Status:** Accepted --- Terminally Closed" in text
     assert "**Implementation:** Not Started" in text
-    assert "v1.2 Planning Baseline --- Not Accepted" in text
+    assert "v1.2 Planning Baseline --- Accepted" in text
 
 
 def test_predecessor_is_post_v1_1_accepted_boundary() -> None:
@@ -108,23 +108,31 @@ def test_architecture_guardrails_prevent_parallel_pipelines() -> None:
         assert marker in text
 
 
-def test_planning_closure_gates_are_fail_closed() -> None:
+def test_planning_closure_gates_are_terminally_accepted() -> None:
     text = _read(PLAN)
 
-    for marker in (
-        "Workstream priority --- Pending",
-        "First implementation slice --- Pending",
-        "Roadmap alignment --- Pending",
-        "HISTORY alignment --- Pending",
-        "CHANGELOG alignment --- Pending",
-        "Focused planning tests --- Pending",
-        "Full regression / coverage --- Pending",
-        "Planning PR required CI --- Pending",
-        "Post-merge consistency verification --- Pending",
-        "Terminal planning acceptance --- Pending",
-        "v1.2 Planning Baseline --- Not Accepted",
+    required = (
+        "Workstream priority --- Accepted",
+        "First implementation slice --- Accepted: v1.2.1 Bootstrap Framework Design Baseline",
+        "Roadmap alignment --- Completed",
+        "HISTORY alignment --- Completed",
+        "CHANGELOG alignment --- Completed",
+        "Focused planning tests --- Passed",
+        "Full regression --- 2322 passed, 56 skipped, 1 deselected",
+        "Total coverage --- 91.17%",
+        "Required coverage --- 67.0% --- Passed",
+        "git diff --check --- Passed",
+        "pre-commit --- Passed",
+        "Planning PR #222 required CI --- Passed",
+        "Planning PR #222 squash merge --- Completed",
+        "main synchronization --- Completed",
+        "Post-merge consistency verification --- Passed",
+        "Terminal planning acceptance --- Completed",
+        "v1.2 Planning Baseline --- Accepted",
         "v1.2 Implementation --- Not Started",
-    ):
+    )
+
+    for marker in required:
         assert marker in text
 
 
@@ -135,3 +143,37 @@ def test_lifecycle_docs_do_not_preaccept_v1_2_implementation() -> None:
         assert "v1.2 Planning Baseline --- Accepted" in text
         assert "v1.2 Implementation --- Not Started" in text
         assert "v1.2 Implementation --- Accepted" not in text
+
+
+def test_v1_2_planning_acceptance_closure_evidence() -> None:
+    text = _read(PLAN)
+
+    assert "v1.2 Planning Baseline --- Accepted" in text
+    assert "Planning PR #222 --- Merged" in text
+    assert "Planning merge --- cc710f57141f7766acbb4e1ff3feb1884549ea2e" in text
+    assert "Planning PR required CI --- Passed" in text
+    assert "main synchronization --- Completed" in text
+    assert "Post-merge consistency verification --- Passed" in text
+    assert "Focused post-merge verification --- 10 passed" in text
+    assert "Full regression --- 2322 passed, 56 skipped, 1 deselected" in text
+    assert "Total coverage --- 91.17%" in text
+    assert "Required coverage --- 67.0% --- Passed" in text
+    assert "Workstream Priority --- Accepted" in text
+    assert (
+        "First Implementation Slice --- Accepted: v1.2.1 Bootstrap Framework Design Baseline"
+        in text
+    )
+    assert "v1.2 Implementation --- Not Started" in text
+
+
+def test_v1_2_acceptance_history_and_lifecycle_alignment() -> None:
+    plan = _read(PLAN)
+    roadmap = _read(ROADMAP)
+    history = _read(HISTORY)
+
+    assert "Planning PR #222 --- Merged" in plan
+    assert "Planning merge --- cc710f57141f7766acbb4e1ff3feb1884549ea2e" in plan
+    assert "v1.2 Planning Baseline --- Accepted" in roadmap
+    assert "v1.2 Planning Baseline --- Accepted" in history
+    assert "v1.2 Implementation --- Not Started" in roadmap
+    assert "v1.2 Implementation --- Not Started" in history

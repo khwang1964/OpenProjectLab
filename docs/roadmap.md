@@ -3081,3 +3081,23 @@ Post-merge consistency verification --- Passed
 Production Implementation --- Not Started
 Next --- v1.2.3 Dry-run Execution Preview implementation slice
 ```
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.3-dry-run-execution-preview-terminal-roadmap -->
+
+## v1.2.3 Dry-run Execution Preview Implementation
+
+``` text
+v1.2.3 Design Contract --- Accepted
+Minimum Implementation --- Completed
+Implementation PR #232 --- Merged
+Implementation merge --- ac4cd405098d1179eb5dc5cb7e32f3e9590bb98f
+Post-merge focused verification --- 19 passed
+Deterministic / mutation-free preview --- Verified
+apply execution --- Not Started
+validation runtime --- Not Started
+CLI Boundary --- Not Accepted
+Next --- v1.2.4 Bootstrap apply execution Design First slice
+```

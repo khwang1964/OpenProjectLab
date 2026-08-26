@@ -3399,3 +3399,17 @@ Design PR #230 passed required CI and squash merged as
 verification passed with 11 tests. The deterministic, mutation-free dry-run
 preview design is terminally accepted while production implementation remains
 Not Started.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.3-dry-run-execution-preview-terminal-history -->
+
+# v1.2.3 Dry-run Execution Preview Minimum Implementation
+
+Implementation PR #232 passed required CI and squash merged as
+`ac4cd405098d1179eb5dc5cb7e32f3e9590bb98f`. The minimum production slice added immutable
+`BootstrapDryRunStep` and `BootstrapDryRunPreview` values plus the
+projection-only `BootstrapDryRunExecutor.preview(plan)` boundary. Post-merge
+focused verification passed with 19 tests. Apply, validation runtime, and the
+Stable Bootstrap CLI remain outside this slice.

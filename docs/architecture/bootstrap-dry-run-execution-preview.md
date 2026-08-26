@@ -143,3 +143,23 @@ Core Dry-run Contracts --- Accepted
 Production Implementation --- Not Started
 Next --- v1.2.3 Dry-run Execution Preview implementation slice
 ```
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.3-dry-run-execution-preview-terminal-architecture -->
+
+## Minimum Implementation Status
+
+``` text
+Dry-run Preview Architecture --- Accepted / Implemented
+Implementation PR #232 --- Merged
+Implementation merge --- ac4cd405098d1179eb5dc5cb7e32f3e9590bb98f
+Post-merge focused verification --- 19 passed
+BootstrapPlan --- Authoritative
+BootstrapDryRunExecutor --- Projection Only
+Generator Execution / Persistent Mutation --- Absent
+apply execution --- Not Started
+validation runtime --- Not Started
+CLI Boundary --- Not Accepted
+```

@@ -3498,3 +3498,14 @@ remain outside this slice.
 
 Defined explicit runtime modes, exactly-once planning, authoritative plan reuse,
 ordered fail-closed phases, and closed CLI/SDK/repair/rollback surfaces.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.6-bootstrap-runtime-integration-acceptance-history -->
+
+# v1.2.6 Bootstrap Runtime Integration Design Acceptance
+
+Design PR #242 passed required CI and squash merged as `4045a21514e912548456569a272a983f32ba5c4b`.
+Synchronized-main focused verification passed with 10 tests. The integration
+design is terminally accepted while production implementation remains separate.

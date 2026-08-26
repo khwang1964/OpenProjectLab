@@ -2166,3 +2166,11 @@ select a provider, or initiate fallback implicitly.
 - Proposed immutable mode/request/result contracts and an internal coordinator.
 - Required exactly-once planning, explicit mutation modes, deterministic phase
   ordering, and fail-closed typed failure propagation.
+
+
+<!-- v1.2.6-bootstrap-runtime-integration-acceptance-changelog -->
+
+- Terminally accepted the v1.2.6 Bootstrap Runtime Integration design after
+  PR #242, required CI, merge `4045a21514e912548456569a272a983f32ba5c4b`, and synchronized-main verification.
+- Preserved production implementation, CLI, SDK, repair, rollback, checkpoint,
+  and parallel-execution boundaries for separate slices.

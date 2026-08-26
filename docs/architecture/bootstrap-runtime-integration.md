@@ -1,6 +1,6 @@
 # Bootstrap Runtime Integration Architecture
 
-> **Status:** Design / Contract Definition --- In Progress
+> **Status:** Accepted --- Terminally Closed
 > **Target:** OpenProjectLab v1.2.6 --- Bootstrap Runtime Integration
 > **Production Implementation:** Not Started
 
@@ -39,5 +39,19 @@ Implicit Network Access / Plugin Activation --- Forbidden
 CLI Boundary / Stable Serialization --- Not Accepted
 Public SDK Expansion --- Forbidden
 Production Implementation --- Not Started
-v1.2.6 Acceptance --- Not Accepted
+v1.2.6 Acceptance --- Accepted
+```
+
+
+------------------------------------------------------------------------
+
+## Design Acceptance Status
+
+``` text
+Design PR #242 --- Merged
+Design merge --- 4045a21514e912548456569a272a983f32ba5c4b
+Post-merge focused verification --- 10 passed
+Runtime Integration Architecture / Core Contracts --- Accepted
+Production Implementation --- Not Started
+Next --- v1.2.6 Bootstrap Runtime Integration minimum implementation slice
 ```

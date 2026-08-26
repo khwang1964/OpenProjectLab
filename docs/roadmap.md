@@ -2910,3 +2910,54 @@ CLI Boundary --- Not Accepted
 v1.2 Implementation --- Not Started
 Next --- Bootstrap Framework implementation contract / first implementation slice
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.2.2-bootstrap-planning-core-roadmap -->
+
+## v1.2.2 --- Bootstrap Planning Core 🚧
+
+**Status:** Design / Contract Definition --- In Progress
+
+``` text
+v1.2.1 Bootstrap Framework Design Baseline --- Accepted
+v1.2.2 Bootstrap Planning Core --- In Progress
+Planning-core architecture --- Defined
+BootstrapStep / BootstrapPlan / BootstrapPlanner --- Proposed
+Deterministic ordering --- Required
+Equivalent-plan behavior --- Required
+GeneratorRegistry reuse --- Required
+Generator lifecycle preservation --- Required
+Filesystem Mutation --- Forbidden
+Generator Execution --- Forbidden
+Network Access --- Forbidden
+Plugin Activation --- Forbidden
+dry-run execution --- Not Started
+apply execution --- Not Started
+validation runtime --- Not Started
+checkpoint / resume --- Deferred
+generalized rollback --- Deferred
+CLI Boundary --- Not Accepted
+v1.2.2 Bootstrap Planning Core --- Not Accepted
+v1.2 Implementation --- Not Started
+```
+
+Governing artifacts:
+
+- `docs/releases/v1.2.2-bootstrap-planning-core.md`
+- `docs/architecture/bootstrap-planning-core.md`
+- `tests/release_readiness/test_v1_2_2_bootstrap_planning_core.py`
+
+### Code Review Checklist
+
+- [ ] planning remains mutation-free;
+- [ ] GeneratorRegistry is reused;
+- [ ] generator execution is forbidden;
+- [ ] deterministic ordering is required;
+- [ ] equivalent-plan behavior is testable;
+- [ ] expected effects remain data only;
+- [ ] no network or plugin activation is introduced;
+- [ ] dry-run/apply remain Not Started;
+- [ ] checkpoint/resume remains Deferred;
+- [ ] CLI remains Not Accepted;
+- [ ] v1.2 implementation remains Not Started.

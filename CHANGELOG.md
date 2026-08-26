@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+<!-- v1.2.2-bootstrap-planning-core-changelog -->
+
+- Started `v1.2.2 --- Bootstrap Planning Core` as the first
+  implementation-oriented Design First slice under the accepted Bootstrap
+  Framework architecture.
+- Defined `BootstrapStep`, `BootstrapPlan`, and `BootstrapPlanner` planning
+  contracts.
+- Required deterministic ordering and equivalent-plan behavior.
+- Required reuse of the existing GeneratorRegistry and Generator lifecycle.
+- Kept filesystem mutation, generator execution, network access, and plugin
+  activation forbidden during planning.
+- Kept expected effects as descriptive data only.
+- Kept dry-run, apply, and validation runtime at `Not Started`.
+- Kept checkpoint/resume and generalized rollback Deferred.
+- Kept Stable Bootstrap CLI syntax at `Not Accepted`.
+- Kept `v1.2.2 Bootstrap Planning Core` at `Not Accepted`.
+- Kept `v1.2 Implementation` at `Not Started`.
 <!-- v1.2.1-bootstrap-framework-design-acceptance-changelog -->
 
 - Accepted `v1.2.1 Bootstrap Framework Design Baseline` after Design PR #224

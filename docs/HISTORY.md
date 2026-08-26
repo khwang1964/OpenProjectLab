@@ -3277,3 +3277,31 @@ Checkpoint / Resume --- Deferred
 CLI Boundary --- Not Accepted
 v1.2 Implementation --- Not Started
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.2.2-bootstrap-planning-core-history -->
+
+# v1.2.2 Bootstrap Planning Core
+
+OpenProjectLab 進入 Bootstrap Framework 的第一個 implementation-oriented
+Design First slice：Bootstrap Planning Core。
+
+本階段建立 `BootstrapStep`、`BootstrapPlan`、`BootstrapPlanner` 的 governing
+contract 與 architecture，但仍不開始 production implementation。
+
+``` text
+Planning-core architecture --- Defined
+GeneratorRegistry reuse --- Required
+Generator lifecycle preservation --- Required
+Filesystem Mutation --- Forbidden
+Generator Execution --- Forbidden
+Network Access --- Forbidden
+Plugin Activation --- Forbidden
+dry-run execution --- Not Started
+apply execution --- Not Started
+checkpoint / resume --- Deferred
+CLI Boundary --- Not Accepted
+v1.2.2 Bootstrap Planning Core --- Not Accepted
+v1.2 Implementation --- Not Started
+```

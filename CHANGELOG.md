@@ -1,6 +1,19 @@
-# Changelog
+﻿# Changelog
 
 ## Unreleased
+<!-- v1.2.3-dry-run-execution-preview-changelog -->
+
+- Started `v1.2.3 Dry-run Execution Preview` as a Design First slice over the
+  accepted and implemented Bootstrap Planning Core.
+- Proposed immutable `BootstrapDryRunStep`, `BootstrapDryRunPreview`, and a
+  projection-only `BootstrapDryRunExecutor`.
+- Required reuse of the authoritative immutable `BootstrapPlan`, deterministic
+  preview ordering, and equivalent-preview behavior.
+- Kept expected effects descriptive and prohibited generator execution,
+  persistent writes, network access, plugin activation, and partial state.
+- Kept apply and validation runtime at `Not Started`, checkpoint/resume and
+  generalized rollback `Deferred`, Stable CLI syntax `Not Accepted`, and
+  production implementation `Not Started`.
 
 <!-- v1.2.2.1-bootstrap-planning-core-terminal-changelog -->
 

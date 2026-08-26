@@ -3386,3 +3386,16 @@ network access, and plugin activation remain forbidden. Failure must produce
 zero partial state. Apply, validation runtime, checkpoint/resume, generalized
 rollback, Stable CLI syntax, and production implementation remain outside this
 slice.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.3-dry-run-execution-preview-acceptance-history -->
+
+# v1.2.3 Dry-run Execution Preview Design Acceptance
+
+Design PR #230 passed required CI and squash merged as
+`5f26cf2526ff39de381129d76791d0c28d06c91a`. Synchronized-main focused
+verification passed with 11 tests. The deterministic, mutation-free dry-run
+preview design is terminally accepted while production implementation remains
+Not Started.

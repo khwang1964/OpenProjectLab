@@ -2074,3 +2074,13 @@ composition root. It preserves deterministic local-response execution and
 the existing exit-2 diagnostic boundary. Provider execution remains an
 explicit Experimental path and cannot acquire credentials, import an SDK,
 select a provider, or initiate fallback implicitly.
+
+
+<!-- v1.2.3-dry-run-execution-preview-acceptance-changelog -->
+
+- Accepted the v1.2.3 Dry-run Execution Preview design after PR #230 passed
+  required CI and squash merged as
+  `5f26cf2526ff39de381129d76791d0c28d06c91a`.
+- Recorded synchronized-main post-merge focused verification at `11 passed`.
+- Kept production dry-run implementation at `Not Started`; the next slice is
+  the minimum Dry-run Execution Preview implementation.

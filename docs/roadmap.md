@@ -3062,3 +3062,22 @@ Governing artifacts:
 - [ ] failure produces zero partial state;
 - [ ] apply, validation, checkpoint/resume, rollback, and CLI remain closed;
 - [ ] production implementation remains Not Started.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.3-dry-run-execution-preview-acceptance-roadmap -->
+
+## v1.2.3 Dry-run Execution Preview Design Acceptance
+
+``` text
+v1.2.3 Design Contract --- Accepted
+Design PR #230 --- Merged
+Design merge --- 5f26cf2526ff39de381129d76791d0c28d06c91a
+Required CI --- Passed
+main synchronization --- Completed
+Post-merge focused verification --- 11 passed
+Post-merge consistency verification --- Passed
+Production Implementation --- Not Started
+Next --- v1.2.3 Dry-run Execution Preview implementation slice
+```

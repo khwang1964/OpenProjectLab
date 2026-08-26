@@ -1,6 +1,6 @@
 ﻿# Bootstrap Dry-run Execution Preview Architecture
 
-> **Status:** Architecture Definition --- In Progress
+> **Status:** Accepted --- Terminally Closed
 > **Target:** OpenProjectLab v1.2.3 --- Dry-run Execution Preview
 > **Predecessor:** v1.2.2 Bootstrap Planning Core --- Accepted / Implemented
 > **Production Implementation:** Not Started
@@ -121,9 +121,25 @@ Production Implementation --- Not Started
 
 ``` text
 v1.2.2 Bootstrap Planning Core --- Accepted / Implemented
-v1.2.3 Dry-run Execution Preview --- In Progress
+v1.2.3 Dry-run Execution Preview --- Accepted
 Dry-run Preview Architecture --- Defined
-Core Dry-run Contracts --- Proposed
+Core Dry-run Contracts --- Accepted
 Production Implementation --- Not Started
-v1.2.3 Acceptance --- Not Accepted
+v1.2.3 Acceptance --- Accepted
+```
+
+
+------------------------------------------------------------------------
+
+## Design Acceptance Status
+
+``` text
+Design PR #230 --- Merged
+Design merge --- 5f26cf2526ff39de381129d76791d0c28d06c91a
+Post-merge focused verification --- 11 passed
+Post-merge consistency verification --- Passed
+Dry-run Preview Architecture --- Accepted
+Core Dry-run Contracts --- Accepted
+Production Implementation --- Not Started
+Next --- v1.2.3 Dry-run Execution Preview implementation slice
 ```

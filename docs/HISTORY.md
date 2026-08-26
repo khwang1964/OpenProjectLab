@@ -3213,3 +3213,50 @@ Next --- v1.2.1 Bootstrap Framework Design Baseline
 
 The accepted next slice is the v1.2.1 Bootstrap Framework Design Baseline.
 Implementation remains blocked until that Design First contract is accepted.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.1-bootstrap-framework-design-history -->
+
+# v1.2.1 Bootstrap Framework Design Baseline
+
+在 v1.2 Planning Baseline 正式接受後，OpenProjectLab 進入第一個
+v1.2 Design First slice：Bootstrap Framework maturity。
+
+本階段建立：
+
+``` text
+docs/releases/v1.2.1-bootstrap-framework-design.md
+docs/architecture/bootstrap-framework.md
+tests/release_readiness/test_v1_2_1_bootstrap_framework_design.py
+```
+
+Architecture boundary 定義：
+
+- `BootstrapPlan`：deterministic / inspectable bootstrap plan；
+- `BootstrapStep`：重用既有 Generator lifecycle 的 orchestration step；
+- `BootstrapResult`：observable execution evidence；
+- `plan`：mutation-free；
+- `dry-run`：mutation-free execution preview；
+- `apply`：explicit mutation phase；
+- committed filesystem mutation 必須重用既有 filesystem abstraction；
+- Bootstrap orchestration 必須 compose existing generators；
+- validation 為 inspection-only；
+- validation failure 不隱含 automatic rollback；
+- generalized rollback 不在 v1.2.1 scope；
+- Checkpoint / Resume 維持 Deferred；
+- Stable Bootstrap CLI surface 尚未接受。
+
+Current state:
+
+``` text
+v1.2.1 Bootstrap Framework Design Baseline --- In Progress
+Architecture Contract --- Defined
+Checkpoint / Resume --- Deferred
+CLI Boundary --- Not Accepted
+v1.2.1 Bootstrap Framework Design Baseline --- Not Accepted
+v1.2 Implementation --- Not Started
+```
+
+本階段只建立 architecture、contract、tests 與 lifecycle evidence，
+不授權 Bootstrap Framework implementation。

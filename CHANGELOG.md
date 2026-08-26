@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+<!-- v1.2.1-bootstrap-framework-design-changelog -->
+
+- Started `v1.2.1 --- Bootstrap Framework Design Baseline` as the first
+  Design First slice after acceptance of the v1.2 Planning Baseline.
+- Added the governing Bootstrap Framework design contract and architecture.
+- Proposed `BootstrapPlan`, `BootstrapStep`, and `BootstrapResult` as the
+  core orchestration contracts.
+- Defined mutation-free `plan` and `dry-run`, with `apply` as the explicit
+  committed-mutation phase.
+- Required reuse of the existing Generator lifecycle and filesystem
+  abstraction; no parallel mutation pipeline or alternative Generator
+  lifecycle is accepted.
+- Defined fail-closed execution and inspection-only validation semantics;
+  validation failure does not imply automatic rollback.
+- Kept generalized rollback and Checkpoint / Resume Deferred.
+- Kept Stable Bootstrap CLI syntax at `Not Accepted`.
+- Kept `v1.2.1 Bootstrap Framework Design Baseline` at `Not Accepted`.
+- Kept `v1.2 Implementation` at `Not Started`.
 <!-- v1.2-planning-baseline-acceptance-changelog -->
 
 - Accepted the v1.2 Planning Baseline after PR #222 merged as

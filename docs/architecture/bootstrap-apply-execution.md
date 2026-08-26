@@ -127,3 +127,24 @@ Core Apply Contracts --- Accepted
 Production Implementation --- Not Started
 Next --- v1.2.4 Bootstrap Apply Execution minimum implementation slice
 ```
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.4-bootstrap-apply-execution-terminal-architecture -->
+
+## Minimum Implementation Status
+
+``` text
+Apply Architecture --- Accepted / Implemented
+Implementation PR #236 --- Merged
+Implementation merge --- 1fbf799bd6bc687592a46788fc98f2dda1b79907
+Post-merge focused verification --- 30 passed
+BootstrapPlan --- Authoritative
+Generator Lifecycle / Filesystem Abstraction --- Reused
+BootstrapApplyExecutor --- Sequential / Fail-fast Coordination
+ExpectedEffect Direct Execution --- Absent
+Automatic Rollback / Transaction-wide Atomicity --- Not Claimed
+validation runtime --- Not Started
+CLI Boundary --- Not Accepted
+```

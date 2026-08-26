@@ -2116,3 +2116,15 @@ select a provider, or initiate fallback implicitly.
 - Recorded synchronized-main post-merge focused verification at `9 passed`.
 - Kept production apply implementation at `Not Started`; the next slice is
   the minimum Bootstrap Apply Execution implementation.
+
+
+<!-- v1.2.4-bootstrap-apply-execution-terminal-changelog -->
+
+- Completed the v1.2.4 minimum Bootstrap Apply Execution implementation in
+  PR #236, squash merged as `1fbf799bd6bc687592a46788fc98f2dda1b79907`.
+- Added immutable apply-step/result evidence, sequential Generator lifecycle
+  reuse, and fail-fast partial-state reporting.
+- Recorded post-merge focused verification at `30 passed`, full regression at
+  `2409 passed, 56 skipped, 1 deselected`, and coverage at `91.05%`.
+- Kept validation, generalized rollback, checkpoint/resume, and Stable CLI
+  syntax outside the implementation slice.

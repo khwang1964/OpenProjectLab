@@ -3150,3 +3150,24 @@ Post-merge consistency verification --- Passed
 Production Implementation --- Not Started
 Next --- v1.2.4 Bootstrap Apply Execution minimum implementation slice
 ```
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.4-bootstrap-apply-execution-terminal-roadmap -->
+
+## v1.2.4 Bootstrap Apply Execution Implementation
+
+``` text
+v1.2.4 Design Contract --- Accepted
+Minimum Implementation --- Completed
+Implementation PR #236 --- Merged
+Implementation merge --- 1fbf799bd6bc687592a46788fc98f2dda1b79907
+Post-merge focused verification --- 30 passed
+Sequential Generator lifecycle reuse --- Verified
+Fail-fast partial-state evidence --- Verified
+Generalized rollback / checkpoint-resume --- Deferred
+validation runtime --- Not Started
+CLI Boundary --- Not Accepted
+Next --- v1.2.5 Bootstrap Validation Runtime Design First slice
+```

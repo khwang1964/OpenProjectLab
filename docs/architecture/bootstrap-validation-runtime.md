@@ -1,6 +1,6 @@
 # Bootstrap Validation Runtime Architecture
 
-> **Status:** Architecture Definition --- In Progress
+> **Status:** Accepted --- Terminally Closed
 > **Target:** OpenProjectLab v1.2.5 --- Bootstrap Validation Runtime
 > **Predecessor:** v1.2.4 Bootstrap Apply Execution --- Accepted / Implemented
 > **Production Implementation:** Not Started
@@ -70,9 +70,23 @@ Production Implementation --- Not Started
 ## 7. Current Architecture State
 
 ``` text
-v1.2.5 Bootstrap Validation Runtime --- In Progress
+v1.2.5 Bootstrap Validation Runtime --- Accepted
 Validation Architecture --- Defined
-Core Validation Contracts --- Proposed
+Core Validation Contracts --- Accepted
 Production Implementation --- Not Started
-v1.2.5 Acceptance --- Not Accepted
+v1.2.5 Acceptance --- Accepted
+```
+
+
+------------------------------------------------------------------------
+
+## Design Acceptance Status
+
+``` text
+Design PR #238 --- Merged
+Design merge --- eadc9b96a0a7f4231331da162ee9c586cd9613e6
+Post-merge focused verification --- 9 passed
+Validation Architecture / Core Contracts --- Accepted
+Production Implementation --- Not Started
+Next --- v1.2.5 Bootstrap Validation Runtime minimum implementation slice
 ```

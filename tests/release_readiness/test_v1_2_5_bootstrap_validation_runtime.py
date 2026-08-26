@@ -6,20 +6,19 @@ ROOT = Path(__file__).resolve().parents[2]
 DESIGN = ROOT / "docs" / "releases" / "v1.2.5-bootstrap-validation-runtime.md"
 ARCHITECTURE = ROOT / "docs" / "architecture" / "bootstrap-validation-runtime.md"
 PREDECESSOR = ROOT / "docs" / "releases" / "v1.2.4-bootstrap-apply-execution.md"
-PRODUCTION = ROOT / "generator" / "core" / "bootstrap_validation.py"
+ACCEPTANCE = ROOT / "docs" / "releases" / "v1.2.5-bootstrap-validation-runtime-acceptance.md"
 
 
 def _read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def test_v1_2_5_design_is_fail_closed_and_unaccepted() -> None:
+def test_v1_2_5_design_is_terminally_accepted() -> None:
     text = _read(DESIGN)
     assert "OpenProjectLab v1.2.5 Bootstrap Validation Runtime" in text
-    assert "**Status:** Design / Contract Definition --- In Progress" in text
+    assert "**Status:** Accepted --- Terminally Closed" in text
     assert "Production Implementation --- Not Started" in text
-    assert "v1.2.5 Acceptance --- Not Accepted" in text
-    assert not PRODUCTION.exists()
+    assert "v1.2.5 Acceptance --- Accepted" in text
 
 
 def test_v1_2_5_is_bound_to_terminal_v1_2_4() -> None:
@@ -104,15 +103,29 @@ def test_future_surfaces_remain_closed() -> None:
         assert marker in combined
 
 
-def test_acceptance_gates_remain_pending() -> None:
+def test_acceptance_gates_are_terminally_closed() -> None:
     text = _read(DESIGN)
     for marker in (
-        "Focused tests --- Pending",
-        "Full regression / coverage --- Pending",
-        "Design PR required CI --- Pending",
-        "Design PR squash merge --- Pending",
-        "Post-merge consistency verification --- Pending",
-        "Terminal design acceptance --- Pending",
-        "v1.2.5 Acceptance --- Not Accepted",
+        "Focused tests --- Passed",
+        "Full regression / coverage --- Passed",
+        "Design PR #238 required CI --- Passed",
+        "Design PR #238 squash merge --- Completed",
+        "Post-merge consistency verification --- Passed",
+        "Terminal design acceptance --- Completed",
+        "v1.2.5 Acceptance --- Accepted",
+    ):
+        assert marker in text
+
+
+def test_v1_2_5_acceptance_record_preserves_runtime_boundary() -> None:
+    text = _read(ACCEPTANCE)
+    for marker in (
+        "**Status:** Accepted --- Terminally Closed",
+        "Design PR #238",
+        "eadc9b96a0a7f4231331da162ee9c586cd9613e6",
+        "Post-merge focused verification --- 9 passed",
+        "v1.2.5 Design Contract --- Accepted",
+        "Production Implementation --- Not Started",
+        "Next --- v1.2.5 Bootstrap Validation Runtime minimum implementation slice",
     ):
         assert marker in text

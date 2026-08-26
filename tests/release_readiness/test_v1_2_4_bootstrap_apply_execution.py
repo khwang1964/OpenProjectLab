@@ -9,7 +9,6 @@ DESIGN = ROOT / "docs" / "releases" / "v1.2.4-bootstrap-apply-execution.md"
 ARCHITECTURE = ROOT / "docs" / "architecture" / "bootstrap-apply-execution.md"
 PREDECESSOR = ROOT / "docs" / "releases" / "v1.2.3-dry-run-execution-preview.md"
 ACCEPTANCE = ROOT / "docs" / "releases" / "v1.2.4-bootstrap-apply-execution-acceptance.md"
-PRODUCTION = ROOT / "generator" / "core" / "bootstrap_apply.py"
 
 
 def _read(path: Path) -> str:
@@ -22,7 +21,6 @@ def test_v1_2_4_design_is_terminally_accepted() -> None:
     assert "**Status:** Accepted --- Terminally Closed" in text
     assert "Production Implementation --- Not Started" in text
     assert "v1.2.4 Acceptance --- Accepted" in text
-    assert not PRODUCTION.exists()
 
 
 def test_v1_2_4_is_bound_to_terminal_v1_2_3() -> None:

@@ -3413,3 +3413,16 @@ Implementation PR #232 passed required CI and squash merged as
 projection-only `BootstrapDryRunExecutor.preview(plan)` boundary. Post-merge
 focused verification passed with 19 tests. Apply, validation runtime, and the
 Stable Bootstrap CLI remain outside this slice.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.4-bootstrap-apply-execution-history -->
+
+# v1.2.4 Bootstrap Apply Execution Design First
+
+OpenProjectLab entered the apply Design First slice after terminal completion
+of the deterministic, mutation-free v1.2.3 dry-run preview. The proposed apply
+boundary reuses the authoritative BootstrapPlan, existing Generator lifecycle,
+and existing filesystem abstraction. It defines deterministic sequential
+execution and fail-fast partial-state evidence without claiming generalized
+rollback or transaction-wide atomicity.

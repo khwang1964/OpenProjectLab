@@ -3101,3 +3101,34 @@ validation runtime --- Not Started
 CLI Boundary --- Not Accepted
 Next --- v1.2.4 Bootstrap apply execution Design First slice
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.2.4-bootstrap-apply-execution-roadmap -->
+
+## v1.2.4 --- Bootstrap Apply Execution 🚧
+
+**Status:** Design / Contract Definition --- In Progress
+
+``` text
+v1.2.3 Dry-run Execution Preview --- Accepted / Implemented
+v1.2.4 Bootstrap Apply Execution --- In Progress
+Apply Architecture --- Defined
+BootstrapApplyStepResult / BootstrapApplyResult / BootstrapApplyExecutor --- Proposed
+BootstrapPlan / Generator Lifecycle / Filesystem Abstraction reuse --- Required
+ExpectedEffect Direct Execution --- Forbidden
+Deterministic Sequential Execution --- Required
+Fail-fast Partial-state Evidence --- Required
+Automatic Rollback / Transaction-wide Atomicity --- Not Claimed
+validation runtime --- Not Started
+checkpoint / resume / parallel apply --- Deferred
+CLI Boundary --- Not Accepted
+Production Implementation --- Not Started
+v1.2.4 Acceptance --- Not Accepted
+```
+
+Governing artifacts:
+
+- `docs/releases/v1.2.4-bootstrap-apply-execution.md`
+- `docs/architecture/bootstrap-apply-execution.md`
+- `tests/release_readiness/test_v1_2_4_bootstrap_apply_execution.py`

@@ -3232,3 +3232,17 @@ Repair / rollback / checkpoint-resume / parallel validation --- Deferred
 CLI Boundary --- Not Accepted
 Next --- v1.2.6 Bootstrap Runtime Integration Design First slice
 ```
+
+
+<!-- v1.2.6-bootstrap-runtime-integration-roadmap -->
+
+## v1.2.6 --- Bootstrap Runtime Integration 🚧
+
+``` text
+v1.2.5 Bootstrap Validation Runtime --- Accepted / Implemented
+v1.2.6 Bootstrap Runtime Integration --- In Progress
+Runtime Integration Architecture --- Defined
+Authoritative Plan Reuse / Deterministic Phase Ordering --- Required
+Production Implementation --- Not Started
+v1.2.6 Acceptance --- Not Accepted
+```

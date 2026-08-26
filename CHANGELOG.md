@@ -2158,3 +2158,11 @@ select a provider, or initiate fallback implicitly.
   `2430 passed, 56 skipped, 1 deselected`, and coverage at `91.04%`.
 - Kept repair, rollback, checkpoint/resume, parallel validation, and Stable CLI
   syntax outside the implementation slice.
+
+
+<!-- v1.2.6-bootstrap-runtime-integration-design-changelog -->
+
+- Defined the v1.2.6 Bootstrap Runtime Integration design-first boundary.
+- Proposed immutable mode/request/result contracts and an internal coordinator.
+- Required exactly-once planning, explicit mutation modes, deterministic phase
+  ordering, and fail-closed typed failure propagation.

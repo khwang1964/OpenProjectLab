@@ -2892,3 +2892,21 @@ Separate terminal design acceptance
 - [ ] Checkpoint / Resume remains Deferred.
 - [ ] CLI Boundary remains Not Accepted.
 - [ ] v1.2 implementation remains Not Started.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.1-bootstrap-framework-design-acceptance-roadmap -->
+
+## v1.2.1 Bootstrap Framework Design Acceptance
+
+``` text
+v1.2.1 Bootstrap Framework Design Baseline --- Accepted
+Design PR #224 --- Merged
+Design merge --- f9f98b35aef679d2521498d6246c201906a3e721
+Focused post-merge verification --- 9 passed
+Architecture Contract --- Accepted
+Checkpoint / Resume --- Deferred
+CLI Boundary --- Not Accepted
+v1.2 Implementation --- Not Started
+Next --- Bootstrap Framework implementation contract / first implementation slice
+```

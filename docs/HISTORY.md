@@ -3260,3 +3260,20 @@ v1.2 Implementation --- Not Started
 
 本階段只建立 architecture、contract、tests 與 lifecycle evidence，
 不授權 Bootstrap Framework implementation。
+
+------------------------------------------------------------------------
+
+<!-- v1.2.1-bootstrap-framework-design-acceptance-history -->
+
+# v1.2.1 Bootstrap Framework Design Acceptance
+
+OpenProjectLab formally accepted the v1.2.1 Bootstrap Framework Design
+Baseline after Design PR #224 squash merged as `f9f98b35aef679d2521498d6246c201906a3e721`.
+
+``` text
+Focused post-merge verification --- 9 passed
+v1.2.1 Bootstrap Framework Design Baseline --- Accepted
+Checkpoint / Resume --- Deferred
+CLI Boundary --- Not Accepted
+v1.2 Implementation --- Not Started
+```

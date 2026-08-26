@@ -3332,3 +3332,37 @@ CLI Boundary --- Not Accepted
 v1.2 Implementation --- Not Started
 Next --- Bootstrap Planning Core implementation slice
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.2.2.1-bootstrap-planning-core-terminal-history -->
+
+# v1.2.2.1 Bootstrap Planning Core Implementation
+
+OpenProjectLab completed the first production implementation slice of the
+Bootstrap Planning Core in Implementation PR #228, squash merged as
+`528f356a3160af5445a9e4b4193ee5e62029653e`.
+
+Completed implementation evidence:
+
+- immutable `BootstrapStep`;
+- immutable `BootstrapPlan`;
+- deterministic `BootstrapPlanner`;
+- descriptive `ExpectedEffect`;
+- deterministic step ordering;
+- equivalent-plan behavior;
+- reuse of existing `GeneratorRegistry.names()` lookup boundary;
+- no generator instantiation or execution;
+- no filesystem mutation;
+- no network access;
+- no plugin activation.
+
+``` text
+dry-run --- Not Started
+apply --- Not Started
+validation runtime --- Not Started
+checkpoint / resume --- Deferred
+generalized rollback --- Deferred
+CLI Boundary --- Not Accepted
+Next --- v1.2.3 Dry-run Execution Preview Design First slice
+```

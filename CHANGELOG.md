@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+<!-- v1.2.2.1-bootstrap-planning-core-terminal-changelog -->
+
+- Completed the first production Bootstrap Planning Core implementation in
+  PR #228, squash merged as `528f356a3160af5445a9e4b4193ee5e62029653e`.
+- Added immutable `BootstrapStep`, `BootstrapPlan`, and `ExpectedEffect`
+  models and deterministic `BootstrapPlanner`.
+- Reused the existing `GeneratorRegistry.names()` lookup boundary without
+  instantiating or executing generators.
+- Verified deterministic ordering and equivalent-plan behavior.
+- Preserved mutation-free planning with no filesystem writes, network access,
+  or plugin activation.
+- Kept dry-run, apply, and validation runtime at `Not Started`.
+- Kept Stable Bootstrap CLI syntax at `Not Accepted`.
 <!-- v1.2.2-bootstrap-planning-core-acceptance-changelog -->
 
 - Accepted `v1.2.2 Bootstrap Planning Core` after Design PR #226 squash merged

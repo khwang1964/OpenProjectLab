@@ -149,3 +149,26 @@ def test_v1_2_2_design_acceptance_closure_evidence() -> None:
     assert "generalized rollback --- Deferred" in text
     assert "CLI Boundary --- Not Accepted" in text
     assert "v1.2 Implementation --- Not Started" in text
+
+
+def test_v1_2_2_1_terminal_implementation_evidence() -> None:
+    text = _read(DESIGN)
+
+    for marker in (
+        "BootstrapStep implementation --- Completed",
+        "BootstrapPlan implementation --- Completed",
+        "BootstrapPlanner implementation --- Completed",
+        "ExpectedEffect implementation --- Completed",
+        "Deterministic ordering implementation --- Completed",
+        "Equivalent-plan behavior --- Completed",
+        "GeneratorRegistry reuse --- Completed",
+        "Mutation-free planning --- Verified",
+        "Implementation PR #228 --- Merged",
+        "Implementation merge --- 528f356a3160af5445a9e4b4193ee5e62029653e",
+        "Post-merge consistency verification --- Passed",
+        "dry-run --- Not Started",
+        "apply --- Not Started",
+        "validation runtime --- Not Started",
+        "CLI Boundary --- Not Accepted",
+    ):
+        assert marker in text

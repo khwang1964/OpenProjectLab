@@ -2798,3 +2798,24 @@ Only then may v1.2 implementation begin
 - [ ] v1.2 Planning Baseline remains Not Accepted.
 - [ ] v1.2 Implementation remains Not Started.
 - [ ] no implementation is introduced.
+
+------------------------------------------------------------------------
+
+<!-- v1.2-planning-baseline-acceptance-roadmap -->
+
+## v1.2 Planning Baseline Acceptance
+
+``` text
+v1.2 Planning Baseline --- Accepted
+Planning PR #222 --- Merged
+Planning merge --- cc710f57141f7766acbb4e1ff3feb1884549ea2e
+Post-merge consistency verification --- Passed
+Focused post-merge verification --- 10 passed
+First Implementation Slice --- Accepted: v1.2.1 Bootstrap Framework Design Baseline
+v1.2 Implementation --- Not Started
+Next --- v1.2.1 Bootstrap Framework Design Baseline
+```
+
+This acceptance authorizes the next Design First slice only. Bootstrap Framework
+implementation remains blocked until the v1.2.1 design contract is separately
+accepted.

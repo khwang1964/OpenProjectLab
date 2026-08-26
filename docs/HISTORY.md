@@ -3189,3 +3189,27 @@ v1.2 Implementation --- Not Started
 
 No v1.2 implementation is authorized until planning acceptance and a
 separate Design First contract are complete.
+
+------------------------------------------------------------------------
+
+<!-- v1.2-planning-baseline-acceptance-history -->
+
+# v1.2 Planning Baseline Acceptance
+
+OpenProjectLab accepted the v1.2 Planning Baseline after Planning PR #222
+merged as `cc710f57141f7766acbb4e1ff3feb1884549ea2e`.
+
+Post-merge consistency verification passed with the focused planning suite at
+`10 passed`.
+
+``` text
+v1.2 Planning Baseline --- Accepted
+Planning PR #222 --- Merged
+Planning merge --- cc710f57141f7766acbb4e1ff3feb1884549ea2e
+Focused post-merge verification --- 10 passed
+v1.2 Implementation --- Not Started
+Next --- v1.2.1 Bootstrap Framework Design Baseline
+```
+
+The accepted next slice is the v1.2.1 Bootstrap Framework Design Baseline.
+Implementation remains blocked until that Design First contract is accepted.

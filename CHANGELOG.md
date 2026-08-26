@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+<!-- v1.2.1-bootstrap-framework-design-acceptance-changelog -->
+
+- Accepted `v1.2.1 Bootstrap Framework Design Baseline` after Design PR #224
+  squash merged as `f9f98b35aef679d2521498d6246c201906a3e721`.
+- Recorded synchronized-main post-merge focused verification at `9 passed`.
+- Accepted the Bootstrap Framework architecture and core design contracts.
+- Kept Checkpoint / Resume Deferred.
+- Kept Stable Bootstrap CLI syntax at `Not Accepted`.
+- Kept `v1.2 Implementation` at `Not Started`.
+
 <!-- v1.2.1-bootstrap-framework-design-changelog -->
 
 - Started `v1.2.1 --- Bootstrap Framework Design Baseline` as the first

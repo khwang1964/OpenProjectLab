@@ -428,3 +428,28 @@ v1.2.1 Bootstrap Framework Design Baseline — Not Accepted
 v1.2 Implementation — Not Started
 Next — Focused design verification / lifecycle alignment
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.2.1-bootstrap-framework-design-acceptance-architecture -->
+
+## Design Acceptance Status
+
+``` text
+v1.2.1 Bootstrap Framework Design Baseline --- Accepted
+Design PR #224 --- Merged
+Design merge --- f9f98b35aef679d2521498d6246c201906a3e721
+Focused post-merge verification --- 9 passed
+Architecture Contract --- Accepted
+BootstrapPlan / BootstrapStep / BootstrapResult --- Accepted
+plan / dry-run / apply semantics --- Accepted
+Filesystem Boundary --- Accepted
+Generator Composition Boundary --- Accepted
+Failure Semantics --- Accepted
+Validation Semantics --- Accepted
+Checkpoint / Resume --- Deferred
+CLI Boundary --- Not Accepted
+v1.2 Implementation --- Not Started
+```
+
+This acceptance authorizes the next implementation-contract slice only.

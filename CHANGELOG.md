@@ -2128,3 +2128,13 @@ select a provider, or initiate fallback implicitly.
   `2409 passed, 56 skipped, 1 deselected`, and coverage at `91.05%`.
 - Kept validation, generalized rollback, checkpoint/resume, and Stable CLI
   syntax outside the implementation slice.
+
+<!-- v1.2.5-bootstrap-validation-runtime-changelog -->
+
+- Started v1.2.5 Bootstrap Validation Runtime as a Design First slice.
+- Proposed immutable validation request, finding, and result contracts plus an
+  injected check boundary and deterministic validator.
+- Required inspection-only behavior and deterministic check/finding ordering.
+- Distinguished invalid-state findings from fail-closed check failures.
+- Kept repair, re-apply, rollback, parallel validation, Stable CLI syntax,
+  public SDK expansion, and production implementation outside this slice.

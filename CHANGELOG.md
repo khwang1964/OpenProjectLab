@@ -2084,3 +2084,14 @@ select a provider, or initiate fallback implicitly.
 - Recorded synchronized-main post-merge focused verification at `11 passed`.
 - Kept production dry-run implementation at `Not Started`; the next slice is
   the minimum Dry-run Execution Preview implementation.
+
+
+<!-- v1.2.3-dry-run-execution-preview-terminal-changelog -->
+
+- Completed the v1.2.3 minimum Dry-run Execution Preview implementation in
+  PR #232, squash merged as `ac4cd405098d1179eb5dc5cb7e32f3e9590bb98f`.
+- Added immutable `BootstrapDryRunStep`, `BootstrapDryRunPreview`, and the
+  projection-only `BootstrapDryRunExecutor.preview(plan)` boundary.
+- Recorded post-merge focused verification at `19 passed` while preserving
+  mutation-free behavior and keeping apply, validation runtime, and Stable CLI
+  syntax outside the slice.

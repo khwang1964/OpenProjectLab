@@ -9,6 +9,7 @@ DESIGN = ROOT / "docs" / "releases" / "v1.2.3-dry-run-execution-preview.md"
 ARCHITECTURE = ROOT / "docs" / "architecture" / "bootstrap-dry-run-execution-preview.md"
 PREDECESSOR = ROOT / "docs" / "releases" / "v1.2.2-bootstrap-planning-core.md"
 ACCEPTANCE = ROOT / "docs" / "releases" / "v1.2.3-dry-run-execution-preview-acceptance.md"
+PRODUCTION = ROOT / "generator" / "core" / "bootstrap_dry_run.py"
 
 
 def _read(path: Path) -> str:
@@ -147,3 +148,27 @@ def test_v1_2_3_acceptance_record_preserves_runtime_boundary() -> None:
         "Next --- v1.2.3 Dry-run Execution Preview implementation slice",
     ):
         assert marker in text
+
+
+def test_v1_2_3_minimum_implementation_evidence() -> None:
+    design = _read(DESIGN)
+    production = _read(PRODUCTION)
+
+    for marker in (
+        "Implementation PR #232 --- Merged",
+        "Implementation merge --- ac4cd405098d1179eb5dc5cb7e32f3e9590bb98f",
+        "Post-merge focused verification --- 19 passed",
+        "Production Implementation Slice --- Completed",
+        "apply execution --- Not Started",
+        "validation runtime --- Not Started",
+        "CLI Boundary --- Not Accepted",
+    ):
+        assert marker in design
+
+    for marker in (
+        "class BootstrapDryRunStep",
+        "class BootstrapDryRunPreview",
+        "class BootstrapDryRunExecutor",
+        "def preview(self, plan: BootstrapPlan)",
+    ):
+        assert marker in production

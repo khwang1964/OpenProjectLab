@@ -3438,3 +3438,17 @@ Design PR #234 passed required CI and squash merged as `1e0f7ebba9b98dd1c6bfa5ed
 Synchronized-main focused verification passed with 9 tests. The sequential,
 fail-fast apply design is terminally accepted while production implementation
 remains Not Started.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.4-bootstrap-apply-execution-terminal-history -->
+
+# v1.2.4 Bootstrap Apply Execution Minimum Implementation
+
+Implementation PR #236 passed required CI and squash merged as
+`1fbf799bd6bc687592a46788fc98f2dda1b79907`. The minimum production slice added immutable apply-step and
+aggregate results, sequential `BootstrapApplyExecutor.apply(plan)`, existing
+Generator lifecycle reuse, and fail-fast partial-state evidence. Post-merge
+focused verification passed with 30 tests. Generalized rollback, validation,
+checkpoint/resume, and Stable CLI syntax remain outside this slice.

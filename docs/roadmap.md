@@ -3132,3 +3132,21 @@ Governing artifacts:
 - `docs/releases/v1.2.4-bootstrap-apply-execution.md`
 - `docs/architecture/bootstrap-apply-execution.md`
 - `tests/release_readiness/test_v1_2_4_bootstrap_apply_execution.py`
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.4-bootstrap-apply-execution-acceptance-roadmap -->
+
+## v1.2.4 Bootstrap Apply Execution Design Acceptance
+
+``` text
+v1.2.4 Design Contract --- Accepted
+Design PR #234 --- Merged
+Design merge --- 1e0f7ebba9b98dd1c6bfa5edad52efa1bae7f0b6
+Required CI --- Passed
+Post-merge focused verification --- 9 passed
+Post-merge consistency verification --- Passed
+Production Implementation --- Not Started
+Next --- v1.2.4 Bootstrap Apply Execution minimum implementation slice
+```

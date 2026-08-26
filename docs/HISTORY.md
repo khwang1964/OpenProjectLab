@@ -3426,3 +3426,15 @@ boundary reuses the authoritative BootstrapPlan, existing Generator lifecycle,
 and existing filesystem abstraction. It defines deterministic sequential
 execution and fail-fast partial-state evidence without claiming generalized
 rollback or transaction-wide atomicity.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.4-bootstrap-apply-execution-acceptance-history -->
+
+# v1.2.4 Bootstrap Apply Execution Design Acceptance
+
+Design PR #234 passed required CI and squash merged as `1e0f7ebba9b98dd1c6bfa5edad52efa1bae7f0b6`.
+Synchronized-main focused verification passed with 9 tests. The sequential,
+fail-fast apply design is terminally accepted while production implementation
+remains Not Started.

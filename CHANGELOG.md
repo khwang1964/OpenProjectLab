@@ -2107,3 +2107,12 @@ select a provider, or initiate fallback implicitly.
   transaction-wide atomicity.
 - Kept validation, parallel apply, checkpoint/resume, Stable CLI syntax, and
   production implementation outside this design slice.
+
+
+<!-- v1.2.4-bootstrap-apply-execution-acceptance-changelog -->
+
+- Accepted the v1.2.4 Bootstrap Apply Execution design after PR #234 passed
+  required CI and squash merged as `1e0f7ebba9b98dd1c6bfa5edad52efa1bae7f0b6`.
+- Recorded synchronized-main post-merge focused verification at `9 passed`.
+- Kept production apply implementation at `Not Started`; the next slice is
+  the minimum Bootstrap Apply Execution implementation.

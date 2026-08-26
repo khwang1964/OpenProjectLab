@@ -1,6 +1,6 @@
 # Bootstrap Apply Execution Architecture
 
-> **Status:** Architecture Definition --- In Progress
+> **Status:** Accepted --- Terminally Closed
 > **Target:** OpenProjectLab v1.2.4 --- Bootstrap Apply Execution
 > **Predecessor:** v1.2.3 Dry-run Execution Preview --- Accepted / Implemented
 > **Production Implementation:** Not Started
@@ -104,11 +104,26 @@ future surfaces.
 ## 10. Current Architecture State
 
 ``` text
-v1.2.4 Bootstrap Apply Execution --- In Progress
+v1.2.4 Bootstrap Apply Execution --- Accepted
 Apply Architecture --- Defined
-Core Apply Contracts --- Proposed
+Core Apply Contracts --- Accepted
 Existing Generator / Filesystem Boundaries --- Required
 Fail-fast Partial-state Evidence --- Required
 Production Implementation --- Not Started
-v1.2.4 Acceptance --- Not Accepted
+v1.2.4 Acceptance --- Accepted
+```
+
+
+------------------------------------------------------------------------
+
+## Design Acceptance Status
+
+``` text
+Design PR #234 --- Merged
+Design merge --- 1e0f7ebba9b98dd1c6bfa5edad52efa1bae7f0b6
+Post-merge focused verification --- 9 passed
+Apply Architecture --- Accepted
+Core Apply Contracts --- Accepted
+Production Implementation --- Not Started
+Next --- v1.2.4 Bootstrap Apply Execution minimum implementation slice
 ```

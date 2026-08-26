@@ -3246,3 +3246,19 @@ Authoritative Plan Reuse / Deterministic Phase Ordering --- Required
 Production Implementation --- Not Started
 v1.2.6 Acceptance --- Not Accepted
 ```
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.6-bootstrap-runtime-integration-acceptance-roadmap -->
+
+## v1.2.6 Bootstrap Runtime Integration Design Acceptance
+
+``` text
+v1.2.6 Design Contract --- Accepted
+Design PR #242 --- Merged
+Design merge --- 4045a21514e912548456569a272a983f32ba5c4b
+Post-merge focused verification --- 10 passed
+Production Implementation --- Not Started
+Next --- v1.2.6 Bootstrap Runtime Integration minimum implementation slice
+```

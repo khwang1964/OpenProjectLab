@@ -6,19 +6,18 @@ ROOT = Path(__file__).resolve().parents[2]
 DESIGN = ROOT / "docs/releases/v1.2.6-bootstrap-runtime-integration.md"
 ARCH = ROOT / "docs/architecture/bootstrap-runtime-integration.md"
 PREVIOUS = ROOT / "docs/releases/v1.2.5-bootstrap-validation-runtime.md"
-PRODUCTION = ROOT / "generator/core/bootstrap_runtime.py"
+ACCEPTANCE = ROOT / "docs/releases/v1.2.6-bootstrap-runtime-integration-acceptance.md"
 
 
 def read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def test_design_first_boundary() -> None:
+def test_design_is_terminally_accepted() -> None:
     text = read(DESIGN)
-    assert "Design / Contract Definition --- In Progress" in text
+    assert "Accepted --- Terminally Closed" in text
     assert "Production Implementation --- Not Started" in text
-    assert "v1.2.6 Acceptance --- Not Accepted" in text
-    assert not PRODUCTION.exists()
+    assert "v1.2.6 Acceptance --- Accepted" in text
 
 
 def test_predecessor_is_implemented() -> None:
@@ -104,13 +103,27 @@ def test_future_surfaces_remain_closed() -> None:
         assert marker in text
 
 
-def test_acceptance_gates_are_pending() -> None:
+def test_acceptance_gates_are_terminally_closed() -> None:
     text = read(DESIGN)
     for marker in (
-        "Focused tests --- Pending",
-        "Full regression / coverage --- Pending",
-        "pre-commit --- Pending",
-        "Design PR required CI --- Pending",
-        "Terminal design acceptance --- Pending",
+        "Focused tests --- Passed",
+        "Full regression / coverage --- Passed",
+        "pre-commit --- Passed",
+        "Design PR #242 required CI --- Passed",
+        "Terminal design acceptance --- Completed",
+    ):
+        assert marker in text
+
+
+def test_acceptance_record_preserves_implementation_boundary() -> None:
+    text = read(ACCEPTANCE)
+    for marker in (
+        "**Status:** Accepted --- Terminally Closed",
+        "Design PR #242",
+        "4045a21514e912548456569a272a983f32ba5c4b",
+        "Post-merge focused verification --- 10 passed",
+        "v1.2.6 Design Contract --- Accepted",
+        "Production Implementation --- Not Started",
+        "Next --- v1.2.6 Bootstrap Runtime Integration minimum implementation slice",
     ):
         assert marker in text

@@ -2991,3 +2991,28 @@ CLI Boundary --- Not Accepted
 v1.2 Implementation --- Not Started
 Next --- Bootstrap Planning Core implementation slice
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.2.2.1-bootstrap-planning-core-terminal-roadmap -->
+
+## v1.2.2.1 Bootstrap Planning Core Implementation
+
+``` text
+BootstrapStep implementation --- Completed
+BootstrapPlan implementation --- Completed
+BootstrapPlanner implementation --- Completed
+ExpectedEffect implementation --- Completed
+Deterministic ordering implementation --- Completed
+Equivalent-plan behavior --- Completed
+GeneratorRegistry reuse --- Completed
+Mutation-free planning --- Verified
+Implementation PR #228 --- Merged
+Implementation merge --- 528f356a3160af5445a9e4b4193ee5e62029653e
+Post-merge consistency verification --- Passed
+dry-run --- Not Started
+apply --- Not Started
+validation runtime --- Not Started
+CLI Boundary --- Not Accepted
+Next --- v1.2.3 Dry-run Execution Preview Design First slice
+```

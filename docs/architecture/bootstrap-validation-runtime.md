@@ -90,3 +90,21 @@ Validation Architecture / Core Contracts --- Accepted
 Production Implementation --- Not Started
 Next --- v1.2.5 Bootstrap Validation Runtime minimum implementation slice
 ```
+
+
+<!-- v1.2.5-bootstrap-validation-runtime-terminal-architecture -->
+
+## Minimum Implementation Status
+
+``` text
+Validation Architecture --- Accepted / Implemented
+Implementation PR #240 --- Merged
+Implementation merge --- 902256c2dbb7ec384abe31decdeeb555240a85ce
+Post-merge focused verification --- 20 passed
+BootstrapValidator --- Deterministic / Fail Closed
+Validation Checks --- Injected / Inspection Only
+Invalid State --- Finding
+Check Failure --- BootstrapValidationError
+Repair / Rollback / Parallel Validation --- Deferred
+CLI Boundary --- Not Accepted
+```

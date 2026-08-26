@@ -3474,3 +3474,17 @@ finding order, and forbids silent repair, re-apply, and automatic rollback.
 Design PR #238 passed required CI and squash merged as `eadc9b96a0a7f4231331da162ee9c586cd9613e6`.
 Synchronized-main focused verification passed with 9 tests. The inspection-only
 validation design is terminally accepted while implementation remains separate.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.5-bootstrap-validation-runtime-terminal-history -->
+
+# v1.2.5 Bootstrap Validation Runtime Minimum Implementation
+
+Implementation PR #240 passed required CI and squash merged as
+`902256c2dbb7ec384abe31decdeeb555240a85ce`. The minimum production slice added immutable validation contracts,
+ordered inspection-only checks, severity-derived validity, and fail-closed
+completed evidence. Post-merge focused verification passed with 20 tests.
+Repair, rollback, checkpoint/resume, parallel validation, and Stable CLI syntax
+remain outside this slice.

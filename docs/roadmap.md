@@ -3171,3 +3171,30 @@ validation runtime --- Not Started
 CLI Boundary --- Not Accepted
 Next --- v1.2.5 Bootstrap Validation Runtime Design First slice
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.2.5-bootstrap-validation-runtime-roadmap -->
+
+## v1.2.5 --- Bootstrap Validation Runtime 🚧
+
+**Status:** Design / Contract Definition --- In Progress
+
+``` text
+v1.2.4 Bootstrap Apply Execution --- Accepted / Implemented
+v1.2.5 Bootstrap Validation Runtime --- In Progress
+Validation Architecture --- Defined
+Validation Request / Check / Finding / Result / Validator --- Proposed
+Inspection-only / Deterministic Ordering --- Required
+Silent Repair / Apply / Rollback --- Forbidden
+repair / checkpoint-resume / parallel validation --- Deferred
+CLI Boundary --- Not Accepted
+Production Implementation --- Not Started
+v1.2.5 Acceptance --- Not Accepted
+```
+
+Governing artifacts:
+
+- `docs/releases/v1.2.5-bootstrap-validation-runtime.md`
+- `docs/architecture/bootstrap-validation-runtime.md`
+- `tests/release_readiness/test_v1_2_5_bootstrap_validation_runtime.py`

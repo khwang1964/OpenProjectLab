@@ -3452,3 +3452,14 @@ aggregate results, sequential `BootstrapApplyExecutor.apply(plan)`, existing
 Generator lifecycle reuse, and fail-fast partial-state evidence. Post-merge
 focused verification passed with 30 tests. Generalized rollback, validation,
 checkpoint/resume, and Stable CLI syntax remain outside this slice.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.5-bootstrap-validation-runtime-history -->
+
+# v1.2.5 Bootstrap Validation Runtime Design First
+
+OpenProjectLab entered the inspection-only validation Design First slice after
+terminal completion of v1.2.4 apply execution. The design separates invalid
+state findings from fail-closed check errors, requires deterministic check and
+finding order, and forbids silent repair, re-apply, and automatic rollback.

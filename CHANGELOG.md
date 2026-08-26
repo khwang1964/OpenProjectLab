@@ -2095,3 +2095,15 @@ select a provider, or initiate fallback implicitly.
 - Recorded post-merge focused verification at `19 passed` while preserving
   mutation-free behavior and keeping apply, validation runtime, and Stable CLI
   syntax outside the slice.
+
+<!-- v1.2.4-bootstrap-apply-execution-changelog -->
+
+- Started v1.2.4 Bootstrap Apply Execution as a Design First slice.
+- Proposed immutable apply-step/result evidence and a sequential
+  `BootstrapApplyExecutor` coordination boundary.
+- Required reuse of the existing BootstrapPlan, Generator lifecycle, and
+  filesystem abstraction; direct ExpectedEffect execution is forbidden.
+- Defined fail-fast partial-state evidence without generalized rollback or
+  transaction-wide atomicity.
+- Kept validation, parallel apply, checkpoint/resume, Stable CLI syntax, and
+  production implementation outside this design slice.

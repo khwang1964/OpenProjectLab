@@ -1,4 +1,4 @@
-# OpenProjectLab Roadmap
+﻿# OpenProjectLab Roadmap
 
 > Status: Active Last Updated: 2026-08-25
 
@@ -3016,3 +3016,49 @@ validation runtime --- Not Started
 CLI Boundary --- Not Accepted
 Next --- v1.2.3 Dry-run Execution Preview Design First slice
 ```
+------------------------------------------------------------------------
+
+<!-- v1.2.3-dry-run-execution-preview-roadmap -->
+
+## v1.2.3 --- Dry-run Execution Preview 🚧
+
+**Status:** Design / Contract Definition --- In Progress
+
+``` text
+v1.2.2 Bootstrap Planning Core --- Accepted / Implemented
+v1.2.3 Dry-run Execution Preview --- In Progress
+Dry-run Preview Architecture --- Defined
+BootstrapDryRunStep / BootstrapDryRunPreview / BootstrapDryRunExecutor --- Proposed
+BootstrapPlan reuse --- Required
+Preview Ordering --- Deterministic
+Equivalent Preview Behavior --- Required
+Expected Effects --- Descriptive Data Only
+Generator Instantiation / Execution --- Forbidden
+Filesystem / Manifest / Backup / Checkpoint Writes --- Forbidden
+Network Access / Plugin Activation --- Forbidden
+Failure Partial State --- Forbidden
+apply execution --- Not Started
+validation runtime --- Not Started
+checkpoint / resume --- Deferred
+generalized rollback --- Deferred
+CLI Boundary --- Not Accepted
+Production Implementation --- Not Started
+v1.2.3 Acceptance --- Not Accepted
+```
+
+Governing artifacts:
+
+- `docs/releases/v1.2.3-dry-run-execution-preview.md`
+- `docs/architecture/bootstrap-dry-run-execution-preview.md`
+- `tests/release_readiness/test_v1_2_3_dry_run_execution_preview.py`
+
+### Code Review Checklist
+
+- [ ] existing immutable `BootstrapPlan` remains authoritative;
+- [ ] preview ordering and equivalent-preview behavior are deterministic;
+- [ ] expected effects remain descriptive data only;
+- [ ] generators are neither instantiated nor executed;
+- [ ] no persistent writes, network access, or plugin activation occur;
+- [ ] failure produces zero partial state;
+- [ ] apply, validation, checkpoint/resume, rollback, and CLI remain closed;
+- [ ] production implementation remains Not Started.

@@ -1,4 +1,4 @@
-# OpenProjectLab 發展歷程（History）
+﻿# OpenProjectLab 發展歷程（History）
 
 ## 專案起源
 
@@ -3366,3 +3366,23 @@ generalized rollback --- Deferred
 CLI Boundary --- Not Accepted
 Next --- v1.2.3 Dry-run Execution Preview Design First slice
 ```
+------------------------------------------------------------------------
+
+<!-- v1.2.3-dry-run-execution-preview-history -->
+
+# v1.2.3 Dry-run Execution Preview Design First
+
+OpenProjectLab entered the v1.2.3 Design First slice after terminal alignment
+of the v1.2.2 Bootstrap Planning Core.
+
+The design proposes immutable `BootstrapDryRunStep` and
+`BootstrapDryRunPreview` values plus a projection-only
+`BootstrapDryRunExecutor`. The existing `BootstrapPlan` remains authoritative.
+Preview ordering and equivalent-preview behavior must be deterministic, while
+expected effects remain descriptive data only.
+
+Generator instantiation/execution, filesystem and governance-artifact writes,
+network access, and plugin activation remain forbidden. Failure must produce
+zero partial state. Apply, validation runtime, checkpoint/resume, generalized
+rollback, Stable CLI syntax, and production implementation remain outside this
+slice.

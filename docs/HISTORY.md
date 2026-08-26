@@ -3305,3 +3305,30 @@ CLI Boundary --- Not Accepted
 v1.2.2 Bootstrap Planning Core --- Not Accepted
 v1.2 Implementation --- Not Started
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.2.2-bootstrap-planning-core-acceptance-history -->
+
+# v1.2.2 Bootstrap Planning Core Acceptance
+
+OpenProjectLab formally accepted the v1.2.2 Bootstrap Planning Core Design
+First contract after Design PR #226 squash merged as `c76c1b931da7d0aaf13792546b451c46f4769fe0`.
+
+``` text
+v1.2.2 Bootstrap Planning Core --- Accepted
+BootstrapStep / BootstrapPlan / BootstrapPlanner --- Accepted
+Deterministic ordering --- Accepted
+Equivalent-plan behavior --- Accepted
+GeneratorRegistry reuse --- Accepted
+Generator lifecycle preservation --- Accepted
+Mutation-free planning --- Accepted
+dry-run execution --- Not Started
+apply execution --- Not Started
+validation runtime --- Not Started
+checkpoint / resume --- Deferred
+generalized rollback --- Deferred
+CLI Boundary --- Not Accepted
+v1.2 Implementation --- Not Started
+Next --- Bootstrap Planning Core implementation slice
+```

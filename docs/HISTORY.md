@@ -3463,3 +3463,14 @@ OpenProjectLab entered the inspection-only validation Design First slice after
 terminal completion of v1.2.4 apply execution. The design separates invalid
 state findings from fail-closed check errors, requires deterministic check and
 finding order, and forbids silent repair, re-apply, and automatic rollback.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.5-bootstrap-validation-runtime-acceptance-history -->
+
+# v1.2.5 Bootstrap Validation Runtime Design Acceptance
+
+Design PR #238 passed required CI and squash merged as `eadc9b96a0a7f4231331da162ee9c586cd9613e6`.
+Synchronized-main focused verification passed with 9 tests. The inspection-only
+validation design is terminally accepted while implementation remains separate.

@@ -3198,3 +3198,19 @@ Governing artifacts:
 - `docs/releases/v1.2.5-bootstrap-validation-runtime.md`
 - `docs/architecture/bootstrap-validation-runtime.md`
 - `tests/release_readiness/test_v1_2_5_bootstrap_validation_runtime.py`
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.5-bootstrap-validation-runtime-acceptance-roadmap -->
+
+## v1.2.5 Bootstrap Validation Runtime Design Acceptance
+
+``` text
+v1.2.5 Design Contract --- Accepted
+Design PR #238 --- Merged
+Design merge --- eadc9b96a0a7f4231331da162ee9c586cd9613e6
+Post-merge focused verification --- 9 passed
+Production Implementation --- Not Started
+Next --- v1.2.5 Bootstrap Validation Runtime minimum implementation slice
+```

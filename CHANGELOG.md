@@ -2138,3 +2138,11 @@ select a provider, or initiate fallback implicitly.
 - Distinguished invalid-state findings from fail-closed check failures.
 - Kept repair, re-apply, rollback, parallel validation, Stable CLI syntax,
   public SDK expansion, and production implementation outside this slice.
+
+
+<!-- v1.2.5-bootstrap-validation-runtime-acceptance-changelog -->
+
+- Accepted the v1.2.5 Bootstrap Validation Runtime design after PR #238
+  passed required CI and squash merged as `eadc9b96a0a7f4231331da162ee9c586cd9613e6`.
+- Recorded post-merge focused verification at `9 passed` and kept production
+  implementation at `Not Started` pending the separate minimum slice.

@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+<!-- v1.2.2-bootstrap-planning-core-acceptance-changelog -->
+
+- Accepted `v1.2.2 Bootstrap Planning Core` after Design PR #226 squash merged
+  as `c76c1b931da7d0aaf13792546b451c46f4769fe0`.
+- Accepted `BootstrapStep`, `BootstrapPlan`, and `BootstrapPlanner` design
+  contracts.
+- Accepted deterministic ordering, equivalent-plan behavior,
+  GeneratorRegistry reuse, and Generator lifecycle preservation.
+- Preserved mutation-free planning with no generator execution, network
+  access, or plugin activation.
+- Kept expected effects as descriptive data only.
+- Kept dry-run, apply, and validation runtime at `Not Started`.
+- Kept checkpoint/resume and generalized rollback Deferred.
+- Kept Stable Bootstrap CLI syntax at `Not Accepted`.
+- Kept `v1.2 Implementation` at `Not Started`.
 <!-- v1.2.2-bootstrap-planning-core-changelog -->
 
 - Started `v1.2.2 --- Bootstrap Planning Core` as the first

@@ -2961,3 +2961,33 @@ Governing artifacts:
 - [ ] checkpoint/resume remains Deferred;
 - [ ] CLI remains Not Accepted;
 - [ ] v1.2 implementation remains Not Started.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.2-bootstrap-planning-core-acceptance-roadmap -->
+
+## v1.2.2 Bootstrap Planning Core Acceptance
+
+``` text
+v1.2.2 Bootstrap Planning Core --- Accepted
+Design PR #226 --- Merged
+Design merge --- c76c1b931da7d0aaf13792546b451c46f4769fe0
+Design PR #226 required CI --- Passed
+main synchronization --- Completed
+Post-merge consistency verification --- Passed
+Focused post-merge verification --- Passed
+BootstrapStep / BootstrapPlan / BootstrapPlanner --- Accepted
+Deterministic ordering --- Accepted
+Equivalent-plan behavior --- Accepted
+GeneratorRegistry reuse --- Accepted
+Generator lifecycle preservation --- Accepted
+Mutation-free planning --- Accepted
+dry-run execution --- Not Started
+apply execution --- Not Started
+validation runtime --- Not Started
+checkpoint / resume --- Deferred
+generalized rollback --- Deferred
+CLI Boundary --- Not Accepted
+v1.2 Implementation --- Not Started
+Next --- Bootstrap Planning Core implementation slice
+```

@@ -232,3 +232,31 @@ CLI Boundary — Not Accepted
 v1.2.2 Bootstrap Planning Core — Not Accepted
 v1.2 Implementation — Not Started
 ```
+
+------------------------------------------------------------------------
+
+<!-- v1.2.2-bootstrap-planning-core-acceptance-architecture -->
+
+## Design Acceptance Status
+
+``` text
+v1.2.2 Bootstrap Planning Core --- Accepted
+Design PR #226 --- Merged
+Design merge --- c76c1b931da7d0aaf13792546b451c46f4769fe0
+Post-merge consistency verification --- Passed
+Focused post-merge verification --- Passed
+BootstrapStep / BootstrapPlan / BootstrapPlanner --- Accepted
+GeneratorRegistry reuse --- Accepted
+Generator lifecycle preservation --- Accepted
+Deterministic ordering --- Accepted
+Equivalent-plan behavior --- Accepted
+Filesystem Mutation --- Forbidden
+Generator Execution --- Forbidden
+Network Access --- Forbidden
+Plugin Activation --- Forbidden
+dry-run execution --- Not Started
+apply execution --- Not Started
+checkpoint / resume --- Deferred
+CLI Boundary --- Not Accepted
+v1.2 Implementation --- Not Started
+```

@@ -13,12 +13,12 @@ def _read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def test_v1_2_2_design_exists_and_is_not_preaccepted() -> None:
+def test_v1_2_2_design_is_terminally_accepted() -> None:
     text = _read(DESIGN)
 
     assert "OpenProjectLab v1.2.2 Bootstrap Planning Core" in text
-    assert "**Status:** Design / Contract Definition --- In Progress" in text
-    assert "v1.2.2 Bootstrap Planning Core --- Not Accepted" in text
+    assert "**Status:** Accepted --- Terminally Closed" in text
+    assert "v1.2.2 Bootstrap Planning Core --- Accepted" in text
     assert "v1.2 Implementation --- Not Started" in text
 
 
@@ -105,27 +105,47 @@ def test_future_execution_surfaces_remain_closed() -> None:
         assert marker in text
 
 
-def test_acceptance_gates_remain_fail_closed() -> None:
+def test_acceptance_gates_are_terminally_accepted() -> None:
     text = _read(DESIGN)
 
     for marker in (
-        "BootstrapStep contract --- Pending",
-        "BootstrapPlan contract --- Pending",
-        "BootstrapPlanner contract --- Pending",
-        "Deterministic ordering --- Pending",
-        "Equivalent-plan behavior --- Pending",
-        "GeneratorRegistry reuse --- Pending",
-        "Generator lifecycle preservation --- Pending",
-        "Mutation-free planning --- Pending",
-        "No generator execution --- Pending",
-        "No network access --- Pending",
-        "No plugin activation --- Pending",
-        "Expected-effect representation --- Pending",
-        "Focused tests --- Pending",
-        "Design PR required CI --- Pending",
-        "Post-merge consistency verification --- Pending",
-        "Terminal design acceptance --- Pending",
-        "v1.2.2 Bootstrap Planning Core --- Not Accepted",
+        "BootstrapStep contract --- Accepted",
+        "BootstrapPlan contract --- Accepted",
+        "BootstrapPlanner contract --- Accepted",
+        "Deterministic ordering --- Accepted",
+        "Equivalent-plan behavior --- Accepted",
+        "GeneratorRegistry reuse --- Accepted",
+        "Generator lifecycle preservation --- Accepted",
+        "Mutation-free planning --- Accepted",
+        "No generator execution --- Accepted",
+        "No network access --- Accepted",
+        "No plugin activation --- Accepted",
+        "Expected-effect representation --- Accepted",
+        "Focused tests --- Passed",
+        "Design PR #226 required CI --- Passed",
+        "Design PR #226 squash merge --- Completed",
+        "main synchronization --- Completed",
+        "Post-merge consistency verification --- Passed",
+        "Terminal design acceptance --- Completed",
+        "v1.2.2 Bootstrap Planning Core --- Accepted",
         "v1.2 Implementation --- Not Started",
     ):
         assert marker in text
+
+
+def test_v1_2_2_design_acceptance_closure_evidence() -> None:
+    text = _read(DESIGN)
+
+    assert "Design PR #226 --- Merged" in text
+    assert "Design merge --- c76c1b931da7d0aaf13792546b451c46f4769fe0" in text
+    assert "Post-merge consistency verification --- Passed" in text
+    assert "BootstrapStep contract --- Accepted" in text
+    assert "BootstrapPlan contract --- Accepted" in text
+    assert "BootstrapPlanner contract --- Accepted" in text
+    assert "dry-run execution --- Not Started" in text
+    assert "apply execution --- Not Started" in text
+    assert "validation runtime --- Not Started" in text
+    assert "checkpoint / resume --- Deferred" in text
+    assert "generalized rollback --- Deferred" in text
+    assert "CLI Boundary --- Not Accepted" in text
+    assert "v1.2 Implementation --- Not Started" in text

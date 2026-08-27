@@ -55,3 +55,23 @@ Runtime Integration Architecture / Core Contracts --- Accepted
 Production Implementation --- Not Started
 Next --- v1.2.6 Bootstrap Runtime Integration minimum implementation slice
 ```
+
+
+<!-- v1.2.6-bootstrap-runtime-integration-terminal-architecture -->
+
+## Minimum Implementation Status
+
+``` text
+Runtime Integration Architecture --- Accepted / Implemented
+Implementation PR #244 --- Merged
+Implementation merge --- f126238de83fc4fe12f4cb6de1d281fccd4281d0
+Post-merge focused verification --- 18 passed
+Planning --- Exactly Once
+BootstrapPlan --- Authoritative / Reused
+Phase Ordering --- Deterministic / Sequential
+Preview Mutation --- Forbidden
+Apply Mutation --- Explicit Mode Only
+Validation --- Inspection Only
+CLI Boundary / Public SDK Expansion --- Deferred
+Repair / Rollback / Checkpoint-Resume / Parallel Execution --- Deferred
+```

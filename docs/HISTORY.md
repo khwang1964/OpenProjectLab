@@ -3523,3 +3523,16 @@ apply-and-validate with one authoritative plan, deterministic sequential phase
 ordering, and fail-closed propagation. Post-merge focused verification passed
 with 18 tests. CLI and public SDK expansion, repair, rollback,
 checkpoint/resume, and parallel execution remain deferred.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.6-bootstrap-runtime-integration-implementation-closure-history -->
+
+# v1.2.6 Bootstrap Runtime Integration Implementation Accepted
+
+Terminal evidence PR #245 passed required CI and squash merged as
+`c4971d97dc193a75eddad76faf1ea1c36c222fd5`. Synchronized-main post-merge consistency verification passed with
+19 focused tests. The minimum implementation is Accepted / Completed while
+all previously deferred CLI, SDK, repair, rollback, checkpoint/resume, and
+parallel-execution boundaries remain unchanged.

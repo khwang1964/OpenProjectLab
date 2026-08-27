@@ -75,3 +75,16 @@ Validation --- Inspection Only
 CLI Boundary / Public SDK Expansion --- Deferred
 Repair / Rollback / Checkpoint-Resume / Parallel Execution --- Deferred
 ```
+
+
+<!-- v1.2.6-bootstrap-runtime-integration-implementation-closure-architecture -->
+
+## Implementation Acceptance Closure
+
+``` text
+Evidence PR #245 / merge c4971d97dc193a75eddad76faf1ea1c36c222fd5 --- Verified
+Post-merge consistency verification --- 19 passed
+Runtime Integration Implementation --- Accepted / Completed
+Authoritative plan reuse / deterministic phase order --- Preserved
+CLI / SDK / repair / rollback / checkpoint-resume / parallel execution --- Deferred
+```

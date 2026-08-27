@@ -149,3 +149,16 @@ def test_v1_2_6_minimum_implementation_evidence() -> None:
         "def execute(self, request: BootstrapRuntimeRequest)",
     ):
         assert marker in runtime
+
+
+def test_v1_2_6_implementation_acceptance_is_closed() -> None:
+    combined = read(DESIGN) + read(ARCH) + read(ACCEPTANCE)
+    for marker in (
+        "Terminal Evidence PR #245 --- Merged",
+        "Terminal Evidence merge --- c4971d97dc193a75eddad76faf1ea1c36c222fd5",
+        "Post-merge consistency verification --- 19 passed",
+        "Minimum Implementation Acceptance --- Accepted",
+        "Production Implementation Slice --- Completed",
+        "Next roadmap slice --- Pending explicit Design First definition",
+    ):
+        assert marker in combined

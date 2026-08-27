@@ -2269,3 +2269,8 @@ select a provider, or initiate fallback implicitly.
 
 - Added the design and architecture contract for a typed, deterministic, silent SDK bootstrap adapter.
 - Added executable release-readiness checks while leaving production implementation Not Started.
+
+## v1.2.9 Bootstrap SDK Runtime Public Contract acceptance
+
+- Terminally accepted the SDK runtime public contract after PR #257 and merge `28cd71b1a415e876a09fcac15c9fd2e9dc5d8f93`.
+- Kept the production SDK adapter deferred to an independent implementation slice.

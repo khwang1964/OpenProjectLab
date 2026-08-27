@@ -3640,3 +3640,9 @@ repair, rollback, and advanced lifecycle behavior remain deferred.
 - Defined the proposed `generator.sdk.bootstrap_runtime` surface.
 - Preserved existing generator/plugin SDK exports and CLI process boundaries.
 - Kept production implementation explicitly Not Started.
+
+## v1.2.9 Bootstrap SDK Runtime Public Contract terminally accepted
+
+- Accepted the design after PR #257 merged as `28cd71b1a415e876a09fcac15c9fd2e9dc5d8f93`.
+- Verified synchronized main with 11 post-merge focused tests.
+- Preserved production implementation as Not Started.

@@ -98,14 +98,16 @@ def build_parser() -> argparse.ArgumentParser:
     bootstrap.add_argument("--copyright-holder", help="著作權人")
     _add_write_options(bootstrap)
     bootstrap.add_argument(
+        "--runtime",
         "--experimental-runtime",
+        dest="experimental_runtime",
         action="store_true",
-        help="實驗性：透過 Bootstrap runtime coordinator 執行",
+        help="透過 Bootstrap runtime coordinator 執行",
     )
     bootstrap.add_argument(
         "--validate",
         action="store_true",
-        help="實驗性：apply 後執行 validation（需 --experimental-runtime）",
+        help="apply 後執行 validation（需 --runtime）",
     )
     bootstrap.set_defaults(handler=_handle_bootstrap)
 
@@ -408,7 +410,7 @@ def _handle_bootstrap(args: argparse.Namespace) -> int:
 
     context["record_manifest"] = not args.no_manifest
     if args.validate and not args.experimental_runtime:
-        raise ValueError("--validate requires --experimental-runtime")
+        raise ValueError("--validate requires --experimental-runtime or --runtime")
     if args.experimental_runtime:
         return execute_bootstrap_runtime(
             BootstrapCliRuntimeInput(
@@ -662,9 +664,15 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     try:
         return int(args.handler(args))
-    except (GeneratorValidationError, ValueError, RuntimeError, OSError) as exc:
+    except (GeneratorValidationError, ValueError, FileExistsError) as exc:
         print(f"錯誤：{exc}", file=sys.stderr)
         return 2
+    except (RuntimeError, OSError) as exc:
+        print(f"錯誤：{exc}", file=sys.stderr)
+        is_bootstrap_runtime = args.command == "bootstrap" and bool(
+            getattr(args, "experimental_runtime", False)
+        )
+        return 1 if is_bootstrap_runtime else 2
 
 
 if __name__ == "__main__":

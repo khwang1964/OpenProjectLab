@@ -3294,3 +3294,16 @@ Post-merge consistency verification --- 19 passed
 Deferred boundaries --- Preserved
 Next roadmap slice --- Pending explicit Design First definition
 ```
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-roadmap -->
+
+## v1.2.7 --- Bootstrap CLI/runtime Wiring 🚧
+
+``` text
+v1.2.6 Bootstrap Runtime Integration --- Accepted / Completed
+v1.2.7 Bootstrap CLI/runtime Wiring --- Design First / In Progress
+Canonical CLI entrypoint / compatibility boundary --- Defined
+Production CLI Wiring --- Not Started
+v1.2.7 Acceptance --- Not Accepted
+```

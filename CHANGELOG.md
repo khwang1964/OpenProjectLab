@@ -2195,3 +2195,11 @@ select a provider, or initiate fallback implicitly.
 - Verified synchronized-main consistency with `19 passed` focused tests.
 - Preserved the accepted deterministic lifecycle and all deferred CLI, SDK,
   repair, rollback, checkpoint/resume, and parallel-execution boundaries.
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-design-changelog -->
+
+- Defined the v1.2.7 Bootstrap CLI/runtime wiring design, compatibility,
+  fail-closed adapter, deferred boundaries, tests, and review checklist.
+- Kept production CLI wiring and stable runtime option spelling out of scope
+  pending terminal design acceptance.

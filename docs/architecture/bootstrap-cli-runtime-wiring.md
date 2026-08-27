@@ -1,0 +1,35 @@
+# Bootstrap CLI/runtime Wiring Architecture
+
+> **Status:** Design / Contract Definition --- In Progress
+> **Target:** OpenProjectLab v1.2.7
+> **Production CLI Wiring:** Not Started
+
+``` text
+generator.cli.main:main
+    ↓ canonical build_parser
+Existing bootstrap grammar + explicit experimental opt-in
+    ├─ no opt-in → existing _handle_bootstrap path
+    └─ opt-in → Bootstrap CLI/runtime adapter
+                   ↓ immutable request + injected dependencies
+               BootstrapRuntimeCoordinator.execute(request)
+                   ↓
+               existing CLI result / exit-code renderer
+```
+
+## Invariants
+
+``` text
+Canonical Entry Point --- generator.cli.main:main
+Legacy Grammar --- Preserved
+No Opt-in --- No Runtime Wiring Behavior Change
+Runtime Selection --- Explicit
+Coordinator Invocation --- Exactly Once
+Dependency Construction --- Explicit / Fail Closed
+Preview Mutation --- Forbidden
+Validation Repair / Rollback --- Forbidden
+generator.main Registration --- Forbidden
+Public SDK Expansion --- Forbidden
+```
+
+The adapter translates and renders only. Planning, preview, apply, validation,
+failure evidence, and ordering remain owned by the accepted core runtimes.

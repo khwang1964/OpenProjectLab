@@ -2255,3 +2255,12 @@ select a provider, or initiate fallback implicitly.
 - Verified the synchronized implementation with `38 passed` focused tests and
   preserved legacy exit behavior plus all deferred boundaries.
 - Formal minimum implementation acceptance remains Pending.
+
+<!-- v1.2.8-bootstrap-cli-public-contract-implementation-closure-changelog -->
+
+- Accepted and completed the v1.2.8 Bootstrap CLI public-contract minimum
+  implementation after terminal-alignment PR #255, merge
+  `6d9b96cb651a0423ffdeb75094a645b99f4786b5`, required CI, and `39 passed` post-merge verification.
+- Preserved legacy compatibility and deferred SDK, JSON, repair, rollback, and
+  advanced lifecycle scope.
+- Left the next roadmap slice pending explicit Design First definition.

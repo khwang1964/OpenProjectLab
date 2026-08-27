@@ -13,9 +13,7 @@ def read(path: Path) -> str:
 def test_design_first_status_is_explicit() -> None:
     text = read(DESIGN)
     assert "Accepted --- Terminally Closed" in text
-    assert (
-        "Production implementation --- Implemented / Awaiting terminal alignment acceptance" in text
-    )
+    assert "Production implementation --- Accepted / Completed" in text
     assert "v1.2.8 Acceptance --- Accepted" in text
 
 
@@ -109,7 +107,7 @@ def test_terminal_acceptance_preserves_implementation_boundary() -> None:
         assert marker in text
 
 
-def test_minimum_implementation_evidence_is_pending_closure() -> None:
+def test_minimum_implementation_evidence_is_terminally_closed() -> None:
     combined = read(DESIGN) + read(ARCH) + read(ACCEPTANCE)
     for marker in (
         "Implementation PR #254 --- Merged",
@@ -117,6 +115,19 @@ def test_minimum_implementation_evidence_is_pending_closure() -> None:
         "Post-merge focused verification --- 38 passed",
         "Stable --runtime option --- Implemented",
         "Legacy --experimental-runtime alias --- Preserved",
-        "Implementation acceptance --- Pending terminal-alignment merge",
+        "Implementation acceptance --- Accepted / Completed",
+    ):
+        assert marker in combined
+
+
+def test_final_implementation_acceptance_is_closed() -> None:
+    combined = read(DESIGN) + read(ARCH) + read(ACCEPTANCE)
+    for marker in (
+        "Terminal Alignment PR #255 --- Merged",
+        "Terminal Alignment merge --- 6d9b96cb651a0423ffdeb75094a645b99f4786b5",
+        "Post-merge focused verification --- 39 passed",
+        "Minimum implementation acceptance --- Accepted / Completed",
+        "Stable Bootstrap CLI public contract --- Accepted / Completed",
+        "Next roadmap slice --- Pending explicit Design First definition",
     ):
         assert marker in combined

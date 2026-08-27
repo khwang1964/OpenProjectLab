@@ -3587,3 +3587,14 @@ Terminal evidence PR #250 passed required CI and squash merged as
 27 focused tests. The minimum experimental CLI/runtime wiring is Accepted /
 Completed while legacy behavior and all deferred public or advanced lifecycle
 boundaries remain unchanged.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.8-bootstrap-cli-public-contract-design-history -->
+
+# v1.2.8 Bootstrap CLI Public Contract Stabilization --- Design First
+
+Started the Design First contract for stabilizing the observable Bootstrap CLI
+surface after v1.2.7. The design fixes parsing, exit-status, output-channel,
+validation-failure, compatibility, and deferred-scope boundaries without adding
+production behavior.

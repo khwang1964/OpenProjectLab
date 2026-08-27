@@ -2231,3 +2231,11 @@ select a provider, or initiate fallback implicitly.
 - Verified synchronized-main consistency with `27 passed` focused tests.
 - Preserved legacy no-opt-in behavior and all deferred public or advanced
   lifecycle boundaries.
+
+<!-- v1.2.8-bootstrap-cli-public-contract-design-changelog -->
+
+- Started the v1.2.8 Design First contract for Bootstrap CLI public-contract
+  stabilization.
+- Defined proposed parsing, exit-status, output-channel, failure-preservation,
+  legacy-compatibility, and deferred SDK/advanced-lifecycle boundaries.
+- Production stabilization remains Not Started.

@@ -3353,3 +3353,16 @@ Post-merge consistency verification --- 27 passed
 Legacy and deferred boundaries --- Preserved
 Next roadmap slice --- Pending explicit Design First definition
 ```
+
+<!-- v1.2.8-bootstrap-cli-public-contract-design-roadmap -->
+
+## v1.2.8 Bootstrap CLI Public Contract Stabilization
+
+``` text
+Status --- Design First / In Progress
+Predecessor v1.2.7 --- Accepted / Completed
+Public CLI contract --- Proposed
+Production stabilization --- Not Started
+SDK / JSON / advanced lifecycle --- Deferred
+Next --- Focused design-contract verification
+```

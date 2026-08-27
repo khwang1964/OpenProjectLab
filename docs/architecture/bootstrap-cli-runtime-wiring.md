@@ -1,6 +1,6 @@
 # Bootstrap CLI/runtime Wiring Architecture
 
-> **Status:** Design / Contract Definition --- In Progress
+> **Status:** Accepted --- Terminally Closed
 > **Target:** OpenProjectLab v1.2.7
 > **Production CLI Wiring:** Not Started
 

@@ -3307,3 +3307,17 @@ Canonical CLI entrypoint / compatibility boundary --- Defined
 Production CLI Wiring --- Not Started
 v1.2.7 Acceptance --- Not Accepted
 ```
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-acceptance-roadmap -->
+
+## v1.2.7 Bootstrap CLI/runtime Wiring Design Acceptance
+
+``` text
+Design PR #247 --- Merged
+Design merge --- a254574d7fc9570402f445518f00714ce5e644e0
+Post-merge verification --- 9 passed
+Design Contract --- Accepted / Completed
+Production CLI Wiring --- Not Started
+Next --- minimum production CLI wiring implementation slice
+```

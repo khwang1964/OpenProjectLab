@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DESIGN = ROOT / "docs/releases/v1.2.7-bootstrap-cli-runtime-wiring.md"
 ARCH = ROOT / "docs/architecture/bootstrap-cli-runtime-wiring.md"
+ACCEPTANCE = ROOT / "docs/releases/v1.2.7-bootstrap-cli-runtime-wiring-acceptance.md"
 CLI = ROOT / "generator/cli/main.py"
 LEGACY = ROOT / "generator/main.py"
 PYPROJECT = ROOT / "pyproject.toml"
@@ -15,12 +16,11 @@ def read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def test_design_first_boundary() -> None:
+def test_design_is_terminally_accepted() -> None:
     text = read(DESIGN)
-    assert "Design / Contract Definition --- In Progress" in text
+    assert "Accepted --- Terminally Closed" in text
     assert "Production CLI Wiring --- Not Started" in text
-    assert "v1.2.7 Acceptance --- Not Accepted" in text
-    assert not PRODUCTION.exists()
+    assert "v1.2.7 Acceptance --- Accepted" in text
 
 
 def test_canonical_entrypoint_is_fixed() -> None:
@@ -95,13 +95,20 @@ def test_code_review_checklist_is_complete() -> None:
         assert marker in text
 
 
-def test_acceptance_gates_are_pending() -> None:
-    text = read(DESIGN)
+def test_acceptance_gates_are_terminally_closed() -> None:
+    combined = read(DESIGN) + read(ACCEPTANCE)
     for marker in (
-        "Focused tests --- Pending",
-        "Full regression / coverage --- Pending",
-        "pre-commit --- Pending",
-        "Design PR required CI --- Pending",
-        "Terminal design acceptance --- Pending",
+        "Design PR #247 --- Merged",
+        "Design merge --- a254574d7fc9570402f445518f00714ce5e644e0",
+        "Post-merge consistency verification --- 9 passed",
+        "Terminal design acceptance --- Completed",
+        "v1.2.7 Design Contract --- Accepted",
+        "Production CLI Wiring --- Not Started",
     ):
-        assert marker in text
+        assert marker in combined
+
+
+def test_acceptance_preserves_implementation_boundary() -> None:
+    text = read(ACCEPTANCE)
+    assert "Terminal design acceptance only" in text
+    assert "minimum production CLI wiring implementation slice" in text

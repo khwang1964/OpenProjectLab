@@ -2203,3 +2203,11 @@ select a provider, or initiate fallback implicitly.
   fail-closed adapter, deferred boundaries, tests, and review checklist.
 - Kept production CLI wiring and stable runtime option spelling out of scope
   pending terminal design acceptance.
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-acceptance-changelog -->
+
+- Accepted the v1.2.7 Bootstrap CLI/runtime wiring design after PR #247,
+  merge `a254574d7fc9570402f445518f00714ce5e644e0`, required CI, and synchronized-main `9 passed` verification.
+- Preserved existing Bootstrap behavior without opt-in and kept production CLI
+  wiring for a separate implementation slice.

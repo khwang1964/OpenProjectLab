@@ -3548,3 +3548,15 @@ Opened a Design First slice for an explicit experimental adapter from the
 canonical `generator.cli.main` Bootstrap command to the accepted internal
 runtime. Existing behavior remains unchanged without opt-in; production wiring
 has not started.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-acceptance-history -->
+
+# v1.2.7 Bootstrap CLI/runtime Wiring Design Accepted
+
+Design PR #247 passed required CI and squash merged as `a254574d7fc9570402f445518f00714ce5e644e0`.
+Synchronized-main post-merge verification passed with 9 tests. The canonical
+entrypoint, compatibility, opt-in mapping, failure, deferred-surface, and code
+review contracts are accepted. Production CLI wiring remains not started.

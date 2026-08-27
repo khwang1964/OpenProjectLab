@@ -50,3 +50,11 @@ Production implementation remains Not Started.
 PR #259 implemented the minimum sibling SDK adapter and merged as
 `ae2d6908f2e573c6e155a1b6a6991390bf385b57`. Synchronized-main verification completed with 25 focused tests.
 The implementation remains awaiting a separate terminal acceptance closure.
+
+## Terminal implementation acceptance
+
+The minimum SDK runtime implementation is terminally accepted after implementation
+PR #259 (`ae2d6908f2e573c6e155a1b6a6991390bf385b57`), alignment PR #260
+(`ab4e85e988c2c257a5354c6f93fa3e808ea6175f`), required CI, synchronized-main verification, and 26 post-alignment
+focused tests. Deferred serialization, asynchronous, remote, plugin-check, automatic
+recovery, and public extension boundaries remain unchanged.

@@ -3441,3 +3441,12 @@ Post-alignment focused verification --- 26 passed
 Full regression --- 2519 passed, 56 skipped, 1 deselected
 Coverage --- 91.08%
 Next roadmap slice --- Pending explicit Design First definition
+
+## v1.2.9 Bootstrap SDK Runtime --- Final Consistency
+
+Status --- Completed
+Acceptance PR --- #261
+Acceptance merge --- e8be09dcaa081e61b585dc456d2673a17290c0b5
+Post-merge focused verification --- 27 passed
+Closure gates --- Passed / Completed
+Next roadmap slice --- Pending explicit Design First definition

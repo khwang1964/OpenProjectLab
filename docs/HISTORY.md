@@ -3658,3 +3658,8 @@ repair, rollback, and advanced lifecycle behavior remain deferred.
 - Accepted implementation PR #259 (`ae2d6908f2e573c6e155a1b6a6991390bf385b57`).
 - Accepted alignment PR #260 (`ab4e85e988c2c257a5354c6f93fa3e808ea6175f`) after synchronized-main verification.
 - Closed the slice with 26 focused tests and preserved all deferred boundaries.
+
+## v1.2.9 Bootstrap SDK Runtime final consistency completed
+
+- Recorded acceptance PR #261 and merge `e8be09dcaa081e61b585dc456d2673a17290c0b5`.
+- Reconciled the closure gates with completed pre-commit, regression, CI, and post-merge evidence.

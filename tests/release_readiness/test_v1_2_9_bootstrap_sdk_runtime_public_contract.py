@@ -130,3 +130,15 @@ def test_production_implementation_is_terminally_accepted() -> None:
     assert "Post-alignment focused verification --- 26 passed" in text
     assert "v1.2.9 Production implementation --- Accepted / Completed" in text
     assert "Next roadmap slice --- Pending explicit Design First definition" in text
+
+
+def test_final_consistency_has_no_pending_closure_gates() -> None:
+    text = read(IMPLEMENTATION_ACCEPTANCE)
+    assert "Implementation closure focused tests --- 27 passed" in text
+    assert "Implementation closure pre-commit --- Passed" in text
+    assert "2520 passed, 56 skipped, 1 deselected / 91.08%" in text
+    assert "Implementation acceptance PR required CI --- Passed" in text
+    assert "Acceptance PR --- #261" in text
+    assert "e8be09dcaa081e61b585dc456d2673a17290c0b5" in text
+    assert "Post-merge focused verification --- 27 passed" in text
+    assert "v1.2.9 terminal consistency --- Completed" in text

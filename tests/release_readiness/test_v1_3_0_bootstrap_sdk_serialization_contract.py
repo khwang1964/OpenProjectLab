@@ -3,6 +3,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DESIGN = ROOT / "docs/releases/v1.3.0-bootstrap-sdk-serialization-contract.md"
 ARCHITECTURE = ROOT / "docs/architecture/bootstrap-sdk-serialization-contract.md"
+ACCEPTANCE = ROOT / "docs/releases/v1.3.0-bootstrap-sdk-serialization-contract-acceptance.md"
 
 
 def read(path: Path) -> str:
@@ -11,7 +12,7 @@ def read(path: Path) -> str:
 
 def test_design_status_and_predecessor() -> None:
     text = read(DESIGN)
-    assert "Design / Contract Definition --- In Progress" in text
+    assert "Accepted --- Terminally Closed" in text
     assert "v1.2.9 Bootstrap SDK Runtime --- Accepted / Completed" in text
 
 
@@ -99,9 +100,19 @@ def test_deferred_boundaries_and_pending_gates() -> None:
         "digital signing",
         "remote execution",
         "plugin-defined payload extensions",
-        "Focused tests --- Pending",
-        "Terminal design acceptance --- Pending",
+        "Focused tests --- Passed",
+        "Terminal design acceptance --- Accepted",
         "Production implementation --- Not Started",
-        "v1.3.0 Acceptance --- Not Accepted",
+        "v1.3.0 Acceptance --- Accepted",
     ):
         assert marker in text
+
+
+def test_terminal_acceptance_preserves_implementation_boundary() -> None:
+    text = read(ACCEPTANCE)
+    assert "Accepted --- Completed" in text
+    assert "Design PR --- #263" in text
+    assert "0ef961e52860434d6631f76859f0cc7c8dbd8af9" in text
+    assert "Post-merge focused verification --- 11 passed" in text
+    assert "Production implementation --- Not Started" in text
+    assert "minimum serialization implementation slice" in text

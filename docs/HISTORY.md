@@ -3669,3 +3669,9 @@ repair, rollback, and advanced lifecycle behavior remain deferred.
 - Defined a closed versioned JSON envelope and deterministic encoding boundary.
 - Required strict non-executing decode and preserved SDK/CLI compatibility.
 - Kept production implementation explicitly Not Started.
+
+## v1.3.0 Bootstrap SDK Serialization Contract terminally accepted
+
+- Accepted Design PR #263 and merge `0ef961e52860434d6631f76859f0cc7c8dbd8af9`.
+- Verified synchronized main with 11 post-merge focused tests.
+- Preserved production implementation as Not Started.

@@ -3458,3 +3458,12 @@ Predecessor --- v1.2.9 Bootstrap SDK Runtime accepted and terminally consistent
 Scope --- versioned deterministic JSON request/result/evidence interchange
 Production implementation --- Not Started
 Next --- focused design-contract verification and Design PR
+
+## v1.3.0 Bootstrap SDK Serialization Contract --- Terminal Design Acceptance
+
+Status --- Accepted / Completed
+Design PR --- #263
+Design merge --- 0ef961e52860434d6631f76859f0cc7c8dbd8af9
+Post-merge focused verification --- 11 passed
+Production implementation --- Not Started
+Next --- v1.3.0 minimum serialization implementation slice

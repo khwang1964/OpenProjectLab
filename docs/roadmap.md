@@ -3450,3 +3450,11 @@ Acceptance merge --- e8be09dcaa081e61b585dc456d2673a17290c0b5
 Post-merge focused verification --- 27 passed
 Closure gates --- Passed / Completed
 Next roadmap slice --- Pending explicit Design First definition
+
+## v1.3.0 Bootstrap SDK Serialization Contract --- Design First
+
+Status --- In Progress
+Predecessor --- v1.2.9 Bootstrap SDK Runtime accepted and terminally consistent
+Scope --- versioned deterministic JSON request/result/evidence interchange
+Production implementation --- Not Started
+Next --- focused design-contract verification and Design PR

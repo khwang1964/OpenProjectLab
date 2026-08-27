@@ -3663,3 +3663,9 @@ repair, rollback, and advanced lifecycle behavior remain deferred.
 
 - Recorded acceptance PR #261 and merge `e8be09dcaa081e61b585dc456d2673a17290c0b5`.
 - Reconciled the closure gates with completed pre-commit, regression, CI, and post-merge evidence.
+
+## v1.3.0 Bootstrap SDK Serialization Contract Design First opened
+
+- Defined a closed versioned JSON envelope and deterministic encoding boundary.
+- Required strict non-executing decode and preserved SDK/CLI compatibility.
+- Kept production implementation explicitly Not Started.

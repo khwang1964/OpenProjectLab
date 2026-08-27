@@ -112,3 +112,29 @@ def test_acceptance_preserves_implementation_boundary() -> None:
     text = read(ACCEPTANCE)
     assert "Terminal design acceptance only" in text
     assert "minimum production CLI wiring implementation slice" in text
+
+
+def test_v1_2_7_minimum_implementation_evidence() -> None:
+    combined = read(DESIGN) + read(ARCH) + read(ACCEPTANCE)
+    runtime = read(PRODUCTION)
+    cli = read(CLI)
+    for marker in (
+        "Implementation PR #249 --- Merged",
+        "Implementation merge --- ea8dcb3df06679ad2cea84eab228db0c97373b4f",
+        "Post-merge focused verification --- 16 passed",
+        "Production CLI Wiring Slice --- Completed",
+        "Legacy no-opt-in path --- Preserved",
+    ):
+        assert marker in combined
+    for marker in (
+        "class BootstrapCliRuntimeInput",
+        "def execute_bootstrap_runtime",
+        "BootstrapRuntimeCoordinator(",
+    ):
+        assert marker in runtime
+    for marker in (
+        '"--experimental-runtime"',
+        '"--validate"',
+        "execute_bootstrap_runtime(",
+    ):
+        assert marker in cli

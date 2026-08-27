@@ -3321,3 +3321,20 @@ Design Contract --- Accepted / Completed
 Production CLI Wiring --- Not Started
 Next --- minimum production CLI wiring implementation slice
 ```
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-terminal-roadmap -->
+
+## v1.2.7 Bootstrap CLI/runtime Wiring Implementation
+
+``` text
+Design Contract --- Accepted
+Minimum Implementation --- Completed
+Implementation PR #249 --- Merged
+Implementation merge --- ea8dcb3df06679ad2cea84eab228db0c97373b4f
+Post-merge focused verification --- 16 passed
+Experimental opt-in / runtime mode mapping --- Verified
+Legacy behavior without opt-in --- Preserved
+Stable public surfaces / advanced lifecycle behavior --- Deferred
+Next --- terminal implementation acceptance closure
+```

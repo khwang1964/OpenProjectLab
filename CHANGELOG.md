@@ -2211,3 +2211,14 @@ select a provider, or initiate fallback implicitly.
   merge `a254574d7fc9570402f445518f00714ce5e644e0`, required CI, and synchronized-main `9 passed` verification.
 - Preserved existing Bootstrap behavior without opt-in and kept production CLI
   wiring for a separate implementation slice.
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-terminal-changelog -->
+
+- Completed the v1.2.7 minimum experimental Bootstrap CLI/runtime wiring in
+  PR #249, squash merged as `ea8dcb3df06679ad2cea84eab228db0c97373b4f`.
+- Added explicit runtime and validation opt-ins with fail-closed mode mapping
+  while preserving legacy behavior without opt-in.
+- Recorded post-merge focused verification at `16 passed`, full regression at
+  `2467 passed, 56 skipped, 1 deselected`, and coverage at `91.08%`.
+- Kept stable option spelling and advanced/public surfaces deferred.

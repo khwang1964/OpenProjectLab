@@ -2303,3 +2303,8 @@ select a provider, or initiate fallback implicitly.
 
 - Recorded the minimum serializer delivered by PR #265 (`0407b4986d60578183546e98f5dc57aff890f4a7`).
 - Preserved the separate implementation acceptance gate.
+
+## v1.3.0 Bootstrap SDK Serialization implementation acceptance
+
+- Terminally accepted serialization after PRs #265 and #266.
+- Preserved strict decoding, compatibility, and deferred scope boundaries.

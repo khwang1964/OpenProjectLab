@@ -48,3 +48,11 @@ Implementation PR #265 delivered the minimum closed-schema serializer
 and merged as `0407b4986d60578183546e98f5dc57aff890f4a7`. Required CI passed, synchronized-main identity was
 verified, and 30 post-merge focused tests passed. The implementation remains awaiting a
 separate terminal acceptance closure.
+
+## Terminal implementation acceptance
+
+The minimum serializer is accepted after implementation PR #265
+(`0407b4986d60578183546e98f5dc57aff890f4a7`), alignment PR #266 (`bcf53936c5dfc16473c0e571ed8aceb8b747a549`), required CI,
+synchronized-main identity, and 31 post-alignment focused tests. Deferred binary,
+streaming, migration, signing, remote, async, plugin-extension, and recovery boundaries
+remain unchanged.

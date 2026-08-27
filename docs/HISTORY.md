@@ -3681,3 +3681,9 @@ repair, rollback, and advanced lifecycle behavior remain deferred.
 - Recorded implementation PR #265 and merge `0407b4986d60578183546e98f5dc57aff890f4a7`.
 - Verified synchronized main with 30 focused tests and preserved deferred boundaries.
 - Kept terminal implementation acceptance in a separate closure.
+
+## v1.3.0 Bootstrap SDK Serialization implementation accepted
+
+- Accepted implementation PR #265 (`0407b4986d60578183546e98f5dc57aff890f4a7`).
+- Accepted alignment PR #266 (`bcf53936c5dfc16473c0e571ed8aceb8b747a549`) after synchronized-main verification.
+- Closed the slice with 31 focused tests and preserved deferred boundaries.

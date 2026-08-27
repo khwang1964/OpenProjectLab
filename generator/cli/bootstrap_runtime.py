@@ -1,7 +1,8 @@
-"""Experimental, fail-closed Bootstrap CLI/runtime adapter."""
+"""Stable, fail-closed Bootstrap CLI/runtime adapter."""
 
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -126,5 +127,6 @@ def execute_bootstrap_runtime(value: BootstrapCliRuntimeInput) -> int:
     for path in generation_result.affected_paths:
         print(f"  - {path}")
     if result.validation_result is not None and not result.validation_result.is_valid:
-        return 2
+        print("錯誤：Bootstrap validation failed", file=sys.stderr)
+        return 1
     return 0

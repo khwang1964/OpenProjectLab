@@ -44,3 +44,9 @@ outside the v1.2.9 contract.
 The architecture contract was accepted after PR #257 merged as
 `28cd71b1a415e876a09fcac15c9fd2e9dc5d8f93` and synchronized-main verification completed with 11 focused tests.
 Production implementation remains Not Started.
+
+## Production implementation evidence
+
+PR #259 implemented the minimum sibling SDK adapter and merged as
+`ae2d6908f2e573c6e155a1b6a6991390bf385b57`. Synchronized-main verification completed with 25 focused tests.
+The implementation remains awaiting a separate terminal acceptance closure.

@@ -2274,3 +2274,8 @@ select a provider, or initiate fallback implicitly.
 
 - Terminally accepted the SDK runtime public contract after PR #257 and merge `28cd71b1a415e876a09fcac15c9fd2e9dc5d8f93`.
 - Kept the production SDK adapter deferred to an independent implementation slice.
+
+## v1.2.9 Bootstrap SDK Runtime implementation alignment
+
+- Recorded the minimum SDK runtime delivered by PR #259 (`ae2d6908f2e573c6e155a1b6a6991390bf385b57`).
+- Preserved the separate implementation acceptance gate.

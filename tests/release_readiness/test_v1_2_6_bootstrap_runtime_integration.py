@@ -7,6 +7,7 @@ DESIGN = ROOT / "docs/releases/v1.2.6-bootstrap-runtime-integration.md"
 ARCH = ROOT / "docs/architecture/bootstrap-runtime-integration.md"
 PREVIOUS = ROOT / "docs/releases/v1.2.5-bootstrap-validation-runtime.md"
 ACCEPTANCE = ROOT / "docs/releases/v1.2.6-bootstrap-runtime-integration-acceptance.md"
+PRODUCTION = ROOT / "generator/core/bootstrap_runtime.py"
 
 
 def read(path: Path) -> str:
@@ -127,3 +128,24 @@ def test_acceptance_record_preserves_implementation_boundary() -> None:
         "Next --- v1.2.6 Bootstrap Runtime Integration minimum implementation slice",
     ):
         assert marker in text
+
+
+def test_v1_2_6_minimum_implementation_evidence() -> None:
+    design = read(DESIGN)
+    runtime = read(PRODUCTION)
+    for marker in (
+        "Implementation PR #244 --- Merged",
+        "Implementation merge --- f126238de83fc4fe12f4cb6de1d281fccd4281d0",
+        "Post-merge focused verification --- 18 passed",
+        "Production Implementation Slice --- Completed",
+        "CLI Boundary / Public SDK Expansion --- Deferred",
+    ):
+        assert marker in design
+    for marker in (
+        "class BootstrapRuntimeMode",
+        "class BootstrapRuntimeRequest",
+        "class BootstrapRuntimeResult",
+        "class BootstrapRuntimeCoordinator",
+        "def execute(self, request: BootstrapRuntimeRequest)",
+    ):
+        assert marker in runtime

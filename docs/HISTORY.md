@@ -3509,3 +3509,17 @@ ordered fail-closed phases, and closed CLI/SDK/repair/rollback surfaces.
 Design PR #242 passed required CI and squash merged as `4045a21514e912548456569a272a983f32ba5c4b`.
 Synchronized-main focused verification passed with 10 tests. The integration
 design is terminally accepted while production implementation remains separate.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.6-bootstrap-runtime-integration-terminal-history -->
+
+# v1.2.6 Bootstrap Runtime Integration Minimum Implementation
+
+Implementation PR #244 passed required CI and squash merged as
+`f126238de83fc4fe12f4cb6de1d281fccd4281d0`. The minimum production slice coordinates preview, apply, and
+apply-and-validate with one authoritative plan, deterministic sequential phase
+ordering, and fail-closed propagation. Post-merge focused verification passed
+with 18 tests. CLI and public SDK expansion, repair, rollback,
+checkpoint/resume, and parallel execution remain deferred.

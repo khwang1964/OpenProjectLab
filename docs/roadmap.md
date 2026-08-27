@@ -3262,3 +3262,20 @@ Post-merge focused verification --- 10 passed
 Production Implementation --- Not Started
 Next --- v1.2.6 Bootstrap Runtime Integration minimum implementation slice
 ```
+
+
+<!-- v1.2.6-bootstrap-runtime-integration-terminal-roadmap -->
+
+## v1.2.6 Bootstrap Runtime Integration Implementation
+
+``` text
+v1.2.6 Design Contract --- Accepted
+Minimum Implementation --- Completed
+Implementation PR #244 --- Merged
+Implementation merge --- f126238de83fc4fe12f4cb6de1d281fccd4281d0
+Post-merge focused verification --- 18 passed
+Authoritative plan reuse / deterministic phase ordering --- Verified
+Fail-closed phase propagation --- Verified
+CLI / SDK / rollback / checkpoint-resume / parallel execution --- Deferred
+Next --- terminal alignment acceptance PR
+```

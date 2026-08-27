@@ -2174,3 +2174,15 @@ select a provider, or initiate fallback implicitly.
   PR #242, required CI, merge `4045a21514e912548456569a272a983f32ba5c4b`, and synchronized-main verification.
 - Preserved production implementation, CLI, SDK, repair, rollback, checkpoint,
   and parallel-execution boundaries for separate slices.
+
+
+<!-- v1.2.6-bootstrap-runtime-integration-terminal-changelog -->
+
+- Completed the v1.2.6 minimum Bootstrap Runtime Integration implementation in
+  PR #244, squash merged as `f126238de83fc4fe12f4cb6de1d281fccd4281d0`.
+- Added explicit preview, apply, and apply-and-validate coordination with one
+  authoritative plan, deterministic ordering, and fail-closed propagation.
+- Recorded post-merge focused verification at `18 passed`, full regression at
+  `2449 passed, 56 skipped, 1 deselected`, and coverage at `91.04%`.
+- Kept CLI and SDK expansion, repair, rollback, checkpoint/resume, and parallel
+  execution outside this implementation slice.

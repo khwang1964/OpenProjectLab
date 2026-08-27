@@ -2284,3 +2284,7 @@ select a provider, or initiate fallback implicitly.
 
 - Terminally accepted the SDK runtime implementation after PRs #259 and #260.
 - Preserved existing SDK compatibility and the closed deferred scope.
+
+## v1.2.9 Bootstrap SDK Runtime final consistency
+
+- Replaced stale pending closure markers with verified PR #261 terminal evidence.

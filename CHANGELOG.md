@@ -2186,3 +2186,12 @@ select a provider, or initiate fallback implicitly.
   `2449 passed, 56 skipped, 1 deselected`, and coverage at `91.04%`.
 - Kept CLI and SDK expansion, repair, rollback, checkpoint/resume, and parallel
   execution outside this implementation slice.
+
+
+<!-- v1.2.6-bootstrap-runtime-integration-implementation-closure-changelog -->
+
+- Accepted and completed the v1.2.6 minimum Bootstrap Runtime Integration
+  implementation after terminal evidence PR #245, merge `c4971d97dc193a75eddad76faf1ea1c36c222fd5`.
+- Verified synchronized-main consistency with `19 passed` focused tests.
+- Preserved the accepted deterministic lifecycle and all deferred CLI, SDK,
+  repair, rollback, checkpoint/resume, and parallel-execution boundaries.

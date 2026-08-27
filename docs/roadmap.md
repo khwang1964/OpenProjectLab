@@ -3279,3 +3279,18 @@ Fail-closed phase propagation --- Verified
 CLI / SDK / rollback / checkpoint-resume / parallel execution --- Deferred
 Next --- terminal alignment acceptance PR
 ```
+
+
+<!-- v1.2.6-bootstrap-runtime-integration-implementation-closure-roadmap -->
+
+## v1.2.6 Bootstrap Runtime Integration Closure
+
+``` text
+Design Acceptance --- Accepted
+Minimum Implementation --- Accepted / Completed
+Terminal Evidence PR #245 --- Merged
+Terminal Evidence merge --- c4971d97dc193a75eddad76faf1ea1c36c222fd5
+Post-merge consistency verification --- 19 passed
+Deferred boundaries --- Preserved
+Next roadmap slice --- Pending explicit Design First definition
+```

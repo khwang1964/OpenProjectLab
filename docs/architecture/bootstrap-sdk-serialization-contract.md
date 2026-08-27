@@ -41,3 +41,10 @@ network, CLI, runtime, repair, retry, or rollback action.
 The versioned serialization architecture is accepted after Design PR #263
 merged as `0ef961e52860434d6631f76859f0cc7c8dbd8af9`, required CI passed, synchronized-main identity was verified,
 and 11 post-merge focused tests passed. Production implementation remains Not Started.
+
+## Production implementation evidence
+
+Implementation PR #265 delivered the minimum closed-schema serializer
+and merged as `0407b4986d60578183546e98f5dc57aff890f4a7`. Required CI passed, synchronized-main identity was
+verified, and 30 post-merge focused tests passed. The implementation remains awaiting a
+separate terminal acceptance closure.

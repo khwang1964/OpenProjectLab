@@ -10,6 +10,10 @@ from pathlib import Path
 from typing import Any
 
 from generator.cli.ai import add_ai_parser
+from generator.cli.bootstrap_runtime import (
+    BootstrapCliRuntimeInput,
+    execute_bootstrap_runtime,
+)
 from generator.cli.marketplace import add_marketplace_parser
 from generator.cli.upgrade import add_upgrade_parser
 from generator.core.config import ProjectConfig
@@ -93,6 +97,16 @@ def build_parser() -> argparse.ArgumentParser:
     bootstrap.add_argument("--copyright-year", help="著作權年份")
     bootstrap.add_argument("--copyright-holder", help="著作權人")
     _add_write_options(bootstrap)
+    bootstrap.add_argument(
+        "--experimental-runtime",
+        action="store_true",
+        help="實驗性：透過 Bootstrap runtime coordinator 執行",
+    )
+    bootstrap.add_argument(
+        "--validate",
+        action="store_true",
+        help="實驗性：apply 後執行 validation（需 --experimental-runtime）",
+    )
     bootstrap.set_defaults(handler=_handle_bootstrap)
 
     course = subparsers.add_parser(
@@ -393,6 +407,21 @@ def _handle_bootstrap(args: argparse.Namespace) -> int:
         context["copyright_holder"] = args.copyright_holder
 
     context["record_manifest"] = not args.no_manifest
+    if args.validate and not args.experimental_runtime:
+        raise ValueError("--validate requires --experimental-runtime")
+    if args.experimental_runtime:
+        return execute_bootstrap_runtime(
+            BootstrapCliRuntimeInput(
+                template_root=template_root,
+                output_root=output_root,
+                project_slug=args.project_slug,
+                values=context,
+                overwrite=args.force,
+                dry_run=args.dry_run,
+                validate=args.validate,
+            )
+        )
+
     result = BootstrapGenerator(template_root).generate(
         GenerateRequest(
             generator_name=BootstrapGenerator.name,

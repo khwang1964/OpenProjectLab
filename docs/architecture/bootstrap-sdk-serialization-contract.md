@@ -35,3 +35,9 @@ empty evidence. Paths are inert forward-slash lexical strings and are never reso
 Duplicate keys, non-finite numbers, executable metadata, arbitrary object hooks, unknown
 fields, and unsupported versions are rejected. Decode performs no filesystem, plugin,
 network, CLI, runtime, repair, retry, or rollback action.
+
+## Terminal design acceptance
+
+The versioned serialization architecture is accepted after Design PR #263
+merged as `0ef961e52860434d6631f76859f0cc7c8dbd8af9`, required CI passed, synchronized-main identity was verified,
+and 11 post-merge focused tests passed. Production implementation remains Not Started.

@@ -2293,3 +2293,8 @@ select a provider, or initiate fallback implicitly.
 
 - Added the design and architecture contract for safe deterministic SDK serialization.
 - Added executable release-readiness checks without production implementation.
+
+## v1.3.0 Bootstrap SDK Serialization Contract acceptance
+
+- Terminally accepted the serialization design after PR #263 (`0ef961e52860434d6631f76859f0cc7c8dbd8af9`).
+- Kept production serialization implementation in a separate future slice.

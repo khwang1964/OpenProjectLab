@@ -3574,3 +3574,16 @@ validation opt-ins while preserving the existing handler without opt-in.
 Post-merge focused verification passed with 16 tests. Stable public option
 names, SDK/serialization, repair, rollback, checkpoint/resume, and parallel
 execution remain deferred.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-implementation-closure-history -->
+
+# v1.2.7 Bootstrap CLI/runtime Wiring Implementation Accepted
+
+Terminal evidence PR #250 passed required CI and squash merged as
+`fe66ca9c5fd751937f5feeaa7c1bae8b7285b719`. Synchronized-main post-merge consistency verification passed with
+27 focused tests. The minimum experimental CLI/runtime wiring is Accepted /
+Completed while legacy behavior and all deferred public or advanced lifecycle
+boundaries remain unchanged.

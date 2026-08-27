@@ -3338,3 +3338,18 @@ Legacy behavior without opt-in --- Preserved
 Stable public surfaces / advanced lifecycle behavior --- Deferred
 Next --- terminal implementation acceptance closure
 ```
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-implementation-closure-roadmap -->
+
+## v1.2.7 Bootstrap CLI/runtime Wiring Closure
+
+``` text
+Design Acceptance --- Accepted
+Minimum Implementation --- Accepted / Completed
+Terminal Evidence PR #250 --- Merged
+Terminal Evidence merge --- fe66ca9c5fd751937f5feeaa7c1bae8b7285b719
+Post-merge consistency verification --- 27 passed
+Legacy and deferred boundaries --- Preserved
+Next roadmap slice --- Pending explicit Design First definition
+```

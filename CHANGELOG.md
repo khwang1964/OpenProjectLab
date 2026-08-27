@@ -2222,3 +2222,12 @@ select a provider, or initiate fallback implicitly.
 - Recorded post-merge focused verification at `16 passed`, full regression at
   `2467 passed, 56 skipped, 1 deselected`, and coverage at `91.08%`.
 - Kept stable option spelling and advanced/public surfaces deferred.
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-implementation-closure-changelog -->
+
+- Accepted and completed the v1.2.7 minimum experimental Bootstrap CLI/runtime
+  wiring after terminal evidence PR #250, merge `fe66ca9c5fd751937f5feeaa7c1bae8b7285b719`.
+- Verified synchronized-main consistency with `27 passed` focused tests.
+- Preserved legacy no-opt-in behavior and all deferred public or advanced
+  lifecycle boundaries.

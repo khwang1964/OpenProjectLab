@@ -138,3 +138,16 @@ def test_v1_2_7_minimum_implementation_evidence() -> None:
         "execute_bootstrap_runtime(",
     ):
         assert marker in cli
+
+
+def test_v1_2_7_implementation_acceptance_is_closed() -> None:
+    combined = read(DESIGN) + read(ARCH) + read(ACCEPTANCE)
+    for marker in (
+        "Terminal Evidence PR #250 --- Merged",
+        "Terminal Evidence merge --- fe66ca9c5fd751937f5feeaa7c1bae8b7285b719",
+        "Post-merge consistency verification --- 27 passed",
+        "Minimum Implementation Acceptance --- Accepted",
+        "Production CLI Wiring Slice --- Accepted / Completed",
+        "Next roadmap slice --- Pending explicit Design First definition",
+    ):
+        assert marker in combined

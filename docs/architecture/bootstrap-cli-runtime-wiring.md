@@ -50,3 +50,16 @@ Coordinator invocation --- Exactly Once
 generator.main registration --- Forbidden / Unchanged
 Stable option spelling / Public SDK --- Deferred
 ```
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-implementation-closure-architecture -->
+
+## Implementation Acceptance Closure
+
+``` text
+Evidence PR #250 / merge fe66ca9c5fd751937f5feeaa7c1bae8b7285b719 --- Verified
+Post-merge consistency verification --- 27 passed
+Experimental CLI/runtime wiring --- Accepted / Completed
+Canonical entrypoint / legacy no-opt-in behavior --- Preserved
+Stable public option names / advanced lifecycle behavior --- Deferred
+```

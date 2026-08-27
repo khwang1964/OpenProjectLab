@@ -3389,7 +3389,20 @@ Design acceptance --- Accepted / Completed
 Minimum implementation PR #254 / merge 1d36d568ca0b09cde2f8e12418bfdb63e72f14e2 --- Verified
 Post-merge focused verification --- 38 passed
 Production stabilization --- Implemented
-Terminal alignment acceptance --- Pending
+Terminal alignment acceptance --- Accepted / Completed
 Deferred boundaries --- Preserved
 Next --- Terminal alignment PR and required CI
+```
+
+<!-- v1.2.8-bootstrap-cli-public-contract-implementation-closure-roadmap -->
+
+## v1.2.8 Bootstrap CLI Public Contract --- Fully Accepted
+
+``` text
+Design acceptance --- Accepted / Completed
+Minimum implementation --- Accepted / Completed
+Terminal Alignment PR #255 / merge 6d9b96cb651a0423ffdeb75094a645b99f4786b5 --- Verified
+Post-merge focused verification --- 39 passed
+Legacy and deferred boundaries --- Preserved
+Next roadmap slice --- Pending explicit Design First definition
 ```

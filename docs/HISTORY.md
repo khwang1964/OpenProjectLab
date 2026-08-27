@@ -3622,3 +3622,15 @@ Implementation PR #254 passed required CI and squash merged as
 stable `--runtime` alias, exit-status mapping, output-channel ownership, and
 legacy compatibility are implemented. Formal implementation acceptance remains
 pending the terminal-alignment merge and its post-merge verification.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.8-bootstrap-cli-public-contract-implementation-closure-history -->
+
+# v1.2.8 Bootstrap CLI Public Contract Fully Accepted
+
+Terminal-alignment PR #255 passed required CI and squash merged as
+`6d9b96cb651a0423ffdeb75094a645b99f4786b5`. Synchronized-main verification passed with 39 focused
+tests. The stable `--runtime` interface, exit-status mapping, output-channel
+ownership, and legacy compatibility are Accepted / Completed. SDK, JSON,
+repair, rollback, and advanced lifecycle behavior remain deferred.

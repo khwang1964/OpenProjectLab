@@ -61,5 +61,18 @@ Legacy command failure mapping --- exit 2
 Deterministic result / diagnostic channels --- Preserved
 Core runtime lifecycle ownership --- Unchanged
 Deferred architecture --- Unchanged
-Implementation acceptance --- Pending terminal-alignment merge
+Implementation acceptance --- Accepted / Completed
+```
+
+<!-- v1.2.8-bootstrap-cli-public-contract-implementation-closure-architecture -->
+
+## Implementation Acceptance Closure
+
+``` text
+Terminal Alignment PR #255 / merge 6d9b96cb651a0423ffdeb75094a645b99f4786b5 --- Verified
+Stable parser / normalization boundary --- Accepted / Completed
+Exit 0 / 1 / 2 mapping --- Accepted / Completed
+stdout / stderr ownership --- Accepted / Completed
+Legacy command behavior --- Preserved
+SDK / JSON / repair / rollback / advanced lifecycle --- Deferred
 ```

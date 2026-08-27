@@ -3610,3 +3610,15 @@ Synchronized-main verification passed with 10 focused tests. The parsing,
 exit-status, output-channel, validation-failure, compatibility, and safety
 contract is terminally accepted while production stabilization remains Not
 Started.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.8-bootstrap-cli-public-contract-terminal-alignment-history -->
+
+# v1.2.8 Bootstrap CLI Public Contract Implementation Alignment
+
+Implementation PR #254 passed required CI and squash merged as
+`1d36d568ca0b09cde2f8e12418bfdb63e72f14e2`. Synchronized-main verification passed with 38 focused tests. The
+stable `--runtime` alias, exit-status mapping, output-channel ownership, and
+legacy compatibility are implemented. Formal implementation acceptance remains
+pending the terminal-alignment merge and its post-merge verification.

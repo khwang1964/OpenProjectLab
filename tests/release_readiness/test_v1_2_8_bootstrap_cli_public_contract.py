@@ -13,7 +13,9 @@ def read(path: Path) -> str:
 def test_design_first_status_is_explicit() -> None:
     text = read(DESIGN)
     assert "Accepted --- Terminally Closed" in text
-    assert "Production implementation --- Not Started" in text
+    assert (
+        "Production implementation --- Implemented / Awaiting terminal alignment acceptance" in text
+    )
     assert "v1.2.8 Acceptance --- Accepted" in text
 
 
@@ -105,3 +107,16 @@ def test_terminal_acceptance_preserves_implementation_boundary() -> None:
         "Production stabilization --- Not Started",
     ):
         assert marker in text
+
+
+def test_minimum_implementation_evidence_is_pending_closure() -> None:
+    combined = read(DESIGN) + read(ARCH) + read(ACCEPTANCE)
+    for marker in (
+        "Implementation PR #254 --- Merged",
+        "Implementation merge --- 1d36d568ca0b09cde2f8e12418bfdb63e72f14e2",
+        "Post-merge focused verification --- 38 passed",
+        "Stable --runtime option --- Implemented",
+        "Legacy --experimental-runtime alias --- Preserved",
+        "Implementation acceptance --- Pending terminal-alignment merge",
+    ):
+        assert marker in combined

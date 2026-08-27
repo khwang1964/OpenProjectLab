@@ -3634,3 +3634,9 @@ Terminal-alignment PR #255 passed required CI and squash merged as
 tests. The stable `--runtime` interface, exit-status mapping, output-channel
 ownership, and legacy compatibility are Accepted / Completed. SDK, JSON,
 repair, rollback, and advanced lifecycle behavior remain deferred.
+
+## v1.2.9 Bootstrap SDK Runtime Public Contract Design First opened
+
+- Defined the proposed `generator.sdk.bootstrap_runtime` surface.
+- Preserved existing generator/plugin SDK exports and CLI process boundaries.
+- Kept production implementation explicitly Not Started.

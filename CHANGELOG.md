@@ -2288,3 +2288,8 @@ select a provider, or initiate fallback implicitly.
 ## v1.2.9 Bootstrap SDK Runtime final consistency
 
 - Replaced stale pending closure markers with verified PR #261 terminal evidence.
+
+## v1.3.0 Bootstrap SDK Serialization Contract (Design First)
+
+- Added the design and architecture contract for safe deterministic SDK serialization.
+- Added executable release-readiness checks without production implementation.

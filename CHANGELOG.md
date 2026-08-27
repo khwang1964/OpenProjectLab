@@ -2298,3 +2298,8 @@ select a provider, or initiate fallback implicitly.
 
 - Terminally accepted the serialization design after PR #263 (`0ef961e52860434d6631f76859f0cc7c8dbd8af9`).
 - Kept production serialization implementation in a separate future slice.
+
+## v1.3.0 Bootstrap SDK Serialization implementation alignment
+
+- Recorded the minimum serializer delivered by PR #265 (`0407b4986d60578183546e98f5dc57aff890f4a7`).
+- Preserved the separate implementation acceptance gate.

@@ -4,6 +4,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DESIGN = ROOT / "docs/releases/v1.3.0-bootstrap-sdk-serialization-contract.md"
 ARCHITECTURE = ROOT / "docs/architecture/bootstrap-sdk-serialization-contract.md"
 ACCEPTANCE = ROOT / "docs/releases/v1.3.0-bootstrap-sdk-serialization-contract-acceptance.md"
+ALIGNMENT = ROOT / "docs/releases/v1.3.0-bootstrap-sdk-serialization-implementation-alignment.md"
 
 
 def read(path: Path) -> str:
@@ -102,7 +103,7 @@ def test_deferred_boundaries_and_pending_gates() -> None:
         "plugin-defined payload extensions",
         "Focused tests --- Passed",
         "Terminal design acceptance --- Accepted",
-        "Production implementation --- Not Started",
+        "Production implementation --- Implemented / Awaiting implementation acceptance",
         "v1.3.0 Acceptance --- Accepted",
     ):
         assert marker in text
@@ -114,5 +115,17 @@ def test_terminal_acceptance_preserves_implementation_boundary() -> None:
     assert "Design PR --- #263" in text
     assert "0ef961e52860434d6631f76859f0cc7c8dbd8af9" in text
     assert "Post-merge focused verification --- 11 passed" in text
-    assert "Production implementation --- Not Started" in text
+    assert "Production implementation --- Implemented / Awaiting implementation acceptance" in text
     assert "minimum serialization implementation slice" in text
+
+
+def test_implementation_alignment_requires_separate_acceptance() -> None:
+    text = read(ALIGNMENT)
+    assert "Implemented --- Awaiting post-merge acceptance closure" in text
+    assert "Implementation PR --- #265" in text
+    assert "0407b4986d60578183546e98f5dc57aff890f4a7" in text
+    assert "Post-merge focused verification --- 30 passed" in text
+    assert "2551 passed, 56 skipped, 1 deselected" in text
+    assert "Coverage --- 90.94%" in text
+    assert "Implementation acceptance --- Pending separate closure" in text
+    assert (ROOT / "generator/sdk/bootstrap_serialization.py").is_file()

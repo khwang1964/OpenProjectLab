@@ -3379,3 +3379,17 @@ Production stabilization --- Not Started
 Deferred SDK / JSON / advanced lifecycle boundaries --- Preserved
 Next --- Minimum implementation slice
 ```
+
+<!-- v1.2.8-bootstrap-cli-public-contract-terminal-alignment-roadmap -->
+
+## v1.2.8 Bootstrap CLI Public Contract --- Implementation Alignment
+
+``` text
+Design acceptance --- Accepted / Completed
+Minimum implementation PR #254 / merge 1d36d568ca0b09cde2f8e12418bfdb63e72f14e2 --- Verified
+Post-merge focused verification --- 38 passed
+Production stabilization --- Implemented
+Terminal alignment acceptance --- Pending
+Deferred boundaries --- Preserved
+Next --- Terminal alignment PR and required CI
+```

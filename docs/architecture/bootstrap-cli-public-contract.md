@@ -48,3 +48,18 @@ Design Contract --- Accepted
 Production Stabilization --- Not Started
 v1.2.8 Acceptance --- Accepted
 ```
+
+<!-- v1.2.8-bootstrap-cli-public-contract-terminal-alignment-architecture -->
+
+## Minimum Implementation Alignment
+
+``` text
+Implementation PR #254 / merge 1d36d568ca0b09cde2f8e12418bfdb63e72f14e2 --- Verified
+Stable parser alias and normalization --- Implemented
+Bootstrap runtime failure mapping --- exit 1
+Legacy command failure mapping --- exit 2
+Deterministic result / diagnostic channels --- Preserved
+Core runtime lifecycle ownership --- Unchanged
+Deferred architecture --- Unchanged
+Implementation acceptance --- Pending terminal-alignment merge
+```

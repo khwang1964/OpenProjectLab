@@ -2247,3 +2247,11 @@ select a provider, or initiate fallback implicitly.
 - Preserved the experimental opt-in, legacy behavior, and deferred SDK, JSON,
   repair, rollback, and advanced lifecycle boundaries.
 - Production stabilization remains Not Started.
+
+<!-- v1.2.8-bootstrap-cli-public-contract-terminal-alignment-changelog -->
+
+- Integrated terminal evidence for v1.2.8 Bootstrap CLI public-contract
+  implementation PR #254, merge `1d36d568ca0b09cde2f8e12418bfdb63e72f14e2`.
+- Verified the synchronized implementation with `38 passed` focused tests and
+  preserved legacy exit behavior plus all deferred boundaries.
+- Formal minimum implementation acceptance remains Pending.

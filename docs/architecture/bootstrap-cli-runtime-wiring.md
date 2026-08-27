@@ -33,3 +33,20 @@ Public SDK Expansion --- Forbidden
 
 The adapter translates and renders only. Planning, preview, apply, validation,
 failure evidence, and ordering remain owned by the accepted core runtimes.
+
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-terminal-architecture -->
+
+## Minimum Implementation Status
+
+``` text
+Canonical Entry Point --- generator.cli.main:main
+Implementation PR #249 --- Merged
+Implementation merge --- ea8dcb3df06679ad2cea84eab228db0c97373b4f
+Post-merge focused verification --- 16 passed
+Legacy no-opt-in path --- Preserved
+Experimental runtime adapter --- Implemented / Fail Closed
+Coordinator invocation --- Exactly Once
+generator.main registration --- Forbidden / Unchanged
+Stable option spelling / Public SDK --- Deferred
+```

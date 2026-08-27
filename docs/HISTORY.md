@@ -3560,3 +3560,17 @@ Design PR #247 passed required CI and squash merged as `a254574d7fc9570402f44551
 Synchronized-main post-merge verification passed with 9 tests. The canonical
 entrypoint, compatibility, opt-in mapping, failure, deferred-surface, and code
 review contracts are accepted. Production CLI wiring remains not started.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-terminal-history -->
+
+# v1.2.7 Bootstrap CLI/runtime Wiring Minimum Implementation
+
+Implementation PR #249 passed required CI and squash merged as
+`ea8dcb3df06679ad2cea84eab228db0c97373b4f`. The canonical CLI now has explicit experimental runtime and
+validation opt-ins while preserving the existing handler without opt-in.
+Post-merge focused verification passed with 16 tests. Stable public option
+names, SDK/serialization, repair, rollback, checkpoint/resume, and parallel
+execution remain deferred.

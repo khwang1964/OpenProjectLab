@@ -3,6 +3,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DESIGN = ROOT / "docs/releases/v1.2.8-bootstrap-cli-public-contract-stabilization.md"
 ARCH = ROOT / "docs/architecture/bootstrap-cli-public-contract.md"
+ACCEPTANCE = ROOT / "docs/releases/v1.2.8-bootstrap-cli-public-contract-stabilization-acceptance.md"
 
 
 def read(path: Path) -> str:
@@ -11,9 +12,9 @@ def read(path: Path) -> str:
 
 def test_design_first_status_is_explicit() -> None:
     text = read(DESIGN)
-    assert "Design / Contract Definition --- In Progress" in text
+    assert "Accepted --- Terminally Closed" in text
     assert "Production implementation --- Not Started" in text
-    assert "v1.2.8 Acceptance --- Not Accepted" in text
+    assert "v1.2.8 Acceptance --- Accepted" in text
 
 
 def test_predecessor_is_terminally_accepted() -> None:
@@ -81,14 +82,26 @@ def test_sdk_and_advanced_lifecycle_remain_deferred() -> None:
         assert marker in combined
 
 
-def test_acceptance_gates_remain_pending() -> None:
+def test_acceptance_gates_are_terminally_closed() -> None:
     text = read(DESIGN)
     for marker in (
-        "Focused design-contract verification --- Pending",
-        "Pre-commit --- Pending",
-        "Full regression / coverage --- Pending",
-        "Design PR required CI --- Pending",
-        "Post-merge synchronized-main verification --- Pending",
-        "Terminal design acceptance --- Pending",
+        "Focused design-contract verification --- Passed",
+        "Pre-commit --- Passed",
+        "Full regression / coverage --- Passed",
+        "Design PR required CI --- Passed",
+        "Post-merge synchronized-main verification --- Passed",
+        "Terminal design acceptance --- Accepted",
+    ):
+        assert marker in text
+
+
+def test_terminal_acceptance_preserves_implementation_boundary() -> None:
+    text = read(ACCEPTANCE)
+    for marker in (
+        "Design PR #252 --- Merged",
+        "Design merge --- 262cdf6b76f811a158579c58ec9fcbeb25dec6fd",
+        "Post-merge focused verification --- 10 passed",
+        "Terminal design acceptance --- Accepted / Completed",
+        "Production stabilization --- Not Started",
     ):
         assert marker in text

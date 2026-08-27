@@ -1,6 +1,6 @@
 # Bootstrap CLI Public Contract Architecture
 
-> **Status:** Proposed --- v1.2.8 Design First
+> **Status:** Accepted --- Terminally Closed
 
 ## Boundary
 
@@ -44,7 +44,7 @@ deferred and require independent Design First contracts.
 ## Terminal state
 
 ``` text
-Design Contract --- Proposed
+Design Contract --- Accepted
 Production Stabilization --- Not Started
-v1.2.8 Acceptance --- Not Accepted
+v1.2.8 Acceptance --- Accepted
 ```

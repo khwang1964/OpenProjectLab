@@ -2279,3 +2279,8 @@ select a provider, or initiate fallback implicitly.
 
 - Recorded the minimum SDK runtime delivered by PR #259 (`ae2d6908f2e573c6e155a1b6a6991390bf385b57`).
 - Preserved the separate implementation acceptance gate.
+
+## v1.2.9 Bootstrap SDK Runtime implementation acceptance
+
+- Terminally accepted the SDK runtime implementation after PRs #259 and #260.
+- Preserved existing SDK compatibility and the closed deferred scope.

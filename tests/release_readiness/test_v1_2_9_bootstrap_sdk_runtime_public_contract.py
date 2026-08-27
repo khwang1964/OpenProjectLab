@@ -5,6 +5,9 @@ DESIGN = ROOT / "docs/releases/v1.2.9-bootstrap-sdk-runtime-public-contract.md"
 ARCHITECTURE = ROOT / "docs/architecture/bootstrap-sdk-runtime-public-contract.md"
 ACCEPTANCE = ROOT / "docs/releases/v1.2.9-bootstrap-sdk-runtime-public-contract-acceptance.md"
 ALIGNMENT = ROOT / "docs/releases/v1.2.9-bootstrap-sdk-runtime-implementation-alignment.md"
+IMPLEMENTATION_ACCEPTANCE = (
+    ROOT / "docs/releases/v1.2.9-bootstrap-sdk-runtime-implementation-acceptance.md"
+)
 
 
 def read(path: Path) -> str:
@@ -92,7 +95,7 @@ def test_deferred_boundaries_and_acceptance_gates() -> None:
         "public bootstrap extension protocol",
         "Focused tests --- Passed",
         "Terminal design acceptance --- Accepted",
-        "Production implementation --- Implemented / Awaiting implementation acceptance",
+        "Production implementation --- Accepted / Completed",
         "v1.2.9 Acceptance --- Accepted",
     ):
         assert marker in text
@@ -104,14 +107,26 @@ def test_terminal_acceptance_preserves_implementation_boundary() -> None:
     assert "Design PR --- #257" in text
     assert "28cd71b1a415e876a09fcac15c9fd2e9dc5d8f93" in text
     assert "Post-merge focused verification --- 11 passed" in text
-    assert "Production implementation --- Implemented / Awaiting implementation acceptance" in text
+    assert "Production implementation --- Accepted / Completed" in text
 
 
-def test_implementation_alignment_is_pending_separate_acceptance() -> None:
+def test_implementation_alignment_is_terminally_closed() -> None:
     text = read(ALIGNMENT)
-    assert "Implemented --- Awaiting post-merge acceptance closure" in text
+    assert "Accepted --- Terminally Closed" in text
     assert "Implementation PR --- #259" in text
     assert "ae2d6908f2e573c6e155a1b6a6991390bf385b57" in text
     assert "Post-merge focused verification --- 25 passed" in text
-    assert "Implementation acceptance closure --- Pending" in text
+    assert "Implementation acceptance closure --- Accepted" in text
     assert (ROOT / "generator/sdk/bootstrap_runtime.py").is_file()
+
+
+def test_production_implementation_is_terminally_accepted() -> None:
+    text = read(IMPLEMENTATION_ACCEPTANCE)
+    assert "Accepted --- Completed" in text
+    assert "Implementation PR --- #259" in text
+    assert "ae2d6908f2e573c6e155a1b6a6991390bf385b57" in text
+    assert "Alignment PR --- #260" in text
+    assert "ab4e85e988c2c257a5354c6f93fa3e808ea6175f" in text
+    assert "Post-alignment focused verification --- 26 passed" in text
+    assert "v1.2.9 Production implementation --- Accepted / Completed" in text
+    assert "Next roadmap slice --- Pending explicit Design First definition" in text

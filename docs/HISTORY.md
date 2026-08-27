@@ -3598,3 +3598,15 @@ Started the Design First contract for stabilizing the observable Bootstrap CLI
 surface after v1.2.7. The design fixes parsing, exit-status, output-channel,
 validation-failure, compatibility, and deferred-scope boundaries without adding
 production behavior.
+
+------------------------------------------------------------------------
+
+<!-- v1.2.8-bootstrap-cli-public-contract-acceptance-history -->
+
+# v1.2.8 Bootstrap CLI Public Contract Design Accepted
+
+Design PR #252 passed required CI and squash merged as `262cdf6b76f811a158579c58ec9fcbeb25dec6fd`.
+Synchronized-main verification passed with 10 focused tests. The parsing,
+exit-status, output-channel, validation-failure, compatibility, and safety
+contract is terminally accepted while production stabilization remains Not
+Started.

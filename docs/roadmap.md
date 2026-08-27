@@ -3366,3 +3366,16 @@ Production stabilization --- Not Started
 SDK / JSON / advanced lifecycle --- Deferred
 Next --- Focused design-contract verification
 ```
+
+<!-- v1.2.8-bootstrap-cli-public-contract-acceptance-roadmap -->
+
+## v1.2.8 Bootstrap CLI Public Contract Stabilization --- Design Accepted
+
+``` text
+Design PR #252 / merge 262cdf6b76f811a158579c58ec9fcbeb25dec6fd --- Verified
+Post-merge focused verification --- 10 passed
+Terminal design acceptance --- Accepted / Completed
+Production stabilization --- Not Started
+Deferred SDK / JSON / advanced lifecycle boundaries --- Preserved
+Next --- Minimum implementation slice
+```

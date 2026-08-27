@@ -2239,3 +2239,11 @@ select a provider, or initiate fallback implicitly.
 - Defined proposed parsing, exit-status, output-channel, failure-preservation,
   legacy-compatibility, and deferred SDK/advanced-lifecycle boundaries.
 - Production stabilization remains Not Started.
+
+<!-- v1.2.8-bootstrap-cli-public-contract-acceptance-changelog -->
+
+- Terminally accepted the v1.2.8 Bootstrap CLI public-contract design after PR
+  #252, merge `262cdf6b76f811a158579c58ec9fcbeb25dec6fd`, required CI, and synchronized-main verification.
+- Preserved the experimental opt-in, legacy behavior, and deferred SDK, JSON,
+  repair, rollback, and advanced lifecycle boundaries.
+- Production stabilization remains Not Started.

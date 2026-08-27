@@ -2264,3 +2264,8 @@ select a provider, or initiate fallback implicitly.
 - Preserved legacy compatibility and deferred SDK, JSON, repair, rollback, and
   advanced lifecycle scope.
 - Left the next roadmap slice pending explicit Design First definition.
+
+## v1.2.9 Bootstrap SDK Runtime Public Contract (Design First)
+
+- Added the design and architecture contract for a typed, deterministic, silent SDK bootstrap adapter.
+- Added executable release-readiness checks while leaving production implementation Not Started.

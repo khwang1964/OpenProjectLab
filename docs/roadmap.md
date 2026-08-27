@@ -3406,3 +3406,11 @@ Post-merge focused verification --- 39 passed
 Legacy and deferred boundaries --- Preserved
 Next roadmap slice --- Pending explicit Design First definition
 ```
+
+## v1.2.9 Bootstrap SDK Runtime Public Contract --- Design First
+
+Status --- In Progress
+Predecessor --- v1.2.8 Bootstrap CLI Public Contract Stabilization accepted
+Scope --- typed, deterministic, silent Python SDK adapter over the core bootstrap runtime
+Production implementation --- Not Started
+Next --- focused design-contract verification and Design PR

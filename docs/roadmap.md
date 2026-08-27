@@ -3414,3 +3414,12 @@ Predecessor --- v1.2.8 Bootstrap CLI Public Contract Stabilization accepted
 Scope --- typed, deterministic, silent Python SDK adapter over the core bootstrap runtime
 Production implementation --- Not Started
 Next --- focused design-contract verification and Design PR
+
+## v1.2.9 Bootstrap SDK Runtime Public Contract --- Terminal Design Acceptance
+
+Status --- Accepted / Completed
+Design PR --- #257
+Merge commit --- 28cd71b1a415e876a09fcac15c9fd2e9dc5d8f93
+Post-merge focused verification --- 11 passed
+Production implementation --- Not Started
+Next --- v1.2.9 minimum SDK implementation slice

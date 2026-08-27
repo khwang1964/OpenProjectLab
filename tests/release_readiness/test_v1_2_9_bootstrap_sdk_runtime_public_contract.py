@@ -3,6 +3,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DESIGN = ROOT / "docs/releases/v1.2.9-bootstrap-sdk-runtime-public-contract.md"
 ARCHITECTURE = ROOT / "docs/architecture/bootstrap-sdk-runtime-public-contract.md"
+ACCEPTANCE = ROOT / "docs/releases/v1.2.9-bootstrap-sdk-runtime-public-contract-acceptance.md"
 
 
 def read(path: Path) -> str:
@@ -11,7 +12,7 @@ def read(path: Path) -> str:
 
 def test_design_first_status_and_predecessor() -> None:
     text = read(DESIGN)
-    assert "Design / Contract Definition --- In Progress" in text
+    assert "Accepted --- Terminally Closed" in text
     assert "v1.2.8 Bootstrap CLI Public Contract Stabilization --- Accepted" in text
 
 
@@ -88,9 +89,18 @@ def test_deferred_boundaries_and_acceptance_gates() -> None:
         "remote execution",
         "plugin-provided validation checks",
         "public bootstrap extension protocol",
-        "Focused tests --- Pending",
-        "Terminal design acceptance --- Pending",
+        "Focused tests --- Passed",
+        "Terminal design acceptance --- Accepted",
         "Production implementation --- Not Started",
-        "v1.2.9 Acceptance --- Not Accepted",
+        "v1.2.9 Acceptance --- Accepted",
     ):
         assert marker in text
+
+
+def test_terminal_acceptance_preserves_implementation_boundary() -> None:
+    text = read(ACCEPTANCE)
+    assert "Accepted --- Completed" in text
+    assert "Design PR --- #257" in text
+    assert "28cd71b1a415e876a09fcac15c9fd2e9dc5d8f93" in text
+    assert "Post-merge focused verification --- 11 passed" in text
+    assert "Production implementation --- Not Started" in text

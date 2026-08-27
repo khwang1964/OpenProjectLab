@@ -38,3 +38,9 @@ The SDK adds no repair, rollback, hidden retry, or compensating write path.
 Serialization schemas, asynchronous execution, concurrency, remote execution,
 plugin-provided checks, automatic recovery, and a public extension protocol remain
 outside the v1.2.9 contract.
+
+## Terminal design acceptance
+
+The architecture contract was accepted after PR #257 merged as
+`28cd71b1a415e876a09fcac15c9fd2e9dc5d8f93` and synchronized-main verification completed with 11 focused tests.
+Production implementation remains Not Started.

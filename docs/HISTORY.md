@@ -3536,3 +3536,15 @@ Terminal evidence PR #245 passed required CI and squash merged as
 19 focused tests. The minimum implementation is Accepted / Completed while
 all previously deferred CLI, SDK, repair, rollback, checkpoint/resume, and
 parallel-execution boundaries remain unchanged.
+
+
+------------------------------------------------------------------------
+
+<!-- v1.2.7-bootstrap-cli-runtime-wiring-design-history -->
+
+# v1.2.7 Bootstrap CLI/runtime Wiring Design First
+
+Opened a Design First slice for an explicit experimental adapter from the
+canonical `generator.cli.main` Bootstrap command to the accepted internal
+runtime. Existing behavior remains unchanged without opt-in; production wiring
+has not started.

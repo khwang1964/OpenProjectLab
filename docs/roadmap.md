@@ -1,4 +1,4 @@
-﻿# OpenProjectLab Roadmap
+# OpenProjectLab Roadmap
 
 > Status: Active Last Updated: 2026-08-25
 
@@ -3503,3 +3503,13 @@ Closure gates --- Passed / Completed
 Deferred boundaries --- Preserved
 Next roadmap slice --- Pending explicit Design First definition
 ```
+
+<!-- v1.3.1-developer-release-automation-design-roadmap -->
+
+## v1.3.1 Developer / Release Automation (Design First)
+
+- Define deterministic, fail-closed collection and validation of OPL release evidence.
+- Preserve the strict two-PR acceptance workflow and explicit merge authorization.
+- Keep merge, tag, release, publication, public SDK, and production automation out of this design slice.
+- Design review — Pending
+- Production implementation — Not Started

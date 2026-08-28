@@ -2308,3 +2308,12 @@ select a provider, or initiate fallback implicitly.
 
 - Terminally accepted serialization after PRs #265 and #266.
 - Preserved strict decoding, compatibility, and deferred scope boundaries.
+
+## v1.3.0 Bootstrap SDK Serialization final consistency
+
+- Formally accepted and completed serialization after Acceptance PR #267
+  passed required CI and squash merged as `8ac7edec84b89b9aaaacb3fa1f9f4d039678b661`.
+- Recorded `2553 passed, 56 skipped, 1 deselected`, `90.94%` coverage, and
+  synchronized-main post-merge focused verification at `32 passed`.
+- Preserved strict decoding, compatibility, and deferred scope boundaries;
+  the next roadmap slice remains pending explicit Design First definition.

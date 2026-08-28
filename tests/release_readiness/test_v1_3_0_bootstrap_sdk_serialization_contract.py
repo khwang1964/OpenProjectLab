@@ -144,3 +144,33 @@ def test_production_implementation_is_terminally_accepted() -> None:
     assert "Post-alignment focused verification --- 31 passed" in text
     assert "v1.3.0 Production implementation --- Accepted / Completed" in text
     assert "Next roadmap slice --- Pending explicit Design First definition" in text
+
+
+def test_implementation_acceptance_final_consistency() -> None:
+    acceptance = read(IMPLEMENTATION_ACCEPTANCE)
+    lifecycle_paths = (
+        ROOT / "docs/roadmap.md",
+        ROOT / "docs/HISTORY.md",
+        ROOT / "CHANGELOG.md",
+    )
+    lifecycle = "\n".join(read(path) for path in lifecycle_paths)
+    for marker in (
+        "Acceptance PR --- #267",
+        "8ac7edec84b89b9aaaacb3fa1f9f4d039678b661",
+        "Acceptance required CI --- Passed",
+        "2553 passed, 56 skipped, 1 deselected",
+        "Acceptance coverage --- 90.94%",
+        "Acceptance post-merge focused verification --- 32 passed",
+        "Closure gates --- Passed / Completed",
+        "Next roadmap slice --- Pending explicit Design First definition",
+    ):
+        assert marker in acceptance
+    for marker in (
+        "#267",
+        "8ac7edec84b89b9aaaacb3fa1f9f4d039678b661",
+        "2553 passed, 56 skipped, 1 deselected",
+        "90.94%",
+        "32 passed",
+        "Pending explicit Design First definition",
+    ):
+        assert marker in lifecycle

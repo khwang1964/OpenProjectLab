@@ -3485,3 +3485,21 @@ Post-alignment focused verification --- 31 passed
 Full regression --- 2552 passed, 56 skipped, 1 deselected
 Coverage --- 90.94%
 Next roadmap slice --- Pending explicit Design First definition
+
+<!-- v1.3.0-bootstrap-sdk-serialization-final-consistency-roadmap -->
+
+## v1.3.0 Bootstrap SDK Serialization --- Final Consistency
+
+``` text
+Status --- Accepted / Completed
+Acceptance PR --- #267
+Acceptance merge --- 8ac7edec84b89b9aaaacb3fa1f9f4d039678b661
+Acceptance required CI --- Passed
+Acceptance full regression --- 2553 passed, 56 skipped, 1 deselected
+Acceptance coverage --- 90.94%
+Post-merge focused verification --- 32 passed
+Post-merge consistency verification --- Passed
+Closure gates --- Passed / Completed
+Deferred boundaries --- Preserved
+Next roadmap slice --- Pending explicit Design First definition
+```

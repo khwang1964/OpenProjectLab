@@ -3687,3 +3687,15 @@ repair, rollback, and advanced lifecycle behavior remain deferred.
 - Accepted implementation PR #265 (`0407b4986d60578183546e98f5dc57aff890f4a7`).
 - Accepted alignment PR #266 (`bcf53936c5dfc16473c0e571ed8aceb8b747a549`) after synchronized-main verification.
 - Closed the slice with 31 focused tests and preserved deferred boundaries.
+
+## v1.3.0 Bootstrap SDK Serialization Final Consistency
+
+- Formally closed the minimum serialization implementation after Acceptance PR
+  #267 passed required CI and squash merged as `8ac7edec84b89b9aaaacb3fa1f9f4d039678b661`.
+- Recorded the acceptance candidate at `32 passed`, full regression at
+  `2553 passed, 56 skipped, 1 deselected`, and coverage at `90.94%`.
+- Synchronized local `main` with `origin/main` and completed the post-merge
+  focused verification with `32 passed` on a clean working tree.
+- Marked closure gates `Passed / Completed`, preserved strict decoding,
+  compatibility, and deferred boundaries, and kept the next roadmap slice
+  pending explicit Design First definition.

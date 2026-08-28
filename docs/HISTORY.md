@@ -3723,3 +3723,15 @@ repair, rollback, and advanced lifecycle behavior remain deferred.
 - Alignment PR #272 passed required CI and squash merged as `ea0e7dc25b8d4c5ed60e0fb673d48ff4230e64b4`.
 - Alignment synchronized-main post-merge verification — 11 passed.
 - Production expansion beyond models and fail-closed validation remains deferred.
+
+<!-- v1.3.2-repository-github-evidence-adapters-design-history -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters design proposed
+
+A Design First slice now proposes deterministic, read-only repository and
+GitHub evidence adapters for the v1.3.1 validation core.
+
+The proposal does not authorize implementation or any merge, tag, release,
+publication, branch deletion, force-push, reset, credential, CLI, or SDK
+expansion. Design review, CI, post-merge verification, and terminal design
+acceptance remain pending.

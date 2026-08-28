@@ -3528,3 +3528,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Alignment PR #272 passed required CI and squash merged as `ea0e7dc25b8d4c5ed60e0fb673d48ff4230e64b4`.
 - Alignment synchronized-main post-merge verification — 11 passed.
 - Production expansion beyond models and fail-closed validation remains deferred.
+
+<!-- v1.3.2-repository-github-evidence-adapters-design-roadmap -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters (Design First)
+
+- Status — Proposed / Pending design review.
+- Define deterministic, read-only repository and GitHub observations.
+- Feed immutable observations into the existing fail-closed validation core.
+- Treat missing, unknown, malformed, and contradictory state as failure.
+- Preserve explicit merge authorization and the strict two-PR workflow.
+- Keep all GitHub, Git, release, publication, and document writes deferred.
+- Production implementation — Not Started.

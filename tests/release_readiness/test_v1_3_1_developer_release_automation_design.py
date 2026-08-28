@@ -70,3 +70,21 @@ def test_design_acceptance_records_terminal_evidence() -> None:
         "Production implementation — Not Started",
     ):
         assert marker in text
+
+
+def test_minimum_implementation_alignment_is_pending_acceptance() -> None:
+    alignment = (
+        ROOT / "docs/releases/v1.3.1-developer-release-automation-implementation-alignment.md"
+    )
+    text = read(alignment)
+    for marker in (
+        "Pending — Awaiting alignment PR review and post-merge verification",
+        "Implementation PR — #271",
+        "0c8f615c72dd6cd023761f88a9e0a9d1e1eb6b6f",
+        "Focused implementation tests — 4 passed, no warnings",
+        "2564 passed, 56 skipped, 1 deselected",
+        "Coverage — 90.88%",
+        "Formal implementation acceptance — Pending",
+    ):
+        assert marker in text
+    assert (ROOT / "generator/release_automation.py").is_file()

@@ -3,15 +3,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DESIGN = ROOT / "docs/releases/v1.3.1-developer-release-automation-design.md"
 ARCHITECTURE = ROOT / "docs/architecture/developer-release-automation.md"
+ACCEPTANCE = ROOT / "docs/releases/v1.3.1-developer-release-automation-design-acceptance.md"
 
 
 def read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def test_design_is_pending_and_predecessor_is_closed() -> None:
+def test_design_is_terminally_accepted_and_predecessor_is_closed() -> None:
     text = read(DESIGN)
-    assert "Proposed — Pending design review" in text
+    assert "Accepted — Terminally Closed" in text
     assert "v1.3.0 Bootstrap SDK Serialization — Accepted / Completed" in text
     assert "Production implementation — Not Started" in text
 
@@ -48,10 +49,24 @@ def test_destructive_and_public_surfaces_are_deferred() -> None:
         assert marker in text
 
 
-def test_lifecycle_documents_are_aligned_to_pending_design() -> None:
+def test_lifecycle_documents_are_aligned_to_terminal_design() -> None:
     paths = (ROOT / "docs/roadmap.md", ROOT / "docs/HISTORY.md", ROOT / "CHANGELOG.md")
     for path in paths:
         text = read(path)
         assert "v1.3.1 Developer / Release Automation" in text
-        assert "Design review — Pending" in text
+        assert "Design review — Passed / Completed" in text
         assert "Production implementation — Not Started" in text
+
+
+def test_design_acceptance_records_terminal_evidence() -> None:
+    text = read(ACCEPTANCE)
+    for marker in (
+        "Accepted — Completed",
+        "Design PR — #269",
+        "53cda269e2077e20941bfc2e64ed1cba59972b1d",
+        "Required CI — Passed",
+        "Post-merge focused verification — 5 passed",
+        "Closure gates — Passed / Completed",
+        "Production implementation — Not Started",
+    ):
+        assert marker in text

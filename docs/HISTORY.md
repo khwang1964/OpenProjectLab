@@ -1,4 +1,4 @@
-﻿# OpenProjectLab 發展歷程（History）
+# OpenProjectLab 發展歷程（History）
 
 ## 專案起源
 
@@ -3699,3 +3699,12 @@ repair, rollback, and advanced lifecycle behavior remain deferred.
 - Marked closure gates `Passed / Completed`, preserved strict decoding,
   compatibility, and deferred boundaries, and kept the next roadmap slice
   pending explicit Design First definition.
+
+<!-- v1.3.1-developer-release-automation-design-history -->
+
+## v1.3.1 Developer / Release Automation design
+
+- Started a Design First slice for deterministic release-evidence validation and lifecycle consistency checking.
+- Preserved Pending versus Accepted / Completed boundaries and the two-PR acceptance workflow.
+- Design review — Pending
+- Production implementation — Not Started

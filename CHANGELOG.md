@@ -1,4 +1,4 @@
-﻿# Changelog
+# Changelog
 
 ## Unreleased
 <!-- v1.2.3-dry-run-execution-preview-changelog -->
@@ -2317,3 +2317,12 @@ select a provider, or initiate fallback implicitly.
   synchronized-main post-merge focused verification at `32 passed`.
 - Preserved strict decoding, compatibility, and deferred scope boundaries;
   the next roadmap slice remains pending explicit Design First definition.
+
+<!-- v1.3.1-developer-release-automation-design-changelog -->
+
+## v1.3.1 Developer / Release Automation (Design First)
+
+- Added the proposed architecture and executable documentation contract for fail-closed release evidence.
+- Kept repository mutation, merge, release publication, public SDK expansion, and production implementation outside this slice.
+- Design review — Pending
+- Production implementation — Not Started

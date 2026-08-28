@@ -35,3 +35,23 @@ typed failed result and no document mutation.
 
 Existing CLI, Bootstrap runtime, serialization formats, public SDK, release
 artifacts, and acceptance records remain unchanged by the design slice.
+
+<!-- v1.3.2-repository-github-evidence-adapters-design -->
+
+## Proposed v1.3.2 read-only evidence adapters
+
+The next proposed Design First slice narrows repository and GitHub adapters to
+deterministic, read-only observation collection for the existing fail-closed
+validation core.
+
+Repository observations cover repository, branch, working-tree, remote, local
+HEAD, and `origin/main` identity. GitHub observations cover pull-request
+identity, state, merge identity, and required-check conclusions.
+
+Unknown, missing, malformed, or contradictory observations produce typed
+collection failures. The adapters must not merge, force-push, reset, delete
+branches, tag, publish, upload artifacts, capture credentials, or mutate
+lifecycle documents.
+
+Production implementation remains Not Started until the design and its
+separate terminal acceptance workflow are completed.

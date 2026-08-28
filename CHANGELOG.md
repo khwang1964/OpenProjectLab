@@ -2341,3 +2341,12 @@ select a provider, or initiate fallback implicitly.
 - Alignment PR #272 passed required CI and squash merged as `ea0e7dc25b8d4c5ed60e0fb673d48ff4230e64b4`.
 - Alignment synchronized-main post-merge verification — 11 passed.
 - Production expansion beyond models and fail-closed validation remains deferred.
+
+<!-- v1.3.2-repository-github-evidence-adapters-design-changelog -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters — Proposed
+
+- Proposed read-only repository and GitHub observation contracts.
+- Preserved deterministic and fail-closed evidence collection.
+- Kept production implementation and all mutation operations deferred.
+- Kept design review and terminal acceptance pending.

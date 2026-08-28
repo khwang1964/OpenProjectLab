@@ -2350,3 +2350,13 @@ select a provider, or initiate fallback implicitly.
 - Preserved deterministic and fail-closed evidence collection.
 - Kept production implementation and all mutation operations deferred.
 - Kept design review and terminal acceptance pending.
+
+<!-- v1.3.2-repository-github-evidence-adapters-design-acceptance-changelog -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters — Design Accepted
+
+- Accepted the deterministic read-only repository and GitHub adapter boundary.
+- Recorded PR #274 and merge SHA `5fb07fc3a4f7d775328f01e0049430c7163e1cd9`.
+- Recorded synchronized-main focused verification at 6 passed.
+- Preserved production implementation as Not Started.
+- Preserved mutation, publication, CLI, and SDK operations as deferred.

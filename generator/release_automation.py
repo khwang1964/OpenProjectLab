@@ -1,3 +1,5 @@
+import json
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import StrEnum
 
@@ -105,3 +107,395 @@ class ReleaseEvidenceValidator:
                 )
             )
         return ValidationResult(tuple(findings))
+
+
+# v1.3.2-repository-github-evidence-adapters-implementation
+
+
+class CollectionFailureCode(StrEnum):
+    COMMAND_FAILED = "command_failed"
+    MISSING_FIELD = "missing_field"
+    MALFORMED_FIELD = "malformed_field"
+    UNKNOWN_STATE = "unknown_state"
+
+
+class EvidenceCollectionError(RuntimeError):
+    def __init__(
+        self,
+        code: CollectionFailureCode,
+        message: str,
+    ) -> None:
+        super().__init__(message)
+        self.code = code
+
+
+@dataclass(frozen=True, slots=True)
+class CommandResult:
+    stdout: str
+    returncode: int = 0
+
+
+type ReadCommand = Callable[[tuple[str, ...]], CommandResult]
+
+
+@dataclass(frozen=True, slots=True)
+class RepositoryObservation:
+    repository: str
+    branch: str
+    head_sha: str
+    origin_main_sha: str
+    remote_url: str
+    is_clean: bool
+
+
+class PullRequestState(StrEnum):
+    OPEN = "OPEN"
+    CLOSED = "CLOSED"
+    MERGED = "MERGED"
+
+
+@dataclass(frozen=True, slots=True)
+class PullRequestObservation:
+    number: int
+    url: str
+    state: PullRequestState
+    base_branch: str
+    head_branch: str
+    checks: tuple[CheckEvidence, ...]
+    merge_sha: str | None = None
+    merged_at: str | None = None
+
+    def __post_init__(self) -> None:
+        ordered = tuple(
+            sorted(
+                self.checks,
+                key=lambda check: check.name,
+            )
+        )
+        object.__setattr__(self, "checks", ordered)
+
+
+def _is_sha(value: str) -> bool:
+    hexadecimal = "0123456789abcdefABCDEF"
+
+    return len(value) == 40 and all(character in hexadecimal for character in value)
+
+
+class _ReadOnlyAdapter:
+    def __init__(self, runner: ReadCommand) -> None:
+        self._runner = runner
+
+    def _read(self, *command: str) -> str:
+        result = self._runner(tuple(command))
+
+        if result.returncode:
+            raise EvidenceCollectionError(
+                CollectionFailureCode.COMMAND_FAILED,
+                f"read command failed: {' '.join(command)}",
+            )
+
+        return result.stdout.strip()
+
+
+class RepositoryEvidenceAdapter(_ReadOnlyAdapter):
+    def collect(self) -> RepositoryObservation:
+        remote_url = self._read(
+            "git",
+            "config",
+            "--get",
+            "remote.origin.url",
+        )
+        branch = self._required(
+            self._read("git", "branch", "--show-current"),
+            "current branch",
+        )
+        head_sha = self._sha(
+            self._read("git", "rev-parse", "HEAD"),
+            "HEAD",
+        )
+        origin_main_sha = self._sha(
+            self._read("git", "rev-parse", "origin/main"),
+            "origin/main",
+        )
+        status = self._read("git", "status", "--porcelain")
+
+        return RepositoryObservation(
+            repository=self._repository_from_remote(remote_url),
+            branch=branch,
+            head_sha=head_sha,
+            origin_main_sha=origin_main_sha,
+            remote_url=self._required(
+                remote_url,
+                "origin remote",
+            ),
+            is_clean=not status,
+        )
+
+    @staticmethod
+    def _required(value: str, field: str) -> str:
+        if not value:
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MISSING_FIELD,
+                f"{field} is missing",
+            )
+
+        return value
+
+    @staticmethod
+    def _sha(value: str, field: str) -> str:
+        if not _is_sha(value):
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MALFORMED_FIELD,
+                f"{field} is not a full commit SHA",
+            )
+
+        return value
+
+    @staticmethod
+    def _repository_from_remote(remote_url: str) -> str:
+        prefixes = (
+            "git@github.com:",
+            "https://github.com/",
+        )
+
+        for prefix in prefixes:
+            if remote_url.startswith(prefix):
+                repository = remote_url.removeprefix(prefix).removesuffix(".git").strip("/")
+
+                if len(repository.split("/")) == 2:
+                    return repository
+
+        raise EvidenceCollectionError(
+            CollectionFailureCode.MALFORMED_FIELD,
+            "origin remote is not a canonical GitHub repository",
+        )
+
+
+class GitHubEvidenceAdapter(_ReadOnlyAdapter):
+    def collect(
+        self,
+        pr_number: int,
+    ) -> PullRequestObservation:
+        if pr_number <= 0:
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MALFORMED_FIELD,
+                "pull-request number must be positive",
+            )
+
+        fields = "number,url,state,baseRefName,headRefName,mergeCommit,mergedAt,statusCheckRollup"
+        raw = self._read(
+            "gh",
+            "pr",
+            "view",
+            str(pr_number),
+            "--json",
+            fields,
+        )
+
+        try:
+            payload = json.loads(raw)
+        except json.JSONDecodeError as error:
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MALFORMED_FIELD,
+                "GitHub response is not valid JSON",
+            ) from error
+
+        if not isinstance(payload, dict):
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MALFORMED_FIELD,
+                "GitHub response must be an object",
+            )
+
+        number = self._positive_int(
+            payload.get("number"),
+            "pull-request number",
+        )
+
+        if number != pr_number:
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MALFORMED_FIELD,
+                "pull-request number does not match the request",
+            )
+
+        return PullRequestObservation(
+            number=number,
+            url=self._required_string(
+                payload.get("url"),
+                "pull-request URL",
+            ),
+            state=self._state(payload.get("state")),
+            base_branch=self._required_string(
+                payload.get("baseRefName"),
+                "base branch",
+            ),
+            head_branch=self._required_string(
+                payload.get("headRefName"),
+                "head branch",
+            ),
+            checks=self._checks(payload.get("statusCheckRollup")),
+            merge_sha=self._merge_sha(payload.get("mergeCommit")),
+            merged_at=self._optional_string(
+                payload.get("mergedAt"),
+                "merge timestamp",
+            ),
+        )
+
+    @staticmethod
+    def _required_string(
+        value: object,
+        field: str,
+    ) -> str:
+        if not isinstance(value, str) or not value.strip():
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MISSING_FIELD,
+                f"{field} is missing",
+            )
+
+        return value.strip()
+
+    @staticmethod
+    def _optional_string(
+        value: object,
+        field: str,
+    ) -> str | None:
+        if value is None:
+            return None
+
+        if not isinstance(value, str) or not value.strip():
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MALFORMED_FIELD,
+                f"{field} is malformed",
+            )
+
+        return value.strip()
+
+    @staticmethod
+    def _positive_int(
+        value: object,
+        field: str,
+    ) -> int:
+        if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MALFORMED_FIELD,
+                f"{field} must be a positive integer",
+            )
+
+        return value
+
+    @staticmethod
+    def _state(value: object) -> PullRequestState:
+        try:
+            return PullRequestState(value)
+        except (TypeError, ValueError) as error:
+            raise EvidenceCollectionError(
+                CollectionFailureCode.UNKNOWN_STATE,
+                "pull-request state is unknown",
+            ) from error
+
+    @staticmethod
+    def _merge_sha(value: object) -> str | None:
+        if value is None:
+            return None
+
+        if not isinstance(value, dict) or not _is_sha(str(value.get("oid", ""))):
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MALFORMED_FIELD,
+                "merge commit is malformed",
+            )
+
+        return str(value["oid"])
+
+    @classmethod
+    def _checks(
+        cls,
+        value: object,
+    ) -> tuple[CheckEvidence, ...]:
+        if not isinstance(value, list):
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MISSING_FIELD,
+                "required-check observations are missing",
+            )
+
+        checks: list[CheckEvidence] = []
+
+        for item in value:
+            if not isinstance(item, dict):
+                raise EvidenceCollectionError(
+                    CollectionFailureCode.MALFORMED_FIELD,
+                    "required-check observation is malformed",
+                )
+
+            name = item.get("name") or item.get("context")
+            conclusion = item.get("conclusion")
+            status = item.get("status") or item.get("state")
+
+            checks.append(
+                CheckEvidence(
+                    cls._required_string(
+                        name,
+                        "required-check name",
+                    ),
+                    cls._check_conclusion(
+                        conclusion,
+                        status,
+                    ),
+                )
+            )
+
+        names = tuple(check.name for check in checks)
+
+        if len(names) != len(set(names)):
+            raise EvidenceCollectionError(
+                CollectionFailureCode.MALFORMED_FIELD,
+                "required-check names must be unique",
+            )
+
+        return tuple(
+            sorted(
+                checks,
+                key=lambda check: check.name,
+            )
+        )
+
+    @staticmethod
+    def _check_conclusion(
+        conclusion: object,
+        status: object,
+    ) -> CheckConclusion:
+        normalized_conclusion = str(conclusion or "").upper()
+        normalized_status = str(status or "").upper()
+
+        if normalized_conclusion == "SUCCESS":
+            return CheckConclusion.PASSED
+
+        if not normalized_conclusion and normalized_status == "SUCCESS":
+            return CheckConclusion.PASSED
+
+        failed_conclusions = {
+            "ACTION_REQUIRED",
+            "CANCELLED",
+            "FAILURE",
+            "STARTUP_FAILURE",
+            "TIMED_OUT",
+        }
+
+        if normalized_conclusion in failed_conclusions:
+            return CheckConclusion.FAILED
+
+        if not normalized_conclusion and normalized_status in {"ERROR", "FAILURE"}:
+            return CheckConclusion.FAILED
+
+        pending_states = {
+            "EXPECTED",
+            "IN_PROGRESS",
+            "PENDING",
+            "QUEUED",
+        }
+
+        if not normalized_conclusion and normalized_status in pending_states:
+            return CheckConclusion.PENDING
+
+        raise EvidenceCollectionError(
+            CollectionFailureCode.UNKNOWN_STATE,
+            "required-check conclusion is unknown",
+        )

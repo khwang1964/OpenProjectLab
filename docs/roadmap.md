@@ -3540,3 +3540,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Preserve explicit merge authorization and the strict two-PR workflow.
 - Keep all GitHub, Git, release, publication, and document writes deferred.
 - Production implementation — Not Started.
+
+<!-- v1.3.2-repository-github-evidence-adapters-design-acceptance-roadmap -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters — Design Acceptance
+
+- Status — Accepted / Completed.
+- Design PR #274 merged as `5fb07fc3a4f7d775328f01e0049430c7163e1cd9`.
+- Required CI — Passed.
+- Synchronized-main post-merge verification — 6 passed.
+- Read-only, deterministic, fail-closed adapter boundary — Accepted.
+- All mutation, publication, CLI, and SDK operations remain deferred.
+- Production implementation — Not Started.

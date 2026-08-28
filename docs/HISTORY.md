@@ -3735,3 +3735,15 @@ The proposal does not authorize implementation or any merge, tag, release,
 publication, branch deletion, force-push, reset, credential, CLI, or SDK
 expansion. Design review, CI, post-merge verification, and terminal design
 acceptance remain pending.
+
+<!-- v1.3.2-repository-github-evidence-adapters-design-acceptance-history -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters design accepted
+
+PR #274 established the read-only repository and GitHub evidence adapter
+contract and merged as `5fb07fc3a4f7d775328f01e0049430c7163e1cd9`.
+
+Required CI passed, and synchronized-main focused verification completed with
+6 passed. The Design First slice is Accepted / Completed. Production
+implementation remains Not Started, and all mutation and publication
+operations remain deferred.

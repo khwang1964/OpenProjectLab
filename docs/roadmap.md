@@ -3515,3 +3515,14 @@ Next roadmap slice --- Pending explicit Design First definition
 - Synchronized-main post-merge focused verification — 5 passed
 - Design review — Passed / Completed
 - Production implementation — Not Started
+
+<!-- v1.3.1-release-automation-implementation-alignment -->
+
+## v1.3.1 Developer / Release Automation implementation alignment
+
+- Minimum implementation merged through PR #271 as `0c8f615c72dd6cd023761f88a9e0a9d1e1eb6b6f`.
+- Focused post-merge verification — 4 passed, no warnings.
+- Full regression — 2564 passed, 56 skipped, 1 deselected.
+- Coverage — 90.88%; required coverage 67.0% passed.
+- Formal implementation acceptance — Pending.
+- Production expansion beyond models and fail-closed validation remains deferred.

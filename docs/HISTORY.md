@@ -3719,5 +3719,7 @@ repair, rollback, and advanced lifecycle behavior remain deferred.
 - Focused post-merge verification — 4 passed, no warnings.
 - Full regression — 2564 passed, 56 skipped, 1 deselected.
 - Coverage — 90.88%; required coverage 67.0% passed.
-- Formal implementation acceptance — Pending.
+- Formal implementation acceptance — Accepted / Completed.
+- Alignment PR #272 passed required CI and squash merged as `ea0e7dc25b8d4c5ed60e0fb673d48ff4230e64b4`.
+- Alignment synchronized-main post-merge verification — 11 passed.
 - Production expansion beyond models and fail-closed validation remains deferred.

@@ -72,19 +72,39 @@ def test_design_acceptance_records_terminal_evidence() -> None:
         assert marker in text
 
 
-def test_minimum_implementation_alignment_is_pending_acceptance() -> None:
+def test_minimum_implementation_alignment_is_terminally_accepted() -> None:
     alignment = (
         ROOT / "docs/releases/v1.3.1-developer-release-automation-implementation-alignment.md"
     )
     text = read(alignment)
     for marker in (
-        "Pending — Awaiting alignment PR review and post-merge verification",
+        "Accepted — Completed",
         "Implementation PR — #271",
         "0c8f615c72dd6cd023761f88a9e0a9d1e1eb6b6f",
         "Focused implementation tests — 4 passed, no warnings",
         "2564 passed, 56 skipped, 1 deselected",
         "Coverage — 90.88%",
-        "Formal implementation acceptance — Pending",
+        "Formal implementation acceptance — Accepted / Completed",
     ):
         assert marker in text
     assert (ROOT / "generator/release_automation.py").is_file()
+
+
+def test_minimum_implementation_acceptance_records_terminal_evidence() -> None:
+    acceptance = (
+        ROOT / "docs/releases/v1.3.1-developer-release-automation-implementation-acceptance.md"
+    )
+    text = read(acceptance)
+    for marker in (
+        "Accepted — Completed",
+        "Implementation PR — #271",
+        "0c8f615c72dd6cd023761f88a9e0a9d1e1eb6b6f",
+        "Alignment PR — #272",
+        "ea0e7dc25b8d4c5ed60e0fb673d48ff4230e64b4",
+        "Alignment post-merge verification — 11 passed",
+        "2565 passed, 56 skipped, 1 deselected",
+        "Coverage — 90.88%",
+        "Closure gates — Passed / Completed",
+        "Next roadmap slice — Pending explicit Design First definition",
+    ):
+        assert marker in text

@@ -499,3 +499,140 @@ class GitHubEvidenceAdapter(_ReadOnlyAdapter):
             CollectionFailureCode.UNKNOWN_STATE,
             "required-check conclusion is unknown",
         )
+
+
+# v1.3.3-release-evidence-verification-orchestration-implementation
+
+
+class VerificationFindingStage(StrEnum):
+    COLLECTION = "collection"
+    CONTRADICTION = "contradiction"
+    VALIDATION = "validation"
+
+
+class VerificationFindingCode(StrEnum):
+    COLLECTION_FAILED = "collection_failed"
+    DIRTY_TREE = "dirty_tree"
+    UNSYNCHRONIZED_MAIN = "unsynchronized_main"
+    PULL_REQUEST_NOT_MERGED = "pull_request_not_merged"
+    PULL_REQUEST_BASE_MISMATCH = "pull_request_base_mismatch"
+    MISSING_MERGE_IDENTITY = "missing_merge_identity"
+    MERGE_SHA_MISMATCH = "merge_sha_mismatch"
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationRequest:
+    expected_repository: str
+    expected_branch: str
+    expected_sha: str
+    pull_request_number: int
+    focused_tests: TestEvidence | None
+
+    def __post_init__(self) -> None:
+        if not self.expected_repository.strip() or not self.expected_branch.strip():
+            raise ValueError("expected repository and branch must not be empty")
+        if not _is_sha(self.expected_sha):
+            raise ValueError("expected SHA must be a full commit SHA")
+        if self.pull_request_number <= 0:
+            raise ValueError("pull-request number must be positive")
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationFinding:
+    stage: VerificationFindingStage
+    code: str
+    message: str
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationReport:
+    repository: RepositoryObservation | None
+    pull_request: PullRequestObservation | None
+    evidence: ReleaseEvidence | None
+    findings: tuple[VerificationFinding, ...]
+
+    @property
+    def is_valid(self) -> bool:
+        return self.evidence is not None and not self.findings
+
+
+class ReleaseEvidenceVerificationOrchestrator:
+    def __init__(
+        self,
+        repository_adapter: RepositoryEvidenceAdapter,
+        github_adapter: GitHubEvidenceAdapter,
+        validator: ReleaseEvidenceValidator | None = None,
+    ) -> None:
+        self._repository_adapter = repository_adapter
+        self._github_adapter = github_adapter
+        self._validator = validator or ReleaseEvidenceValidator()
+
+    def verify(self, request: VerificationRequest) -> VerificationReport:
+        try:
+            repository = self._repository_adapter.collect()
+            pull_request = self._github_adapter.collect(request.pull_request_number)
+        except EvidenceCollectionError as error:
+            finding = VerificationFinding(
+                VerificationFindingStage.COLLECTION,
+                VerificationFindingCode.COLLECTION_FAILED,
+                f"{error.code.value}: {error}",
+            )
+            return VerificationReport(None, None, None, (finding,))
+
+        contradictions: list[VerificationFinding] = []
+
+        def contradiction(code: VerificationFindingCode, message: str) -> None:
+            contradictions.append(
+                VerificationFinding(VerificationFindingStage.CONTRADICTION, code, message)
+            )
+
+        if not repository.is_clean:
+            contradiction(VerificationFindingCode.DIRTY_TREE, "working tree is not clean")
+        if request.expected_branch == "main" and repository.head_sha != repository.origin_main_sha:
+            contradiction(
+                VerificationFindingCode.UNSYNCHRONIZED_MAIN,
+                "HEAD and origin/main do not agree",
+            )
+        if pull_request.state is not PullRequestState.MERGED:
+            contradiction(
+                VerificationFindingCode.PULL_REQUEST_NOT_MERGED,
+                "pull request is not merged",
+            )
+        if pull_request.base_branch != request.expected_branch:
+            contradiction(
+                VerificationFindingCode.PULL_REQUEST_BASE_MISMATCH,
+                "pull-request base does not match the expected branch",
+            )
+        if pull_request.merge_sha is None or pull_request.merged_at is None:
+            contradiction(
+                VerificationFindingCode.MISSING_MERGE_IDENTITY,
+                "merged pull request lacks merge SHA or timestamp",
+            )
+        elif pull_request.merge_sha != request.expected_sha:
+            contradiction(
+                VerificationFindingCode.MERGE_SHA_MISMATCH,
+                "pull-request merge SHA does not match the expected SHA",
+            )
+
+        evidence = ReleaseEvidence(
+            repository=repository.repository,
+            branch=repository.branch,
+            candidate_sha=repository.head_sha,
+            checks=pull_request.checks,
+            focused_tests=request.focused_tests,
+        )
+        validation = self._validator.validate(
+            evidence,
+            expected_repository=request.expected_repository,
+            expected_branch=request.expected_branch,
+            expected_sha=request.expected_sha,
+        )
+        findings = contradictions + [
+            VerificationFinding(
+                VerificationFindingStage.VALIDATION,
+                finding.code.value,
+                finding.message,
+            )
+            for finding in validation.findings
+        ]
+        return VerificationReport(repository, pull_request, evidence, tuple(findings))

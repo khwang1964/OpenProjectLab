@@ -3601,3 +3601,11 @@ Next roadmap slice --- Pending explicit Design First definition
 - Accepted boundary — deterministic, fail-closed, read-only verification orchestration.
 - Production implementation — Not Started.
 - Next — minimum v1.3.3 production implementation slice.
+
+<!-- v1.3.3-release-evidence-verification-orchestration-implementation-roadmap -->
+
+## v1.3.3 Release Evidence Verification Orchestration — Implementation
+
+- Status — Implemented / Pending acceptance.
+- Scope — immutable request/report and deterministic fail-closed orchestration only.
+- Next — focused verification, implementation PR, and separate acceptance closure.

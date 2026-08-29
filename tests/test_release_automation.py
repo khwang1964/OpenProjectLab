@@ -322,3 +322,150 @@ def test_github_adapter_rejects_missing_field() -> None:
         GitHubEvidenceAdapter(github_runner(payload)).collect(275)
 
     assert raised.value.code is (CollectionFailureCode.MISSING_FIELD)
+
+
+# v1.3.3-release-evidence-verification-orchestration-tests
+
+
+def _orchestration_imports():
+    from generator.release_automation import (
+        ReleaseEvidenceVerificationOrchestrator,
+        VerificationFindingCode,
+        VerificationFindingStage,
+        VerificationRequest,
+    )
+
+    return (
+        ReleaseEvidenceVerificationOrchestrator,
+        VerificationFindingCode,
+        VerificationFindingStage,
+        VerificationRequest,
+    )
+
+
+class StaticAdapter:
+    def __init__(self, observation=None, error=None) -> None:
+        self.observation = observation
+        self.error = error
+        self.calls = []
+
+    def collect(self, *args):
+        self.calls.append(args)
+        if self.error is not None:
+            raise self.error
+        return self.observation
+
+
+def _repository_observation(**changes):
+    from generator.release_automation import RepositoryObservation
+
+    values = dict(
+        repository="khwang1964/OpenProjectLab",
+        branch="main",
+        head_sha=SHA,
+        origin_main_sha=SHA,
+        remote_url="git@github.com:khwang1964/OpenProjectLab.git",
+        is_clean=True,
+    )
+    values.update(changes)
+    return RepositoryObservation(**values)
+
+
+def _pull_request_observation(**changes):
+    from generator.release_automation import PullRequestObservation
+
+    values = dict(
+        number=280,
+        url="https://github.com/khwang1964/OpenProjectLab/pull/280",
+        state=PullRequestState.MERGED,
+        base_branch="main",
+        head_branch="docs/example",
+        checks=(CheckEvidence("quality", CheckConclusion.PASSED),),
+        merge_sha=SHA,
+        merged_at="2026-08-29T12:20:10Z",
+    )
+    values.update(changes)
+    return PullRequestObservation(**values)
+
+
+def _request(**changes):
+    *_, VerificationRequest = _orchestration_imports()
+    values = dict(
+        expected_repository="khwang1964/OpenProjectLab",
+        expected_branch="main",
+        expected_sha=SHA,
+        pull_request_number=280,
+        focused_tests=ReleaseTestEvidence(passed=11),
+    )
+    values.update(changes)
+    return VerificationRequest(**values)
+
+
+def test_orchestrator_composes_valid_immutable_report() -> None:
+    ReleaseEvidenceVerificationOrchestrator, *_ = _orchestration_imports()
+    report = ReleaseEvidenceVerificationOrchestrator(
+        StaticAdapter(_repository_observation()),
+        StaticAdapter(_pull_request_observation()),
+    ).verify(_request())
+    assert report.is_valid
+    assert report.evidence is not None
+    assert report.evidence.focused_tests == ReleaseTestEvidence(passed=11)
+    with pytest.raises(FrozenInstanceError):
+        report.evidence = None  # type: ignore[misc]
+
+
+def test_orchestrator_collects_repository_before_pull_request() -> None:
+    ReleaseEvidenceVerificationOrchestrator, *_ = _orchestration_imports()
+    repository = StaticAdapter(_repository_observation())
+    github = StaticAdapter(_pull_request_observation())
+    ReleaseEvidenceVerificationOrchestrator(repository, github).verify(_request())
+    assert repository.calls == [()]
+    assert github.calls == [(280,)]
+
+
+def test_collection_failure_returns_no_partial_observations() -> None:
+    ReleaseEvidenceVerificationOrchestrator, _, Stage, _ = _orchestration_imports()
+    error = EvidenceCollectionError(CollectionFailureCode.COMMAND_FAILED, "boom")
+    report = ReleaseEvidenceVerificationOrchestrator(
+        StaticAdapter(_repository_observation()), StaticAdapter(error=error)
+    ).verify(_request())
+    assert not report.is_valid
+    assert report.repository is report.pull_request is report.evidence is None
+    assert report.findings[0].stage is Stage.COLLECTION
+
+
+@pytest.mark.parametrize(
+    ("repository_changes", "pr_changes", "expected_code"),
+    [
+        ({"is_clean": False}, {}, "dirty_tree"),
+        ({"origin_main_sha": "b" * 40}, {}, "unsynchronized_main"),
+        ({}, {"state": PullRequestState.OPEN}, "pull_request_not_merged"),
+        ({}, {"base_branch": "release"}, "pull_request_base_mismatch"),
+        ({}, {"merge_sha": None}, "missing_merge_identity"),
+        ({}, {"merge_sha": "b" * 40}, "merge_sha_mismatch"),
+    ],
+)
+def test_identity_and_lifecycle_contradictions_fail_closed(
+    repository_changes, pr_changes, expected_code
+) -> None:
+    ReleaseEvidenceVerificationOrchestrator, *_ = _orchestration_imports()
+    report = ReleaseEvidenceVerificationOrchestrator(
+        StaticAdapter(_repository_observation(**repository_changes)),
+        StaticAdapter(_pull_request_observation(**pr_changes)),
+    ).verify(_request())
+    assert not report.is_valid
+    assert expected_code in tuple(str(finding.code) for finding in report.findings)
+
+
+def test_pending_ci_and_missing_focused_tests_remain_validation_failures() -> None:
+    ReleaseEvidenceVerificationOrchestrator, _, Stage, _ = _orchestration_imports()
+    report = ReleaseEvidenceVerificationOrchestrator(
+        StaticAdapter(_repository_observation()),
+        StaticAdapter(
+            _pull_request_observation(checks=(CheckEvidence("quality", CheckConclusion.PENDING),))
+        ),
+    ).verify(_request(focused_tests=None))
+    assert tuple(finding.stage for finding in report.findings) == (
+        Stage.VALIDATION,
+        Stage.VALIDATION,
+    )

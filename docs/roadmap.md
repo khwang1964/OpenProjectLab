@@ -3577,3 +3577,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Implementation acceptance — Accepted / Completed.
 - Deferred mutation and explicit-authorization boundaries — Preserved.
 - Next roadmap slice — Pending explicit Design First definition.
+
+<!-- v1.3.3-release-evidence-verification-orchestration-design-roadmap -->
+
+## v1.3.3 Release Evidence Verification Orchestration (Design First)
+
+- Status — Proposed / Pending design review.
+- Predecessor — v1.3.2 repository/GitHub evidence adapters Accepted / Completed.
+- Scope — deterministic composition of read-only observations and fail-closed validation.
+- Focused-test evidence — Explicit caller input; never executed by the orchestrator.
+- Mutation, CLI, SDK, release, and publication operations — Deferred.
+- Production implementation — Not Started.
+- Next — focused design-contract verification and Design PR.

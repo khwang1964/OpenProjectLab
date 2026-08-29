@@ -3767,3 +3767,14 @@ Required CI passed, and synchronized-main post-merge verification passed 24 test
 
 - Implementation acceptance — Accepted / Completed.
 - Mutation and implicit merge authorization remain deferred.
+
+<!-- v1.3.3-release-evidence-verification-orchestration-design-history -->
+
+## v1.3.3 Release Evidence Verification Orchestration design proposed
+
+The next Design First slice composes v1.3.1 validation and v1.3.2 read-only
+observations into one deterministic verification contract. It grants no mutation,
+test-execution, CLI, SDK, release, or publication authority.
+
+- Design review — Pending.
+- Production implementation — Not Started.

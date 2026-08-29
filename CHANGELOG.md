@@ -2389,3 +2389,12 @@ select a provider, or initiate fallback implicitly.
 - Preserve explicit policy, stable findings, and fail-closed identity consistency.
 - Keep test execution, mutation, CLI, SDK, release, and publication behavior deferred.
 - Production implementation — Not Started.
+
+<!-- v1.3.3-release-evidence-verification-orchestration-design-acceptance-changelog -->
+
+## v1.3.3 Release Evidence Verification Orchestration — Design Accepted
+
+- Design PR #279 merged as `1b3c2e732cf13f384d87efdfc5cc85ff1fdc52aa`.
+- Required CI passed; synchronized-main focused verification — 6 passed.
+- Deterministic, fail-closed, read-only orchestration contract — Accepted / Completed.
+- Production implementation — Not Started.

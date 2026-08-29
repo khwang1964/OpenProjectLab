@@ -3589,3 +3589,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Mutation, CLI, SDK, release, and publication operations — Deferred.
 - Production implementation — Not Started.
 - Next — focused design-contract verification and Design PR.
+
+<!-- v1.3.3-release-evidence-verification-orchestration-design-acceptance-roadmap -->
+
+## v1.3.3 Release Evidence Verification Orchestration — Design Acceptance
+
+- Status — Accepted / Completed.
+- Design PR #279 — `1b3c2e732cf13f384d87efdfc5cc85ff1fdc52aa`.
+- Required CI — Passed.
+- Synchronized-main focused verification — 6 passed.
+- Accepted boundary — deterministic, fail-closed, read-only verification orchestration.
+- Production implementation — Not Started.
+- Next — minimum v1.3.3 production implementation slice.

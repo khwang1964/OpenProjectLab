@@ -3778,3 +3778,14 @@ test-execution, CLI, SDK, release, or publication authority.
 
 - Design review — Pending.
 - Production implementation — Not Started.
+
+<!-- v1.3.3-release-evidence-verification-orchestration-design-acceptance-history -->
+
+## v1.3.3 Release Evidence Verification Orchestration design accepted
+
+PR #279 merged the Design First contract as
+`1b3c2e732cf13f384d87efdfc5cc85ff1fdc52aa`. Required CI passed, and
+synchronized-main focused verification completed with 6 passed.
+
+- Design acceptance — Accepted / Completed.
+- Production implementation — Not Started.

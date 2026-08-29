@@ -2360,3 +2360,13 @@ select a provider, or initiate fallback implicitly.
 - Recorded synchronized-main focused verification at 6 passed.
 - Preserved production implementation as Not Started.
 - Preserved mutation, publication, CLI, and SDK operations as deferred.
+
+<!-- v1.3.2-repository-github-evidence-adapters-implementation-alignment-changelog -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters — Implementation Alignment
+
+- Minimum implementation merged through PR #276 as
+  `a87251ed7714f6516ca19023d585bb3043744661`.
+- Synchronized-main focused verification — 7 passed.
+- Read-only collection and fail-closed validation boundaries remain preserved.
+- Implementation acceptance — Pending terminal-alignment merge and post-merge verification.

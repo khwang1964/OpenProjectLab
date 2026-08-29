@@ -3552,3 +3552,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Read-only, deterministic, fail-closed adapter boundary — Accepted.
 - All mutation, publication, CLI, and SDK operations remain deferred.
 - Production implementation — Not Started.
+
+<!-- v1.3.2-repository-github-evidence-adapters-implementation-alignment-roadmap -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters — Implementation Alignment
+
+- Status — Implemented / Awaiting implementation acceptance.
+- Implementation PR #276 merged as
+  `a87251ed7714f6516ca19023d585bb3043744661`.
+- Synchronized-main focused verification — 7 passed.
+- Read-only, deterministic, fail-closed adapter boundaries — Preserved.
+- Implementation acceptance — Pending terminal-alignment merge and post-merge verification.
+- Next — separate acceptance-closure PR after synchronized-main verification.

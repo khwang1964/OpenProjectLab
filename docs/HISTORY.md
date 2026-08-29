@@ -3747,3 +3747,13 @@ Required CI passed, and synchronized-main focused verification completed with
 6 passed. The Design First slice is Accepted / Completed. Production
 implementation remains Not Started, and all mutation and publication
 operations remain deferred.
+
+<!-- v1.3.2-repository-github-evidence-adapters-implementation-alignment-history -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters implementation alignment
+
+The minimum read-only adapter implementation merged through PR #276 as
+`a87251ed7714f6516ca19023d585bb3043744661`. Its synchronized-main focused
+verification passed 7 tests. Mutation and implicit merge authorization remain deferred.
+
+- Implementation acceptance — Pending terminal-alignment merge and post-merge verification.

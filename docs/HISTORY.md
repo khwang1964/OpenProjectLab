@@ -3757,3 +3757,13 @@ The minimum read-only adapter implementation merged through PR #276 as
 verification passed 7 tests. Mutation and implicit merge authorization remain deferred.
 
 - Implementation acceptance — Pending terminal-alignment merge and post-merge verification.
+
+<!-- v1.3.2-repository-github-evidence-adapters-implementation-closure-history -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters implementation accepted
+
+Alignment PR #277 merged as `ec52e25dfbe911033e0b049701fb1df3171c1268`.
+Required CI passed, and synchronized-main post-merge verification passed 24 tests.
+
+- Implementation acceptance — Accepted / Completed.
+- Mutation and implicit merge authorization remain deferred.

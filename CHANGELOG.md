@@ -2370,3 +2370,13 @@ select a provider, or initiate fallback implicitly.
 - Synchronized-main focused verification — 7 passed.
 - Read-only collection and fail-closed validation boundaries remain preserved.
 - Implementation acceptance — Pending terminal-alignment merge and post-merge verification.
+
+<!-- v1.3.2-repository-github-evidence-adapters-implementation-closure-changelog -->
+
+## v1.3.2 Repository / GitHub Evidence Adapters — Implementation Accepted
+
+- Alignment PR #277 merged as
+  `ec52e25dfbe911033e0b049701fb1df3171c1268`; required CI passed.
+- Synchronized-main post-merge verification — 24 passed.
+- Read-only, deterministic, fail-closed, and explicit-authorization boundaries remain preserved.
+- Implementation acceptance — Accepted / Completed.

@@ -6,20 +6,27 @@ RECORD = ROOT / (
 )
 
 
-def test_pending_implementation_acceptance_record_exists() -> None:
+def test_implementation_acceptance_is_terminally_completed() -> None:
     text = RECORD.read_text(encoding="utf-8")
 
-    assert "Status: Pending" in text
-    assert "Awaiting terminal-alignment merge and post-merge verification" in text
-    assert "> Status: Accepted / Completed" not in text
+    assert "> Status: Accepted / Completed" in text
+    assert "Status: Pending" not in text
+    assert "## Completed closure gates" in text
 
 
-def test_record_cites_current_implementation_evidence() -> None:
+def test_record_cites_implementation_and_alignment_merges() -> None:
     text = RECORD.read_text(encoding="utf-8")
 
-    assert "PR #276" in text
     assert "a87251ed7714f6516ca19023d585bb3043744661" in text
-    assert "7 focused tests" in text
+    assert "ec52e25dfbe911033e0b049701fb1df3171c1268" in text
+    assert "24 focused tests" in text
+
+
+def test_record_cites_successful_required_ci() -> None:
+    text = RECORD.read_text(encoding="utf-8")
+
+    assert "CI workflow run #568 completed successfully" in text
+    assert "Terminal-alignment PR required CI — Passed" in text
 
 
 def test_record_preserves_read_only_and_fail_closed_boundaries() -> None:
@@ -31,19 +38,10 @@ def test_record_preserves_read_only_and_fail_closed_boundaries() -> None:
     assert "mutation remains deferred" in text
 
 
-def test_record_keeps_post_merge_gates_pending() -> None:
-    text = RECORD.read_text(encoding="utf-8")
-
-    assert "Terminal-alignment PR required CI — Pending" in text
-    assert "Terminal-alignment PR merge identity — Pending" in text
-    assert "Synchronized-main post-merge focused verification — Pending" in text
-    assert "Separate acceptance-closure PR — Pending" in text
-
-
-def test_governance_surfaces_share_the_pending_alignment_state() -> None:
-    marker = "v1.3.2-repository-github-evidence-adapters-implementation-alignment"
+def test_governance_surfaces_share_the_completed_state() -> None:
+    marker = "v1.3.2-repository-github-evidence-adapters-implementation-closure"
 
     for relative_path in ("CHANGELOG.md", "docs/HISTORY.md", "docs/roadmap.md"):
         text = (ROOT / relative_path).read_text(encoding="utf-8")
         assert text.count(marker) == 1
-        assert "Implementation acceptance — Pending" in text
+        assert "Implementation acceptance — Accepted / Completed" in text

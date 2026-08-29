@@ -2380,3 +2380,12 @@ select a provider, or initiate fallback implicitly.
 - Synchronized-main post-merge verification — 24 passed.
 - Read-only, deterministic, fail-closed, and explicit-authorization boundaries remain preserved.
 - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.3.3-release-evidence-verification-orchestration-design-changelog -->
+
+## v1.3.3 Release Evidence Verification Orchestration — Proposed
+
+- Define deterministic orchestration over the accepted validation core and read-only adapters.
+- Preserve explicit policy, stable findings, and fail-closed identity consistency.
+- Keep test execution, mutation, CLI, SDK, release, and publication behavior deferred.
+- Production implementation — Not Started.

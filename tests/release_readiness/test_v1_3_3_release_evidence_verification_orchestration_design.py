@@ -9,8 +9,8 @@ def test_design_surfaces_exist_and_remain_pending() -> None:
     architecture = ARCHITECTURE.read_text(encoding="utf-8")
     release = RELEASE.read_text(encoding="utf-8")
 
-    assert "Proposed / Pending design review" in architecture
-    assert "Status: Proposed / Pending design review" in release
+    assert "Accepted / Terminally Closed" in architecture
+    assert "Status: Accepted / Completed" in release
     assert "Production implementation — Not Started" in release
 
 
@@ -54,8 +54,13 @@ def test_design_includes_code_review_checklist() -> None:
 
 def test_governance_surfaces_share_one_design_marker() -> None:
     marker = "v1.3.3-release-evidence-verification-orchestration-design"
+    surfaces = {
+        "CHANGELOG.md": f"<!-- {marker}-changelog -->",
+        "docs/HISTORY.md": f"<!-- {marker}-history -->",
+        "docs/roadmap.md": f"<!-- {marker}-roadmap -->",
+    }
 
-    for relative_path in ("CHANGELOG.md", "docs/HISTORY.md", "docs/roadmap.md"):
+    for relative_path, exact_marker in surfaces.items():
         text = (ROOT / relative_path).read_text(encoding="utf-8")
-        assert text.count(marker) == 1
+        assert text.count(exact_marker) == 1
         assert "Production implementation — Not Started" in text

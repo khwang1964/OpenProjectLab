@@ -2438,3 +2438,10 @@ select a provider, or initiate fallback implicitly.
     - Required CI passed; synchronized-main focused verification — 6 passed.
     - Design acceptance — Accepted / Completed.
     - Production implementation — Not Started.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-implementation-changelog -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring — Implementation
+
+    - Added immutable runtime configuration, exact read-command policy, and factory wiring.
+    - Production implementation — Implemented / Pending acceptance.

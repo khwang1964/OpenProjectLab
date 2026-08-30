@@ -1,7 +1,9 @@
 import json
+import subprocess
 from collections.abc import Callable
 from dataclasses import dataclass
 from enum import StrEnum
+from pathlib import Path
 
 
 class CheckConclusion(StrEnum):
@@ -636,3 +638,149 @@ class ReleaseEvidenceVerificationOrchestrator:
             for finding in validation.findings
         ]
         return VerificationReport(repository, pull_request, evidence, tuple(findings))
+
+
+# v1.3.4-read-only-verification-runtime-wiring-implementation
+
+
+_GITHUB_PR_FIELDS = (
+    "number,url,state,baseRefName,headRefName,mergeCommit,mergedAt,statusCheckRollup"
+)
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationRuntimeConfiguration:
+    working_directory: Path
+    git_executable: str = "git"
+    gh_executable: str = "gh"
+    timeout_seconds: float = 30.0
+    environment: tuple[tuple[str, str], ...] = ()
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "working_directory", Path(self.working_directory))
+        if not self.git_executable.strip() or not self.gh_executable.strip():
+            raise ValueError("runtime executable names must not be empty")
+        if self.timeout_seconds <= 0:
+            raise ValueError("runtime command timeout must be positive")
+        environment = tuple(sorted(self.environment))
+        if any(
+            not isinstance(key, str) or not key or not isinstance(value, str)
+            for key, value in environment
+        ):
+            raise ValueError("runtime environment entries must be non-empty strings")
+        keys = tuple(key for key, _ in environment)
+        if len(keys) != len(set(keys)):
+            raise ValueError("runtime environment keys must be unique")
+        object.__setattr__(self, "environment", environment)
+
+
+type RuntimeProcess = Callable[
+    [tuple[str, ...], Path, float, dict[str, str] | None],
+    CommandResult,
+]
+
+
+def _run_read_process(
+    command: tuple[str, ...],
+    working_directory: Path,
+    timeout_seconds: float,
+    environment: dict[str, str] | None,
+) -> CommandResult:
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=working_directory,
+            env=environment,
+            capture_output=True,
+            text=True,
+            timeout=timeout_seconds,
+            check=False,
+            shell=False,
+        )
+    except subprocess.TimeoutExpired:
+        return CommandResult("", returncode=124)
+    except OSError, ValueError:
+        return CommandResult("", returncode=127)
+    return CommandResult(completed.stdout, returncode=completed.returncode)
+
+
+class ReadOnlyVerificationCommandExecutor:
+    def __init__(
+        self,
+        configuration: VerificationRuntimeConfiguration,
+        process: RuntimeProcess = _run_read_process,
+    ) -> None:
+        self.configuration = configuration
+        self._process = process
+
+    def __call__(self, command: tuple[str, ...]) -> CommandResult:
+        self._validate(command)
+        executable = (
+            self.configuration.git_executable
+            if command[0] == "git"
+            else self.configuration.gh_executable
+        )
+        environment = (
+            dict(self.configuration.environment) if self.configuration.environment else None
+        )
+        return self._process(
+            (executable, *command[1:]),
+            self.configuration.working_directory,
+            self.configuration.timeout_seconds,
+            environment,
+        )
+
+    @staticmethod
+    def _validate(command: tuple[str, ...]) -> None:
+        allowed_git = {
+            ("git", "config", "--get", "remote.origin.url"),
+            ("git", "branch", "--show-current"),
+            ("git", "rev-parse", "HEAD"),
+            ("git", "rev-parse", "origin/main"),
+            ("git", "status", "--porcelain"),
+        }
+        if command in allowed_git:
+            return
+        if (
+            len(command) == 6
+            and command[:3] == ("gh", "pr", "view")
+            and command[3].isdigit()
+            and int(command[3]) > 0
+            and command[4:] == ("--json", _GITHUB_PR_FIELDS)
+        ):
+            return
+        raise EvidenceCollectionError(
+            CollectionFailureCode.MALFORMED_FIELD,
+            "runtime command is outside the accepted read-only policy",
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationRuntime:
+    command: ReadOnlyVerificationCommandExecutor
+    repository_adapter: RepositoryEvidenceAdapter
+    github_adapter: GitHubEvidenceAdapter
+    validator: ReleaseEvidenceValidator
+    orchestrator: ReleaseEvidenceVerificationOrchestrator
+
+
+def build_verification_runtime(
+    configuration: VerificationRuntimeConfiguration,
+    process: RuntimeProcess = _run_read_process,
+) -> VerificationRuntime:
+    command = ReadOnlyVerificationCommandExecutor(configuration, process)
+    repository_adapter = RepositoryEvidenceAdapter(command)
+    github_adapter = GitHubEvidenceAdapter(command)
+    validator = ReleaseEvidenceValidator()
+    orchestrator = ReleaseEvidenceVerificationOrchestrator(
+        repository_adapter,
+        github_adapter,
+        validator,
+    )
+    return VerificationRuntime(
+        command,
+        repository_adapter,
+        github_adapter,
+        validator,
+        orchestrator,
+    )

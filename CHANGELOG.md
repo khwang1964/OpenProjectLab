@@ -2462,3 +2462,32 @@ select a provider, or initiate fallback implicitly.
     - Alignment PR #287 merged as `89d16d61f5be0559faf0e87f8740a19378ac0717`.
     - Required CI passed; synchronized-main verification — 42 passed.
     - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.3.5-read-only-verification-invocation-design-changelog -->
+
+    ## v1.3.5 Read-only Verification Invocation Boundary — Design First
+
+    - Proposed one explicit, stateless, read-only verification invocation boundary.
+    - Proposed exact reuse of the accepted runtime, request, orchestrator, and report.
+    - Production implementation — Not Started.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-changelog -->
+
+        ## v1.3.5–v1.3.7 Read-only Verification Delivery Train — Design First
+
+        - Bundled invocation, deterministic I/O, and opt-in CLI preview designs.
+        - Production implementation — Not Started for every train capability.
+
+<!-- v1.3.6-deterministic-verification-io-contracts-design-changelog -->
+
+            ## v1.3.6 Deterministic Verification I/O Contracts — Design First
+
+            - Status — Proposed / Pending design review.
+            - Production implementation — Not Started.
+
+<!-- v1.3.7-opt-in-verification-cli-preview-design-changelog -->
+
+            ## v1.3.7 Opt-in Read-only Verification CLI Preview — Design First
+
+            - Status — Proposed / Pending design review.
+            - Production implementation — Not Started.

@@ -3863,3 +3863,36 @@ Implementation acceptance remains pending.
     Required CI passed, and synchronized-main verification completed with 42 passed.
 
     - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.3.5-read-only-verification-invocation-design-history -->
+
+    ## v1.3.5 Read-only Verification Invocation Boundary design proposed
+
+    The Design First proposal defines one internal, caller-authorized invocation that
+    reuses the accepted read-only runtime without adding discovery or mutation.
+
+    - Design review — Pending.
+    - Production implementation — Not Started.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-history -->
+
+        ## v1.3.5–v1.3.7 Read-only Verification delivery train proposed
+
+        The Design First train groups three dependent read-only capabilities while
+        preserving separate merge verification and final acceptance closure.
+
+        - Production implementation — Not Started for every train capability.
+
+<!-- v1.3.6-deterministic-verification-io-contracts-design-history -->
+
+            ## v1.3.6 Deterministic Verification I/O Contracts — Design First
+
+            - Status — Proposed / Pending design review.
+            - Production implementation — Not Started.
+
+<!-- v1.3.7-opt-in-verification-cli-preview-design-history -->
+
+            ## v1.3.7 Opt-in Read-only Verification CLI Preview — Design First
+
+            - Status — Proposed / Pending design review.
+            - Production implementation — Not Started.

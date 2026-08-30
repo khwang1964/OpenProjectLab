@@ -5,11 +5,11 @@ ARCHITECTURE = ROOT / "docs/architecture/deterministic-verification-io-contracts
 RELEASE = ROOT / "docs/releases/v1.3.6-deterministic-verification-io-contracts.md"
 
 
-def test_io_design_remains_pending_and_unimplemented() -> None:
+def test_io_design_is_accepted_and_unimplemented() -> None:
     architecture = ARCHITECTURE.read_text(encoding="utf-8")
     release = RELEASE.read_text(encoding="utf-8")
-    assert "Proposed / Pending design review" in architecture
-    assert "Status: Proposed / Pending design review" in release
+    assert "Accepted / Terminally Closed" in architecture
+    assert "Status: Accepted / Completed" in release
     assert "Production implementation — Not Started" in release
 
 

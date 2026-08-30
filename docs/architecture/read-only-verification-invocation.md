@@ -1,6 +1,6 @@
 # Read-only Verification Invocation Boundary
 
-> v1.3.5 Design First baseline — Proposed / Pending design review
+> v1.3.5 Design First baseline — Accepted / Terminally Closed
 
 ## Context
 

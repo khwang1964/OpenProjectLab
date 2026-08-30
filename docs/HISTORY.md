@@ -3896,3 +3896,13 @@ Implementation acceptance remains pending.
 
             - Status — Proposed / Pending design review.
             - Production implementation — Not Started.
+
+<!-- v1.3.5-v1.3.7-delivery-train-design-acceptance-history -->
+
+        ## v1.3.5–v1.3.7 Read-only Verification train design accepted
+
+        PR #289 merged the three-capability Design Train as `aada1068cd4452b264ba612deff7deab455cfb31`. Required CI
+        passed, and synchronized-main focused verification completed with 22 passed.
+
+        - Design acceptance — Accepted / Completed.
+        - Production implementation — Not Started.

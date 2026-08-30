@@ -3719,3 +3719,13 @@ Next roadmap slice --- Pending explicit Design First definition
 
             - Status — Proposed / Pending design review.
             - Production implementation — Not Started.
+
+<!-- v1.3.5-v1.3.7-delivery-train-design-acceptance-roadmap -->
+
+        ## v1.3.5–v1.3.7 Read-only Verification Train — Design Acceptance
+
+        - Status — Accepted / Completed.
+        - Design Train PR #289 — `aada1068cd4452b264ba612deff7deab455cfb31`.
+        - Required CI and synchronized-main verification — Passed.
+        - Production implementation — Not Started.
+        - Next — one implementation train for v1.3.5 through v1.3.7.

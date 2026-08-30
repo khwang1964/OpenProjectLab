@@ -3630,3 +3630,14 @@ Next roadmap slice --- Pending explicit Design First definition
     - Required CI and synchronized-main verification — Passed.
     - Deferred execution, mutation, CLI, SDK, release, and publication boundaries — Preserved.
     - Next roadmap slice — Pending explicit Design First definition.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-design-roadmap -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring (Design First)
+
+    - Status — Proposed / Pending design review.
+    - Predecessor — v1.3.3 orchestration implementation Accepted / Completed.
+    - Scope — explicit runtime configuration, exact read-command policy, and internal wiring.
+    - Mutation, arbitrary execution, CLI, SDK, release, and publication — Deferred.
+    - Production implementation — Not Started.
+    - Next — focused design-contract verification and Design PR.

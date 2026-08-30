@@ -3815,3 +3815,13 @@ Implementation acceptance remains pending.
     Required CI passed, and synchronized-main verification completed with 41 passed.
 
     - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-design-history -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring design proposed
+
+    The Design First proposal defines a minimum internal composition root and an exact
+    read-command boundary for the accepted release-evidence workflow.
+
+    - Design review — Pending.
+    - Production implementation — Not Started.

@@ -9,10 +9,10 @@ ALIGNMENT = ROOT / (
 )
 
 
-def test_alignment_remains_pending_before_merge_verification() -> None:
+def test_alignment_is_verified_after_merge() -> None:
     text = ALIGNMENT.read_text(encoding="utf-8")
-    assert "Pending / Awaiting terminal-alignment merge and verification" in text
-    assert text.count("> Status: Pending / Awaiting terminal-alignment merge and verification") == 1
+    assert text.count("> Status: Verified / Completed") == 1
+    assert "Post-merge focused verification — 41 passed" in text
 
 
 def test_alignment_cites_exact_implementation_evidence() -> None:
@@ -25,10 +25,10 @@ def test_alignment_cites_exact_implementation_evidence() -> None:
     assert "36 passed" in text
 
 
-def test_implementation_record_awaits_separate_acceptance() -> None:
+def test_implementation_record_is_accepted() -> None:
     text = IMPLEMENTATION.read_text(encoding="utf-8")
-    assert "Implemented / Awaiting implementation acceptance" in text
-    assert "Separate implementation acceptance closure — Pending" in text
+    assert "Status: Accepted / Completed" in text
+    assert "Separate implementation acceptance closure — Recorded" in text
 
 
 def test_alignment_preserves_deferred_authority() -> None:

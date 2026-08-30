@@ -2445,3 +2445,12 @@ select a provider, or initiate fallback implicitly.
 
     - Added immutable runtime configuration, exact read-command policy, and factory wiring.
     - Production implementation — Implemented / Pending acceptance.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-implementation-alignment-changelog -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring — Implementation Alignment
+
+    - PR #286 merged as `8e944d73f241523f8e82c4cb5792501d76ad7ae1`;
+      required CI passed.
+    - Synchronized-main focused verification — 37 passed.
+    - Status — Implemented / Awaiting implementation acceptance.

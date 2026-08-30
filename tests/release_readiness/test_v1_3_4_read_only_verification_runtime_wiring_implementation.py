@@ -29,7 +29,7 @@ def test_implementation_reuses_accepted_components() -> None:
 
 def test_release_record_preserves_deferred_authority() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert "Implemented / Pending acceptance" in text
+    assert "Implemented / Awaiting implementation acceptance" in text
     assert "No CLI, public SDK, arbitrary subprocess, mutation" in text
     assert "No retry, polling, persistence, caching" in text
     assert "Code Review Checklist" in text

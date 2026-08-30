@@ -3854,3 +3854,12 @@ Implementation acceptance remains pending.
 
     - Status — Implemented / Awaiting implementation acceptance.
     - Next — terminal-alignment merge, verification, and separate closure PR.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-implementation-closure-history -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring implementation accepted
+
+    Alignment PR #287 merged as `89d16d61f5be0559faf0e87f8740a19378ac0717`.
+    Required CI passed, and synchronized-main verification completed with 42 passed.
+
+    - Implementation acceptance — Accepted / Completed.

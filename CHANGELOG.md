@@ -2454,3 +2454,11 @@ select a provider, or initiate fallback implicitly.
       required CI passed.
     - Synchronized-main focused verification — 37 passed.
     - Status — Implemented / Awaiting implementation acceptance.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-implementation-closure-changelog -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring — Implementation Accepted
+
+    - Alignment PR #287 merged as `89d16d61f5be0559faf0e87f8740a19378ac0717`.
+    - Required CI passed; synchronized-main verification — 42 passed.
+    - Implementation acceptance — Accepted / Completed.

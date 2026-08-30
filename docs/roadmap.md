@@ -3671,3 +3671,14 @@ Next roadmap slice --- Pending explicit Design First definition
     - Required CI — Passed.
     - Synchronized-main focused verification — 37 passed.
     - Next — terminal-alignment PR merge, verification, then separate closure PR.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-implementation-closure-roadmap -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring — Implementation Acceptance
+
+    - Status — Accepted / Completed.
+    - Implementation PR #286 — `8e944d73f241523f8e82c4cb5792501d76ad7ae1`.
+    - Alignment PR #287 — `89d16d61f5be0559faf0e87f8740a19378ac0717`.
+    - Required CI and synchronized-main verification — Passed.
+    - Read-only and deferred mutation, CLI, SDK, release boundaries — Preserved.
+    - Next roadmap slice — Pending explicit Design First definition.

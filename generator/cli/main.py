@@ -15,6 +15,7 @@ from generator.cli.bootstrap_runtime import (
     execute_bootstrap_runtime,
 )
 from generator.cli.marketplace import add_marketplace_parser
+from generator.cli.release_evidence import add_release_evidence_parser
 from generator.cli.upgrade import add_upgrade_parser
 from generator.core.config import ProjectConfig
 from generator.core.exceptions import GeneratorValidationError
@@ -77,6 +78,7 @@ def build_parser() -> argparse.ArgumentParser:
     add_upgrade_parser(subparsers)
     add_marketplace_parser(subparsers)
     add_ai_parser(subparsers)
+    add_release_evidence_parser(subparsers)
 
     list_parser = subparsers.add_parser("list", help="列出可用產生器")
     list_parser.set_defaults(handler=_handle_list)

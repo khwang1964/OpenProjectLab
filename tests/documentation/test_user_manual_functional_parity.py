@@ -38,6 +38,7 @@ MAJOR_CLI_COMMANDS = frozenset(
     }
 )
 REVIEWED_V1_1_ADDITIVE_COMMANDS = frozenset({"ai", "marketplace"})
+REVIEWED_POST_V1_1_COMMANDS = frozenset({"release-evidence"})
 
 GENERATOR_IDENTITIES = frozenset(
     {
@@ -138,7 +139,9 @@ def test_production_cli_preserves_v1_manual_contract_with_reviewed_additions() -
     parser = build_parser()
     actual_commands = frozenset(_subparser_choices(parser))
 
-    assert actual_commands == MAJOR_CLI_COMMANDS | REVIEWED_V1_1_ADDITIVE_COMMANDS
+    assert actual_commands == (
+        MAJOR_CLI_COMMANDS | REVIEWED_V1_1_ADDITIVE_COMMANDS | REVIEWED_POST_V1_1_COMMANDS
+    )
 
 
 @pytest.mark.parametrize(

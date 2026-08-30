@@ -22,7 +22,7 @@ EXPECTED_V1_COMMANDS = frozenset(
         "week",
     }
 )
-EXPECTED_ADDITIVE_COMMANDS = frozenset({"ai", "marketplace"})
+EXPECTED_ADDITIVE_COMMANDS = frozenset({"ai", "marketplace", "release-evidence"})
 
 VALID_V1_COMMAND_LINES: tuple[tuple[str, ...], ...] = (
     ("list",),

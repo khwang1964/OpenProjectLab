@@ -25,6 +25,7 @@ EXPECTED_V1_COMMANDS = frozenset(
     }
 )
 IMPLEMENTED_V1_1_COMMANDS = frozenset({"ai", "marketplace"})
+REVIEWED_POST_V1_1_COMMANDS = frozenset({"release-evidence"})
 RESERVED_V1_1_COMMANDS = frozenset()
 
 
@@ -63,7 +64,9 @@ def test_v1_1_cli_design_is_formally_accepted() -> None:
 def test_v1_1_design_preserves_the_exact_reviewed_v1_command_inventory() -> None:
     design = _read(DESIGN)
 
-    assert _command_choices() == EXPECTED_V1_COMMANDS | IMPLEMENTED_V1_1_COMMANDS
+    assert _command_choices() == (
+        EXPECTED_V1_COMMANDS | IMPLEMENTED_V1_1_COMMANDS | REVIEWED_POST_V1_1_COMMANDS
+    )
     assert V1_TEST.is_file()
     for command in EXPECTED_V1_COMMANDS:
         assert f"\n{command}\n" in design

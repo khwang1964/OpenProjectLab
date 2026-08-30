@@ -3906,3 +3906,10 @@ Implementation acceptance remains pending.
 
         - Design acceptance — Accepted / Completed.
         - Production implementation — Not Started.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-implementation-history -->
+## v1.3.5-v1.3.7 Read-only Verification Delivery Train — Implemented
+
+- Added stateless invocation, deterministic request/report I/O, and the opt-in
+  read-only CLI preview.
+- Terminal alignment and implementation acceptance remain pending.

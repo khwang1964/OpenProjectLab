@@ -784,3 +784,196 @@ def build_verification_runtime(
         validator,
         orchestrator,
     )
+
+
+# v1.3.5-v1.3.7-read-only-verification-delivery-train-implementation
+
+
+class VerificationDocumentError(ValueError):
+    """Raised when a deterministic verification document is invalid."""
+
+
+@dataclass(frozen=True, slots=True)
+class ReadOnlyVerificationInvoker:
+    runtime: VerificationRuntime
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.runtime, VerificationRuntime):
+            raise TypeError("runtime must be a VerificationRuntime")
+
+    def invoke(self, request: VerificationRequest) -> VerificationReport:
+        if not isinstance(request, VerificationRequest):
+            raise TypeError("request must be a VerificationRequest")
+        return self.runtime.orchestrator.verify(request)
+
+
+class VerificationRequestCodec:
+    SCHEMA_VERSION = 1
+    _KEYS = {
+        "schema_version",
+        "expected_repository",
+        "expected_branch",
+        "expected_sha",
+        "pull_request_number",
+        "focused_tests",
+    }
+    _TEST_KEYS = {"passed", "failed", "skipped", "deselected"}
+
+    @classmethod
+    def decode(cls, document: str) -> VerificationRequest:
+        try:
+            payload = json.loads(document, object_pairs_hook=cls._strict_object)
+        except (json.JSONDecodeError, TypeError) as error:
+            raise VerificationDocumentError("request is not valid JSON") from error
+        if not isinstance(payload, dict):
+            raise VerificationDocumentError("request must be a JSON object")
+        cls._require_exact_keys(payload, cls._KEYS, "request")
+        if payload["schema_version"] != cls.SCHEMA_VERSION or isinstance(
+            payload["schema_version"], bool
+        ):
+            raise VerificationDocumentError("schema_version must be integer 1")
+        repository = cls._required_string(payload["expected_repository"], "expected_repository")
+        branch = cls._required_string(payload["expected_branch"], "expected_branch")
+        sha = cls._required_string(payload["expected_sha"], "expected_sha")
+        pr_number = cls._integer(
+            payload["pull_request_number"],
+            "pull_request_number",
+            positive=True,
+        )
+        tests_payload = payload["focused_tests"]
+        if not isinstance(tests_payload, dict):
+            raise VerificationDocumentError("focused_tests must be an object")
+        cls._require_exact_keys(tests_payload, cls._TEST_KEYS, "focused_tests")
+        tests = TestEvidence(
+            passed=cls._integer(tests_payload["passed"], "passed"),
+            failed=cls._integer(tests_payload["failed"], "failed"),
+            skipped=cls._integer(tests_payload["skipped"], "skipped"),
+            deselected=cls._integer(tests_payload["deselected"], "deselected"),
+        )
+        try:
+            return VerificationRequest(repository, branch, sha, pr_number, tests)
+        except (TypeError, ValueError) as error:
+            raise VerificationDocumentError(str(error)) from error
+
+    @staticmethod
+    def _require_exact_keys(payload: dict[str, object], expected: set[str], field: str) -> None:
+        if set(payload) != expected:
+            raise VerificationDocumentError(f"{field} keys must match the schema exactly")
+
+    @staticmethod
+    def _strict_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
+        result: dict[str, object] = {}
+        for key, value in pairs:
+            if key in result:
+                raise VerificationDocumentError(f"duplicate JSON key: {key}")
+            result[key] = value
+        return result
+
+    @staticmethod
+    def _required_string(value: object, field: str) -> str:
+        if not isinstance(value, str) or not value.strip():
+            raise VerificationDocumentError(f"{field} must be a non-empty string")
+        return value
+
+    @staticmethod
+    def _integer(value: object, field: str, *, positive: bool = False) -> int:
+        if not isinstance(value, int) or isinstance(value, bool):
+            raise VerificationDocumentError(f"{field} must be an integer")
+        if value < (1 if positive else 0):
+            raise VerificationDocumentError(f"{field} is out of range")
+        return value
+
+
+class VerificationReportRenderer:
+    SCHEMA_VERSION = 1
+
+    @classmethod
+    def to_json(cls, report: VerificationReport) -> str:
+        return (
+            json.dumps(
+                cls._payload(report),
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            )
+            + "\n"
+        )
+
+    @classmethod
+    def to_text(cls, report: VerificationReport) -> str:
+        payload = cls._payload(report)
+        lines = [f"status: {payload['status']}"]
+        for name in ("repository", "pull_request", "evidence"):
+            value = payload[name]
+            lines.append(f"{name}: {json.dumps(value, ensure_ascii=False, sort_keys=True)}")
+        lines.append("findings:")
+        lines.extend(
+            f"- [{item['stage']}/{item['code']}] {item['message']}" for item in payload["findings"]
+        )
+        if not payload["findings"]:
+            lines.append("- none")
+        return "\n".join(lines) + "\n"
+
+    @classmethod
+    def _payload(cls, report: VerificationReport) -> dict[str, object]:
+        if not isinstance(report, VerificationReport):
+            raise TypeError("report must be a VerificationReport")
+        repository = report.repository
+        pull_request = report.pull_request
+        evidence = report.evidence
+        return {
+            "schema_version": cls.SCHEMA_VERSION,
+            "status": "passed" if report.is_valid else "failed",
+            "repository": None
+            if repository is None
+            else {
+                "repository": repository.repository,
+                "branch": repository.branch,
+                "head_sha": repository.head_sha,
+                "origin_main_sha": repository.origin_main_sha,
+                "remote_url": repository.remote_url,
+                "is_clean": repository.is_clean,
+            },
+            "pull_request": None
+            if pull_request is None
+            else {
+                "number": pull_request.number,
+                "url": pull_request.url,
+                "state": pull_request.state.value,
+                "base_branch": pull_request.base_branch,
+                "head_branch": pull_request.head_branch,
+                "merge_sha": pull_request.merge_sha,
+                "merged_at": pull_request.merged_at,
+                "checks": [
+                    {"name": check.name, "conclusion": check.conclusion.value}
+                    for check in pull_request.checks
+                ],
+            },
+            "evidence": None
+            if evidence is None
+            else {
+                "repository": evidence.repository,
+                "branch": evidence.branch,
+                "candidate_sha": evidence.candidate_sha,
+                "checks": [
+                    {"name": check.name, "conclusion": check.conclusion.value}
+                    for check in evidence.checks
+                ],
+                "focused_tests": None
+                if evidence.focused_tests is None
+                else {
+                    "passed": evidence.focused_tests.passed,
+                    "failed": evidence.focused_tests.failed,
+                    "skipped": evidence.focused_tests.skipped,
+                    "deselected": evidence.focused_tests.deselected,
+                },
+            },
+            "findings": [
+                {
+                    "stage": finding.stage.value,
+                    "code": str(finding.code),
+                    "message": finding.message,
+                }
+                for finding in report.findings
+            ],
+        }

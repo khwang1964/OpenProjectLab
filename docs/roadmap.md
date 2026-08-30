@@ -3729,3 +3729,9 @@ Next roadmap slice --- Pending explicit Design First definition
         - Required CI and synchronized-main verification — Passed.
         - Production implementation — Not Started.
         - Next — one implementation train for v1.3.5 through v1.3.7.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-implementation-roadmap -->
+## v1.3.5-v1.3.7 Read-only Verification Delivery Train
+
+- Production implementation — Completed.
+- Terminal alignment and implementation acceptance — Pending.

@@ -2500,3 +2500,7 @@ select a provider, or initiate fallback implicitly.
         - Synchronized-main design verification — 22 passed.
         - Design acceptance — Accepted / Completed.
         - Production implementation — Not Started.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-implementation-changelog -->
+- Implemented the v1.3.5-v1.3.7 read-only verification delivery train; terminal
+  alignment and implementation acceptance remain pending.

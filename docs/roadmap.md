@@ -3652,3 +3652,12 @@ Next roadmap slice --- Pending explicit Design First definition
     - Accepted boundary — exact read-command policy and internal runtime wiring.
     - Production implementation — Not Started.
     - Next — minimum v1.3.4 production implementation slice.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-implementation-roadmap -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring — Implementation
+
+    - Status — Implemented / Pending acceptance.
+    - Scope — immutable configuration, exact read-command policy, executor, and factory.
+    - Deferred authority — CLI, SDK, arbitrary execution, mutation, release, publication.
+    - Next — focused verification, implementation PR, and separate acceptance workflow.

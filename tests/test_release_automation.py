@@ -469,3 +469,114 @@ def test_pending_ci_and_missing_focused_tests_remain_validation_failures() -> No
         Stage.VALIDATION,
         Stage.VALIDATION,
     )
+
+
+# v1.3.4-read-only-verification-runtime-wiring-tests
+
+
+def _runtime_imports():
+    from generator.release_automation import (
+        ReadOnlyVerificationCommandExecutor,
+        VerificationRuntimeConfiguration,
+        build_verification_runtime,
+    )
+
+    return (
+        ReadOnlyVerificationCommandExecutor,
+        VerificationRuntimeConfiguration,
+        build_verification_runtime,
+    )
+
+
+class RecordingProcess:
+    def __init__(self, result: CommandResult | None = None) -> None:
+        self.result = result if result is not None else CommandResult("ok")
+        self.calls = []
+
+    def __call__(self, command, working_directory, timeout_seconds, environment):
+        self.calls.append((command, working_directory, timeout_seconds, environment))
+        return self.result
+
+
+def test_runtime_configuration_is_immutable_and_deterministic(tmp_path) -> None:
+    _, Configuration, _ = _runtime_imports()
+    configuration = Configuration(
+        tmp_path,
+        environment=(("Z", "last"), ("A", "first")),
+    )
+    assert configuration.environment == (("A", "first"), ("Z", "last"))
+    with pytest.raises(FrozenInstanceError):
+        configuration.timeout_seconds = 1  # type: ignore[misc]
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [
+        {"git_executable": " "},
+        {"gh_executable": ""},
+        {"timeout_seconds": 0},
+        {"environment": (("A", "1"), ("A", "2"))},
+    ],
+)
+def test_runtime_configuration_rejects_invalid_policy(tmp_path, changes) -> None:
+    _, Configuration, _ = _runtime_imports()
+    with pytest.raises(ValueError):
+        Configuration(tmp_path, **changes)
+
+
+def test_executor_runs_allowed_git_command_with_explicit_runtime(tmp_path) -> None:
+    Executor, Configuration, _ = _runtime_imports()
+    process = RecordingProcess(CommandResult("main"))
+    executor = Executor(
+        Configuration(
+            tmp_path,
+            git_executable="custom-git",
+            timeout_seconds=7,
+            environment=(("LANG", "C"),),
+        ),
+        process,
+    )
+    assert executor(("git", "branch", "--show-current")) == CommandResult("main")
+    assert process.calls == [
+        (("custom-git", "branch", "--show-current"), tmp_path, 7, {"LANG": "C"})
+    ]
+
+
+def test_executor_accepts_exact_github_read_command(tmp_path) -> None:
+    Executor, Configuration, _ = _runtime_imports()
+    process = RecordingProcess()
+    executor = Executor(Configuration(tmp_path, gh_executable="custom-gh"), process)
+    fields = "number,url,state,baseRefName,headRefName,mergeCommit,mergedAt,statusCheckRollup"
+    executor(("gh", "pr", "view", "284", "--json", fields))
+    assert process.calls[0][0][0] == "custom-gh"
+
+
+@pytest.mark.parametrize(
+    "command",
+    [
+        ("git", "push"),
+        ("git", "status", "--porcelain", "--ignored"),
+        ("gh", "pr", "merge", "284"),
+        ("gh", "pr", "view", "0", "--json", "number"),
+    ],
+)
+def test_executor_rejects_commands_outside_policy_before_execution(tmp_path, command) -> None:
+    Executor, Configuration, _ = _runtime_imports()
+    process = RecordingProcess()
+    executor = Executor(Configuration(tmp_path), process)
+    with pytest.raises(EvidenceCollectionError) as raised:
+        executor(command)
+    assert raised.value.code is CollectionFailureCode.MALFORMED_FIELD
+    assert process.calls == []
+
+
+def test_factory_wires_components_without_running_process(tmp_path) -> None:
+    _, Configuration, build_runtime = _runtime_imports()
+    process = RecordingProcess()
+    runtime = build_runtime(Configuration(tmp_path), process)
+    assert runtime.command.configuration.working_directory == tmp_path
+    assert runtime.repository_adapter is not None
+    assert runtime.github_adapter is not None
+    assert runtime.validator is not None
+    assert runtime.orchestrator is not None
+    assert process.calls == []

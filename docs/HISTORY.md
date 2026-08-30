@@ -3836,3 +3836,10 @@ Implementation acceptance remains pending.
 
     - Design acceptance — Accepted / Completed.
     - Production implementation — Not Started.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-implementation-history -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring implementation
+
+    The accepted design now has its minimum internal production implementation.
+    Implementation acceptance remains pending.

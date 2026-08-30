@@ -3843,3 +3843,14 @@ Implementation acceptance remains pending.
 
     The accepted design now has its minimum internal production implementation.
     Implementation acceptance remains pending.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-implementation-alignment-history -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring implementation aligned
+
+    PR #286 merged the minimum implementation as
+    `8e944d73f241523f8e82c4cb5792501d76ad7ae1`. Required CI passed, and
+    synchronized-main focused verification completed with 37 passed.
+
+    - Status — Implemented / Awaiting implementation acceptance.
+    - Next — terminal-alignment merge, verification, and separate closure PR.

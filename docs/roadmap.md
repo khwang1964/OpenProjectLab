@@ -3661,3 +3661,13 @@ Next roadmap slice --- Pending explicit Design First definition
     - Scope — immutable configuration, exact read-command policy, executor, and factory.
     - Deferred authority — CLI, SDK, arbitrary execution, mutation, release, publication.
     - Next — focused verification, implementation PR, and separate acceptance workflow.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-implementation-alignment-roadmap -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring — Implementation Alignment
+
+    - Status — Implemented / Awaiting implementation acceptance.
+    - Implementation PR #286 — `8e944d73f241523f8e82c4cb5792501d76ad7ae1`.
+    - Required CI — Passed.
+    - Synchronized-main focused verification — 37 passed.
+    - Next — terminal-alignment PR merge, verification, then separate closure PR.

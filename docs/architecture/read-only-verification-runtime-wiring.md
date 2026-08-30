@@ -1,6 +1,6 @@
 # Read-only Verification Runtime Wiring
 
-> v1.3.4 Design First baseline — Proposed / Pending design review
+> v1.3.4 Design First baseline — Accepted / Terminally Closed
 
 ## Context
 

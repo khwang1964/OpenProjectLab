@@ -3825,3 +3825,14 @@ Implementation acceptance remains pending.
 
     - Design review — Pending.
     - Production implementation — Not Started.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-design-acceptance-history -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring design accepted
+
+    PR #284 merged the Design First contract as
+    `247e899f6034e7159a843056c40290b3c42b7dce`. Required CI passed, and
+    synchronized-main verification completed with 6 passed.
+
+    - Design acceptance — Accepted / Completed.
+    - Production implementation — Not Started.

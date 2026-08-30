@@ -3641,3 +3641,14 @@ Next roadmap slice --- Pending explicit Design First definition
     - Mutation, arbitrary execution, CLI, SDK, release, and publication — Deferred.
     - Production implementation — Not Started.
     - Next — focused design-contract verification and Design PR.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-design-acceptance-roadmap -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring — Design Acceptance
+
+    - Status — Accepted / Completed.
+    - Design PR #284 — `247e899f6034e7159a843056c40290b3c42b7dce`.
+    - Required CI and synchronized-main verification — Passed.
+    - Accepted boundary — exact read-command policy and internal runtime wiring.
+    - Production implementation — Not Started.
+    - Next — minimum v1.3.4 production implementation slice.

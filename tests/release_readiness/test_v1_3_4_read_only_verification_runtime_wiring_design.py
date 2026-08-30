@@ -8,8 +8,8 @@ RELEASE = ROOT / "docs/releases/v1.3.4-read-only-verification-runtime-wiring.md"
 def test_design_surfaces_exist_and_remain_pending() -> None:
     architecture = ARCHITECTURE.read_text(encoding="utf-8")
     release = RELEASE.read_text(encoding="utf-8")
-    assert "Proposed / Pending design review" in architecture
-    assert "Status: Proposed / Pending design review" in release
+    assert "Accepted / Terminally Closed" in architecture
+    assert "Status: Accepted / Completed" in release
     assert "Production implementation — Not Started" in release
 
 

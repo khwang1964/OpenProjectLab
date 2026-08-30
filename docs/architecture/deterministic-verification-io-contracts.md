@@ -1,6 +1,6 @@
 # Deterministic Verification I/O Contracts
 
-> v1.3.6 Design First baseline — Proposed / Pending design review
+> v1.3.6 Design First baseline — Accepted / Terminally Closed
 
 ## Context
 

@@ -5,11 +5,11 @@ ARCHITECTURE = ROOT / "docs/architecture/opt-in-verification-cli-preview.md"
 RELEASE = ROOT / "docs/releases/v1.3.7-opt-in-verification-cli-preview.md"
 
 
-def test_cli_design_remains_pending_and_unimplemented() -> None:
+def test_cli_design_is_accepted_and_unimplemented() -> None:
     architecture = ARCHITECTURE.read_text(encoding="utf-8")
     release = RELEASE.read_text(encoding="utf-8")
-    assert "Proposed / Pending design review" in architecture
-    assert "Status: Proposed / Pending design review" in release
+    assert "Accepted / Terminally Closed" in architecture
+    assert "Status: Accepted / Completed" in release
     assert "Production implementation — Not Started" in release
 
 

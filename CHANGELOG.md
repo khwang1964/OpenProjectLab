@@ -2491,3 +2491,12 @@ select a provider, or initiate fallback implicitly.
 
             - Status — Proposed / Pending design review.
             - Production implementation — Not Started.
+
+<!-- v1.3.5-v1.3.7-delivery-train-design-acceptance-changelog -->
+
+        ## v1.3.5–v1.3.7 Read-only Verification Delivery Train — Design Accepted
+
+        - Design Train PR #289 merged as `aada1068cd4452b264ba612deff7deab455cfb31`; required CI passed.
+        - Synchronized-main design verification — 22 passed.
+        - Design acceptance — Accepted / Completed.
+        - Production implementation — Not Started.

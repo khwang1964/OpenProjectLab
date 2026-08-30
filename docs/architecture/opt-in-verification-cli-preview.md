@@ -1,6 +1,6 @@
 # Opt-in Read-only Verification CLI Preview
 
-> v1.3.7 Design First baseline — Proposed / Pending design review
+> v1.3.7 Design First baseline — Accepted / Terminally Closed
 
 ## Context
 

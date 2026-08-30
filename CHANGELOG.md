@@ -2421,3 +2421,11 @@ select a provider, or initiate fallback implicitly.
     - Alignment PR #282 merged as `86ad4406107e90fbec5dcfb2fe57dae407695eec`.
     - Required CI passed; synchronized-main verification — 41 passed.
     - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-design-changelog -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring — Design First
+
+    - Proposed explicit immutable runtime configuration and read-command policy.
+    - Proposed internal wiring of accepted adapters, validator, and orchestrator.
+    - Production implementation — Not Started.

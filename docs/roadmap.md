@@ -3682,3 +3682,40 @@ Next roadmap slice --- Pending explicit Design First definition
     - Required CI and synchronized-main verification — Passed.
     - Read-only and deferred mutation, CLI, SDK, release boundaries — Preserved.
     - Next roadmap slice — Pending explicit Design First definition.
+
+<!-- v1.3.5-read-only-verification-invocation-design-roadmap -->
+
+    ## v1.3.5 Read-only Verification Invocation Boundary (Design First)
+
+    - Status — Proposed / Pending design review.
+    - Predecessor — v1.3.4 runtime wiring implementation Accepted / Completed.
+    - Scope — one stateless invocation of the accepted read-only orchestrator.
+    - Discovery, arbitrary execution, mutation, CLI, SDK, and publication — Deferred.
+    - Production implementation — Not Started.
+    - Next — focused design-contract verification and Design PR.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-roadmap -->
+
+        ## v1.3.5–v1.3.7 Read-only Verification Delivery Train
+
+        - Status — Proposed / Pending design review.
+        - v1.3.5 — stateless invocation.
+        - v1.3.6 — deterministic request and report I/O.
+        - v1.3.7 — explicit opt-in read-only CLI preview.
+        - Production implementation — Not Started for every train capability.
+        - Delivery — one Design PR, one Design Acceptance PR, one implementation PR,
+          then the required pending-alignment and separate-closure PR pair.
+
+<!-- v1.3.6-deterministic-verification-io-contracts-design-roadmap -->
+
+            ## v1.3.6 Deterministic Verification I/O Contracts — Design First
+
+            - Status — Proposed / Pending design review.
+            - Production implementation — Not Started.
+
+<!-- v1.3.7-opt-in-verification-cli-preview-design-roadmap -->
+
+            ## v1.3.7 Opt-in Read-only Verification CLI Preview — Design First
+
+            - Status — Proposed / Pending design review.
+            - Production implementation — Not Started.

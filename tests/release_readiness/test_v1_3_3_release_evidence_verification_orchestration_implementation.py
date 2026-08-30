@@ -27,6 +27,6 @@ def test_implementation_reuses_accepted_boundaries() -> None:
 
 def test_release_record_preserves_deferred_authority() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert "Implemented / Pending acceptance" in text
+    assert "Implemented / Awaiting implementation acceptance" in text
     assert "No pytest execution, CLI, SDK, Git/GitHub mutation" in text
     assert "Code Review Checklist" in text

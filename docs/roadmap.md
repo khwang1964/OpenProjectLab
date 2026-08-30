@@ -3609,3 +3609,13 @@ Next roadmap slice --- Pending explicit Design First definition
 - Status — Implemented / Pending acceptance.
 - Scope — immutable request/report and deterministic fail-closed orchestration only.
 - Next — focused verification, implementation PR, and separate acceptance closure.
+
+<!-- v1.3.3-release-evidence-verification-orchestration-implementation-alignment-roadmap -->
+
+    ## v1.3.3 Release Evidence Verification Orchestration — Implementation Alignment
+
+    - Status — Implemented / Awaiting implementation acceptance.
+    - Implementation PR #281 — `1441c362923f16d704f817e302ef22fbb829782a`.
+    - Required CI — Passed.
+    - Synchronized-main focused verification — 36 passed.
+    - Next — terminal-alignment PR merge, verification, then separate closure PR.

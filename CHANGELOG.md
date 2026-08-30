@@ -2405,3 +2405,11 @@ select a provider, or initiate fallback implicitly.
 
 - Added immutable request/report contracts and deterministic fail-closed orchestration.
 - Production implementation — Implemented / Pending acceptance.
+
+<!-- v1.3.3-release-evidence-verification-orchestration-implementation-alignment-changelog -->
+
+    ## v1.3.3 Release Evidence Verification Orchestration — Implementation Alignment
+
+    - PR #281 merged as `1441c362923f16d704f817e302ef22fbb829782a`; required CI passed.
+    - Synchronized-main focused verification — 36 passed.
+    - Status — Implemented / Awaiting implementation acceptance.

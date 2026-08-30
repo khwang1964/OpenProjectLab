@@ -3913,3 +3913,9 @@ Implementation acceptance remains pending.
 - Added stateless invocation, deterministic request/report I/O, and the opt-in
   read-only CLI preview.
 - Terminal alignment and implementation acceptance remain pending.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-terminal-alignment-history -->
+## v1.3.5-v1.3.7 Delivery Train — Terminal Alignment Pending
+
+- PR #291 merged and synchronized-main verification completed with 134 passed.
+- Implementation acceptance awaits terminal-alignment merge and verification.

@@ -2504,3 +2504,7 @@ select a provider, or initiate fallback implicitly.
 <!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-implementation-changelog -->
 - Implemented the v1.3.5-v1.3.7 read-only verification delivery train; terminal
   alignment and implementation acceptance remain pending.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-terminal-alignment-changelog -->
+- Recorded terminal alignment for the merged v1.3.5-v1.3.7 read-only verification
+  delivery train; implementation acceptance awaits alignment merge verification.

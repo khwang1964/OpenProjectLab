@@ -32,7 +32,7 @@ def test_cli_preserves_explicit_bounded_read_only_boundary() -> None:
 
 def test_release_record_remains_pending_before_merge_verification() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert "Implemented / Pending terminal alignment and acceptance" in text
+    assert "Implemented / Terminal alignment recorded; acceptance pending" in text
     assert "implementation acceptance until implementation merge" in text
 
 

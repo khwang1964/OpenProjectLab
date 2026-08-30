@@ -2429,3 +2429,12 @@ select a provider, or initiate fallback implicitly.
     - Proposed explicit immutable runtime configuration and read-command policy.
     - Proposed internal wiring of accepted adapters, validator, and orchestrator.
     - Production implementation — Not Started.
+
+<!-- v1.3.4-read-only-verification-runtime-wiring-design-acceptance-changelog -->
+
+    ## v1.3.4 Read-only Verification Runtime Wiring — Design Accepted
+
+    - Design PR #284 merged as `247e899f6034e7159a843056c40290b3c42b7dce`.
+    - Required CI passed; synchronized-main focused verification — 6 passed.
+    - Design acceptance — Accepted / Completed.
+    - Production implementation — Not Started.

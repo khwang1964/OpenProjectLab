@@ -27,5 +27,5 @@ def test_design_preserves_read_only_and_offline_authority() -> None:
 
 def test_release_keeps_implementation_not_started() -> None:
     text = " ".join(RELEASE.read_text(encoding="utf-8").split())
-    assert "Design First / Proposed / Pending design review" in text
+    assert "Design Accepted / Completed" in text
     assert "Production implementation — Not Started" in text

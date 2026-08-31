@@ -2516,3 +2516,7 @@ select a provider, or initiate fallback implicitly.
 <!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-design-train-changelog -->
 - Proposed the v1.3.8-v1.3.10 verification-request usability and stable CLI
   Design Train; production implementation remains Not Started.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-design-acceptance-changelog -->
+- Accepted and terminally closed the v1.3.8-v1.3.10 verification-request usability
+  and stable CLI design; production implementation remains Not Started.

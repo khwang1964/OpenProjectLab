@@ -1,6 +1,6 @@
 # Canonical Verification Request Serialization
 
-> v1.3.8 Design First baseline — Proposed / Pending design review
+> v1.3.8 Design First baseline — Accepted / Terminally Closed
 
 ## Context
 

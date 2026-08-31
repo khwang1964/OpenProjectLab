@@ -3933,3 +3933,10 @@ Implementation acceptance remains pending.
 - Proposed canonical request serialization, offline request validation, and stable
   release-evidence CLI contracts.
 - Production implementation — Not Started.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-design-acceptance-history -->
+## v1.3.8-v1.3.10 Design Train — Accepted / Completed
+
+- Design PR #294 merged at `cf76f779a0554c3268b648b131a794f83152e21f` with required CI passed.
+- Synchronized-main design verification completed with 14 passed.
+- Production implementation — Not Started.

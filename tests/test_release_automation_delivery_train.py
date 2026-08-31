@@ -11,7 +11,6 @@ from generator.release_automation import (
     ReadOnlyVerificationInvoker,
     ReleaseEvidence,
     RepositoryObservation,
-    TestEvidence,
     VerificationDocumentError,
     VerificationFinding,
     VerificationFindingStage,
@@ -20,6 +19,9 @@ from generator.release_automation import (
     VerificationRequest,
     VerificationRequestCodec,
     VerificationRuntime,
+)
+from generator.release_automation import (
+    TestEvidence as EvidenceCounts,
 )
 
 SHA = "a" * 40
@@ -41,7 +43,7 @@ def _document(**changes: object) -> str:
 def test_request_codec_decodes_exact_schema() -> None:
     request = VerificationRequestCodec.decode(_document())
     assert request.pull_request_number == 290
-    assert request.focused_tests == TestEvidence(28)
+    assert request.focused_tests == EvidenceCounts(28)
     with pytest.raises(FrozenInstanceError):
         request.pull_request_number = 1  # type: ignore[misc]
 
@@ -105,7 +107,7 @@ def test_renderers_are_deterministic_and_status_consistent() -> None:
         "main",
         SHA,
         (CheckEvidence("quality", CheckConclusion.PASSED),),
-        TestEvidence(28),
+        EvidenceCounts(28),
     )
     report = VerificationReport(repository, None, evidence, ())
     first = VerificationReportRenderer.to_json(report)

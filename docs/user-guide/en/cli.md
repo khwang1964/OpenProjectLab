@@ -508,3 +508,19 @@ accepted:
 AI CLI Implementation Acceptance --- Not Accepted
 Formal v1.1 Acceptance --- Not Accepted
 ```
+
+<!-- v1.3.10-stable-release-evidence-cli-en -->
+## 20. Release Evidence CLI
+
+The stable read-only family exposes exactly:
+
+```text
+opl release-evidence verify --request FILE --format json|text
+opl release-evidence request validate --request FILE --format json|text
+```
+
+`request validate` is offline and never executes Git, GitHub, tests, or a runtime.
+`verify` uses only the accepted read-only command allowlist. Exit `0` means valid
+success output, exit `1` means a complete verification report has findings, and exit
+`2` means accepted output could not be produced. Success uses stdout; diagnostics use
+stderr. There is no stdin, output file, discovery, repair, retry, polling, or mutation.

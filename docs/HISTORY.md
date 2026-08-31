@@ -3940,3 +3940,8 @@ Implementation acceptance remains pending.
 - Design PR #294 merged at `cf76f779a0554c3268b648b131a794f83152e21f` with required CI passed.
 - Synchronized-main design verification completed with 14 passed.
 - Production implementation — Not Started.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-implementation-history -->
+## v1.3.8-v1.3.10 Implementation
+
+- Production implementation completed; terminal acceptance remains pending.

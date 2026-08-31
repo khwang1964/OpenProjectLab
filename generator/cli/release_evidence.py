@@ -1,4 +1,4 @@
-"""Experimental read-only release-evidence verification CLI."""
+"""Stable read-only release-evidence verification CLI."""
 
 from __future__ import annotations
 
@@ -12,6 +12,8 @@ from generator.release_automation import (
     VerificationDocumentError,
     VerificationReportRenderer,
     VerificationRequestCodec,
+    VerificationRequestInspectionRenderer,
+    VerificationRequestInspector,
     VerificationRuntimeConfiguration,
     build_verification_runtime,
 )
@@ -22,13 +24,20 @@ MAX_REQUEST_BYTES = 1024 * 1024
 def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     family = subparsers.add_parser(
         "release-evidence",
-        help="實驗性唯讀 release evidence 驗證",
+        help="穩定唯讀 release evidence 驗證",
     )
     commands = family.add_subparsers(dest="release_evidence_command", required=True)
     verify = commands.add_parser("verify", help="執行一次唯讀 evidence 驗證")
     verify.add_argument("--request", type=Path, required=True, metavar="FILE")
     verify.add_argument("--format", choices=("json", "text"), required=True)
     verify.set_defaults(command_handler=_handle_verify)
+
+    request = commands.add_parser("request", help="離線驗證 request 文件")
+    request_commands = request.add_subparsers(dest="request_command", required=True)
+    validate = request_commands.add_parser("validate", help="離線驗證 request")
+    validate.add_argument("--request", type=Path, required=True, metavar="FILE")
+    validate.add_argument("--format", choices=("json", "text"), required=True)
+    validate.set_defaults(command_handler=_handle_request_validate)
 
 
 def _read_request(path: Path) -> str:
@@ -69,3 +78,21 @@ def _handle_verify(args: argparse.Namespace) -> int:
         return 2
     sys.stdout.write(output)
     return 0 if report.is_valid else 1
+
+
+# v1.3.9-offline-request-validation-handler
+
+
+def _handle_request_validate(args: argparse.Namespace) -> int:
+    try:
+        inspection = VerificationRequestInspector.inspect(_read_request(args.request))
+        output = (
+            VerificationRequestInspectionRenderer.to_json(inspection)
+            if args.format == "json"
+            else VerificationRequestInspectionRenderer.to_text(inspection)
+        )
+    except (OSError, VerificationDocumentError, TypeError, ValueError) as error:
+        sys.stderr.write(f"error: {error}\n")
+        return 2
+    sys.stdout.write(output)
+    return 0

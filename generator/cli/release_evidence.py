@@ -10,6 +10,10 @@ from pathlib import Path
 from generator.release_automation import (
     ReadOnlyVerificationInvoker,
     VerificationDocumentError,
+    VerificationReportComparator,
+    VerificationReportComparisonRenderer,
+    VerificationReportFingerprinter,
+    VerificationReportFingerprintRenderer,
     VerificationReportInspectionRenderer,
     VerificationReportInspector,
     VerificationReportRenderer,
@@ -48,6 +52,17 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     report_validate.add_argument("--report", type=Path, required=True, metavar="FILE")
     report_validate.add_argument("--format", choices=("json", "text"), required=True)
     report_validate.set_defaults(command_handler=_handle_report_validate)
+
+    report_fingerprint = report_commands.add_parser("fingerprint")
+    report_fingerprint.add_argument("--report", required=True)
+    report_fingerprint.add_argument("--format", choices=("json", "text"), default="text")
+    report_fingerprint.set_defaults(command_handler=_handle_report_fingerprint)
+
+    report_compare = report_commands.add_parser("compare")
+    report_compare.add_argument("--left", required=True)
+    report_compare.add_argument("--right", required=True)
+    report_compare.add_argument("--format", choices=("json", "text"), default="text")
+    report_compare.set_defaults(command_handler=_handle_report_compare)
 
 
 def _read_request(path: Path) -> str:
@@ -135,3 +150,28 @@ def _handle_report_validate(args: argparse.Namespace) -> int:
         return 2
     sys.stdout.write(output)
     return 0 if inspection.report.is_valid else 1
+
+
+def _handle_report_fingerprint(args: argparse.Namespace) -> int:
+    try:
+        report = VerificationReportInspector.inspect(_read_report(Path(args.report))).report
+        fingerprint = VerificationReportFingerprinter.fingerprint(report)
+    except (OSError, UnicodeError, VerificationDocumentError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    renderer = VerificationReportFingerprintRenderer
+    print(renderer.to_json(fingerprint) if args.format == "json" else renderer.to_text(fingerprint))
+    return 0
+
+
+def _handle_report_compare(args: argparse.Namespace) -> int:
+    try:
+        left = VerificationReportInspector.inspect(_read_report(Path(args.left))).report
+        right = VerificationReportInspector.inspect(_read_report(Path(args.right))).report
+        comparison = VerificationReportComparator.compare(left, right)
+    except (OSError, UnicodeError, VerificationDocumentError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    renderer = VerificationReportComparisonRenderer
+    print(renderer.to_json(comparison) if args.format == "json" else renderer.to_text(comparison))
+    return 0 if comparison.is_equal else 1

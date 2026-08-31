@@ -489,3 +489,19 @@ state。
 AI CLI Implementation Acceptance --- Not Accepted
 Formal v1.1 Acceptance --- Not Accepted
 ```
+
+<!-- v1.3.10-stable-release-evidence-cli-zh-tw -->
+## 20. Release Evidence CLI
+
+stable read-only family 精確提供：
+
+```text
+opl release-evidence verify --request FILE --format json|text
+opl release-evidence request validate --request FILE --format json|text
+```
+
+`request validate` 完全離線，不執行 Git、GitHub、tests 或 runtime。`verify`
+只使用已接受的 read-only command allowlist。exit `0` 代表 valid success output，
+exit `1` 代表完整 verification report 含 findings，exit `2` 代表無法產生接受的
+output。success 使用 stdout，diagnostics 使用 stderr。不支援 stdin、output file、
+discovery、repair、retry、polling 或 mutation。

@@ -977,3 +977,87 @@ class VerificationReportRenderer:
                 for finding in report.findings
             ],
         }
+
+
+# v1.3.8-v1.3.10-verification-request-usability-stable-cli-implementation
+
+
+class VerificationRequestEncoder:
+    SCHEMA_VERSION = 1
+
+    @classmethod
+    def encode(cls, request: VerificationRequest) -> str:
+        if not isinstance(request, VerificationRequest):
+            raise TypeError("request must be a VerificationRequest")
+        tests = request.focused_tests
+        if tests is None:
+            raise VerificationDocumentError("focused_tests must be present")
+        payload = {
+            "schema_version": cls.SCHEMA_VERSION,
+            "expected_repository": request.expected_repository,
+            "expected_branch": request.expected_branch,
+            "expected_sha": request.expected_sha,
+            "pull_request_number": request.pull_request_number,
+            "focused_tests": {
+                "passed": tests.passed,
+                "failed": tests.failed,
+                "skipped": tests.skipped,
+                "deselected": tests.deselected,
+            },
+        }
+        return (
+            json.dumps(
+                payload,
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            )
+            + "\n"
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationRequestInspection:
+    request: VerificationRequest
+    canonical_request: str
+
+
+class VerificationRequestInspector:
+    @staticmethod
+    def inspect(document: str) -> VerificationRequestInspection:
+        request = VerificationRequestCodec.decode(document)
+        return VerificationRequestInspection(
+            request,
+            VerificationRequestEncoder.encode(request),
+        )
+
+
+class VerificationRequestInspectionRenderer:
+    @staticmethod
+    def to_json(inspection: VerificationRequestInspection) -> str:
+        if not isinstance(inspection, VerificationRequestInspection):
+            raise TypeError("inspection must be a VerificationRequestInspection")
+        return (
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "status": "valid",
+                    "request": json.loads(inspection.canonical_request),
+                },
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            )
+            + "\n"
+        )
+
+    @staticmethod
+    def to_text(inspection: VerificationRequestInspection) -> str:
+        request = inspection.request
+        return (
+            "status: valid\n"
+            f"expected_repository: {request.expected_repository}\n"
+            f"expected_branch: {request.expected_branch}\n"
+            f"expected_sha: {request.expected_sha}\n"
+            f"pull_request_number: {request.pull_request_number}\n"
+        )

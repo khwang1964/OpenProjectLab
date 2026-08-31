@@ -8,9 +8,9 @@ RELEASE = (
 )
 
 
-def test_implementation_record_remains_pending() -> None:
+def test_implementation_record_identifies_pending_acceptance() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert "Implemented / Pending terminal alignment and acceptance" in text
+    assert "Implemented / Terminal alignment recorded; acceptance pending" in text
     assert "Design Acceptance PR #295" in text
 
 

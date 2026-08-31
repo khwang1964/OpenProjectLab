@@ -2523,3 +2523,6 @@ select a provider, or initiate fallback implicitly.
 
 <!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-implementation-changelog -->
 - Implemented the v1.3.8-v1.3.10 train; terminal acceptance remains pending.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-terminal-alignment-changelog -->
+- Recorded terminal alignment; implementation acceptance remains pending.

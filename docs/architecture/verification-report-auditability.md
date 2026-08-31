@@ -1,6 +1,6 @@
 # Verification Report Auditability
 
-> v1.3.14-v1.3.16 Design First baseline — Proposed / Pending design review
+> v1.3.14-v1.3.16 Design First baseline — Design Accepted / Completed
 
 ## Purpose
 

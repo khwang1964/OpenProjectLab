@@ -3833,3 +3833,11 @@ Next roadmap slice --- Pending explicit Design First definition
 - Offline semantic report comparison — Proposed.
 - Stable report audit CLI — Proposed.
 - Production implementation — Not Started.
+
+<!-- v1.3.14-v1.3.16-verification-report-auditability-design-acceptance-roadmap -->
+
+## v1.3.14-v1.3.16 Design Acceptance
+
+- Status — Accepted / Completed.
+- Design PR #305 and synchronized-main verification — Completed.
+- Production implementation — Not Started.

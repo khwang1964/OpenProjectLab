@@ -3926,3 +3926,10 @@ Implementation acceptance remains pending.
 - PR #291 implementation verification completed with 134 passed.
 - PR #292 terminal-alignment verification completed with 9 passed.
 - Implementation acceptance is Accepted / Completed.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-design-train-history -->
+## v1.3.8-v1.3.10 Verification Request Usability and Stable CLI — Design First
+
+- Proposed canonical request serialization, offline request validation, and stable
+  release-evidence CLI contracts.
+- Production implementation — Not Started.

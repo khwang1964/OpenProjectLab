@@ -524,3 +524,12 @@ opl release-evidence request validate --request FILE --format json|text
 success output, exit `1` means a complete verification report has findings, and exit
 `2` means accepted output could not be produced. Success uses stdout; diagnostics use
 stderr. There is no stdin, output file, discovery, repair, retry, polling, or mutation.
+
+<!-- v1.3.13-verification-report-validation-cli-en -->
+
+### Validate a saved verification report
+
+Use `release-evidence report validate --report FILE --format json|text` to
+inspect a bounded UTF-8 report without constructing or invoking a runtime.
+Exit status 0 means the report passed, 1 means a valid report records failure,
+and 2 means the document, input, or usage is invalid.

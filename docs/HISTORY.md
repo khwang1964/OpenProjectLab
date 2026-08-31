@@ -3976,3 +3976,8 @@ Implementation acceptance remains pending.
 - Design PR #300 and synchronized-main verification — Completed.
 - Design status — Accepted / Completed.
 - Production implementation — Not Started.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-implementation-history -->
+
+- v1.3.11-v1.3.13 verification-report usability production implementation
+  completed; terminal alignment and acceptance remain pending.

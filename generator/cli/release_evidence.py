@@ -10,6 +10,8 @@ from pathlib import Path
 from generator.release_automation import (
     ReadOnlyVerificationInvoker,
     VerificationDocumentError,
+    VerificationReportInspectionRenderer,
+    VerificationReportInspector,
     VerificationReportRenderer,
     VerificationRequestCodec,
     VerificationRequestInspectionRenderer,
@@ -19,6 +21,7 @@ from generator.release_automation import (
 )
 
 MAX_REQUEST_BYTES = 1024 * 1024
+MAX_REPORT_BYTES = 1024 * 1024
 
 
 def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
@@ -39,6 +42,13 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     validate.add_argument("--format", choices=("json", "text"), required=True)
     validate.set_defaults(command_handler=_handle_request_validate)
 
+    report = commands.add_parser("report", help="離線驗證 verification report")
+    report_commands = report.add_subparsers(dest="report_command", required=True)
+    report_validate = report_commands.add_parser("validate", help="離線驗證 report")
+    report_validate.add_argument("--report", type=Path, required=True, metavar="FILE")
+    report_validate.add_argument("--format", choices=("json", "text"), required=True)
+    report_validate.set_defaults(command_handler=_handle_report_validate)
+
 
 def _read_request(path: Path) -> str:
     with path.open("rb") as stream:
@@ -49,6 +59,17 @@ def _read_request(path: Path) -> str:
         return data.decode("utf-8")
     except UnicodeDecodeError as error:
         raise VerificationDocumentError("request must be UTF-8") from error
+
+
+def _read_report(path: Path) -> str:
+    with path.open("rb") as stream:
+        data = stream.read(MAX_REPORT_BYTES + 1)
+    if len(data) > MAX_REPORT_BYTES:
+        raise VerificationDocumentError("report exceeds the 1 MiB limit")
+    try:
+        return data.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise VerificationDocumentError("report must be UTF-8") from error
 
 
 def _non_interactive_environment() -> tuple[tuple[str, str], ...]:
@@ -96,3 +117,21 @@ def _handle_request_validate(args: argparse.Namespace) -> int:
         return 2
     sys.stdout.write(output)
     return 0
+
+
+# v1.3.13-offline-report-validation-handler
+
+
+def _handle_report_validate(args: argparse.Namespace) -> int:
+    try:
+        inspection = VerificationReportInspector.inspect(_read_report(args.report))
+        output = (
+            VerificationReportInspectionRenderer.to_json(inspection)
+            if args.format == "json"
+            else VerificationReportInspectionRenderer.to_text(inspection)
+        )
+    except (OSError, VerificationDocumentError, TypeError, ValueError) as error:
+        sys.stderr.write(f"error: {error}\n")
+        return 2
+    sys.stdout.write(output)
+    return 0 if inspection.report.is_valid else 1

@@ -1061,3 +1061,220 @@ class VerificationRequestInspectionRenderer:
             f"expected_sha: {request.expected_sha}\n"
             f"pull_request_number: {request.pull_request_number}\n"
         )
+
+
+# v1.3.11-v1.3.13-verification-report-usability-implementation
+
+
+class VerificationReportCodec:
+    """Strict schema-version-1 verification-report decoder."""
+
+    SCHEMA_VERSION = 1
+    _ROOT_KEYS = {
+        "schema_version",
+        "status",
+        "repository",
+        "pull_request",
+        "evidence",
+        "findings",
+    }
+
+    @classmethod
+    def decode(cls, document: str) -> VerificationReport:
+        try:
+            payload = json.loads(
+                document,
+                object_pairs_hook=VerificationRequestCodec._strict_object,
+            )
+        except (json.JSONDecodeError, TypeError) as error:
+            raise VerificationDocumentError("report is not valid JSON") from error
+        if not isinstance(payload, dict):
+            raise VerificationDocumentError("report must be a JSON object")
+        VerificationRequestCodec._require_exact_keys(payload, cls._ROOT_KEYS, "report")
+        version = payload["schema_version"]
+        if version != cls.SCHEMA_VERSION or isinstance(version, bool):
+            raise VerificationDocumentError("schema_version must be integer 1")
+        report = cls._report(payload)
+        expected = "passed" if report.is_valid else "failed"
+        if payload["status"] != expected:
+            raise VerificationDocumentError("status contradicts report contents")
+        return report
+
+    @classmethod
+    def _report(cls, payload: dict[str, object]) -> VerificationReport:
+        renderer = VerificationReportRenderer
+        repository = cls._repository(payload["repository"])
+        pull_request = cls._pull_request(payload["pull_request"])
+        evidence = cls._evidence(payload["evidence"])
+        findings_payload = payload["findings"]
+        if not isinstance(findings_payload, list):
+            raise VerificationDocumentError("findings must be an array")
+        findings = tuple(cls._finding(item) for item in findings_payload)
+        report = VerificationReport(repository, pull_request, evidence, findings)
+        if renderer._payload(report) != payload:
+            raise VerificationDocumentError("report values do not match the canonical schema")
+        return report
+
+    @staticmethod
+    def _object(value: object, keys: set[str], field: str) -> dict[str, object]:
+        if not isinstance(value, dict):
+            raise VerificationDocumentError(f"{field} must be an object")
+        VerificationRequestCodec._require_exact_keys(value, keys, field)
+        return value
+
+    @classmethod
+    def _repository(cls, value: object) -> RepositoryObservation | None:
+        if value is None:
+            return None
+        item = cls._object(
+            value,
+            {"repository", "branch", "head_sha", "origin_main_sha", "remote_url", "is_clean"},
+            "repository",
+        )
+        if not isinstance(item["is_clean"], bool):
+            raise VerificationDocumentError("is_clean must be boolean")
+        strings = {
+            key: VerificationRequestCodec._required_string(item[key], key)
+            for key in item
+            if key != "is_clean"
+        }
+        if not _is_sha(strings["head_sha"]) or not _is_sha(strings["origin_main_sha"]):
+            raise VerificationDocumentError("repository SHAs must be full commit SHAs")
+        return RepositoryObservation(**strings, is_clean=item["is_clean"])
+
+    @classmethod
+    def _pull_request(cls, value: object) -> PullRequestObservation | None:
+        if value is None:
+            return None
+        item = cls._object(
+            value,
+            {
+                "number",
+                "url",
+                "state",
+                "base_branch",
+                "head_branch",
+                "checks",
+                "merge_sha",
+                "merged_at",
+            },
+            "pull_request",
+        )
+        checks = cls._checks(item["checks"])
+        merge_sha = item["merge_sha"]
+        if merge_sha is not None and (not isinstance(merge_sha, str) or not _is_sha(merge_sha)):
+            raise VerificationDocumentError("merge_sha must be null or a full commit SHA")
+        merged_at = item["merged_at"]
+        if merged_at is not None and (not isinstance(merged_at, str) or not merged_at.strip()):
+            raise VerificationDocumentError("merged_at must be null or a non-empty string")
+        try:
+            return PullRequestObservation(
+                VerificationRequestCodec._integer(item["number"], "number", positive=True),
+                VerificationRequestCodec._required_string(item["url"], "url"),
+                PullRequestState(item["state"]),
+                VerificationRequestCodec._required_string(item["base_branch"], "base_branch"),
+                VerificationRequestCodec._required_string(item["head_branch"], "head_branch"),
+                checks,
+                merge_sha,
+                merged_at,
+            )
+        except (TypeError, ValueError) as error:
+            raise VerificationDocumentError(str(error)) from error
+
+    @classmethod
+    def _checks(cls, value: object) -> tuple[CheckEvidence, ...]:
+        if not isinstance(value, list):
+            raise VerificationDocumentError("checks must be an array")
+        checks = []
+        for raw in value:
+            item = cls._object(raw, {"name", "conclusion"}, "check")
+            try:
+                checks.append(
+                    CheckEvidence(
+                        VerificationRequestCodec._required_string(item["name"], "name"),
+                        CheckConclusion(item["conclusion"]),
+                    )
+                )
+            except (TypeError, ValueError) as error:
+                raise VerificationDocumentError(str(error)) from error
+        if len({check.name for check in checks}) != len(checks):
+            raise VerificationDocumentError("check names must be unique")
+        return tuple(checks)
+
+    @classmethod
+    def _evidence(cls, value: object) -> ReleaseEvidence | None:
+        if value is None:
+            return None
+        item = cls._object(
+            value,
+            {"repository", "branch", "candidate_sha", "checks", "focused_tests"},
+            "evidence",
+        )
+        tests = item["focused_tests"]
+        focused = None
+        if tests is not None:
+            test_item = cls._object(
+                tests, {"passed", "failed", "skipped", "deselected"}, "focused_tests"
+            )
+            focused = TestEvidence(
+                **{key: VerificationRequestCodec._integer(test_item[key], key) for key in test_item}
+            )
+        try:
+            return ReleaseEvidence(
+                VerificationRequestCodec._required_string(item["repository"], "repository"),
+                VerificationRequestCodec._required_string(item["branch"], "branch"),
+                VerificationRequestCodec._required_string(item["candidate_sha"], "candidate_sha"),
+                cls._checks(item["checks"]),
+                focused,
+            )
+        except (TypeError, ValueError) as error:
+            raise VerificationDocumentError(str(error)) from error
+
+    @classmethod
+    def _finding(cls, value: object) -> VerificationFinding:
+        item = cls._object(value, {"stage", "code", "message"}, "finding")
+        try:
+            return VerificationFinding(
+                VerificationFindingStage(item["stage"]),
+                VerificationRequestCodec._required_string(item["code"], "code"),
+                VerificationRequestCodec._required_string(item["message"], "message"),
+            )
+        except (TypeError, ValueError) as error:
+            raise VerificationDocumentError(str(error)) from error
+
+
+class VerificationReportEncoder:
+    @staticmethod
+    def encode(report: VerificationReport) -> str:
+        if not isinstance(report, VerificationReport):
+            raise TypeError("report must be a VerificationReport")
+        return VerificationReportRenderer.to_json(report)
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationReportInspection:
+    report: VerificationReport
+
+    @property
+    def status(self) -> str:
+        return "passed" if self.report.is_valid else "failed"
+
+
+class VerificationReportInspector:
+    @staticmethod
+    def inspect(document: str) -> VerificationReportInspection:
+        return VerificationReportInspection(VerificationReportCodec.decode(document))
+
+
+class VerificationReportInspectionRenderer:
+    @staticmethod
+    def to_json(inspection: VerificationReportInspection) -> str:
+        if not isinstance(inspection, VerificationReportInspection):
+            raise TypeError("inspection must be a VerificationReportInspection")
+        return VerificationReportEncoder.encode(inspection.report)
+
+    @staticmethod
+    def to_text(inspection: VerificationReportInspection) -> str:
+        if not isinstance(inspection, VerificationReportInspection):
+            raise TypeError("inspection must be a VerificationReportInspection")
+        return VerificationReportRenderer.to_text(inspection.report)

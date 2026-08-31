@@ -505,3 +505,12 @@ opl release-evidence request validate --request FILE --format json|text
 exit `1` 代表完整 verification report 含 findings，exit `2` 代表無法產生接受的
 output。success 使用 stdout，diagnostics 使用 stderr。不支援 stdin、output file、
 discovery、repair、retry、polling 或 mutation。
+
+<!-- v1.3.13-verification-report-validation-cli-zh-tw -->
+
+### 驗證已保存的 verification report
+
+使用 `release-evidence report validate --report FILE --format json|text`，
+可在不建立或呼叫 runtime 的情況下檢查有大小限制的 UTF-8 report。
+結束碼 0 表示 report 通過，1 表示有效 report 記錄驗證失敗，
+2 表示文件、輸入或用法錯誤。

@@ -3968,3 +3968,11 @@ Implementation acceptance remains pending.
 - Offline report validation and inspection — Proposed.
 - Stable result and exit-code contract — Proposed.
 - Production implementation — Not Started.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-design-acceptance-history -->
+
+## v1.3.11-v1.3.13 Verification Report Usability Design Acceptance
+
+- Design PR #300 and synchronized-main verification — Completed.
+- Design status — Accepted / Completed.
+- Production implementation — Not Started.

@@ -25,3 +25,5 @@
 *.pdf     binary
 *.zip     binary
 *.7z      binary
+
+/.codex/skills/opl-acceptance-closure/scripts/collect_acceptance_evidence.ps1 text eol=lf

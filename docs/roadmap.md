@@ -3780,3 +3780,13 @@ Next roadmap slice --- Pending explicit Design First definition
 
 - Implementation evidence — Completed.
 - Alignment merge verification and acceptance — Pending.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-acceptance-roadmap -->
+## v1.3.8-v1.3.10 Implementation Acceptance
+
+- Status — Accepted / Completed.
+- Implementation PR #296 — `fc429fa8660ba00a96cdfdede0b67b2f27bb50b6`.
+- Terminal Alignment PR #297 — `5168298743b3686ebc625588a87c1d2bc509578e`.
+- Required CI and synchronized-main verification — Passed.
+- Read-only and explicit-authorization boundaries — Preserved.
+- Next roadmap slice — Pending explicit Design First definition.

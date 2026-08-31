@@ -2526,3 +2526,7 @@ select a provider, or initiate fallback implicitly.
 
 <!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-terminal-alignment-changelog -->
 - Recorded terminal alignment; implementation acceptance remains pending.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-acceptance-changelog -->
+- Accepted and completed the v1.3.8-v1.3.10 verification-request usability and
+  stable CLI implementation after PR #297 merge verification.

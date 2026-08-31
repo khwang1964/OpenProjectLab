@@ -3951,3 +3951,11 @@ Implementation acceptance remains pending.
 
 - PR #296 merged; post-merge verification completed with 65 passed.
 - Implementation acceptance remains pending.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-acceptance-history -->
+## v1.3.8-v1.3.10 Implementation — Accepted / Completed
+
+- Implementation PR #296 and Terminal Alignment PR #297 completed successfully.
+- Required CI and synchronized-main post-merge verification passed.
+- Canonical serialization, offline validation, stable CLI, and bilingual manuals
+  are formally accepted.

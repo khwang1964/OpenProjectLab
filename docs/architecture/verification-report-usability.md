@@ -48,3 +48,12 @@ verification request, runtime, invocation, and stable CLI boundaries.
 - [ ] Exit categories do not leak platform-specific process return codes.
 - [ ] Existing stable CLI behavior remains additive and compatible.
 - [ ] Production implementation remains Not Started for all three slices.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-terminal-alignment-architecture -->
+
+## Implementation alignment
+
+- Production implementation — Implemented.
+- PR #302 merge and synchronized-main focused verification — Completed.
+- Terminal alignment — Pending merge and verification.
+- Implementation acceptance — Pending separate closure.

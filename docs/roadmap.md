@@ -3774,3 +3774,9 @@ Next roadmap slice --- Pending explicit Design First definition
 
 - Production implementation — Completed.
 - Terminal alignment and acceptance — Pending.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-terminal-alignment-roadmap -->
+## v1.3.8-v1.3.10 Terminal Alignment
+
+- Implementation evidence — Completed.
+- Alignment merge verification and acceptance — Pending.

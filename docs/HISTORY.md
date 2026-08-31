@@ -3945,3 +3945,9 @@ Implementation acceptance remains pending.
 ## v1.3.8-v1.3.10 Implementation
 
 - Production implementation completed; terminal acceptance remains pending.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-terminal-alignment-history -->
+## v1.3.8-v1.3.10 Terminal Alignment
+
+- PR #296 merged; post-merge verification completed with 65 passed.
+- Implementation acceptance remains pending.

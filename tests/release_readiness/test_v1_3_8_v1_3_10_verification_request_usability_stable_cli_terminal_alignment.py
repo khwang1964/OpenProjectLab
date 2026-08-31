@@ -16,10 +16,11 @@ def test_alignment_records_exact_implementation_evidence() -> None:
     assert "coverage 90.51%" in text
 
 
-def test_alignment_remains_pending_before_merge_verification() -> None:
+def test_alignment_records_completed_merge_verification() -> None:
     text = ALIGNMENT.read_text(encoding="utf-8")
-    assert "Pending / Awaiting terminal-alignment merge and verification" in text
-    assert "Implementation acceptance remains pending" in text
+    assert "Status: Aligned / Completed" in text
+    assert "Terminal Alignment PR #297 merged" in text
+    assert "Accepted / Completed" in text
 
 
 def test_governance_alignment_markers_are_exact() -> None:

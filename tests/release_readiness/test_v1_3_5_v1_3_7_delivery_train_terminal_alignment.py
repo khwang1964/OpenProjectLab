@@ -21,16 +21,16 @@ def test_alignment_records_exact_implementation_merge_evidence() -> None:
     assert "completed with 134 passed" in text
 
 
-def test_alignment_remains_pending_before_merge_verification() -> None:
+def test_alignment_is_accepted_after_merge_verification() -> None:
     text = ALIGNMENT.read_text(encoding="utf-8")
-    assert "Pending / Awaiting terminal-alignment merge and verification" in text
-    assert "Implementation acceptance is not completed by this record" in text
+    assert "Accepted / Completed" in text
+    assert "Implementation acceptance completed after PR #292" in text
 
 
-def test_implementation_record_identifies_alignment_without_acceptance() -> None:
+def test_implementation_record_is_terminally_accepted() -> None:
     text = IMPLEMENTATION.read_text(encoding="utf-8")
-    assert "Implemented / Terminal alignment recorded; acceptance pending" in text
-    assert "implementation acceptance until implementation merge" in text
+    assert "Accepted / Completed" in text
+    assert "implementation acceptance — Accepted / Completed" in text
 
 
 def test_alignment_preserves_deferred_authority_boundaries() -> None:

@@ -30,10 +30,10 @@ def test_cli_preserves_explicit_bounded_read_only_boundary() -> None:
         assert forbidden not in text
 
 
-def test_release_record_remains_pending_before_merge_verification() -> None:
+def test_release_record_is_accepted_after_alignment_verification() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert "Implemented / Terminal alignment recorded; acceptance pending" in text
-    assert "implementation acceptance until implementation merge" in text
+    assert "Accepted / Completed" in text
+    assert "implementation acceptance — Accepted / Completed" in text
 
 
 def test_governance_surfaces_share_exact_implementation_marker() -> None:

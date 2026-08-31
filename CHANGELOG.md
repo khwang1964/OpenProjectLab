@@ -2555,3 +2555,12 @@ select a provider, or initiate fallback implicitly.
 <!-- v1.3.11-v1.3.13-verification-report-usability-implementation-acceptance-changelog -->
 
 - v1.3.11-v1.3.13 implementation — Accepted / Completed.
+
+<!-- v1.3.14-v1.3.16-verification-report-auditability-design-train-changelog -->
+
+## v1.3.14-v1.3.16 Verification Report Auditability — Design First
+
+- Canonical report fingerprint — Proposed.
+- Offline semantic report comparison — Proposed.
+- Stable report audit CLI — Proposed.
+- Production implementation — Not Started.

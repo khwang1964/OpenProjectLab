@@ -2542,3 +2542,8 @@ select a provider, or initiate fallback implicitly.
 
 - Accepted the v1.3.11-v1.3.13 Verification Report Usability Design Train.
 - Production implementation — Not Started.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-implementation-changelog -->
+
+- Implemented the v1.3.11-v1.3.13 verification-report usability train;
+  terminal alignment and acceptance remain pending.

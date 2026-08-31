@@ -36,9 +36,9 @@ def test_cli_preserves_stable_result_categories_and_existing_behavior() -> None:
 
 def test_release_baseline_remains_pending_and_unimplemented() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert text.count("> Status: Proposed / Pending Design Acceptance") == 1
+    assert text.count("> Status: Design Accepted / Completed") == 1
     assert "Production implementation remains Not Started" in text
-    assert "Separate terminal Design Acceptance PR" in text
+    assert "Terminal Design Acceptance — Accepted / Completed" in text
 
 
 def test_governance_surfaces_use_distinct_exact_markers() -> None:

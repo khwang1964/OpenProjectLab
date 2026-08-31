@@ -3790,3 +3790,14 @@ Next roadmap slice --- Pending explicit Design First definition
 - Required CI and synchronized-main verification — Passed.
 - Read-only and explicit-authorization boundaries — Preserved.
 - Next roadmap slice — Pending explicit Design First definition.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-design-train-roadmap -->
+
+## v1.3.11-v1.3.13 Verification Report Usability Design Train
+
+- Predecessor v1.3.8-v1.3.10 — Accepted / Completed.
+- v1.3.11 canonical verification report serialization — Proposed.
+- v1.3.12 offline report validation and inspection — Proposed.
+- v1.3.13 stable result and exit-code contract — Proposed.
+- Production implementation — Not Started.
+- Next — Design PR, synchronized-main verification, and terminal Design Acceptance.

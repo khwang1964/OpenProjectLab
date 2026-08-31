@@ -2530,3 +2530,10 @@ select a provider, or initiate fallback implicitly.
 <!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-acceptance-changelog -->
 - Accepted and completed the v1.3.8-v1.3.10 verification-request usability and
   stable CLI implementation after PR #297 merge verification.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-design-train-changelog -->
+
+- Proposed the v1.3.11-v1.3.13 Verification Report Usability Design Train:
+  canonical report serialization, offline report inspection, and a stable result and
+  exit-code contract.
+- Production implementation — Not Started.

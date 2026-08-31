@@ -3959,3 +3959,12 @@ Implementation acceptance remains pending.
 - Required CI and synchronized-main post-merge verification passed.
 - Canonical serialization, offline validation, stable CLI, and bilingual manuals
   are formally accepted.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-design-train-history -->
+
+## v1.3.11-v1.3.13 Verification Report Usability Design Train
+
+- Canonical verification report serialization — Proposed.
+- Offline report validation and inspection — Proposed.
+- Stable result and exit-code contract — Proposed.
+- Production implementation — Not Started.

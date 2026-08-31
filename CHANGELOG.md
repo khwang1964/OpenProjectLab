@@ -2547,3 +2547,7 @@ select a provider, or initiate fallback implicitly.
 
 - Implemented the v1.3.11-v1.3.13 verification-report usability train;
   terminal alignment and acceptance remain pending.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-terminal-alignment-changelog -->
+
+- PR #302 implementation evidence aligned; terminal-alignment merge and verification remain pending.

@@ -3981,3 +3981,7 @@ Implementation acceptance remains pending.
 
 - v1.3.11-v1.3.13 verification-report usability production implementation
   completed; terminal alignment and acceptance remain pending.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-terminal-alignment-history -->
+
+- PR #302 implementation evidence aligned; terminal-alignment merge and verification remain pending.

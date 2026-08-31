@@ -11,16 +11,16 @@ IMPLEMENTATION = ROOT / (
 
 def test_alignment_has_exact_pending_status() -> None:
     text = ALIGNMENT.read_text(encoding="utf-8")
-    status = "> Status: Pending / Awaiting terminal-alignment merge and verification"
+    status = "> Status: Completed / Verified"
     assert text.count(status) == 1
-    assert "A separate implementation-acceptance closure PR remains required" in text
+    assert "Implementation acceptance — Accepted / Completed" in text
 
 
 def test_implementation_record_tracks_completed_evidence_and_pending_closure() -> None:
     text = IMPLEMENTATION.read_text(encoding="utf-8")
     assert "Implementation PR #302 merge and required CI — Completed" in text
     assert "Synchronized-main focused post-merge verification — Completed" in text
-    assert "acceptance closure — Pending" in text
+    assert "Implementation acceptance — Accepted / Completed" in text
 
 
 def test_governance_surfaces_use_exact_unique_alignment_markers() -> None:

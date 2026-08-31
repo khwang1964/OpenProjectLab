@@ -3820,3 +3820,7 @@ Next roadmap slice --- Pending explicit Design First definition
 <!-- v1.3.11-v1.3.13-verification-report-usability-terminal-alignment-roadmap -->
 
 - PR #302 implementation evidence aligned; terminal-alignment merge and verification remain pending.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-implementation-acceptance-roadmap -->
+
+- v1.3.11-v1.3.13 implementation — Accepted / Completed.

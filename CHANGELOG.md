@@ -2551,3 +2551,7 @@ select a provider, or initiate fallback implicitly.
 <!-- v1.3.11-v1.3.13-verification-report-usability-terminal-alignment-changelog -->
 
 - PR #302 implementation evidence aligned; terminal-alignment merge and verification remain pending.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-implementation-acceptance-changelog -->
+
+- v1.3.11-v1.3.13 implementation — Accepted / Completed.

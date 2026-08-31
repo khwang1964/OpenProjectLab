@@ -57,3 +57,11 @@ verification request, runtime, invocation, and stable CLI boundaries.
 - PR #302 merge and synchronized-main focused verification — Completed.
 - Terminal alignment — Pending merge and verification.
 - Implementation acceptance — Pending separate closure.
+
+<!-- v1.3.11-v1.3.13-verification-report-usability-implementation-acceptance-architecture -->
+
+## Implementation acceptance
+
+- Production implementation — Accepted / Completed.
+- Terminal alignment and synchronized-main verification — Completed.
+- Deferred authority boundaries remain unchanged.

@@ -26,7 +26,7 @@ def test_cli_exposes_offline_report_validation() -> None:
 
 def test_release_record_remains_pending() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert "Implemented / Terminal alignment pending merge verification" in text
+    assert "> Status: Accepted / Completed" in text
     assert "Synchronized-main focused post-merge verification" in text
 
 

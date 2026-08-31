@@ -1,6 +1,6 @@
 # Verification Report Usability
 
-> v1.3.11-v1.3.13 Design First baseline — Proposed / Pending design review
+> v1.3.11-v1.3.13 Design First baseline — Design Accepted / Completed
 
 ## Purpose
 

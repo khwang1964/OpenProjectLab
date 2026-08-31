@@ -35,7 +35,7 @@ def test_stable_result_contract_separates_exit_categories() -> None:
 
 def test_release_record_keeps_implementation_not_started() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert "Status: Proposed / Pending design review" in text
+    assert "Status: Design Accepted / Completed" in text
     assert "production implementation is Not Started" in text
     assert "Every merge remains explicitly authorized" in text
 

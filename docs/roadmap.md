@@ -3749,3 +3749,13 @@ Next roadmap slice --- Pending explicit Design First definition
 - Design, implementation, terminal alignment, and verification — Completed.
 - Implementation acceptance — Accepted / Completed.
 - Next delivery train — Pending explicit Design First definition.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-design-train-roadmap -->
+## v1.3.8-v1.3.10 Verification Request Usability and Stable CLI Design Train
+
+- Predecessor v1.3.5-v1.3.7 — Accepted / Completed.
+- v1.3.8 canonical request serialization — Proposed.
+- v1.3.9 offline request validation — Proposed.
+- v1.3.10 stable release-evidence CLI — Proposed.
+- Production implementation — Not Started.
+- Next — Design PR, synchronized-main verification, and terminal Design Acceptance.

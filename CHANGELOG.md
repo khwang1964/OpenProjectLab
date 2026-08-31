@@ -2512,3 +2512,7 @@ select a provider, or initiate fallback implicitly.
 <!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-acceptance-changelog -->
 - Marked the v1.3.5-v1.3.7 read-only verification delivery train
   Accepted / Completed after implementation and alignment merge verification.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-design-train-changelog -->
+- Proposed the v1.3.8-v1.3.10 verification-request usability and stable CLI
+  Design Train; production implementation remains Not Started.

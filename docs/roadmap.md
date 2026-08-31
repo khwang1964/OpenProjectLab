@@ -3841,3 +3841,10 @@ Next roadmap slice --- Pending explicit Design First definition
 - Status — Accepted / Completed.
 - Design PR #305 and synchronized-main verification — Completed.
 - Production implementation — Not Started.
+
+<!-- v1.3.14-v1.3.16-verification-report-auditability-implementation-roadmap -->
+
+## v1.3.14-v1.3.16 verification report auditability implementation
+
+- Deterministic report fingerprint, offline semantic comparison, and stable CLI commands — Implemented.
+- Terminal alignment and implementation acceptance — Pending.

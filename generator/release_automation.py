@@ -1,3 +1,4 @@
+import hashlib
 import json
 import subprocess
 from collections.abc import Callable
@@ -1278,3 +1279,121 @@ class VerificationReportInspectionRenderer:
         if not isinstance(inspection, VerificationReportInspection):
             raise TypeError("inspection must be a VerificationReportInspection")
         return VerificationReportRenderer.to_text(inspection.report)
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationReportFingerprint:
+    algorithm: str
+    digest: str
+
+    def __post_init__(self) -> None:
+        if self.algorithm != "sha256":
+            raise ValueError("algorithm must be sha256")
+        if len(self.digest) != 64 or any(
+            character not in "0123456789abcdef" for character in self.digest
+        ):
+            raise ValueError("digest must be 64 lowercase hexadecimal characters")
+
+
+class VerificationReportFingerprinter:
+    @staticmethod
+    def fingerprint(report: VerificationReport) -> VerificationReportFingerprint:
+        if not isinstance(report, VerificationReport):
+            raise TypeError("report must be VerificationReport")
+        canonical_bytes = VerificationReportEncoder.encode(report).encode("utf-8")
+        return VerificationReportFingerprint("sha256", hashlib.sha256(canonical_bytes).hexdigest())
+
+
+class VerificationReportFingerprintRenderer:
+    @staticmethod
+    def to_json(fingerprint: VerificationReportFingerprint) -> str:
+        return json.dumps(
+            {"algorithm": fingerprint.algorithm, "digest": fingerprint.digest},
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+
+    @staticmethod
+    def to_text(fingerprint: VerificationReportFingerprint) -> str:
+        return f"{fingerprint.algorithm}:{fingerprint.digest}"
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationReportDifference:
+    path: str
+    left: str
+    right: str
+
+
+@dataclass(frozen=True, slots=True)
+class VerificationReportComparison:
+    left_fingerprint: VerificationReportFingerprint
+    right_fingerprint: VerificationReportFingerprint
+    differences: tuple[VerificationReportDifference, ...]
+
+    @property
+    def is_equal(self) -> bool:
+        return not self.differences
+
+
+class VerificationReportComparator:
+    @staticmethod
+    def _flatten(value: object, path: str = "$") -> dict[str, str]:
+        if isinstance(value, dict):
+            flattened: dict[str, str] = {}
+            for key in sorted(value):
+                flattened.update(VerificationReportComparator._flatten(value[key], f"{path}.{key}"))
+            return flattened
+        if isinstance(value, list):
+            flattened = {}
+            for index, item in enumerate(value):
+                flattened.update(VerificationReportComparator._flatten(item, f"{path}[{index}]"))
+            return flattened
+        return {path: json.dumps(value, sort_keys=True, separators=(",", ":"))}
+
+    @classmethod
+    def compare(
+        cls, left: VerificationReport, right: VerificationReport
+    ) -> VerificationReportComparison:
+        if not isinstance(left, VerificationReport) or not isinstance(right, VerificationReport):
+            raise TypeError("left and right must be VerificationReport")
+        left_values = cls._flatten(VerificationReportRenderer._payload(left))
+        right_values = cls._flatten(VerificationReportRenderer._payload(right))
+        missing = "<missing>"
+        differences = tuple(
+            VerificationReportDifference(
+                path, left_values.get(path, missing), right_values.get(path, missing)
+            )
+            for path in sorted(left_values.keys() | right_values.keys())
+            if left_values.get(path, missing) != right_values.get(path, missing)
+        )
+        return VerificationReportComparison(
+            VerificationReportFingerprinter.fingerprint(left),
+            VerificationReportFingerprinter.fingerprint(right),
+            differences,
+        )
+
+
+class VerificationReportComparisonRenderer:
+    @staticmethod
+    def to_json(comparison: VerificationReportComparison) -> str:
+        payload = {
+            "differences": [
+                {"left": difference.left, "path": difference.path, "right": difference.right}
+                for difference in comparison.differences
+            ],
+            "equal": comparison.is_equal,
+            "left_fingerprint": comparison.left_fingerprint.digest,
+            "right_fingerprint": comparison.right_fingerprint.digest,
+        }
+        return json.dumps(payload, sort_keys=True, separators=(",", ":"))
+
+    @staticmethod
+    def to_text(comparison: VerificationReportComparison) -> str:
+        lines = [
+            f"equal: {str(comparison.is_equal).lower()}",
+            f"left: sha256:{comparison.left_fingerprint.digest}",
+            f"right: sha256:{comparison.right_fingerprint.digest}",
+        ]
+        lines.extend(f"{item.path}: {item.left} -> {item.right}" for item in comparison.differences)
+        return "\n".join(lines)

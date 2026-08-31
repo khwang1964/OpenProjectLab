@@ -3919,3 +3919,10 @@ Implementation acceptance remains pending.
 
 - PR #291 merged and synchronized-main verification completed with 134 passed.
 - Implementation acceptance awaits terminal-alignment merge and verification.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-acceptance-history -->
+## v1.3.5-v1.3.7 Delivery Train — Accepted / Completed
+
+- PR #291 implementation verification completed with 134 passed.
+- PR #292 terminal-alignment verification completed with 9 passed.
+- Implementation acceptance is Accepted / Completed.

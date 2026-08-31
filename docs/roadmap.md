@@ -3742,3 +3742,10 @@ Next roadmap slice --- Pending explicit Design First definition
 - Implementation and synchronized-main evidence — Completed.
 - Terminal-alignment merge verification — Pending.
 - Implementation acceptance — Pending.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-acceptance-roadmap -->
+## v1.3.5-v1.3.7 Read-only Verification Delivery Train
+
+- Design, implementation, terminal alignment, and verification — Completed.
+- Implementation acceptance — Accepted / Completed.
+- Next delivery train — Pending explicit Design First definition.

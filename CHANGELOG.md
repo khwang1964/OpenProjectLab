@@ -2508,3 +2508,7 @@ select a provider, or initiate fallback implicitly.
 <!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-terminal-alignment-changelog -->
 - Recorded terminal alignment for the merged v1.3.5-v1.3.7 read-only verification
   delivery train; implementation acceptance awaits alignment merge verification.
+
+<!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-acceptance-changelog -->
+- Marked the v1.3.5-v1.3.7 read-only verification delivery train
+  Accepted / Completed after implementation and alignment merge verification.

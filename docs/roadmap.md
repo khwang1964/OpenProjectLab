@@ -3759,3 +3759,12 @@ Next roadmap slice --- Pending explicit Design First definition
 - v1.3.10 stable release-evidence CLI — Proposed.
 - Production implementation — Not Started.
 - Next — Design PR, synchronized-main verification, and terminal Design Acceptance.
+
+<!-- v1.3.8-v1.3.10-verification-request-usability-stable-cli-design-acceptance-roadmap -->
+## v1.3.8-v1.3.10 Design Train Acceptance
+
+- Status — Accepted / Completed.
+- Design PR #294 — `cf76f779a0554c3268b648b131a794f83152e21f`.
+- Required CI and synchronized-main verification — Passed.
+- Production implementation — Not Started.
+- Next — one implementation train for v1.3.8 through v1.3.10.

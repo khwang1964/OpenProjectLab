@@ -1,6 +1,6 @@
 # Stable Release Evidence CLI Public Contract
 
-> v1.3.10 Design First baseline — Proposed / Pending design review
+> v1.3.10 Design First baseline — Accepted / Terminally Closed
 
 ## Context
 

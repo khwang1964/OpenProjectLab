@@ -1,6 +1,6 @@
 # Offline Verification Request Inspection
 
-> v1.3.9 Design First baseline — Proposed / Pending design review
+> v1.3.9 Design First baseline — Accepted / Terminally Closed
 
 ## Context
 

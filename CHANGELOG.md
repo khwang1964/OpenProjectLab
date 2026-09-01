@@ -2662,3 +2662,11 @@ select a provider, or initiate fallback implicitly.
 - Deterministic offline migration preview — Implemented.
 - Stable compatibility and preview-only migration CLI — Implemented.
 - Terminal alignment and implementation acceptance — Pending.
+
+<!-- v1.3.20-v1.3.22-audit-bundle-schema-evolution-terminal-alignment-changelog -->
+
+## v1.3.20-v1.3.22 audit bundle schema evolution terminal alignment
+
+- Implementation PR #317 merged as `47c03dc52f1b6d9412a6f14efdb91a5fe840119a`.
+- Synchronized-main focused verification completed with 26 passed.
+- Implementation acceptance — Awaiting terminal-alignment merge and verification.

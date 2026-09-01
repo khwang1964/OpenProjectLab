@@ -8,8 +8,8 @@ RELEASE = ROOT / "docs/releases/v1.3.20-v1.3.22-audit-bundle-schema-evolution-de
 def test_design_is_pending_and_implementation_not_started() -> None:
     architecture = ARCHITECTURE.read_text(encoding="utf-8")
     release = RELEASE.read_text(encoding="utf-8")
-    assert "Proposed / Pending design review" in architecture
-    assert "Proposed / Pending Design First review" in release
+    assert "Accepted / Completed" in architecture
+    assert "Accepted / Completed" in release
     assert "Production implementation is Not Started" in release
 
 

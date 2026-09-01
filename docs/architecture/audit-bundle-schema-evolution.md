@@ -1,6 +1,6 @@
 # Audit Bundle Schema Evolution
 
-> v1.3.20-v1.3.22 Design First baseline — Proposed / Pending design review
+> v1.3.20-v1.3.22 Design First baseline — Accepted / Completed
 
 ## Objective
 

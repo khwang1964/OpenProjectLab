@@ -3,15 +3,20 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 from pathlib import Path
 
 from generator.release_audit_bundle import (
+    DEFAULT_SCHEMA_REGISTRY,
+    AuditBundleCompatibilityCategory,
+    AuditBundleMigrationError,
     VerificationAuditBundleBuilder,
     VerificationAuditBundleCodec,
     VerificationAuditBundleRenderer,
     VerificationAuditBundleValidator,
+    inspect_audit_bundle_schema,
 )
 from generator.release_automation import (
     ReadOnlyVerificationInvoker,
@@ -85,6 +90,16 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     bundle_validate.add_argument("--bundle", required=True)
     bundle_validate.add_argument("--format", choices=("json", "text"), default="text")
     bundle_validate.set_defaults(command_handler=_handle_bundle_validate)
+    bundle_compatibility = bundle_commands.add_parser("compatibility")
+    bundle_compatibility.add_argument("--bundle", required=True)
+    bundle_compatibility.add_argument("--format", choices=("json", "text"), default="text")
+    bundle_compatibility.set_defaults(command_handler=_handle_bundle_compatibility)
+    bundle_migrate = bundle_commands.add_parser("migrate")
+    bundle_migrate.add_argument("--bundle", required=True)
+    bundle_migrate.add_argument("--target", required=True, metavar="SCHEMA")
+    bundle_migrate.add_argument("--preview", action="store_true", required=True)
+    bundle_migrate.add_argument("--format", choices=("json", "text"), default="text")
+    bundle_migrate.set_defaults(command_handler=_handle_bundle_migrate)
 
 
 def _read_request(path: Path) -> str:
@@ -252,3 +267,62 @@ def _handle_bundle_validate(args: argparse.Namespace) -> int:
         return 2
     print(_render_bundle(bundle, validation, args.format))
     return 0 if validation.is_valid else 1
+
+
+def _handle_bundle_compatibility(args: argparse.Namespace) -> int:
+    try:
+        observed = inspect_audit_bundle_schema(_read_bundle(Path(args.bundle)))
+        compatibility = DEFAULT_SCHEMA_REGISTRY.classify(observed)
+    except (OSError, UnicodeError, VerificationDocumentError, ValueError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    payload = {
+        "category": compatibility.category.value,
+        "current_schema": compatibility.current_schema,
+        "migration_steps": list(compatibility.migration_steps),
+        "observed_schema": compatibility.observed_schema,
+    }
+    if args.format == "json":
+        print(json.dumps(payload, sort_keys=True, separators=(",", ":")))
+    else:
+        print(f"compatibility: {compatibility.category.value}")
+        print(f"observed-schema: {compatibility.observed_schema}")
+        print(f"current-schema: {compatibility.current_schema}")
+        for step in compatibility.migration_steps:
+            print(f"migration-step: {step}")
+    return (
+        0
+        if compatibility.category
+        in {
+            AuditBundleCompatibilityCategory.CURRENT,
+            AuditBundleCompatibilityCategory.MIGRATABLE,
+        }
+        else 1
+    )
+
+
+def _handle_bundle_migrate(args: argparse.Namespace) -> int:
+    try:
+        observed = inspect_audit_bundle_schema(_read_bundle(Path(args.bundle)))
+        plan = DEFAULT_SCHEMA_REGISTRY.plan(observed, args.target)
+    except AuditBundleMigrationError as error:
+        print(str(error), file=sys.stderr)
+        return 1
+    except (OSError, UnicodeError, VerificationDocumentError, ValueError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    payload = {
+        "preview_fingerprint": plan.preview_fingerprint,
+        "source_schema": plan.source_schema,
+        "steps": list(plan.steps),
+        "target_schema": plan.target_schema,
+    }
+    if args.format == "json":
+        print(json.dumps(payload, sort_keys=True, separators=(",", ":")))
+    else:
+        print(f"source-schema: {plan.source_schema}")
+        print(f"target-schema: {plan.target_schema}")
+        for step in plan.steps:
+            print(f"migration-step: {step}")
+        print(f"preview-fingerprint: sha256:{plan.preview_fingerprint}")
+    return 0

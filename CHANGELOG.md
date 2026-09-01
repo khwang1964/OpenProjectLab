@@ -2653,3 +2653,12 @@ select a provider, or initiate fallback implicitly.
 - Synchronized-main Design First verification completed with 7 passed.
 - Design — Accepted / Completed.
 - Production implementation — Not Started.
+
+<!-- v1.3.20-v1.3.22-audit-bundle-schema-evolution-implementation-changelog -->
+
+## v1.3.20-v1.3.22 audit bundle schema evolution implementation
+
+- Explicit schema compatibility classification — Implemented.
+- Deterministic offline migration preview — Implemented.
+- Stable compatibility and preview-only migration CLI — Implemented.
+- Terminal alignment and implementation acceptance — Pending.

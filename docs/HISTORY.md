@@ -4078,3 +4078,11 @@ Implementation acceptance remains pending.
 - Deterministic offline migration planning — Proposed.
 - Stable compatibility and migration-preview CLI — Proposed.
 - Production implementation — Not Started.
+<!-- v1.3.20-v1.3.22-audit-bundle-schema-evolution-design-acceptance-history -->
+
+## v1.3.20-v1.3.22 audit bundle schema evolution design acceptance
+
+- Design PR #315 merged as `dae7fa499b7576717b3fa5b5b40afb4af8c711f8` with required CI successful.
+- Synchronized-main Design First verification completed with 7 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.

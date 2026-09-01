@@ -4054,3 +4054,11 @@ Implementation acceptance remains pending.
 
 - Canonical bundle, offline validation, and stable bundle CLI — Implemented.
 - Terminal alignment and implementation acceptance — Pending.
+
+<!-- v1.3.17-v1.3.19-verification-audit-bundle-portability-terminal-alignment-history -->
+
+## v1.3.17-v1.3.19 verification audit bundle portability terminal alignment
+
+- Implementation PR #312 merged as `b00c49874500a49f5975762f151440f7372a0338`.
+- Synchronized-main focused verification completed with 11 passed.
+- Implementation acceptance — Awaiting terminal-alignment merge and verification.

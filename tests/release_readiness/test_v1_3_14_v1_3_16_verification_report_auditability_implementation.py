@@ -7,7 +7,7 @@ def test_implementation_record_is_pending_terminal_alignment() -> None:
     text = (
         ROOT / "docs/releases/v1.3.14-v1.3.16-verification-report-auditability-implementation.md"
     ).read_text(encoding="utf-8")
-    assert "Implemented / Pending terminal alignment and acceptance" in text
+    assert "Implemented / Terminal alignment pending merge verification" in text
     assert "not a signature" in text
 
 

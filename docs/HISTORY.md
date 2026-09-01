@@ -4013,3 +4013,11 @@ Implementation acceptance remains pending.
 
 - Deterministic report fingerprint, offline semantic comparison, and stable CLI commands — Implemented.
 - Terminal alignment and implementation acceptance — Pending.
+
+<!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-history -->
+
+## v1.3.14-v1.3.16 verification report auditability terminal alignment
+
+- Implementation PR #307 merged as `bece414940857dc76ffef70907a64da7e573df78`.
+- Synchronized-main focused verification completed with 67 passed.
+- Implementation acceptance — Awaiting terminal-alignment merge and verification.

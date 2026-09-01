@@ -3766,7 +3766,6 @@ Alignment PR #277 merged as `ec52e25dfbe911033e0b049701fb1df3171c1268`.
 Required CI passed, and synchronized-main post-merge verification passed 24 tests.
 
 - Implementation acceptance — Accepted / Completed.
-- Mutation and implicit merge authorization remain deferred.
 
 <!-- v1.3.3-release-evidence-verification-orchestration-design-history -->
 
@@ -4070,3 +4069,12 @@ Implementation acceptance remains pending.
 - Terminal-alignment PR #313 merged as `b0c9a0ce588d4caa1e9ad35a5aaa81c868b419ff` with required CI successful.
 - Synchronized-main verification completed: ============================= 15 passed in 0.20s ==============================.
 - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.3.20-v1.3.22-audit-bundle-schema-evolution-design-train-history -->
+
+## v1.3.20-v1.3.22 audit bundle schema evolution — Design First
+
+- Explicit schema compatibility classification — Proposed.
+- Deterministic offline migration planning — Proposed.
+- Stable compatibility and migration-preview CLI — Proposed.
+- Production implementation — Not Started.

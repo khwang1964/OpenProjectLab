@@ -8,7 +8,7 @@ def test_implementation_record_awaits_terminal_alignment_merge() -> None:
         ROOT
         / "docs/releases/v1.3.17-v1.3.19-verification-audit-bundle-portability-implementation.md"
     ).read_text(encoding="utf-8")
-    assert "Implemented / Terminal alignment pending merge verification" in text
+    assert "Accepted / Completed" in text
 
 
 def test_production_and_cli_symbols_exist() -> None:

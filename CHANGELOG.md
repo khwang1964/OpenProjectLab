@@ -2636,3 +2636,12 @@ select a provider, or initiate fallback implicitly.
 - Terminal-alignment PR #313 merged as `b0c9a0ce588d4caa1e9ad35a5aaa81c868b419ff` with required CI successful.
 - Synchronized-main verification completed: ============================= 15 passed in 0.20s ==============================.
 - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.3.20-v1.3.22-audit-bundle-schema-evolution-design-train-changelog -->
+
+## v1.3.20-v1.3.22 audit bundle schema evolution — Design First
+
+- Explicit schema compatibility classification — Proposed.
+- Deterministic offline migration planning — Proposed.
+- Stable compatibility and migration-preview CLI — Proposed.
+- Production implementation — Not Started.

@@ -4029,3 +4029,12 @@ Implementation acceptance remains pending.
 - Terminal-alignment PR #308 merged as `14564eba784b1d34f04387863039934822fa3729` with required CI successful.
 - Synchronized-main verification completed: ============================== 7 passed in 0.07s ==============================.
 - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.3.17-v1.3.19-verification-audit-bundle-portability-design-train-history -->
+
+## v1.3.17-v1.3.19 verification audit bundle portability — Design First
+
+- Proposed deterministic portable bundle, offline consistency validation, and stable
+  bundle CLI boundaries.
+- Design review — Pending.
+- Production implementation — Not Started.

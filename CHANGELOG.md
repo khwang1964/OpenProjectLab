@@ -2604,3 +2604,12 @@ select a provider, or initiate fallback implicitly.
   bundle CLI boundaries.
 - Design review — Pending.
 - Production implementation — Not Started.
+
+<!-- v1.3.17-v1.3.19-verification-audit-bundle-portability-design-acceptance-changelog -->
+
+## v1.3.17-v1.3.19 verification audit bundle portability design acceptance
+
+- Design PR #310 merged as `9f41d4ae5c20bcd499e22c44d84477cfbae756d9` with required CI successful.
+- Synchronized-main Design First verification completed with 7 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.

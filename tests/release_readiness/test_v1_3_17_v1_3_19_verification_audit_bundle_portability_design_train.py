@@ -55,7 +55,7 @@ def test_security_non_claims_are_explicit() -> None:
 
 def test_production_implementation_remains_not_started() -> None:
     release = RELEASE.read_text(encoding="utf-8")
-    assert "Status: Proposed / Pending design review" in release
+    assert "Status: Accepted / Completed" in release
     assert "Production implementation — Not Started" in release
 
 

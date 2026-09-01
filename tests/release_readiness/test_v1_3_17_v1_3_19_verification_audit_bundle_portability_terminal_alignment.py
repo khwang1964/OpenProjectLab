@@ -12,7 +12,7 @@ IMPLEMENTATION = (
 
 def test_alignment_remains_pending_before_merge_verification() -> None:
     text = ALIGNMENT.read_text(encoding="utf-8")
-    assert "Pending / Awaiting terminal-alignment merge and verification" in text
+    assert "Completed / Verified after merge" in text
     assert "A separate implementation-acceptance closure" in text
 
 
@@ -25,7 +25,7 @@ def test_alignment_records_exact_implementation_evidence() -> None:
 
 def test_implementation_status_awaits_alignment_merge() -> None:
     text = IMPLEMENTATION.read_text(encoding="utf-8")
-    assert "Implemented / Terminal alignment pending merge verification" in text
+    assert "Accepted / Completed" in text
 
 
 def test_governance_surfaces_use_exact_unique_markers() -> None:
@@ -38,4 +38,4 @@ def test_governance_surfaces_use_exact_unique_markers() -> None:
     for relative_path, exact_marker in surfaces.items():
         text = (ROOT / relative_path).read_text(encoding="utf-8")
         assert text.count(exact_marker) == 1
-        assert "Awaiting terminal-alignment merge and verification" in text
+        assert "Accepted / Completed" in text

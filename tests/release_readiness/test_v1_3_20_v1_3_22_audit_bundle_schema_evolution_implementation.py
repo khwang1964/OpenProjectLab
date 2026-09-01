@@ -25,5 +25,5 @@ def test_cli_exposes_accepted_preview_only_commands() -> None:
 
 def test_release_record_remains_pending_before_alignment() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert "Implemented / Pending terminal alignment and acceptance" in text
+    assert "Implemented / Terminal alignment pending merge verification" in text
     assert "Terminal alignment and implementation acceptance — Pending" in text

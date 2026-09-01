@@ -1,6 +1,6 @@
 # Verification Audit Bundle Portability
 
-> v1.3.17-v1.3.19 Design First baseline — Proposed / Pending design review
+> v1.3.17-v1.3.19 Design First baseline — Accepted / Completed
 
 ## Objective
 

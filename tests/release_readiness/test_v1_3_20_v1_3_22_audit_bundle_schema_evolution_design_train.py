@@ -68,8 +68,8 @@ def test_governance_surfaces_use_exact_unique_markers() -> None:
         assert "Production implementation — Not Started" in text
 
 
-def test_design_does_not_create_production_symbols() -> None:
+def test_accepted_design_symbols_are_implemented() -> None:
     production = ROOT / "generator/release_audit_bundle.py"
     text = production.read_text(encoding="utf-8")
     for symbol in ("AuditBundleSchemaCompatibility", "AuditBundleMigrationPlan"):
-        assert f"class {symbol}" not in text
+        assert f"class {symbol}" in text

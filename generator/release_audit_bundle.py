@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass
+from enum import StrEnum
 from typing import Any
 
 from generator.release_automation import (
@@ -14,6 +15,159 @@ from generator.release_automation import (
 )
 
 SCHEMA_VERSION = "1"
+
+
+class AuditBundleCompatibilityCategory(StrEnum):
+    CURRENT = "CURRENT"
+    MIGRATABLE = "MIGRATABLE"
+    FUTURE = "FUTURE"
+    UNSUPPORTED = "UNSUPPORTED"
+
+
+@dataclass(frozen=True, slots=True, order=True)
+class AuditBundleMigrationEdge:
+    source_schema: str
+    target_schema: str
+    step: str
+
+
+@dataclass(frozen=True, slots=True)
+class AuditBundleSchemaCompatibility:
+    observed_schema: str
+    current_schema: str
+    category: AuditBundleCompatibilityCategory
+    migration_steps: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class AuditBundleMigrationPlan:
+    source_schema: str
+    target_schema: str
+    steps: tuple[str, ...]
+    preview_fingerprint: str
+
+
+class AuditBundleMigrationError(ValueError):
+    """A stable, user-visible migration-planning failure."""
+
+
+@dataclass(frozen=True, slots=True)
+class AuditBundleSchemaRegistry:
+    current_schema: str
+    supported_schemas: tuple[str, ...]
+    future_schemas: tuple[str, ...] = ()
+    migration_edges: tuple[AuditBundleMigrationEdge, ...] = ()
+
+    def __post_init__(self) -> None:
+        if not self.current_schema:
+            raise ValueError("current schema must be nonempty")
+        if self.supported_schemas != tuple(sorted(set(self.supported_schemas))):
+            raise ValueError("supported schemas must be sorted and unique")
+        if self.future_schemas != tuple(sorted(set(self.future_schemas))):
+            raise ValueError("future schemas must be sorted and unique")
+        if self.current_schema not in self.supported_schemas:
+            raise ValueError("current schema must be supported")
+        if set(self.supported_schemas) & set(self.future_schemas):
+            raise ValueError("supported and future schemas must be disjoint")
+        if self.migration_edges != tuple(sorted(set(self.migration_edges))):
+            raise ValueError("migration edges must be sorted and unique")
+        for edge in self.migration_edges:
+            if (
+                not edge.source_schema
+                or not edge.target_schema
+                or not edge.step
+                or edge.source_schema == edge.target_schema
+            ):
+                raise ValueError("migration edges must be explicit and non-reflexive")
+            if edge.source_schema not in self.supported_schemas:
+                raise ValueError("migration edge source must be supported")
+            if edge.target_schema not in self.supported_schemas:
+                raise ValueError("migration edge target must be supported")
+
+    def _paths(self, source: str, target: str) -> tuple[tuple[AuditBundleMigrationEdge, ...], ...]:
+        paths: list[tuple[AuditBundleMigrationEdge, ...]] = []
+
+        def visit(
+            schema: str,
+            path: tuple[AuditBundleMigrationEdge, ...],
+            visited: frozenset[str],
+        ) -> None:
+            if schema == target:
+                paths.append(path)
+                return
+            for edge in self.migration_edges:
+                if edge.source_schema == schema and edge.target_schema not in visited:
+                    visit(edge.target_schema, path + (edge,), visited | {edge.target_schema})
+
+        visit(source, (), frozenset({source}))
+        return tuple(paths)
+
+    def classify(self, observed_schema: str) -> AuditBundleSchemaCompatibility:
+        if observed_schema == self.current_schema:
+            category = AuditBundleCompatibilityCategory.CURRENT
+            steps: tuple[str, ...] = ()
+        elif observed_schema in self.future_schemas:
+            category = AuditBundleCompatibilityCategory.FUTURE
+            steps = ()
+        elif observed_schema not in self.supported_schemas:
+            category = AuditBundleCompatibilityCategory.UNSUPPORTED
+            steps = ()
+        else:
+            paths = self._paths(observed_schema, self.current_schema)
+            if len(paths) == 1:
+                category = AuditBundleCompatibilityCategory.MIGRATABLE
+                steps = tuple(edge.step for edge in paths[0])
+            else:
+                category = AuditBundleCompatibilityCategory.UNSUPPORTED
+                steps = ()
+        return AuditBundleSchemaCompatibility(
+            observed_schema,
+            self.current_schema,
+            category,
+            steps,
+        )
+
+    def plan(self, source_schema: str, target_schema: str) -> AuditBundleMigrationPlan:
+        if target_schema not in self.supported_schemas:
+            raise AuditBundleMigrationError("$.target_schema: unsupported target schema")
+        if source_schema not in self.supported_schemas:
+            raise AuditBundleMigrationError("$.source_schema: unsupported source schema")
+        paths = self._paths(source_schema, target_schema)
+        if not paths:
+            raise AuditBundleMigrationError("$.migration: no explicit migration path")
+        if len(paths) != 1:
+            raise AuditBundleMigrationError("$.migration: ambiguous migration path")
+        steps = tuple(edge.step for edge in paths[0])
+        if not steps:
+            raise AuditBundleMigrationError("$.migration: source already uses target schema")
+        payload = json.dumps(
+            {
+                "source_schema": source_schema,
+                "steps": list(steps),
+                "target_schema": target_schema,
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        return AuditBundleMigrationPlan(source_schema, target_schema, steps, _sha256(payload))
+
+
+DEFAULT_SCHEMA_REGISTRY = AuditBundleSchemaRegistry(
+    current_schema=SCHEMA_VERSION,
+    supported_schemas=("0", "1"),
+    future_schemas=("2",),
+    migration_edges=(AuditBundleMigrationEdge("0", "1", "upgrade-0-to-1"),),
+)
+
+
+def inspect_audit_bundle_schema(document: str) -> str:
+    try:
+        payload = json.loads(document, object_pairs_hook=_strict_object)
+    except (json.JSONDecodeError, TypeError) as error:
+        raise VerificationDocumentError("audit bundle is not valid JSON") from error
+    if not isinstance(payload, dict) or not isinstance(payload.get("schema_version"), str):
+        raise VerificationDocumentError("audit bundle schema_version must be a string")
+    return payload["schema_version"]
 
 
 def _sha256(document: str) -> str:

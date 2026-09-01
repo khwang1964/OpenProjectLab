@@ -7,6 +7,12 @@ import os
 import sys
 from pathlib import Path
 
+from generator.release_audit_bundle import (
+    VerificationAuditBundleBuilder,
+    VerificationAuditBundleCodec,
+    VerificationAuditBundleRenderer,
+    VerificationAuditBundleValidator,
+)
 from generator.release_automation import (
     ReadOnlyVerificationInvoker,
     VerificationDocumentError,
@@ -63,6 +69,22 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     report_compare.add_argument("--right", required=True)
     report_compare.add_argument("--format", choices=("json", "text"), default="text")
     report_compare.set_defaults(command_handler=_handle_report_compare)
+
+    bundle_parser = commands.add_parser("bundle")
+    bundle_commands = bundle_parser.add_subparsers(dest="bundle_command", required=True)
+    bundle_create = bundle_commands.add_parser("create")
+    bundle_create.add_argument("--request", required=True)
+    bundle_create.add_argument("--report", required=True)
+    bundle_create.add_argument("--output", required=True)
+    bundle_create.set_defaults(command_handler=_handle_bundle_create)
+    bundle_inspect = bundle_commands.add_parser("inspect")
+    bundle_inspect.add_argument("--bundle", required=True)
+    bundle_inspect.add_argument("--format", choices=("json", "text"), default="text")
+    bundle_inspect.set_defaults(command_handler=_handle_bundle_inspect)
+    bundle_validate = bundle_commands.add_parser("validate")
+    bundle_validate.add_argument("--bundle", required=True)
+    bundle_validate.add_argument("--format", choices=("json", "text"), default="text")
+    bundle_validate.set_defaults(command_handler=_handle_bundle_validate)
 
 
 def _read_request(path: Path) -> str:
@@ -175,3 +197,58 @@ def _handle_report_compare(args: argparse.Namespace) -> int:
     renderer = VerificationReportComparisonRenderer
     print(renderer.to_json(comparison) if args.format == "json" else renderer.to_text(comparison))
     return 0 if comparison.is_equal else 1
+
+
+def _read_bundle(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
+
+
+def _render_bundle(bundle, validation, output_format: str) -> str:
+    renderer = VerificationAuditBundleRenderer
+    return (
+        renderer.to_json(bundle, validation)
+        if output_format == "json"
+        else renderer.to_text(bundle, validation)
+    )
+
+
+def _handle_bundle_create(args: argparse.Namespace) -> int:
+    output = Path(args.output)
+    temporary = output.with_name(f".{output.name}.tmp")
+    try:
+        if output.exists() or temporary.exists():
+            raise OSError("bundle output already exists")
+        bundle = VerificationAuditBundleBuilder.build(
+            _read_request(Path(args.request)), _read_report(Path(args.report))
+        )
+        temporary.write_text(
+            VerificationAuditBundleCodec.encode(bundle),
+            encoding="utf-8",
+            newline="\n",
+        )
+        temporary.replace(output)
+    except (OSError, UnicodeError, VerificationDocumentError, ValueError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    return 0
+
+
+def _handle_bundle_inspect(args: argparse.Namespace) -> int:
+    try:
+        bundle = VerificationAuditBundleCodec.decode(_read_bundle(Path(args.bundle)))
+    except (OSError, UnicodeError, VerificationDocumentError, ValueError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    print(_render_bundle(bundle, None, args.format))
+    return 0
+
+
+def _handle_bundle_validate(args: argparse.Namespace) -> int:
+    try:
+        bundle = VerificationAuditBundleCodec.decode(_read_bundle(Path(args.bundle)))
+        validation = VerificationAuditBundleValidator.validate(bundle)
+    except (OSError, UnicodeError, VerificationDocumentError, ValueError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    print(_render_bundle(bundle, validation, args.format))
+    return 0 if validation.is_valid else 1

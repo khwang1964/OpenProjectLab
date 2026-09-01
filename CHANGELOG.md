@@ -2613,3 +2613,10 @@ select a provider, or initiate fallback implicitly.
 - Synchronized-main Design First verification completed with 7 passed.
 - Design — Accepted / Completed.
 - Production implementation — Not Started.
+
+<!-- v1.3.17-v1.3.19-verification-audit-bundle-portability-implementation-changelog -->
+
+## v1.3.17-v1.3.19 verification audit bundle portability implementation
+
+- Canonical bundle, offline validation, and stable bundle CLI — Implemented.
+- Terminal alignment and implementation acceptance — Pending.

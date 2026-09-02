@@ -2679,3 +2679,17 @@ select a provider, or initiate fallback implicitly.
   with required CI successful.
 - Synchronized-main focused verification completed with 26 passed.
 - Implementation acceptance — Accepted / Completed.
+
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-design-train-changelog -->
+
+## v1.3.23-v1.3.25 Audit Bundle Migration Execution — Design First
+
+- Proposed deterministic offline migration application using one exact accepted
+  preview fingerprint and immutable local migration-step registry.
+- Proposed fail-closed target verification, atomic distinct-output publication,
+  canonical output digest, and reproducibility receipt.
+- Proposed a stable CLI requiring explicit `--execute`; source rewriting, silent
+  overwrite, network access, repository mutation, publication, signing, trust, and
+  provenance remain out of scope.
+- Production implementation — Not Started.

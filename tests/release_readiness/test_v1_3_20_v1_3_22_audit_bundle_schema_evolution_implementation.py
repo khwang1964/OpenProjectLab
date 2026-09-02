@@ -23,7 +23,7 @@ def test_cli_exposes_accepted_preview_only_commands() -> None:
     assert '"--preview", action="store_true", required=True' in text
 
 
-def test_release_record_remains_pending_before_alignment() -> None:
+def test_release_record_is_accepted_after_alignment() -> None:
     text = RELEASE.read_text(encoding="utf-8")
-    assert "Implemented / Terminal alignment pending merge verification" in text
-    assert "Terminal alignment and implementation acceptance — Pending" in text
+    assert "Status: Accepted / Completed" in text
+    assert "Terminal alignment and implementation acceptance — Accepted / Completed" in text

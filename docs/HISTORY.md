@@ -4124,3 +4124,12 @@ Implementation acceptance remains pending.
 - v1.3.25 explicitly authorized stable migration CLI — Proposed.
 - Design review — Pending.
 - Production implementation — Not Started.
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-design-acceptance-history -->
+
+## v1.3.23-v1.3.25 migration execution design acceptance
+
+- Design PR #320 merged with required CI successful.
+- Synchronized-main Design First verification completed with 7 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.

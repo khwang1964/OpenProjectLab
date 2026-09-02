@@ -4112,3 +4112,15 @@ Implementation acceptance remains pending.
   with required CI successful.
 - Synchronized-main focused verification completed with 26 passed.
 - Implementation acceptance — Accepted / Completed.
+
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-design-train-history -->
+
+## v1.3.23-v1.3.25 audit bundle migration execution — Design First
+
+- Predecessor v1.3.20-v1.3.22 — Accepted / Completed.
+- v1.3.23 deterministic offline migration application — Proposed.
+- v1.3.24 fail-closed output verification and receipt — Proposed.
+- v1.3.25 explicitly authorized stable migration CLI — Proposed.
+- Design review — Pending.
+- Production implementation — Not Started.

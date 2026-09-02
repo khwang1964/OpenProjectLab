@@ -3960,3 +3960,12 @@ Next roadmap slice --- Pending explicit Design First definition
 - Design review — Pending.
 - Production implementation — Not Started.
 - Next — focused design-contract verification and Design PR.
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-design-acceptance-roadmap -->
+
+## v1.3.23-v1.3.25 Migration Execution Design Acceptance
+
+- Status — Accepted / Completed.
+- Design PR #320 and synchronized-main verification — Completed.
+- Production implementation — Not Started.
+- Next — one implementation train for v1.3.23 through v1.3.25.

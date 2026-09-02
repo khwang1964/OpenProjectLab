@@ -1,6 +1,6 @@
 # Audit Bundle Migration Execution
 
-> v1.3.23-v1.3.25 Design First baseline — Proposed / Pending design review
+> v1.3.23-v1.3.25 Design First baseline — Accepted / Completed
 
 ## Objective
 

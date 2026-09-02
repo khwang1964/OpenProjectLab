@@ -12,8 +12,8 @@ def normalized(path: Path) -> str:
 def test_design_is_pending_and_implementation_not_started() -> None:
     architecture = ARCHITECTURE.read_text(encoding="utf-8")
     release = RELEASE.read_text(encoding="utf-8")
-    assert "Proposed / Pending design review" in architecture
-    assert "Status: Proposed / Pending design review" in release
+    assert "Accepted / Completed" in architecture
+    assert "Status: Accepted / Completed" in release
     assert "Production implementation — Not Started" in release
 
 

@@ -2693,3 +2693,13 @@ select a provider, or initiate fallback implicitly.
   overwrite, network access, repository mutation, publication, signing, trust, and
   provenance remain out of scope.
 - Production implementation — Not Started.
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-design-acceptance-changelog -->
+
+## v1.3.23-v1.3.25 Migration Execution Design Acceptance
+
+- Design PR #320, required CI, synchronized-main identity, and focused verification
+  completed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.
+- Next — one implementation train for v1.3.23 through v1.3.25.

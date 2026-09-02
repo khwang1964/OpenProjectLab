@@ -2670,3 +2670,12 @@ select a provider, or initiate fallback implicitly.
 - Implementation PR #317 merged as `47c03dc52f1b6d9412a6f14efdb91a5fe840119a`.
 - Synchronized-main focused verification completed with 26 passed.
 - Implementation acceptance — Awaiting terminal-alignment merge and verification.
+
+<!-- v1.3.20-v1.3.22-audit-bundle-schema-evolution-implementation-acceptance-changelog -->
+
+## v1.3.20-v1.3.22 audit bundle schema evolution implementation acceptance
+
+- Terminal-alignment PR #318 merged as `b1c26cc993d209773e2f3b0ef76d621dec89b858`
+  with required CI successful.
+- Synchronized-main focused verification completed with 26 passed.
+- Implementation acceptance — Accepted / Completed.

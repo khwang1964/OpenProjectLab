@@ -2723,3 +2723,11 @@ select a provider, or initiate fallback implicitly.
 - Implementation PR #322 merged as `6e9369643004caa45be2896d183611d0c7fc3df7`.
 - Synchronized-main focused verification completed with 35 passed.
 - Implementation acceptance — Awaiting terminal-alignment merge and verification.
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-implementation-acceptance-changelog -->
+
+## v1.3.23-v1.3.25 audit bundle migration execution implementation acceptance
+
+- Terminal-alignment PR #323 merged as `541356262fa0aa5a3a861017e8ac8f9514871592` with required CI successful.
+- Synchronized-main focused verification completed with 39 passed.
+- Implementation acceptance — Accepted / Completed.

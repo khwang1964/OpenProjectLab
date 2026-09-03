@@ -39,7 +39,7 @@ def test_cli_exposes_bounded_read_only_chain_verification() -> None:
 
 def test_implementation_record_preserves_pending_acceptance() -> None:
     text = normalized(RELEASE)
-    assert "Implemented / Pending terminal alignment" in text
+    assert "Implemented / Terminal alignment pending merge verification" in text
     assert "Terminal alignment and implementation acceptance — Pending" in text
     assert "one-edge production fixture" in text
     assert "trust" in text

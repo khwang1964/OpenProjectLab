@@ -4065,3 +4065,11 @@ Next roadmap slice --- Pending explicit Design First definition
 - Deterministic offline adjacency and terminal-binding verification — Implemented.
 - Stable bounded read-only chain-verification CLI — Implemented.
 - Terminal alignment and implementation acceptance — Pending.
+
+<!-- v1.3.29-v1.3.31-audit-bundle-migration-chain-verification-terminal-alignment-roadmap -->
+
+## v1.3.29-v1.3.31 audit bundle migration chain verification terminal alignment
+
+- Implementation PR #332 merged as `c239abd1c8f62249533b368a9212b49c4287eb62`.
+- Synchronized-main focused verification completed with 41 passed.
+- Implementation acceptance — Awaiting terminal-alignment merge and verification.

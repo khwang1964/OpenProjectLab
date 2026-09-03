@@ -1,6 +1,6 @@
 # Audit Bundle Migration Receipt Verification
 
-> v1.3.26-v1.3.28 Design First baseline — Proposed / Pending design review
+> v1.3.26-v1.3.28 Design First baseline — Accepted / Completed
 
 ## Objective
 

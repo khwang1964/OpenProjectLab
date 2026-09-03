@@ -91,6 +91,29 @@ class AuditBundleMigrationReceiptVerification:
         return not self.findings
 
 
+@dataclass(frozen=True, slots=True)
+class AuditBundleMigrationChainManifest:
+    manifest_schema: str
+    initial_bundle_sha256: str
+    final_bundle_sha256: str
+    receipt_sha256: tuple[str, ...]
+
+
+@dataclass(frozen=True, slots=True, order=True)
+class AuditBundleMigrationChainFinding:
+    path: str
+    message: str
+
+
+@dataclass(frozen=True, slots=True)
+class AuditBundleMigrationChainVerification:
+    findings: tuple[AuditBundleMigrationChainFinding, ...]
+
+    @property
+    def is_valid(self) -> bool:
+        return not self.findings
+
+
 class AuditBundleMigrationError(ValueError):
     """A stable, user-visible migration-planning failure."""
 
@@ -505,6 +528,153 @@ class AuditBundleMigrationReceiptVerifier:
             if actual != recorded
         )
         return AuditBundleMigrationReceiptVerification(findings)
+
+
+_MIGRATION_CHAIN_FIELDS = frozenset(
+    {
+        "final_bundle_sha256",
+        "initial_bundle_sha256",
+        "manifest_schema",
+        "receipt_sha256",
+    }
+)
+
+
+class AuditBundleMigrationChainManifestCodec:
+    @staticmethod
+    def encode(manifest: AuditBundleMigrationChainManifest) -> str:
+        return json.dumps(
+            {
+                "final_bundle_sha256": manifest.final_bundle_sha256,
+                "initial_bundle_sha256": manifest.initial_bundle_sha256,
+                "manifest_schema": manifest.manifest_schema,
+                "receipt_sha256": list(manifest.receipt_sha256),
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+
+    @classmethod
+    def decode(cls, document: str) -> AuditBundleMigrationChainManifest:
+        try:
+            payload = json.loads(document, object_pairs_hook=_strict_object)
+        except (json.JSONDecodeError, TypeError) as error:
+            raise VerificationDocumentError("migration chain is not valid JSON") from error
+        if not isinstance(payload, dict):
+            raise VerificationDocumentError("migration chain must be a JSON object")
+        observed = frozenset(payload)
+        if observed != _MIGRATION_CHAIN_FIELDS:
+            unknown = sorted(observed - _MIGRATION_CHAIN_FIELDS)
+            missing = sorted(_MIGRATION_CHAIN_FIELDS - observed)
+            detail = unknown[0] if unknown else missing[0]
+            category = "unknown" if unknown else "missing"
+            raise VerificationDocumentError(f"$.{detail}: {category} chain field")
+        if payload["manifest_schema"] != "1":
+            raise VerificationDocumentError("$.manifest_schema: unsupported chain schema")
+        receipt_digests = payload["receipt_sha256"]
+        if not isinstance(receipt_digests, list) or not receipt_digests:
+            raise VerificationDocumentError("$.receipt_sha256: expected a nonempty list")
+        receipts = tuple(
+            _require_sha256(value, f"$.receipt_sha256[{index}]")
+            for index, value in enumerate(receipt_digests)
+        )
+        if len(receipts) != len(set(receipts)):
+            raise VerificationDocumentError("$.receipt_sha256: duplicate receipt identity")
+        initial = _require_sha256(payload["initial_bundle_sha256"], "$.initial_bundle_sha256")
+        final = _require_sha256(payload["final_bundle_sha256"], "$.final_bundle_sha256")
+        if initial == final:
+            raise VerificationDocumentError("$.final_bundle_sha256: cyclic chain identity")
+        manifest = AuditBundleMigrationChainManifest("1", initial, final, receipts)
+        if cls.encode(manifest) != document:
+            raise VerificationDocumentError("migration chain is not canonical JSON")
+        return manifest
+
+
+class AuditBundleMigrationChainVerifier:
+    @staticmethod
+    def verify(
+        manifest_document: str,
+        bundle_documents: tuple[str, ...],
+        receipt_documents: tuple[str, ...],
+        *,
+        schema_registry: AuditBundleSchemaRegistry = DEFAULT_SCHEMA_REGISTRY,
+    ) -> AuditBundleMigrationChainVerification:
+        manifest = AuditBundleMigrationChainManifestCodec.decode(manifest_document)
+        findings: list[AuditBundleMigrationChainFinding] = []
+        if len(receipt_documents) != len(manifest.receipt_sha256):
+            findings.append(
+                AuditBundleMigrationChainFinding(
+                    "$.receipts", "count does not match the chain manifest"
+                )
+            )
+        if len(bundle_documents) != len(receipt_documents) + 1:
+            findings.append(
+                AuditBundleMigrationChainFinding(
+                    "$.bundles", "expected exactly one more bundle than receipts"
+                )
+            )
+
+        receipt_digests = tuple(_sha256(document) for document in receipt_documents)
+        for index, (actual, recorded) in enumerate(
+            zip(receipt_digests, manifest.receipt_sha256, strict=False)
+        ):
+            if actual != recorded:
+                findings.append(
+                    AuditBundleMigrationChainFinding(
+                        f"$.receipt_sha256[{index}]",
+                        "does not match the ordered receipt document",
+                    )
+                )
+        seen_receipts: set[str] = set()
+        for index, digest in enumerate(receipt_digests):
+            if digest in seen_receipts:
+                findings.append(
+                    AuditBundleMigrationChainFinding(
+                        f"$.receipts[{index}]", "duplicate receipt document"
+                    )
+                )
+            seen_receipts.add(digest)
+
+        bundle_digests = tuple(_sha256(document) for document in bundle_documents)
+        if bundle_digests and bundle_digests[0] != manifest.initial_bundle_sha256:
+            findings.append(
+                AuditBundleMigrationChainFinding(
+                    "$.initial_bundle_sha256", "does not match the initial bundle"
+                )
+            )
+        if bundle_digests and bundle_digests[-1] != manifest.final_bundle_sha256:
+            findings.append(
+                AuditBundleMigrationChainFinding(
+                    "$.final_bundle_sha256", "does not match the final bundle"
+                )
+            )
+        seen_bundles: set[str] = set()
+        for index, digest in enumerate(bundle_digests):
+            if digest in seen_bundles:
+                findings.append(
+                    AuditBundleMigrationChainFinding(
+                        f"$.bundles[{index}]", "cyclic or duplicate bundle identity"
+                    )
+                )
+            seen_bundles.add(digest)
+
+        edge_count = (
+            len(receipt_documents) if len(bundle_documents) == len(receipt_documents) + 1 else 0
+        )
+        for index in range(edge_count):
+            verification = AuditBundleMigrationReceiptVerifier.verify(
+                bundle_documents[index],
+                bundle_documents[index + 1],
+                receipt_documents[index],
+                schema_registry=schema_registry,
+            )
+            for finding in verification.findings:
+                findings.append(
+                    AuditBundleMigrationChainFinding(
+                        f"$.receipts[{index}]{finding.path[1:]}", finding.message
+                    )
+                )
+        return AuditBundleMigrationChainVerification(tuple(sorted(findings)))
 
 
 @dataclass(frozen=True, slots=True, order=True)

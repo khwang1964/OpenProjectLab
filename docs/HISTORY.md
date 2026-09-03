@@ -4218,3 +4218,12 @@ Implementation acceptance remains pending.
 - Synchronized-main Design First verification completed with 6 passed.
 - Design — Accepted / Completed.
 - Production implementation — Not Started.
+
+<!-- v1.3.29-v1.3.31-audit-bundle-migration-chain-verification-implementation-history -->
+
+## v1.3.29-v1.3.31 audit bundle migration chain verification implementation
+
+- Strict canonical migration-chain manifest and codec — Implemented.
+- Deterministic offline adjacency and terminal-binding verification — Implemented.
+- Stable bounded read-only chain-verification CLI — Implemented.
+- Terminal alignment and implementation acceptance — Pending.

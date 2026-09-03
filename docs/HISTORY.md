@@ -4166,3 +4166,12 @@ Implementation acceptance remains pending.
 - Deterministic offline receipt verification — Proposed / Pending design review.
 - Stable bounded read-only verification CLI — Proposed / Pending design review.
 - Production implementation — Not Started.
+
+<!-- v1.3.26-v1.3.28-audit-bundle-migration-receipt-verification-design-acceptance-history -->
+
+## v1.3.26-v1.3.28 audit bundle migration receipt verification design acceptance
+
+- Design PR #325 merged as `d27018cd6e71437a33d45e3f41ab73f48be6f7f3` with required CI successful.
+- Synchronized-main Design First verification completed with 6 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.

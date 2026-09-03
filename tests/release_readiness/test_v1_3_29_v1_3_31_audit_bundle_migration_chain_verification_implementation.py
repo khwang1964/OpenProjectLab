@@ -37,10 +37,10 @@ def test_cli_exposes_bounded_read_only_chain_verification() -> None:
     assert "unlink(" not in handler
 
 
-def test_implementation_record_preserves_pending_acceptance() -> None:
+def test_implementation_record_is_accepted_after_alignment() -> None:
     text = normalized(RELEASE)
-    assert "Implemented / Terminal alignment pending merge verification" in text
-    assert "Terminal alignment and implementation acceptance — Pending" in text
+    assert "Status: Accepted / Completed" in text
+    assert "Terminal alignment and implementation acceptance — Accepted / Completed" in text
     assert "one-edge production fixture" in text
     assert "trust" in text
 

@@ -10,10 +10,10 @@ IMPLEMENTATION = RELEASES / (
 )
 
 
-def test_alignment_remains_pending_before_merge_verification() -> None:
+def test_alignment_records_completed_merge_verification() -> None:
     text = ALIGNMENT.read_text(encoding="utf-8")
-    assert "Pending / Awaiting terminal-alignment merge and verification" in text
-    assert "A separate implementation-acceptance closure" in text
+    assert "Completed / Verified after merge" in text
+    assert "Terminal-alignment PR #328 merged with required CI successful" in text
 
 
 def test_alignment_records_exact_implementation_evidence() -> None:
@@ -23,9 +23,9 @@ def test_alignment_records_exact_implementation_evidence() -> None:
     assert "Synchronized-main focused verification: 34 passed" in text
 
 
-def test_implementation_status_awaits_alignment_merge() -> None:
+def test_implementation_status_is_accepted() -> None:
     text = IMPLEMENTATION.read_text(encoding="utf-8")
-    assert "Implemented / Terminal alignment pending merge verification" in text
+    assert "Status: Accepted / Completed" in text
 
 
 def test_governance_surfaces_use_exact_unique_markers() -> None:

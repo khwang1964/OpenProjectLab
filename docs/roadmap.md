@@ -4021,3 +4021,11 @@ Next roadmap slice --- Pending explicit Design First definition
 - Deterministic offline source/output/plan binding verification — Implemented.
 - Stable bounded read-only verification CLI — Implemented.
 - Terminal alignment and implementation acceptance — Pending.
+
+<!-- v1.3.26-v1.3.28-audit-bundle-migration-receipt-verification-terminal-alignment-roadmap -->
+
+## v1.3.26-v1.3.28 audit bundle migration receipt verification terminal alignment
+
+- Implementation PR #327 merged as `4abe2e0c2352ea1f8396c5c1ea50e462b06ca048`.
+- Synchronized-main focused verification completed with 34 passed.
+- Implementation acceptance — Awaiting terminal-alignment merge and verification.

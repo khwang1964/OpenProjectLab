@@ -12,6 +12,7 @@ from pathlib import Path
 from generator.release_audit_bundle import (
     DEFAULT_SCHEMA_REGISTRY,
     AuditBundleCompatibilityCategory,
+    AuditBundleMigrationChainVerifier,
     AuditBundleMigrationError,
     AuditBundleMigrationExecutor,
     AuditBundleMigrationReceiptVerifier,
@@ -41,6 +42,8 @@ from generator.release_automation import (
 
 MAX_REQUEST_BYTES = 1024 * 1024
 MAX_REPORT_BYTES = 1024 * 1024
+MAX_MIGRATION_CHAIN_ITEMS = 64
+MAX_MIGRATION_CHAIN_BYTES = 8 * 1024 * 1024
 
 
 def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
@@ -113,6 +116,13 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     verify_migration.add_argument("--receipt", required=True)
     verify_migration.add_argument("--format", choices=("json", "text"), default="text")
     verify_migration.set_defaults(command_handler=_handle_bundle_verify_migration)
+
+    verify_chain = bundle_commands.add_parser("verify-migration-chain")
+    verify_chain.add_argument("--manifest", required=True)
+    verify_chain.add_argument("--bundle", action="append", required=True)
+    verify_chain.add_argument("--receipt", action="append", required=True)
+    verify_chain.add_argument("--format", choices=("json", "text"), default="text")
+    verify_chain.set_defaults(command_handler=_handle_bundle_verify_migration_chain)
 
 
 def _read_request(path: Path) -> str:
@@ -231,6 +241,39 @@ def _read_bundle(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _read_migration_chain_inputs(
+    args: argparse.Namespace,
+) -> tuple[str, tuple[str, ...], tuple[str, ...]]:
+    bundle_paths = tuple(args.bundle)
+    receipt_paths = tuple(args.receipt)
+    if len(bundle_paths) > MAX_MIGRATION_CHAIN_ITEMS:
+        raise VerificationDocumentError("migration chain has too many bundles")
+    if len(receipt_paths) > MAX_MIGRATION_CHAIN_ITEMS:
+        raise VerificationDocumentError("migration chain has too many receipts")
+    paths = (args.manifest,) + bundle_paths + receipt_paths
+    documents: list[str] = []
+    total = 0
+    for value in paths:
+        path = Path(value)
+        with path.open("rb") as stream:
+            data = stream.read(MAX_REQUEST_BYTES + 1)
+        if len(data) > MAX_REQUEST_BYTES:
+            raise VerificationDocumentError(f"{path}: exceeds the 1 MiB limit")
+        total += len(data)
+        if total > MAX_MIGRATION_CHAIN_BYTES:
+            raise VerificationDocumentError("migration chain exceeds the 8 MiB limit")
+        try:
+            documents.append(data.decode("utf-8"))
+        except UnicodeDecodeError as error:
+            raise VerificationDocumentError(f"{path}: must be UTF-8") from error
+    bundle_count = len(bundle_paths)
+    return (
+        documents[0],
+        tuple(documents[1 : 1 + bundle_count]),
+        tuple(documents[1 + bundle_count :]),
+    )
+
+
 def _render_bundle(bundle, validation, output_format: str) -> str:
     renderer = VerificationAuditBundleRenderer
     return (
@@ -322,6 +365,28 @@ def _handle_bundle_verify_migration(args: argparse.Namespace) -> int:
             _read_bundle(Path(args.receipt)),
         )
     except (AuditBundleMigrationError, OSError, UnicodeError, VerificationDocumentError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    payload = {
+        "findings": [
+            {"message": finding.message, "path": finding.path} for finding in verification.findings
+        ],
+        "valid": verification.is_valid,
+    }
+    if args.format == "json":
+        print(json.dumps(payload, sort_keys=True, separators=(",", ":")))
+    else:
+        print(f"valid: {str(verification.is_valid).lower()}")
+        for finding in verification.findings:
+            print(f"{finding.path}: {finding.message}")
+    return 0 if verification.is_valid else 1
+
+
+def _handle_bundle_verify_migration_chain(args: argparse.Namespace) -> int:
+    try:
+        manifest, bundles, receipts = _read_migration_chain_inputs(args)
+        verification = AuditBundleMigrationChainVerifier.verify(manifest, bundles, receipts)
+    except (AuditBundleMigrationError, OSError, VerificationDocumentError) as error:
         print(str(error), file=sys.stderr)
         return 2
     payload = {

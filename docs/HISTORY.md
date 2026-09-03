@@ -4141,3 +4141,11 @@ Implementation acceptance remains pending.
 - Deterministic migration application, verified distinct output, stable receipt, and
   explicit execution CLI — Implemented.
 - Terminal alignment and implementation acceptance — Pending.
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-terminal-alignment-history -->
+
+## v1.3.23-v1.3.25 audit bundle migration execution terminal alignment
+
+- Implementation PR #322 merged as `6e9369643004caa45be2896d183611d0c7fc3df7`.
+- Synchronized-main focused verification completed with 35 passed.
+- Implementation acceptance — Awaiting terminal-alignment merge and verification.

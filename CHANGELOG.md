@@ -2774,3 +2774,12 @@ select a provider, or initiate fallback implicitly.
 - Terminal-alignment PR #328 merged as `fd0c40ea1a836f32087bc644c5b077c99a5d2db9` with required CI successful.
 - Synchronized-main focused verification completed with 38 passed.
 - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.3.29-v1.3.31-audit-bundle-migration-chain-verification-design-train-changelog -->
+
+## v1.3.29-v1.3.31 audit bundle migration chain verification design train
+
+- Canonical migration-chain manifest — Proposed / Pending design review.
+- Deterministic offline chain verification — Proposed / Pending design review.
+- Stable bounded read-only chain-verification CLI — Proposed / Pending design review.
+- Production implementation — Not Started.

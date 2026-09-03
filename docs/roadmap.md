@@ -4038,3 +4038,12 @@ Next roadmap slice --- Pending explicit Design First definition
 - Synchronized-main focused verification completed with 38 passed.
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
+
+<!-- v1.3.29-v1.3.31-audit-bundle-migration-chain-verification-design-train-roadmap -->
+
+## v1.3.29-v1.3.31 audit bundle migration chain verification design train
+
+- Canonical migration-chain manifest — Proposed / Pending design review.
+- Deterministic offline chain verification — Proposed / Pending design review.
+- Stable bounded read-only chain-verification CLI — Proposed / Pending design review.
+- Production implementation — Not Started.

@@ -1,6 +1,6 @@
 # Audit Bundle Migration Chain Verification
 
-> v1.3.29-v1.3.31 Design First baseline — Proposed / Pending design review
+> v1.3.29-v1.3.31 Design First baseline — Accepted / Completed
 
 ## Objective
 

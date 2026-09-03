@@ -11,11 +11,11 @@ def normalized(path: Path) -> str:
     return " ".join(path.read_text(encoding="utf-8").split())
 
 
-def test_design_is_pending_and_implementation_not_started() -> None:
+def test_design_is_accepted_and_implementation_not_started() -> None:
     architecture = normalized(ARCHITECTURE)
     release = normalized(RELEASE)
-    assert "Proposed / Pending design review" in architecture
-    assert "Proposed / Pending design review" in release
+    assert "Accepted / Completed" in architecture
+    assert "Accepted / Completed" in release
     assert "Production implementation is Not Started" in release
 
 

@@ -3977,3 +3977,11 @@ Next roadmap slice --- Pending explicit Design First definition
 - Production implementation — Completed.
 - Terminal alignment and implementation acceptance — Pending.
 - Next — focused verification, implementation PR, and separate acceptance workflow.
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-terminal-alignment-roadmap -->
+
+## v1.3.23-v1.3.25 audit bundle migration execution terminal alignment
+
+- Implementation PR #322 merged as `6e9369643004caa45be2896d183611d0c7fc3df7`.
+- Synchronized-main focused verification completed with 35 passed.
+- Implementation acceptance — Awaiting terminal-alignment merge and verification.

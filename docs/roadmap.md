@@ -4047,3 +4047,12 @@ Next roadmap slice --- Pending explicit Design First definition
 - Deterministic offline chain verification — Proposed / Pending design review.
 - Stable bounded read-only chain-verification CLI — Proposed / Pending design review.
 - Production implementation — Not Started.
+
+<!-- v1.3.29-v1.3.31-audit-bundle-migration-chain-verification-design-acceptance-roadmap -->
+
+## v1.3.29-v1.3.31 audit bundle migration chain verification design acceptance
+
+- Design PR #330 merged as `17e9fb3e149b027e98b32bc502f90679e89e2d41` with required CI successful.
+- Synchronized-main Design First verification completed with 6 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.

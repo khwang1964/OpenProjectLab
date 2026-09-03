@@ -3969,3 +3969,11 @@ Next roadmap slice --- Pending explicit Design First definition
 - Design PR #320 and synchronized-main verification — Completed.
 - Production implementation — Not Started.
 - Next — one implementation train for v1.3.23 through v1.3.25.
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-implementation-roadmap -->
+
+## v1.3.23-v1.3.25 Audit Bundle Migration Execution Implementation
+
+- Production implementation — Completed.
+- Terminal alignment and implementation acceptance — Pending.
+- Next — focused verification, implementation PR, and separate acceptance workflow.

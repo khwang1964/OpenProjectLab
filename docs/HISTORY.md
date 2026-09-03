@@ -4133,3 +4133,11 @@ Implementation acceptance remains pending.
 - Synchronized-main Design First verification completed with 7 passed.
 - Design — Accepted / Completed.
 - Production implementation — Not Started.
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-implementation-history -->
+
+## v1.3.23-v1.3.25 audit bundle migration execution implementation
+
+- Deterministic migration application, verified distinct output, stable receipt, and
+  explicit execution CLI — Implemented.
+- Terminal alignment and implementation acceptance — Pending.

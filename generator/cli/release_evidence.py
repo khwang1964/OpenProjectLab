@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -12,6 +13,8 @@ from generator.release_audit_bundle import (
     DEFAULT_SCHEMA_REGISTRY,
     AuditBundleCompatibilityCategory,
     AuditBundleMigrationError,
+    AuditBundleMigrationExecutor,
+    AuditBundleMigrationRequest,
     VerificationAuditBundleBuilder,
     VerificationAuditBundleCodec,
     VerificationAuditBundleRenderer,
@@ -97,7 +100,10 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     bundle_migrate = bundle_commands.add_parser("migrate")
     bundle_migrate.add_argument("--bundle", required=True)
     bundle_migrate.add_argument("--target", required=True, metavar="SCHEMA")
-    bundle_migrate.add_argument("--preview", action="store_true", required=True)
+    migration_mode = bundle_migrate.add_mutually_exclusive_group(required=True)
+    migration_mode.add_argument("--preview", action="store_true")
+    migration_mode.add_argument("--execute", action="store_true")
+    bundle_migrate.add_argument("--output")
     bundle_migrate.add_argument("--format", choices=("json", "text"), default="text")
     bundle_migrate.set_defaults(command_handler=_handle_bundle_migrate)
 
@@ -302,21 +308,49 @@ def _handle_bundle_compatibility(args: argparse.Namespace) -> int:
 
 
 def _handle_bundle_migrate(args: argparse.Namespace) -> int:
+    bundle_path = Path(args.bundle)
     try:
-        observed = inspect_audit_bundle_schema(_read_bundle(Path(args.bundle)))
+        source_document = _read_bundle(bundle_path)
+        observed = inspect_audit_bundle_schema(source_document)
         plan = DEFAULT_SCHEMA_REGISTRY.plan(observed, args.target)
+        if args.execute:
+            if args.output is None:
+                raise VerificationDocumentError("--output is required with --execute")
+            output = Path(args.output)
+            if bundle_path.resolve() == output.resolve():
+                raise VerificationDocumentError("input and output must be distinct")
+            temporary = output.with_name(f".{output.name}.tmp")
+            if output.exists() or temporary.exists():
+                raise VerificationDocumentError("migration output already exists")
+            source_sha256 = hashlib.sha256(source_document.encode("utf-8")).hexdigest()
+            request = AuditBundleMigrationRequest(
+                source_sha256,
+                args.target,
+                plan.preview_fingerprint,
+                True,
+            )
+            result = AuditBundleMigrationExecutor.execute(request, source_document)
+            try:
+                temporary.write_text(result.output_document, encoding="utf-8", newline="\n")
+                temporary.replace(output)
+            except OSError:
+                temporary.unlink(missing_ok=True)
+                raise
     except AuditBundleMigrationError as error:
         print(str(error), file=sys.stderr)
         return 1
     except (OSError, UnicodeError, VerificationDocumentError, ValueError) as error:
         print(str(error), file=sys.stderr)
         return 2
-    payload = {
+    payload: dict[str, object] = {
         "preview_fingerprint": plan.preview_fingerprint,
         "source_schema": plan.source_schema,
         "steps": list(plan.steps),
         "target_schema": plan.target_schema,
     }
+    if args.execute:
+        payload["output_sha256"] = result.output_sha256
+        payload["receipt"] = json.loads(result.receipt)
     if args.format == "json":
         print(json.dumps(payload, sort_keys=True, separators=(",", ":")))
     else:

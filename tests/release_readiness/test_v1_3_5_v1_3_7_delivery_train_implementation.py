@@ -33,16 +33,23 @@ def test_cli_preserves_explicit_bounded_read_only_boundary() -> None:
         "def _handle_bundle_create",
         maxsplit=1,
     )
-    create_handler, after_create = create_and_after.split(
+    create_handler, read_only_and_migrate = create_and_after.split(
         "def _handle_bundle_inspect",
+        maxsplit=1,
+    )
+    read_only_handlers, migrate_handler = read_only_and_migrate.split(
+        "def _handle_bundle_migrate",
         maxsplit=1,
     )
 
     assert "write_text(" not in before_create
-    assert "write_text(" not in after_create
+    assert "write_text(" not in read_only_handlers
     assert create_handler.count("temporary.write_text(") == 1
     assert "if output.exists() or temporary.exists():" in create_handler
     assert "temporary.replace(output)" in create_handler
+    assert migrate_handler.count("temporary.write_text(") == 1
+    assert "if output.exists() or temporary.exists():" in migrate_handler
+    assert "temporary.replace(output)" in migrate_handler
 
 
 def test_release_record_is_accepted_after_alignment_verification() -> None:

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any
@@ -45,6 +46,24 @@ class AuditBundleMigrationPlan:
     target_schema: str
     steps: tuple[str, ...]
     preview_fingerprint: str
+
+
+@dataclass(frozen=True, slots=True)
+class AuditBundleMigrationRequest:
+    source_sha256: str
+    target_schema: str
+    preview_fingerprint: str
+    distinct_output: bool
+
+
+@dataclass(frozen=True, slots=True)
+class AuditBundleMigrationResult:
+    source_schema: str
+    target_schema: str
+    steps: tuple[str, ...]
+    output_document: str
+    output_sha256: str
+    receipt: str
 
 
 class AuditBundleMigrationError(ValueError):
@@ -170,6 +189,17 @@ def inspect_audit_bundle_schema(document: str) -> str:
     return payload["schema_version"]
 
 
+def _upgrade_0_to_1(document: str) -> str:
+    try:
+        payload = json.loads(document, object_pairs_hook=_strict_object)
+    except (json.JSONDecodeError, TypeError) as error:
+        raise VerificationDocumentError("audit bundle is not valid JSON") from error
+    if not isinstance(payload, dict) or payload.get("schema_version") != "0":
+        raise AuditBundleMigrationError("$.schema_version: migration step requires schema 0")
+    payload["schema_version"] = "1"
+    return json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
 def _sha256(document: str) -> str:
     return hashlib.sha256(document.encode("utf-8")).hexdigest()
 
@@ -280,6 +310,72 @@ class VerificationAuditBundleCodec:
         if cls.encode(bundle) != document:
             raise VerificationDocumentError("audit bundle is not canonical JSON")
         return bundle
+
+
+type AuditBundleMigrationStep = Callable[[str], str]
+DEFAULT_MIGRATION_STEP_REGISTRY: tuple[tuple[str, AuditBundleMigrationStep], ...] = (
+    ("upgrade-0-to-1", _upgrade_0_to_1),
+)
+
+
+class AuditBundleMigrationExecutor:
+    @staticmethod
+    def execute(
+        request: AuditBundleMigrationRequest,
+        source_document: str,
+        *,
+        schema_registry: AuditBundleSchemaRegistry = DEFAULT_SCHEMA_REGISTRY,
+        step_registry: tuple[
+            tuple[str, AuditBundleMigrationStep], ...
+        ] = DEFAULT_MIGRATION_STEP_REGISTRY,
+    ) -> AuditBundleMigrationResult:
+        if not request.distinct_output:
+            raise AuditBundleMigrationError("$.output: distinct output is required")
+        if request.source_sha256 != _sha256(source_document):
+            raise AuditBundleMigrationError("$.source_sha256: source identity mismatch")
+        source_schema = inspect_audit_bundle_schema(source_document)
+        plan = schema_registry.plan(source_schema, request.target_schema)
+        if request.preview_fingerprint != plan.preview_fingerprint:
+            raise AuditBundleMigrationError("$.preview_fingerprint: accepted plan mismatch")
+        if step_registry != tuple(sorted(step_registry, key=lambda item: item[0])):
+            raise AuditBundleMigrationError("$.steps: migration registry is not ordered")
+        names = tuple(name for name, _ in step_registry)
+        if len(names) != len(set(names)):
+            raise AuditBundleMigrationError("$.steps: migration registry is ambiguous")
+        handlers = dict(step_registry)
+        output_document = source_document
+        for step in plan.steps:
+            handler = handlers.get(step)
+            if handler is None:
+                raise AuditBundleMigrationError(f"$.steps: unknown migration step: {step}")
+            output_document = handler(output_document)
+        try:
+            output_bundle = VerificationAuditBundleCodec.decode(output_document)
+        except VerificationDocumentError as error:
+            raise AuditBundleMigrationError("$.migration: target verification failed") from error
+        if output_bundle.schema_version != plan.target_schema:
+            raise AuditBundleMigrationError("$.schema_version: target verification failed")
+        output_sha256 = _sha256(output_document)
+        receipt = json.dumps(
+            {
+                "output_sha256": output_sha256,
+                "plan_fingerprint": plan.preview_fingerprint,
+                "source_schema": plan.source_schema,
+                "source_sha256": request.source_sha256,
+                "steps": list(plan.steps),
+                "target_schema": plan.target_schema,
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        return AuditBundleMigrationResult(
+            plan.source_schema,
+            plan.target_schema,
+            plan.steps,
+            output_document,
+            output_sha256,
+            receipt,
+        )
 
 
 @dataclass(frozen=True, slots=True, order=True)

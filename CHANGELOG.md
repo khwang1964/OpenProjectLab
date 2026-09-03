@@ -2703,3 +2703,15 @@ select a provider, or initiate fallback implicitly.
 - Design — Accepted / Completed.
 - Production implementation — Not Started.
 - Next — one implementation train for v1.3.23 through v1.3.25.
+
+<!-- v1.3.23-v1.3.25-audit-bundle-migration-execution-implementation-changelog -->
+
+## v1.3.23-v1.3.25 Audit Bundle Migration Execution
+
+- Added deterministic offline migration execution bound to an exact source digest
+  and accepted preview fingerprint.
+- Added fail-closed target verification, canonical receipt, atomic distinct-output
+  publication, and stable explicitly authorized CLI execution.
+- Source rewriting, silent overwrite, network access, repository mutation, signing,
+  trust, and provenance remain out of scope.
+- Terminal alignment and implementation acceptance — Pending.

@@ -16,11 +16,13 @@ def test_implementation_defines_accepted_production_symbols() -> None:
         assert f"class {symbol}" in text
 
 
-def test_cli_exposes_accepted_preview_only_commands() -> None:
+def test_cli_preserves_preview_and_exposes_explicit_execution() -> None:
     text = CLI.read_text(encoding="utf-8")
     assert 'add_parser("compatibility")' in text
     assert 'add_parser("migrate")' in text
-    assert '"--preview", action="store_true", required=True' in text
+    assert 'migration_mode.add_argument("--preview", action="store_true")' in text
+    assert 'migration_mode.add_argument("--execute", action="store_true")' in text
+    assert 'bundle_migrate.add_argument("--output")' in text
 
 
 def test_release_record_is_accepted_after_alignment() -> None:

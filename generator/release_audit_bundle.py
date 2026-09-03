@@ -66,6 +66,31 @@ class AuditBundleMigrationResult:
     receipt: str
 
 
+@dataclass(frozen=True, slots=True)
+class AuditBundleMigrationReceipt:
+    source_schema: str
+    target_schema: str
+    steps: tuple[str, ...]
+    source_sha256: str
+    output_sha256: str
+    plan_fingerprint: str
+
+
+@dataclass(frozen=True, slots=True, order=True)
+class AuditBundleMigrationReceiptFinding:
+    path: str
+    message: str
+
+
+@dataclass(frozen=True, slots=True)
+class AuditBundleMigrationReceiptVerification:
+    findings: tuple[AuditBundleMigrationReceiptFinding, ...]
+
+    @property
+    def is_valid(self) -> bool:
+        return not self.findings
+
+
 class AuditBundleMigrationError(ValueError):
     """A stable, user-visible migration-planning failure."""
 
@@ -376,6 +401,110 @@ class AuditBundleMigrationExecutor:
             output_sha256,
             receipt,
         )
+
+
+_MIGRATION_RECEIPT_FIELDS = frozenset(
+    {
+        "output_sha256",
+        "plan_fingerprint",
+        "source_schema",
+        "source_sha256",
+        "steps",
+        "target_schema",
+    }
+)
+
+
+def _require_sha256(value: object, path: str) -> str:
+    if not isinstance(value, str) or len(value) != 64:
+        raise VerificationDocumentError(f"{path}: expected a SHA-256 hex digest")
+    try:
+        int(value, 16)
+    except ValueError as error:
+        raise VerificationDocumentError(f"{path}: expected a SHA-256 hex digest") from error
+    if value != value.lower():
+        raise VerificationDocumentError(f"{path}: expected lowercase SHA-256 hex")
+    return value
+
+
+class AuditBundleMigrationReceiptCodec:
+    @staticmethod
+    def encode(receipt: AuditBundleMigrationReceipt) -> str:
+        return json.dumps(
+            {
+                "output_sha256": receipt.output_sha256,
+                "plan_fingerprint": receipt.plan_fingerprint,
+                "source_schema": receipt.source_schema,
+                "source_sha256": receipt.source_sha256,
+                "steps": list(receipt.steps),
+                "target_schema": receipt.target_schema,
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+
+    @classmethod
+    def decode(cls, document: str) -> AuditBundleMigrationReceipt:
+        try:
+            payload = json.loads(document, object_pairs_hook=_strict_object)
+        except (json.JSONDecodeError, TypeError) as error:
+            raise VerificationDocumentError("migration receipt is not valid JSON") from error
+        if not isinstance(payload, dict):
+            raise VerificationDocumentError("migration receipt must be a JSON object")
+        observed = frozenset(payload)
+        if observed != _MIGRATION_RECEIPT_FIELDS:
+            unknown = sorted(observed - _MIGRATION_RECEIPT_FIELDS)
+            missing = sorted(_MIGRATION_RECEIPT_FIELDS - observed)
+            detail = unknown[0] if unknown else missing[0]
+            category = "unknown" if unknown else "missing"
+            raise VerificationDocumentError(f"$.{detail}: {category} receipt field")
+        schemas = (payload["source_schema"], payload["target_schema"])
+        if not all(isinstance(item, str) and item for item in schemas):
+            raise VerificationDocumentError("$.schema: expected nonempty schema identities")
+        steps = payload["steps"]
+        if not isinstance(steps, list) or not all(isinstance(item, str) and item for item in steps):
+            raise VerificationDocumentError("$.steps: expected ordered nonempty strings")
+        fingerprint = _require_sha256(payload["plan_fingerprint"], "$.plan_fingerprint")
+        receipt = AuditBundleMigrationReceipt(
+            payload["source_schema"],
+            payload["target_schema"],
+            tuple(steps),
+            _require_sha256(payload["source_sha256"], "$.source_sha256"),
+            _require_sha256(payload["output_sha256"], "$.output_sha256"),
+            fingerprint,
+        )
+        if cls.encode(receipt) != document:
+            raise VerificationDocumentError("migration receipt is not canonical JSON")
+        return receipt
+
+
+class AuditBundleMigrationReceiptVerifier:
+    @staticmethod
+    def verify(
+        source_document: str,
+        output_document: str,
+        receipt_document: str,
+        *,
+        schema_registry: AuditBundleSchemaRegistry = DEFAULT_SCHEMA_REGISTRY,
+    ) -> AuditBundleMigrationReceiptVerification:
+        receipt = AuditBundleMigrationReceiptCodec.decode(receipt_document)
+        source_schema = inspect_audit_bundle_schema(source_document)
+        output_bundle = VerificationAuditBundleCodec.decode(output_document)
+        plan = schema_registry.plan(source_schema, receipt.target_schema)
+        observed = {
+            "$.output_sha256": (_sha256(output_document), receipt.output_sha256),
+            "$.plan_fingerprint": (plan.preview_fingerprint, receipt.plan_fingerprint),
+            "$.source_schema": (source_schema, receipt.source_schema),
+            "$.source_sha256": (_sha256(source_document), receipt.source_sha256),
+            "$.steps": (plan.steps, receipt.steps),
+            "$.target_schema": (output_bundle.schema_version, receipt.target_schema),
+        }
+        findings = tuple(
+            AuditBundleMigrationReceiptFinding(path, "does not match observed migration")
+            for path, (actual, recorded) in sorted(observed.items())
+            if actual != recorded
+        )
+        return AuditBundleMigrationReceiptVerification(findings)
 
 
 @dataclass(frozen=True, slots=True, order=True)

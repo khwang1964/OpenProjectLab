@@ -14,6 +14,7 @@ from generator.release_audit_bundle import (
     AuditBundleCompatibilityCategory,
     AuditBundleMigrationError,
     AuditBundleMigrationExecutor,
+    AuditBundleMigrationReceiptVerifier,
     AuditBundleMigrationRequest,
     VerificationAuditBundleBuilder,
     VerificationAuditBundleCodec,
@@ -106,6 +107,12 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     bundle_migrate.add_argument("--output")
     bundle_migrate.add_argument("--format", choices=("json", "text"), default="text")
     bundle_migrate.set_defaults(command_handler=_handle_bundle_migrate)
+    verify_migration = bundle_commands.add_parser("verify-migration")
+    verify_migration.add_argument("--bundle", required=True)
+    verify_migration.add_argument("--output", required=True)
+    verify_migration.add_argument("--receipt", required=True)
+    verify_migration.add_argument("--format", choices=("json", "text"), default="text")
+    verify_migration.set_defaults(command_handler=_handle_bundle_verify_migration)
 
 
 def _read_request(path: Path) -> str:
@@ -305,6 +312,31 @@ def _handle_bundle_compatibility(args: argparse.Namespace) -> int:
         }
         else 1
     )
+
+
+def _handle_bundle_verify_migration(args: argparse.Namespace) -> int:
+    try:
+        verification = AuditBundleMigrationReceiptVerifier.verify(
+            _read_bundle(Path(args.bundle)),
+            _read_bundle(Path(args.output)),
+            _read_bundle(Path(args.receipt)),
+        )
+    except (AuditBundleMigrationError, OSError, UnicodeError, VerificationDocumentError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    payload = {
+        "findings": [
+            {"message": finding.message, "path": finding.path} for finding in verification.findings
+        ],
+        "valid": verification.is_valid,
+    }
+    if args.format == "json":
+        print(json.dumps(payload, sort_keys=True, separators=(",", ":")))
+    else:
+        print(f"valid: {str(verification.is_valid).lower()}")
+        for finding in verification.findings:
+            print(f"{finding.path}: {finding.message}")
+    return 0 if verification.is_valid else 1
 
 
 def _handle_bundle_migrate(args: argparse.Namespace) -> int:

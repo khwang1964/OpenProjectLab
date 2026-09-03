@@ -4012,3 +4012,12 @@ Next roadmap slice --- Pending explicit Design First definition
 - Synchronized-main Design First verification completed with 6 passed.
 - Design — Accepted / Completed.
 - Production implementation — Not Started.
+
+<!-- v1.3.26-v1.3.28-audit-bundle-migration-receipt-verification-implementation-roadmap -->
+
+## v1.3.26-v1.3.28 audit bundle migration receipt verification implementation
+
+- Strict canonical migration-receipt model and codec — Implemented.
+- Deterministic offline source/output/plan binding verification — Implemented.
+- Stable bounded read-only verification CLI — Implemented.
+- Terminal alignment and implementation acceptance — Pending.

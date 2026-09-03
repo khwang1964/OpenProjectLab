@@ -3994,3 +3994,12 @@ Next roadmap slice --- Pending explicit Design First definition
 - Synchronized-main focused verification completed with 39 passed.
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
+
+<!-- v1.3.26-v1.3.28-audit-bundle-migration-receipt-verification-design-train-roadmap -->
+
+## v1.3.26-v1.3.28 audit bundle migration receipt verification design train
+
+- Canonical migration-receipt contract — Proposed / Pending design review.
+- Deterministic offline receipt verification — Proposed / Pending design review.
+- Stable bounded read-only verification CLI — Proposed / Pending design review.
+- Production implementation — Not Started.

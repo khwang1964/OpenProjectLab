@@ -4253,3 +4253,13 @@ Implementation acceptance remains pending.
 - Stable bounded read-only readiness-evaluation CLI — Proposed / Pending design review.
 - Existing v1.3 compatibility boundaries — Preserved / No silent promotion.
 - Production implementation — Not Started.
+
+<!-- v1.4.0-release-readiness-stability-baseline-design-acceptance-history -->
+
+## v1.4.0 release readiness stability baseline design acceptance
+
+- Design PR #335 merged as `a7667bff5b8009189f2f6d798b50f584946ab90a` with required CI successful.
+- Synchronized-main Design First verification completed with 6 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.
+- Next step — Separate production implementation change.

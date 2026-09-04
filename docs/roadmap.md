@@ -4082,3 +4082,13 @@ Next roadmap slice --- Pending explicit Design First definition
 - Synchronized-main focused verification completed with 46 passed.
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
+
+<!-- v1.4.0-release-readiness-stability-baseline-design-roadmap -->
+
+## v1.4.0 release readiness stability baseline design
+
+- Canonical revision-bound readiness evidence snapshot — Proposed / Pending design review.
+- Deterministic fail-closed stability evaluation — Proposed / Pending design review.
+- Stable bounded read-only readiness-evaluation CLI — Proposed / Pending design review.
+- Existing v1.3 compatibility boundaries — Preserved / No silent promotion.
+- Production implementation — Not Started.

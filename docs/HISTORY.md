@@ -4243,3 +4243,13 @@ Implementation acceptance remains pending.
 - Terminal-alignment PR #333 merged as `2a740cce476f8b0808b68cea3fd9493f4ef5b261` with required CI successful.
 - Synchronized-main focused verification completed with 46 passed.
 - Implementation acceptance — Accepted / Completed.
+
+<!-- v1.4.0-release-readiness-stability-baseline-design-history -->
+
+## v1.4.0 release readiness stability baseline design
+
+- Canonical revision-bound readiness evidence snapshot — Proposed / Pending design review.
+- Deterministic fail-closed stability evaluation — Proposed / Pending design review.
+- Stable bounded read-only readiness-evaluation CLI — Proposed / Pending design review.
+- Existing v1.3 compatibility boundaries — Preserved / No silent promotion.
+- Production implementation — Not Started.

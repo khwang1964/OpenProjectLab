@@ -4102,3 +4102,12 @@ Next roadmap slice --- Pending explicit Design First definition
 - Design — Accepted / Completed.
 - Production implementation — Not Started.
 - Next step — Separate production implementation change.
+
+<!-- v1.4.0-release-readiness-stability-baseline-implementation-roadmap -->
+
+## v1.4.0 release readiness stability baseline implementation
+
+- Strict canonical revision-bound stability snapshot — Implemented.
+- Deterministic fail-closed readiness evaluator — Implemented.
+- Bounded offline read-only readiness CLI — Implemented.
+- Terminal alignment and implementation acceptance — Pending.

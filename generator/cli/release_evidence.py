@@ -39,11 +39,20 @@ from generator.release_automation import (
     VerificationRuntimeConfiguration,
     build_verification_runtime,
 )
+from generator.release_readiness import (
+    ReleaseReadinessStabilityEvaluator,
+    ReleaseReadinessStabilityPolicyCodec,
+    ReleaseReadinessStabilitySnapshotCodec,
+    StabilityEvaluationRenderer,
+    StabilityOutcome,
+)
 
 MAX_REQUEST_BYTES = 1024 * 1024
 MAX_REPORT_BYTES = 1024 * 1024
 MAX_MIGRATION_CHAIN_ITEMS = 64
 MAX_MIGRATION_CHAIN_BYTES = 8 * 1024 * 1024
+MAX_READINESS_DOCUMENT_BYTES = 1024 * 1024
+MAX_READINESS_AGGREGATE_BYTES = 2 * 1024 * 1024
 
 
 def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
@@ -123,6 +132,48 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     verify_chain.add_argument("--receipt", action="append", required=True)
     verify_chain.add_argument("--format", choices=("json", "text"), default="text")
     verify_chain.set_defaults(command_handler=_handle_bundle_verify_migration_chain)
+
+    readiness = commands.add_parser("readiness")
+    readiness_commands = readiness.add_subparsers(dest="readiness_command", required=True)
+    readiness_evaluate = readiness_commands.add_parser("evaluate")
+    readiness_evaluate.add_argument("--snapshot", required=True)
+    readiness_evaluate.add_argument("--policy", required=True)
+    readiness_evaluate.add_argument("--format", choices=("json", "text"), required=True)
+    readiness_evaluate.set_defaults(command_handler=_handle_readiness_evaluate)
+
+
+def _read_readiness_documents(snapshot: str, policy: str) -> tuple[str, str]:
+    documents: list[str] = []
+    total = 0
+    for value in (snapshot, policy):
+        with Path(value).open("rb") as stream:
+            data = stream.read(MAX_READINESS_DOCUMENT_BYTES + 1)
+        if len(data) > MAX_READINESS_DOCUMENT_BYTES:
+            raise VerificationDocumentError("readiness document exceeds the 1 MiB limit")
+        total += len(data)
+        if total > MAX_READINESS_AGGREGATE_BYTES:
+            raise VerificationDocumentError("readiness input exceeds the 2 MiB aggregate limit")
+        documents.append(data.decode("utf-8"))
+    return documents[0], documents[1]
+
+
+def _handle_readiness_evaluate(args: argparse.Namespace) -> int:
+    try:
+        snapshot_document, policy_document = _read_readiness_documents(args.snapshot, args.policy)
+        snapshot = ReleaseReadinessStabilitySnapshotCodec.decode(snapshot_document)
+        policy = ReleaseReadinessStabilityPolicyCodec.decode(policy_document)
+        evaluation = ReleaseReadinessStabilityEvaluator.evaluate(snapshot, policy)
+    except (OSError, UnicodeError, VerificationDocumentError, TypeError, ValueError) as error:
+        print(f"error: {error}", file=sys.stderr)
+        return 2
+    renderer = StabilityEvaluationRenderer
+    output = renderer.to_json(evaluation) if args.format == "json" else renderer.to_text(evaluation)
+    sys.stdout.write(output)
+    if evaluation.outcome == StabilityOutcome.READY:
+        return 0
+    if evaluation.outcome == StabilityOutcome.BLOCKED:
+        return 1
+    return 2
 
 
 def _read_request(path: Path) -> str:

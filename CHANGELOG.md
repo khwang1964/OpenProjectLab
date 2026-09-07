@@ -2837,3 +2837,12 @@ select a provider, or initiate fallback implicitly.
 - Design — Accepted / Completed.
 - Production implementation — Not Started.
 - Next step — Separate production implementation change.
+
+<!-- v1.4.0-release-readiness-stability-baseline-implementation-changelog -->
+
+## v1.4.0 release readiness stability baseline implementation
+
+- Added strict canonical stability snapshots and deterministic readiness evaluation.
+- Added `release-evidence readiness evaluate` with bounded explicitly named inputs.
+- Kept release authorization, publication, network, and repository mutation out of scope.
+- Terminal alignment and implementation acceptance — Pending.

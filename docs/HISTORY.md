@@ -4279,6 +4279,14 @@ Implementation acceptance remains pending.
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
 
+<!-- v1.4.2-deterministic-readiness-snapshot-comparison-design-history -->
+
+## v1.4.2 deterministic readiness snapshot comparison design
+
+- Deterministic comparison and gate-regression semantics — Proposed / Pending design review.
+- Offline read-only CLI and authority boundary — Proposed / Pending design review.
+- Production implementation — Not Started.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

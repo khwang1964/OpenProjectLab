@@ -2607,6 +2607,14 @@ select a provider, or initiate fallback implicitly.
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
 
+<!-- v1.4.2-deterministic-readiness-snapshot-comparison-design-changelog -->
+
+## v1.4.2 deterministic readiness snapshot comparison design
+
+- Proposed deterministic readiness evidence comparison and regression findings.
+- Proposed a bounded offline read-only comparison CLI.
+- Production implementation — Not Started.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

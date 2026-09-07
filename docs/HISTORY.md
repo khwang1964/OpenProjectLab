@@ -4281,3 +4281,12 @@ Implementation acceptance remains pending.
 - Synchronized-main focused verification completed with 20 passed.
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
+
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-design-history -->
+
+## v1.4.1 deterministic readiness snapshot assembly design
+
+- Strict canonical evidence manifest — Proposed / Pending design review.
+- Deterministic local assembly with revision binding — Proposed / Pending design review.
+- Offline read-only CLI and authority boundary — Proposed / Pending design review.
+- Production implementation — Not Started.

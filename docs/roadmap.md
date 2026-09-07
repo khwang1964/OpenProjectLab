@@ -3743,6 +3743,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
 
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-design-roadmap -->
+
+## v1.4.1 deterministic readiness snapshot assembly design
+
+- Strict canonical explicit evidence manifest — Proposed / Pending design review.
+- Deterministic revision-bound local snapshot assembly — Proposed / Pending design review.
+- Bounded offline read-only assembly CLI — Proposed / Pending design review.
+- Production implementation — Not Started.
+
 <!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-terminal-alignment-roadmap -->
 ## v1.3.5-v1.3.7 Delivery Train Terminal Alignment
 

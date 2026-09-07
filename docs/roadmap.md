@@ -3893,6 +3893,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
 
+<!-- v1.4.2-deterministic-readiness-snapshot-comparison-design-roadmap -->
+
+## v1.4.2 deterministic readiness snapshot comparison design
+
+- Stable comparison categories and deterministic findings — Proposed / Pending design review.
+- Fail-closed readiness-gate regression detection — Proposed / Pending design review.
+- Bounded offline read-only comparison CLI — Proposed / Pending design review.
+- Production implementation — Not Started.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

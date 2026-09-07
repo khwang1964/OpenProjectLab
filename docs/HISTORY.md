@@ -4263,3 +4263,12 @@ Implementation acceptance remains pending.
 - Design — Accepted / Completed.
 - Production implementation — Not Started.
 - Next step — Separate production implementation change.
+
+<!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
+
+## v1.4.0 release readiness stability baseline implementation
+
+- Added strict canonical revision-bound stability evidence.
+- Added deterministic fail-closed readiness evaluation.
+- Added the bounded offline read-only readiness CLI.
+- Implementation acceptance remains pending post-merge verification.

@@ -2580,6 +2580,16 @@ select a provider, or initiate fallback implicitly.
 - Deterministic report fingerprint, offline semantic comparison, and stable CLI commands — Implemented.
 - Terminal alignment and implementation acceptance — Pending.
 
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-design-acceptance-changelog -->
+
+## v1.4.1 deterministic readiness snapshot assembly design acceptance
+
+- Design PR #339 merged as `da47ab8bc27dbede566dcffe255d5e9acf85118e` with required CI successful.
+- Synchronized-main Design First verification completed with 6 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.
+- Next step — Separate production implementation change.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

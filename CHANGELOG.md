@@ -2590,6 +2590,14 @@ select a provider, or initiate fallback implicitly.
 - Production implementation — Not Started.
 - Next step — Separate production implementation change.
 
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-implementation-changelog -->
+
+## v1.4.1 deterministic readiness snapshot assembly implementation
+
+- Added deterministic bounded assembly of explicit local readiness evidence.
+- Kept evaluation, release authorization, network access, and mutation out of scope.
+- Implementation acceptance — Pending post-merge verification.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

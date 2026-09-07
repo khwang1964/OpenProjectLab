@@ -9,6 +9,11 @@ import os
 import sys
 from pathlib import Path
 
+from generator.readiness_assembly import (
+    BoundedEvidenceReader,
+    ReadinessEvidenceManifestCodec,
+    ReleaseReadinessSnapshotAssembler,
+)
 from generator.release_audit_bundle import (
     DEFAULT_SCHEMA_REGISTRY,
     AuditBundleCompatibilityCategory,
@@ -140,6 +145,11 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     readiness_evaluate.add_argument("--policy", required=True)
     readiness_evaluate.add_argument("--format", choices=("json", "text"), required=True)
     readiness_evaluate.set_defaults(command_handler=_handle_readiness_evaluate)
+    readiness_assemble = readiness_commands.add_parser("assemble")
+    readiness_assemble.add_argument("--manifest", required=True)
+    readiness_assemble.add_argument("--input-root", required=True)
+    readiness_assemble.add_argument("--format", choices=("json", "text"), required=True)
+    readiness_assemble.set_defaults(command_handler=_handle_readiness_assemble)
 
 
 def _read_readiness_documents(snapshot: str, policy: str) -> tuple[str, str]:
@@ -174,6 +184,26 @@ def _handle_readiness_evaluate(args: argparse.Namespace) -> int:
     if evaluation.outcome == StabilityOutcome.BLOCKED:
         return 1
     return 2
+
+
+def _handle_readiness_assemble(args: argparse.Namespace) -> int:
+    try:
+        manifest_document = _read_request(Path(args.manifest))
+        manifest = ReadinessEvidenceManifestCodec.decode(manifest_document)
+        documents = BoundedEvidenceReader(Path(args.input_root)).read_all(manifest.evidence_files)
+        result = ReleaseReadinessSnapshotAssembler.assemble(manifest, documents)
+    except (OSError, UnicodeError, VerificationDocumentError, TypeError, ValueError) as error:
+        print(f"error: {error}", file=sys.stderr)
+        return 2
+    if not result.is_valid or result.snapshot is None:
+        for finding in result.findings:
+            print(f"{finding.path}: {finding.reason}: {finding.message}", file=sys.stderr)
+        return 2
+    output = ReleaseReadinessStabilitySnapshotCodec.encode(result.snapshot)
+    if args.format == "text":
+        output = f"repository: {result.snapshot.repository}\nrevision: {result.snapshot.revision}\n"
+    sys.stdout.write(output + ("" if output.endswith("\n") else "\n"))
+    return 0
 
 
 def _read_request(path: Path) -> str:

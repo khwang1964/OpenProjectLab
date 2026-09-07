@@ -3875,6 +3875,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Production implementation — Not Started.
 - Next step — Separate production implementation change.
 
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-implementation-roadmap -->
+
+## v1.4.1 deterministic readiness snapshot assembly implementation
+
+- Canonical evidence manifest and bounded reader — Implemented.
+- Deterministic revision-bound assembler — Implemented.
+- Offline read-only assembly CLI — Implemented.
+- Implementation acceptance — Pending post-merge verification.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

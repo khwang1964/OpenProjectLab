@@ -3540,7 +3540,7 @@ Next roadmap slice --- Pending explicit Design First definition
 - Preserve explicit merge authorization and the strict two-PR workflow.
 - Keep all GitHub, Git, release, publication, and document writes deferred.
 - Production implementation — Not Started.
-
++
 <!-- v1.3.2-repository-github-evidence-adapters-design-acceptance-roadmap -->
 
 ## v1.3.2 Repository / GitHub Evidence Adapters — Design Acceptance
@@ -3864,6 +3864,16 @@ Next roadmap slice --- Pending explicit Design First definition
 
 - Deterministic report fingerprint, offline semantic comparison, and stable CLI commands — Implemented.
 - Terminal alignment and implementation acceptance — Pending.
+
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-design-acceptance-roadmap -->
+
+## v1.4.1 deterministic readiness snapshot assembly design acceptance
+
+- Design PR #339 merged as `da47ab8bc27dbede566dcffe255d5e9acf85118e` with required CI successful.
+- Synchronized-main Design First verification completed with 6 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.
+- Next step — Separate production implementation change.
 
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 

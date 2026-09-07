@@ -4290,3 +4290,13 @@ Implementation acceptance remains pending.
 - Deterministic local assembly with revision binding — Proposed / Pending design review.
 - Offline read-only CLI and authority boundary — Proposed / Pending design review.
 - Production implementation — Not Started.
+
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-design-acceptance-history -->
+
+## v1.4.1 deterministic readiness snapshot assembly design acceptance
+
+- Design PR #339 merged as `da47ab8bc27dbede566dcffe255d5e9acf85118e` with required CI successful.
+- Synchronized-main Design First verification completed with 6 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.
+- Next step — Separate production implementation change.

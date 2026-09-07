@@ -4287,6 +4287,16 @@ Implementation acceptance remains pending.
 - Offline read-only CLI and authority boundary — Proposed / Pending design review.
 - Production implementation — Not Started.
 
+<!-- v1.4.2-deterministic-readiness-snapshot-comparison-design-acceptance-history -->
+
+## v1.4.2 deterministic readiness snapshot comparison design acceptance
+
+- Design PR #343 merged as `c0ea20f38daf283db340281888e0d9898bee1f43` with required CI successful.
+- Synchronized-main Design First verification completed with 6 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.
+- Next step — Separate production implementation change.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

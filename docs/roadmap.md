@@ -3884,6 +3884,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Offline read-only assembly CLI — Implemented.
 - Implementation acceptance — Pending post-merge verification.
 
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-implementation-acceptance-roadmap -->
+
+## v1.4.1 deterministic readiness snapshot assembly implementation acceptance
+
+- Implementation PR #341 merged as `4e02b11ec2386c0991e70fd5e25c09f00b078779` with required CI successful.
+- Synchronized-main verification completed with 17 passed and 1 skipped.
+- Implementation acceptance — Accepted / Completed.
+- Next roadmap slice — Pending explicit Design First definition.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

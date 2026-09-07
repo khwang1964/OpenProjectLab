@@ -4271,6 +4271,14 @@ Implementation acceptance remains pending.
 - Added the canonical evidence manifest, bounded reader, deterministic assembler, and CLI.
 - Implementation acceptance remains pending post-merge verification.
 
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-implementation-acceptance-history -->
+
+## v1.4.1 deterministic readiness snapshot assembly implementation acceptance
+
+- PR #341 merged as `4e02b11ec2386c0991e70fd5e25c09f00b078779`; 17 passed and 1 Windows symlink-condition test skipped.
+- Implementation acceptance — Accepted / Completed.
+- Next roadmap slice — Pending explicit Design First definition.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

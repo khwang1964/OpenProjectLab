@@ -2598,6 +2598,15 @@ select a provider, or initiate fallback implicitly.
 - Kept evaluation, release authorization, network access, and mutation out of scope.
 - Implementation acceptance — Pending post-merge verification.
 
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-implementation-acceptance-changelog -->
+
+## v1.4.1 deterministic readiness snapshot assembly implementation acceptance
+
+- Accepted PR #341 at `4e02b11ec2386c0991e70fd5e25c09f00b078779` after synchronized-main verification.
+- Focused result: 17 passed and 1 explicit Windows symlink-condition test skipped.
+- Implementation acceptance — Accepted / Completed.
+- Next roadmap slice — Pending explicit Design First definition.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

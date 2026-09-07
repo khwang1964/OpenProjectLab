@@ -2589,6 +2589,15 @@ select a provider, or initiate fallback implicitly.
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
 
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-design-changelog -->
+
+## v1.4.1 deterministic readiness snapshot assembly design
+
+- Proposed a strict canonical explicit evidence manifest.
+- Proposed deterministic revision-bound local snapshot assembly.
+- Proposed a bounded offline read-only assembly CLI.
+- Production implementation — Not Started.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-changelog -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

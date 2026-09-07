@@ -3732,7 +3732,16 @@ Next roadmap slice --- Pending explicit Design First definition
 ## v1.3.5-v1.3.7 Read-only Verification Delivery Train
 
 - Production implementation — Completed.
-- Terminal alignment and implementation acceptance — Pending.
+- Terminal alignment and implementation acceptance — Accepted / Completed.
+
+<!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-roadmap -->
+
+## v1.4.0 release readiness stability baseline implementation acceptance
+
+- Implementation PR #337 merged as `1f1684b3cc1f60f7f14d6c7cefc8f4e0c42f0ad6` with required CI successful.
+- Synchronized-main focused verification completed with 20 passed.
+- Implementation acceptance — Accepted / Completed.
+- Next roadmap slice — Pending explicit Design First definition.
 
 <!-- v1.3.5-v1.3.7-read-only-verification-delivery-train-terminal-alignment-roadmap -->
 ## v1.3.5-v1.3.7 Delivery Train Terminal Alignment

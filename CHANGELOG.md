@@ -2580,6 +2580,15 @@ select a provider, or initiate fallback implicitly.
 - Deterministic report fingerprint, offline semantic comparison, and stable CLI commands — Implemented.
 - Terminal alignment and implementation acceptance — Pending.
 
+<!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
+
+## v1.4.0 release readiness stability baseline implementation acceptance
+
+- Implementation PR #337 merged as `1f1684b3cc1f60f7f14d6c7cefc8f4e0c42f0ad6` with required CI successful.
+- Synchronized-main focused verification completed with 20 passed.
+- Implementation acceptance — Accepted / Completed.
+- Next roadmap slice — Pending explicit Design First definition.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-changelog -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

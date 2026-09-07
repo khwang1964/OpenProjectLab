@@ -4271,4 +4271,13 @@ Implementation acceptance remains pending.
 - Added strict canonical revision-bound stability evidence.
 - Added deterministic fail-closed readiness evaluation.
 - Added the bounded offline read-only readiness CLI.
-- Implementation acceptance remains pending post-merge verification.
+- Implementation acceptance — Accepted / Completed.
+
+<!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-history -->
+
+## v1.4.0 release readiness stability baseline implementation acceptance
+
+- Implementation PR #337 merged as `1f1684b3cc1f60f7f14d6c7cefc8f4e0c42f0ad6` with required CI successful.
+- Synchronized-main focused verification completed with 20 passed.
+- Implementation acceptance — Accepted / Completed.
+- Next roadmap slice — Pending explicit Design First definition.

@@ -4264,6 +4264,13 @@ Implementation acceptance remains pending.
 - Production implementation — Not Started.
 - Next step — Separate production implementation change.
 
+<!-- v1.4.1-deterministic-readiness-snapshot-assembly-implementation-history -->
+
+## v1.4.1 deterministic readiness snapshot assembly implementation
+
+- Added the canonical evidence manifest, bounded reader, deterministic assembler, and CLI.
+- Implementation acceptance remains pending post-merge verification.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

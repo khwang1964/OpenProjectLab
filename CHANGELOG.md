@@ -2687,6 +2687,16 @@ select a provider, or initiate fallback implicitly.
 - Next gate — v1.4 finish-line review.
 - No v1.4.4 feature slice is implied.
 
+<!-- v1.4-finish-line-review-changelog -->
+
+## v1.4 finish-line review
+
+- Confirmed v1.4.0 through v1.4.3 implementation acceptance evidence.
+- Defined enough-to-stop criteria across contracts, regression, coverage, documentation, and blockers.
+- Preserved feature freeze and separate release-mutation authorization.
+- Status — Pending / Awaiting post-merge verification.
+- Finish-line acceptance closure — Pending / Separate PR.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

@@ -3973,6 +3973,17 @@ Next roadmap slice --- Pending explicit Design First definition
 - Next gate — v1.4 finish-line review.
 - No v1.4.4 feature slice is implied.
 
+<!-- v1.4-finish-line-review-roadmap -->
+
+## v1.4 finish-line review
+
+- v1.4.0 through v1.4.3 design and implementation acceptance — Confirmed.
+- Feature expansion — Complete / Frozen.
+- Focused contracts, full regression, coverage threshold, and documentation consistency — Required.
+- Release blockers and acceptance gaps — Must be absent or explicitly resolved.
+- Status — Pending / Awaiting post-merge verification.
+- Finish-line acceptance closure — Pending / Separate PR.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

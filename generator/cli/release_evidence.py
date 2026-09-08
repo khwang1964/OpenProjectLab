@@ -19,6 +19,11 @@ from generator.readiness_comparison import (
     ReadinessComparisonRenderer,
     ReleaseReadinessSnapshotComparator,
 )
+from generator.readiness_decision import (
+    ReadinessDecisionDisposition,
+    ReadinessDecisionRenderer,
+    ReleaseReadinessDecisionBuilder,
+)
 from generator.release_audit_bundle import (
     DEFAULT_SCHEMA_REGISTRY,
     AuditBundleCompatibilityCategory,
@@ -63,6 +68,7 @@ MAX_MIGRATION_CHAIN_ITEMS = 64
 MAX_MIGRATION_CHAIN_BYTES = 8 * 1024 * 1024
 MAX_READINESS_DOCUMENT_BYTES = 1024 * 1024
 MAX_READINESS_AGGREGATE_BYTES = 2 * 1024 * 1024
+MAX_READINESS_DECISION_AGGREGATE_BYTES = 3 * 1024 * 1024
 
 
 def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
@@ -160,6 +166,12 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     readiness_compare.add_argument("--candidate", required=True)
     readiness_compare.add_argument("--format", choices=("json", "text"), required=True)
     readiness_compare.set_defaults(command_handler=_handle_readiness_compare)
+    readiness_decide = readiness_commands.add_parser("decide")
+    readiness_decide.add_argument("--snapshot", required=True)
+    readiness_decide.add_argument("--policy", required=True)
+    readiness_decide.add_argument("--baseline")
+    readiness_decide.add_argument("--format", choices=("json", "text"), required=True)
+    readiness_decide.set_defaults(command_handler=_handle_readiness_decide)
 
 
 def _read_readiness_documents(snapshot: str, policy: str) -> tuple[str, str]:
@@ -235,6 +247,51 @@ def _handle_readiness_compare(args: argparse.Namespace) -> int:
     if comparison.category == ReadinessComparisonCategory.INCOMPARABLE:
         return 2
     return 0
+
+
+def _read_readiness_decision_documents(
+    snapshot: str, policy: str, baseline: str | None
+) -> tuple[str, str, str | None]:
+    documents: list[str] = []
+    total = 0
+    values = (snapshot, policy) if baseline is None else (snapshot, policy, baseline)
+    for value in values:
+        with Path(value).open("rb") as stream:
+            data = stream.read(MAX_READINESS_DOCUMENT_BYTES + 1)
+        if len(data) > MAX_READINESS_DOCUMENT_BYTES:
+            raise VerificationDocumentError("readiness document exceeds the 1 MiB limit")
+        total += len(data)
+        if total > MAX_READINESS_DECISION_AGGREGATE_BYTES:
+            raise VerificationDocumentError("readiness input exceeds the 3 MiB aggregate limit")
+        documents.append(data.decode("utf-8"))
+    baseline_document = documents[2] if baseline is not None else None
+    return documents[0], documents[1], baseline_document
+
+
+def _handle_readiness_decide(args: argparse.Namespace) -> int:
+    try:
+        snapshot_document, policy_document, baseline_document = _read_readiness_decision_documents(
+            args.snapshot, args.policy, args.baseline
+        )
+        snapshot = ReleaseReadinessStabilitySnapshotCodec.decode(snapshot_document)
+        policy = ReleaseReadinessStabilityPolicyCodec.decode(policy_document)
+        baseline = (
+            ReleaseReadinessStabilitySnapshotCodec.decode(baseline_document)
+            if baseline_document is not None
+            else None
+        )
+        record = ReleaseReadinessDecisionBuilder.build(snapshot, policy, baseline)
+    except (OSError, UnicodeError, VerificationDocumentError, TypeError, ValueError) as error:
+        print(f"error: {error}", file=sys.stderr)
+        return 2
+    renderer = ReadinessDecisionRenderer
+    output = renderer.to_json(record) if args.format == "json" else renderer.to_text(record)
+    sys.stdout.write(output)
+    if record.disposition == ReadinessDecisionDisposition.REVIEWABLE:
+        return 0
+    if record.disposition == ReadinessDecisionDisposition.BLOCKED:
+        return 1
+    return 2
 
 
 def _read_request(path: Path) -> str:

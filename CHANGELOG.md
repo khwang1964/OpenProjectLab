@@ -2663,6 +2663,18 @@ select a provider, or initiate fallback implicitly.
 - Next step — Separate production implementation change.
 - Train intent — Final planned v1.4 feature slice before finish-line review.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-implementation-changelog -->
+
+## v1.4.3 deterministic readiness decision record implementation
+
+- Implemented a canonical decision record over accepted readiness evaluation and optional
+  baseline comparison evidence.
+- Added deterministic `REVIEWABLE`, `BLOCKED`, and `INDETERMINATE` dispositions with stable
+  source findings.
+- Added the bounded offline read-only `release-evidence readiness decide` CLI.
+- Implementation acceptance — Pending post-merge verification.
+- This completes the final planned v1.4 feature slice before finish-line review.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

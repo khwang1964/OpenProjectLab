@@ -4356,6 +4356,16 @@ Implementation acceptance remains pending.
 - Next gate — v1.4 finish-line review.
 - No v1.4.4 feature slice is implied.
 
+<!-- v1.4-finish-line-review-history -->
+
+## v1.4 finish-line review
+
+- Entered the finish-line review after all four planned v1.4 slices were accepted.
+- Required focused contracts, full regression, coverage, documentation consistency, and no blockers.
+- Kept tags, versions, artifacts, GitHub Releases, and publication outside current authorization.
+- Status — Pending / Awaiting post-merge verification.
+- Finish-line acceptance closure — Pending / Separate PR.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

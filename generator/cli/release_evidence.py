@@ -14,6 +14,11 @@ from generator.readiness_assembly import (
     ReadinessEvidenceManifestCodec,
     ReleaseReadinessSnapshotAssembler,
 )
+from generator.readiness_comparison import (
+    ReadinessComparisonCategory,
+    ReadinessComparisonRenderer,
+    ReleaseReadinessSnapshotComparator,
+)
 from generator.release_audit_bundle import (
     DEFAULT_SCHEMA_REGISTRY,
     AuditBundleCompatibilityCategory,
@@ -150,6 +155,11 @@ def add_release_evidence_parser(subparsers: argparse._SubParsersAction) -> None:
     readiness_assemble.add_argument("--input-root", required=True)
     readiness_assemble.add_argument("--format", choices=("json", "text"), required=True)
     readiness_assemble.set_defaults(command_handler=_handle_readiness_assemble)
+    readiness_compare = readiness_commands.add_parser("compare")
+    readiness_compare.add_argument("--baseline", required=True)
+    readiness_compare.add_argument("--candidate", required=True)
+    readiness_compare.add_argument("--format", choices=("json", "text"), required=True)
+    readiness_compare.set_defaults(command_handler=_handle_readiness_compare)
 
 
 def _read_readiness_documents(snapshot: str, policy: str) -> tuple[str, str]:
@@ -203,6 +213,27 @@ def _handle_readiness_assemble(args: argparse.Namespace) -> int:
     if args.format == "text":
         output = f"repository: {result.snapshot.repository}\nrevision: {result.snapshot.revision}\n"
     sys.stdout.write(output + ("" if output.endswith("\n") else "\n"))
+    return 0
+
+
+def _handle_readiness_compare(args: argparse.Namespace) -> int:
+    try:
+        baseline_document, candidate_document = _read_readiness_documents(
+            args.baseline, args.candidate
+        )
+        baseline = ReleaseReadinessStabilitySnapshotCodec.decode(baseline_document)
+        candidate = ReleaseReadinessStabilitySnapshotCodec.decode(candidate_document)
+        comparison = ReleaseReadinessSnapshotComparator.compare(baseline, candidate)
+    except (OSError, UnicodeError, VerificationDocumentError, TypeError, ValueError) as error:
+        print(f"error: {error}", file=sys.stderr)
+        return 2
+    renderer = ReadinessComparisonRenderer
+    output = renderer.to_json(comparison) if args.format == "json" else renderer.to_text(comparison)
+    sys.stdout.write(output)
+    if comparison.category == ReadinessComparisonCategory.REGRESSED:
+        return 1
+    if comparison.category == ReadinessComparisonCategory.INCOMPARABLE:
+        return 2
     return 0
 
 

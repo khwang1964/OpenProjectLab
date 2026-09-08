@@ -3912,6 +3912,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Production implementation — Not Started.
 - Next step — Separate production implementation change.
 
+<!-- v1.4.2-deterministic-readiness-snapshot-comparison-implementation-roadmap -->
+
+## v1.4.2 deterministic readiness snapshot comparison implementation
+
+- Deterministic readiness comparison models and renderer — Implemented.
+- Fail-closed comparison of every accepted readiness gate — Implemented.
+- Bounded offline read-only comparison CLI — Implemented.
+- Implementation acceptance — Pending post-merge verification.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

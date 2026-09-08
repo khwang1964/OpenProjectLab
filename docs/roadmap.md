@@ -3961,6 +3961,18 @@ Next roadmap slice --- Pending explicit Design First definition
 - Implementation acceptance — Pending post-merge verification.
 - Next gate after acceptance — v1.4 finish-line review.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-implementation-acceptance-roadmap -->
+
+## v1.4.3 deterministic readiness decision record implementation acceptance
+
+- Implementation PR #349 merged as `542cec89151641cd61a4d0781fa916d7945b4e76` with required CI successful.
+- Synchronized-main focused verification completed with 29 passed.
+- Production implementation — Accepted / Completed.
+- Implementation acceptance — Accepted / Completed.
+- v1.4 feature expansion — Completed.
+- Next gate — v1.4 finish-line review.
+- No v1.4.4 feature slice is implied.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

@@ -4345,6 +4345,17 @@ Implementation acceptance remains pending.
 - Implementation acceptance — Pending post-merge verification.
 - Next gate after acceptance — v1.4 finish-line review.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-implementation-acceptance-history -->
+
+## v1.4.3 deterministic readiness decision record implementation acceptance
+
+- Implementation PR #349 merged as `542cec89151641cd61a4d0781fa916d7945b4e76` with required CI successful.
+- Synchronized-main focused verification completed with 29 passed.
+- Production implementation — Accepted / Completed.
+- Implementation acceptance — Accepted / Completed.
+- Next gate — v1.4 finish-line review.
+- No v1.4.4 feature slice is implied.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

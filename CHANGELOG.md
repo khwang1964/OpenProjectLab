@@ -2675,6 +2675,18 @@ select a provider, or initiate fallback implicitly.
 - Implementation acceptance — Pending post-merge verification.
 - This completes the final planned v1.4 feature slice before finish-line review.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-implementation-acceptance-changelog -->
+
+## v1.4.3 deterministic readiness decision record implementation acceptance
+
+- Accepted implementation PR #349 at `542cec89151641cd61a4d0781fa916d7945b4e76` after
+  synchronized-main verification with 29 passed.
+- Production implementation — Accepted / Completed.
+- Implementation acceptance — Accepted / Completed.
+- v1.4 feature expansion — Completed.
+- Next gate — v1.4 finish-line review.
+- No v1.4.4 feature slice is implied.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

@@ -2633,6 +2633,16 @@ select a provider, or initiate fallback implicitly.
 - Added bounded offline read-only `release-evidence readiness compare` output and exit behavior.
 - Implementation acceptance — Pending post-merge verification.
 
+<!-- v1.4.2-deterministic-readiness-snapshot-comparison-implementation-acceptance-changelog -->
+
+## v1.4.2 deterministic readiness snapshot comparison implementation acceptance
+
+- Accepted PR #345 at `1775e597ab220f118c656a5fc7b711cd2c091d95` after synchronized-main verification.
+- Focused result: 30 passed.
+- Production implementation — Accepted / Completed.
+- Implementation acceptance — Accepted / Completed.
+- Next roadmap slice — Pending explicit Design First definition.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

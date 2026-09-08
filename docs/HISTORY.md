@@ -4324,6 +4324,17 @@ Implementation acceptance remains pending.
 - Final planned v1.4 feature slice; finish-line review follows acceptance.
 - Production implementation — Not Started.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-design-acceptance-history -->
+
+## v1.4.3 deterministic readiness decision record design acceptance
+
+- Design PR #347 merged as `ce7feac4e7f47760624852bd382216e634bcbfb5` with required CI successful.
+- Synchronized-main Design First verification completed with 6 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.
+- Next step — Separate production implementation change.
+- Train intent — Final planned v1.4 feature slice before finish-line review.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

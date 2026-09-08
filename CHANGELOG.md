@@ -2652,6 +2652,17 @@ select a provider, or initiate fallback implicitly.
 - Declared this the final planned v1.4 feature slice before finish-line review.
 - Production implementation — Not Started.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-design-acceptance-changelog -->
+
+## v1.4.3 deterministic readiness decision record design acceptance
+
+- Accepted Design PR #347 at `ce7feac4e7f47760624852bd382216e634bcbfb5` after synchronized-main verification.
+- Focused Design First result: 6 passed.
+- Design — Accepted / Completed.
+- Production implementation — Not Started.
+- Next step — Separate production implementation change.
+- Train intent — Final planned v1.4 feature slice before finish-line review.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

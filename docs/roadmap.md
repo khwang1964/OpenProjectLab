@@ -3951,6 +3951,16 @@ Next roadmap slice --- Pending explicit Design First definition
 - Next step — Separate production implementation change.
 - Train intent — Final planned v1.4 feature slice before finish-line review.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-implementation-roadmap -->
+
+## v1.4.3 deterministic readiness decision record implementation
+
+- Canonical repository- and revision-bound decision record — Implemented.
+- Deterministic fail-closed dispositions and source findings — Implemented.
+- Bounded offline read-only decision CLI — Implemented.
+- Implementation acceptance — Pending post-merge verification.
+- Next gate after acceptance — v1.4 finish-line review.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

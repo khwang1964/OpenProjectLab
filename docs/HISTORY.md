@@ -4335,6 +4335,16 @@ Implementation acceptance remains pending.
 - Next step — Separate production implementation change.
 - Train intent — Final planned v1.4 feature slice before finish-line review.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-implementation-history -->
+
+## v1.4.3 deterministic readiness decision record implementation
+
+- Added the canonical non-authorizing readiness decision record.
+- Added deterministic fail-closed composition of evaluation and optional comparison evidence.
+- Added bounded offline read-only JSON/text decision output with exit outcomes 0, 1, and 2.
+- Implementation acceptance — Pending post-merge verification.
+- Next gate after acceptance — v1.4 finish-line review.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

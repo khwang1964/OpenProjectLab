@@ -2643,6 +2643,15 @@ select a provider, or initiate fallback implicitly.
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-design-changelog -->
+
+## v1.4.3 deterministic readiness decision record design
+
+- Proposed deterministic readiness decision records for human review.
+- Proposed bounded offline read-only decision CLI with fail-closed dispositions.
+- Declared this the final planned v1.4 feature slice before finish-line review.
+- Production implementation — Not Started.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

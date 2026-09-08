@@ -4297,6 +4297,15 @@ Implementation acceptance remains pending.
 - Production implementation — Not Started.
 - Next step — Separate production implementation change.
 
+<!-- v1.4.2-deterministic-readiness-snapshot-comparison-implementation-history -->
+
+## v1.4.2 deterministic readiness snapshot comparison implementation
+
+- Added deterministic gate-level snapshot comparison and stable findings.
+- Added bounded offline read-only JSON/text comparison CLI with exit outcomes 0, 1, and 2.
+- Preserved ancestry, trust, authorization, and publication boundaries.
+- Implementation acceptance — Pending post-merge verification.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

@@ -2625,6 +2625,14 @@ select a provider, or initiate fallback implicitly.
 - Production implementation — Not Started.
 - Next step — Separate production implementation change.
 
+<!-- v1.4.2-deterministic-readiness-snapshot-comparison-implementation-changelog -->
+
+## v1.4.2 deterministic readiness snapshot comparison implementation
+
+- Added deterministic readiness snapshot comparison and fail-closed regression findings.
+- Added bounded offline read-only `release-evidence readiness compare` output and exit behavior.
+- Implementation acceptance — Pending post-merge verification.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance

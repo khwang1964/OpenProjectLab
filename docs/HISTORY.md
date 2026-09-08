@@ -4315,6 +4315,15 @@ Implementation acceptance remains pending.
 - Production implementation and acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-design-history -->
+
+## v1.4.3 deterministic readiness decision record design
+
+- Deterministic non-authorizing decision record — Proposed / Pending design review.
+- Bounded offline read-only CLI and fail-closed dispositions — Proposed / Pending design review.
+- Final planned v1.4 feature slice; finish-line review follows acceptance.
+- Production implementation — Not Started.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

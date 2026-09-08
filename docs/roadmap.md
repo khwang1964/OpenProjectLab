@@ -3931,6 +3931,15 @@ Next roadmap slice --- Pending explicit Design First definition
 - Implementation acceptance — Accepted / Completed.
 - Next roadmap slice — Pending explicit Design First definition.
 
+<!-- v1.4.3-deterministic-readiness-decision-record-design-roadmap -->
+
+## v1.4.3 deterministic readiness decision record design
+
+- Canonical decision record and deterministic dispositions — Proposed / Pending design review.
+- Bounded offline read-only decision CLI — Proposed / Pending design review.
+- Final planned v1.4 feature slice; finish-line review follows acceptance.
+- Production implementation — Not Started.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

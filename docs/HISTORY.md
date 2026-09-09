@@ -4366,6 +4366,17 @@ Implementation acceptance remains pending.
 - Status — Pending / Awaiting post-merge verification.
 - Finish-line acceptance closure — Pending / Separate PR.
 
+<!-- v1.4-finish-line-review-acceptance-history -->
+
+## v1.4 finish-line review acceptance
+
+- Review PR #351 merged as `4382f14d3e2c1e6f562fcfa14a5e11dbfb607845` with required CI successful.
+- Synchronized-main verification covered 17 focused files with 119 passed and 1 skipped.
+- v1.4 development train — Accepted / Completed.
+- Additional v1.4 feature slice — Not required.
+- Next gate — Explicitly authorized release planning or project stop.
+- Release mutation — Not authorized.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-history -->
 
 ## v1.4.0 release readiness stability baseline implementation

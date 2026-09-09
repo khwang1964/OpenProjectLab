@@ -3984,6 +3984,17 @@ Next roadmap slice --- Pending explicit Design First definition
 - Status — Pending / Awaiting post-merge verification.
 - Finish-line acceptance closure — Pending / Separate PR.
 
+<!-- v1.4-finish-line-review-acceptance-roadmap -->
+
+## v1.4 finish-line review acceptance
+
+- Review PR #351 and synchronized-main focused evidence — Verified.
+- v1.4.0 through v1.4.3 acceptance chain — Complete.
+- v1.4 development train — Accepted / Completed.
+- Additional v1.4 feature slice — Not required.
+- Next gate — Explicitly authorized release planning or project stop.
+- Release mutation — Not authorized.
+
 <!-- v1.3.14-v1.3.16-verification-report-auditability-terminal-alignment-roadmap -->
 
 ## v1.3.14-v1.3.16 verification report auditability terminal alignment

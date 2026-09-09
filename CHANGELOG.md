@@ -2697,6 +2697,17 @@ select a provider, or initiate fallback implicitly.
 - Status — Pending / Awaiting post-merge verification.
 - Finish-line acceptance closure — Pending / Separate PR.
 
+<!-- v1.4-finish-line-review-acceptance-changelog -->
+
+## v1.4 finish-line review acceptance
+
+- Accepted PR #351 at `4382f14d3e2c1e6f562fcfa14a5e11dbfb607845` after synchronized-main
+  verification of 17 focused files with 119 passed and 1 skipped.
+- v1.4 development train — Accepted / Completed.
+- Additional v1.4 feature slice — Not required.
+- Next gate — Explicitly authorized release planning or project stop.
+- Release mutation — Not authorized.
+
 <!-- v1.4.0-release-readiness-stability-baseline-implementation-acceptance-changelog -->
 
 ## v1.4.0 release readiness stability baseline implementation acceptance
